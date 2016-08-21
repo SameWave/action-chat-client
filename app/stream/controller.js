@@ -32,7 +32,7 @@ export default Ember.Controller.extend({
   }),
 
   addComment(data) {
-    this.store.push({
+    let comment = this.store.push({
       data: {
         id: data.id,
         type: 'comment',
@@ -40,8 +40,11 @@ export default Ember.Controller.extend({
           body: data.body
         },
         relationships: {
-          'person-id': {
-            data: data.person_id
+          'person': {
+            'data': {
+              'type': 'person',
+              'id': data.person_id
+            }
           }
         }
       }

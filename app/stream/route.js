@@ -7,6 +7,7 @@ const {
 export default Ember.Route.extend({
 
   model() {
+
     return RSVP.hash({
       people: this.store.findAll('person'),
       comments: this.store.findAll('comment') // Limits to 10 on server
@@ -20,7 +21,6 @@ export default Ember.Route.extend({
 
     controller.set('model', null);
 
-    // TODO: Sort comments by createdAt instead of id
     controller.set('comments', comments);
 
     // TODO:
