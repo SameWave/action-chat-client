@@ -11,23 +11,27 @@ export default Ember.Controller.extend({
 
     var subscription = consumer.subscriptions.create("CommentsChannel", {
       received: (data) => {
-        this.addComment(data.comment);
+        this.addComment(data);
       }
     });
 
     this.set('subscription', subscription);
   }),
 
-  addComment(comment) {
-    this.store.push({
+  addComment(data) {
+    let comment = this.store.push({
       data: {
-        id: comment.id,
+        id: data.comment.id,
         type: 'comment',
         attributes: {
-          body: comment.body
+          body: data.comment.body
         }
       }
     });
+
+    // Using #query in the model hook means we need to explicitly push into the array,
+    // #findall automatically updates when a new record is pushed into the store
+    this.get('comments').pushObject(comment._internalModel);
   },
 
   actions: {
@@ -36,6 +40,17 @@ export default Ember.Controller.extend({
         body: this.get('body')
       });
       this.set('body', '');
+    },
+
+    loadEarlier() {
+      this.set('limit', this.get('limit') + 10);
+
+      let comments = this.store.query('comment', {
+        limit: this.get('limit')
+      });
+
+      this.set('comments', comments);
+
     }
   }
 });

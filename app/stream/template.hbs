@@ -1,8 +1,13 @@
-{{input value=body }}
-<button {{action "doComment"}}>
-  Send
+<button {{action "loadEarlier"}}>
+  More
 </button>
 
 {{#each comments as |comment|}}
   <p>{{comment.body}}</p>
 {{/each}}
+
+{{input value=body }}
+<button {{action "doComment"}}>
+  Send
+</button>
+
