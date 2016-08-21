@@ -32,7 +32,7 @@ export default Ember.Controller.extend({
   }),
 
   addComment(data) {
-    let comment = this.store.push({
+    this.store.push({
       data: {
         id: data.id,
         type: 'comment',
