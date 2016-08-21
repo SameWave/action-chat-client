@@ -1,8 +1,5 @@
 import Ember from 'ember';
 
-// Default limit
-const LIMIT = 10;
-
 const {
   RSVP
 } = Ember;
@@ -12,9 +9,7 @@ export default Ember.Route.extend({
   model() {
     return RSVP.hash({
       people: this.store.findAll('person'),
-      comments: this.store.query('comment', {
-        limit: LIMIT
-      })
+      comments: this.store.findAll('comment') // Limits to 10 on server
     });
   },
 
@@ -27,7 +22,6 @@ export default Ember.Route.extend({
 
     // TODO: Sort comments by createdAt instead of id
     controller.set('comments', comments);
-    controller.set('limit', LIMIT);
 
     // TODO:
     // Show comment person

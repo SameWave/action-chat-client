@@ -1,12 +1,25 @@
 import Ember from 'ember';
 
+const {
+  inject: {
+    service
+  },
+  computed: {
+    sort
+  },
+  on
+} = Ember;
+
 export default Ember.Controller.extend({
 
-  cable: Ember.inject.service(),
+  cable: service(),
 
   comments: [],
 
-  setupSubscription: Ember.on('init', function() {
+  sortProperties: ['id'],
+  sortedComments: sort('comments', 'sortProperties'),
+
+  setupSubscription: on('init', function() {
     var consumer = this.get('cable').createConsumer('ws://localhost:3000/cable');
 
     var subscription = consumer.subscriptions.create("CommentsChannel", {
@@ -19,19 +32,20 @@ export default Ember.Controller.extend({
   }),
 
   addComment(data) {
-    let comment = this.store.push({
+    this.store.push({
       data: {
-        id: data.comment.id,
+        id: data.id,
         type: 'comment',
         attributes: {
-          body: data.comment.body
+          body: data.body
+        },
+        relationships: {
+          'person-id': {
+            data: data.person_id
+          }
         }
       }
     });
-
-    // Using #query in the model hook means we need to explicitly push into the array,
-    // #findall automatically updates when a new record is pushed into the store
-    this.get('comments').pushObject(comment._internalModel);
   },
 
   actions: {
@@ -43,14 +57,9 @@ export default Ember.Controller.extend({
     },
 
     loadEarlier() {
-      this.set('limit', this.get('limit') + 10);
-
-      let comments = this.store.query('comment', {
-        limit: this.get('limit')
+      this.store.query('comment', {
+        offset: this.get('comments.length')
       });
-
-      this.set('comments', comments);
-
     }
   }
 });
