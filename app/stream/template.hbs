@@ -1,6 +1,7 @@
-Comments:
-
-{{comments.length}}
+{{input value=body }}
+<button {{action "doComment"}}>
+  Send
+</button>
 
 {{#each comments as |comment|}}
   <p><b>{{comment.person_name}}</b>: {{comment.body}}</p>
