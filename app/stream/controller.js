@@ -1,7 +1,4 @@
 import Ember from 'ember';
-const {
-  debug
-} = Ember;
 
 export default Ember.Controller.extend({
 
@@ -14,12 +11,24 @@ export default Ember.Controller.extend({
 
     var subscription = consumer.subscriptions.create("CommentsChannel", {
       received: (data) => {
-        this.get('comments').pushObject(data.comment);
+        this.addComment(data.comment);
       }
     });
 
     this.set('subscription', subscription);
   }),
+
+  addComment(comment) {
+    this.store.push({
+      data: {
+        id: comment.id,
+        type: 'comment',
+        attributes: {
+          body: comment.body
+        }
+      }
+    });
+  },
 
   actions: {
     doComment() {
@@ -28,4 +37,4 @@ export default Ember.Controller.extend({
       });
     }
   }
-})
+});
