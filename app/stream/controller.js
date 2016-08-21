@@ -35,6 +35,7 @@ export default Ember.Controller.extend({
       this.get('subscription').send({
         body: this.get('body')
       });
+      this.set('body', '');
     }
   }
 });
