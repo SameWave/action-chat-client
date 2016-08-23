@@ -7,7 +7,6 @@ const {
 export default Ember.Route.extend({
 
   model() {
-
     return RSVP.hash({
       people: this.store.findAll('person'),
       comments: this.store.findAll('comment') // Limits to 10 on server
@@ -16,15 +15,13 @@ export default Ember.Route.extend({
 
   setupController(controller, model) {
 
-    let people = model.people;
-    let comments = model.comments;
-
-    controller.set('model', null);
-
-    controller.set('comments', comments);
+    controller.setProperties({
+      model: null,
+      comments: model.comments,
+      people: model.people
+    });
 
     // TODO:
-    // Show comment person
     // Show 'load earlier' if there are more unread comments
     // Show unread comments below new message line
     // Show who is typing
