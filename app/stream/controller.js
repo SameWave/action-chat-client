@@ -27,14 +27,16 @@ export default Ember.Controller.extend({
       received: (data) => {
         let comment = this.store.peekRecord('comment', data.comment.id);
 
-        if (data.action === 'created') {
-          if (comment) {
-            this.updateComment(comment, data.comment);
-          } else {
+        if (comment === null) {
+          if (data.action === 'created') {
             this.pushComment(data.comment);
           }
-        } else if (data.action === 'destroyed' && comment) {
-          this.unloadComment(comment);
+        } else {
+          if (data.action === 'destroyed') {
+            this.unloadComment(comment);
+          } else {
+            this.updateComment(comment, data.comment);
+          }
         }
       }
     });
@@ -90,6 +92,17 @@ export default Ember.Controller.extend({
       });
 
       this.set('body', '');
+    },
+
+    updateComment(comment) {
+      this.get('subscription').send({
+        comment_id: comment.get('id'),
+        comment: {
+          body: comment.get('body'),
+          person_id: comment.get('person.id')
+        },
+        action: 'update'
+      });
     },
 
     deleteComment(comment) {

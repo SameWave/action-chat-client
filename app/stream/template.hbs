@@ -9,7 +9,6 @@
     <button {{action (action "doLogin" person)}}>
       {{person.name}}
     </button>
-
   {{/each}}
 </div>
 
@@ -21,11 +20,11 @@
 </button>
 
 {{#each sortedComments as |comment|}}
-  <p>
-    <b>{{comment.person.name}}</b>:
-    {{comment.body}} ({{comment.id}})
-    <span {{action (action "deleteComment" comment)}}>x</span>
-  </p>
+  {{stream-comment
+    comment=comment
+    updateComment=(action "updateComment")
+    deleteComment=(action "deleteComment")
+  }}
 {{/each}}
 
 {{input value=body }}
