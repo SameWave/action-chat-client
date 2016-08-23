@@ -25,11 +25,16 @@ export default Ember.Controller.extend({
     var consumer = this.get('cable').createConsumer(ENV.SOCKET);
     var subscription = consumer.subscriptions.create("CommentsChannel", {
       received: (data) => {
-        let comment = this.store.peekRecord('comment', data.id);
-        if (comment) {
-          this.updateComment(comment, data);
-        } else {
-          this.addComment(data);
+        let comment = this.store.peekRecord('comment', data.comment.id);
+
+        if (data.action === 'created') {
+          if (comment) {
+            this.updateComment(comment, data.comment);
+          } else {
+            this.pushComment(data.comment);
+          }
+        } else if (data.action === 'destroyed' && comment) {
+          this.unloadComment(comment);
         }
       }
     });
@@ -37,11 +42,7 @@ export default Ember.Controller.extend({
     this.set('subscription', subscription);
   }),
 
-  updateComment(comment, data) {
-    comment.set('body', data.body);
-  },
-
-  addComment(data) {
+  pushComment(data) {
     this.store.push({
       data: {
         id: data.id,
@@ -61,8 +62,16 @@ export default Ember.Controller.extend({
     });
   },
 
+  updateComment(comment, data) {
+    comment.set('body', data.body);
+  },
+
+  unloadComment(comment) {
+    this.store.unloadRecord(comment);
+  },
+
   actions: {
-    doComment() {
+    createComment() {
 
       let newId = 1 + parseInt(this.get('comments.lastObject.id'));
 
@@ -73,17 +82,33 @@ export default Ember.Controller.extend({
       });
 
       this.get('subscription').send({
-        body: comment.get('body'),
-        person_id: comment.get('person.id')
+        comment: {
+          body: comment.get('body'),
+          person_id: comment.get('person.id')
+        },
+        action: 'create'
       });
 
       this.set('body', '');
+    },
+
+    deleteComment(comment) {
+      this.unloadComment(comment);
+
+      this.get('subscription').send({
+        comment_id: comment.get('id'),
+        action: 'destroy'
+      });
     },
 
     loadEarlier() {
       this.store.query('comment', {
         offset: this.get('comments.length')
       });
+    },
+
+    doLogin(person) {
+      this.set('user', person);
     }
   }
 });

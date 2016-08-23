@@ -1,13 +1,35 @@
+<div>Currently 'logged in' as {{user.name}}</div>
+
+<br/>
+<br/>
+
+<div>
+  Switch to
+  {{#each people as |person|}}
+    <button {{action (action "doLogin" person)}}>
+      {{person.name}}
+    </button>
+
+  {{/each}}
+</div>
+
+<br/>
+<br/>
+
 <button {{action "loadEarlier"}}>
-  More
+  Load earlier
 </button>
 
 {{#each sortedComments as |comment|}}
-  <p><b>{{comment.person.name}}</b>: {{comment.body}} ({{comment.id}})</p>
+  <p>
+    <b>{{comment.person.name}}</b>:
+    {{comment.body}} ({{comment.id}})
+    <span {{action (action "deleteComment" comment)}}>x</span>
+  </p>
 {{/each}}
 
 {{input value=body }}
-<button {{action "doComment"}}>
+<button {{action (action "createComment")}}>
   Send
 </button>
 
