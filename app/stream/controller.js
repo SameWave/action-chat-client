@@ -15,6 +15,7 @@ export default Ember.Controller.extend({
 
   cable: service(),
 
+  user: null,
   comments: [],
 
   sortProperties: ['id'],
@@ -24,12 +25,21 @@ export default Ember.Controller.extend({
     var consumer = this.get('cable').createConsumer(ENV.SOCKET);
     var subscription = consumer.subscriptions.create("CommentsChannel", {
       received: (data) => {
-        this.addComment(data);
+        let comment = this.store.peekRecord('comment', data.id);
+        if (comment) {
+          this.updateComment(comment, data);
+        } else {
+          this.addComment(data);
+        }
       }
     });
 
     this.set('subscription', subscription);
   }),
+
+  updateComment(comment, data) {
+    comment.set('body', data.body);
+  },
 
   addComment(data) {
     this.store.push({
@@ -53,9 +63,20 @@ export default Ember.Controller.extend({
 
   actions: {
     doComment() {
-      this.get('subscription').send({
-        body: this.get('body')
+
+      let newId = 1 + parseInt(this.get('comments.lastObject.id'));
+
+      let comment = this.store.createRecord('comment', {
+        body: this.get('body'),
+        person: this.get('user'),
+        id: newId
       });
+
+      this.get('subscription').send({
+        body: comment.get('body'),
+        person_id: comment.get('person.id')
+      });
+
       this.set('body', '');
     },
 

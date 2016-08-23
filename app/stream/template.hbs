@@ -3,7 +3,7 @@
 </button>
 
 {{#each sortedComments as |comment|}}
-  <p><b>{{comment.person.name}}: </b>{{comment.body}}</p>
+  <p><b>{{comment.person.name}}</b>: {{comment.body}} ({{comment.id}})</p>
 {{/each}}
 
 {{input value=body }}
