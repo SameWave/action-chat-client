@@ -1,4 +1,5 @@
 import Ember from 'ember';
+import ENV from 'action-chat-client/config/environment';
 
 const {
   inject: {
@@ -20,8 +21,7 @@ export default Ember.Controller.extend({
   sortedComments: sort('comments', 'sortProperties'),
 
   setupSubscription: on('init', function() {
-    var consumer = this.get('cable').createConsumer('ws://localhost:3000/cable');
-
+    var consumer = this.get('cable').createConsumer(ENV.SOCKET);
     var subscription = consumer.subscriptions.create("CommentsChannel", {
       received: (data) => {
         this.addComment(data);

@@ -22,9 +22,12 @@ export default Ember.Route.extend({
     });
 
     // TODO:
+    // Deploy server to heroku
     // Show 'load earlier' if there are more unread comments
     // Show unread comments below new message line
     // Show who is typing
+    // Authentication
+    // Authorization per stream
     //
   }
 });
