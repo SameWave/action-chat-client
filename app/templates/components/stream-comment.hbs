@@ -1,0 +1,11 @@
+<p>
+  <b>{{comment.person.name}}</b>:
+  {{#if isEditing}}
+    {{input value=comment.body}}
+    <span {{action (action "doUpdate")}}>save</span>
+  {{else}}
+    {{comment.body}}
+    <span {{action (action "doEdit")}}>edit</span>
+    <span {{action (action "doDelete")}}>delete</span>
+  {{/if}}
+</p>

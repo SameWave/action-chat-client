@@ -18,13 +18,18 @@ export default Ember.Route.extend({
     controller.setProperties({
       model: null,
       comments: model.comments,
-      people: model.people
+      people: model.people,
+      user: model.people.findBy('id', '1') // TODO: This shouldn't be hardcoded
     });
 
     // TODO:
     // Show 'load earlier' if there are more unread comments
     // Show unread comments below new message line
     // Show who is typing
-    //
+
+    // Authentication
+    // Authorization per stream
+    // Allow deletes via websockets
+    // Show new comment before saving
   }
 });

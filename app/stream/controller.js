@@ -1,4 +1,5 @@
 import Ember from 'ember';
+import ENV from 'action-chat-client/config/environment';
 
 const {
   inject: {
@@ -14,24 +15,36 @@ export default Ember.Controller.extend({
 
   cable: service(),
 
+  user: null,
   comments: [],
 
   sortProperties: ['id'],
   sortedComments: sort('comments', 'sortProperties'),
 
   setupSubscription: on('init', function() {
-    var consumer = this.get('cable').createConsumer('ws://localhost:3000/cable');
-
+    var consumer = this.get('cable').createConsumer(ENV.SOCKET);
     var subscription = consumer.subscriptions.create("CommentsChannel", {
       received: (data) => {
-        this.addComment(data);
+        let comment = this.store.peekRecord('comment', data.comment.id);
+
+        if (comment === null) {
+          if (data.action === 'created') {
+            this.pushComment(data.comment);
+          }
+        } else {
+          if (data.action === 'destroyed') {
+            this.unloadComment(comment);
+          } else {
+            this.updateComment(comment, data.comment);
+          }
+        }
       }
     });
 
     this.set('subscription', subscription);
   }),
 
-  addComment(data) {
+  pushComment(data) {
     this.store.push({
       data: {
         id: data.id,
@@ -51,18 +64,64 @@ export default Ember.Controller.extend({
     });
   },
 
+  updateComment(comment, data) {
+    comment.set('body', data.body);
+  },
+
+  unloadComment(comment) {
+    this.store.unloadRecord(comment);
+  },
+
   actions: {
-    doComment() {
-      this.get('subscription').send({
-        body: this.get('body')
+    createComment() {
+
+      let newId = 1 + parseInt(this.get('comments.lastObject.id'));
+
+      let comment = this.store.createRecord('comment', {
+        body: this.get('body'),
+        person: this.get('user'),
+        id: newId
       });
+
+      this.get('subscription').send({
+        comment: {
+          body: comment.get('body'),
+          person_id: comment.get('person.id')
+        },
+        action: 'create'
+      });
+
       this.set('body', '');
+    },
+
+    updateComment(comment) {
+      this.get('subscription').send({
+        comment_id: comment.get('id'),
+        comment: {
+          body: comment.get('body'),
+          person_id: comment.get('person.id')
+        },
+        action: 'update'
+      });
+    },
+
+    deleteComment(comment) {
+      this.unloadComment(comment);
+
+      this.get('subscription').send({
+        comment_id: comment.get('id'),
+        action: 'destroy'
+      });
     },
 
     loadEarlier() {
       this.store.query('comment', {
         offset: this.get('comments.length')
       });
+    },
+
+    doLogin(person) {
+      this.set('user', person);
     }
   }
 });

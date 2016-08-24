@@ -1,15 +1,39 @@
 <header class="header">
-	<button {{action "loadEarlier"}}>More</button>
+	<div>Currently 'logged in' as {{user.name}}</div>
+
+	<br/>
+	<br/>
+
+	<div>
+	  Switch to
+	  {{#each people as |person|}}
+	    <button {{action (action "doLogin" person)}}>
+	      {{person.name}}
+	    </button>
+	  {{/each}}
+	</div>
+
+	<br/>
+	<br/>
+
+	<button {{action "loadEarlier"}}>
+	  Load earlier
+	</button>
 </header>
 
 <section class="chat-container">
 	{{#each sortedComments as |comment|}}
-	  <p><b>{{comment.person.name}}: </b>{{comment.body}}</p>
+	  {{stream-comment
+	    comment=comment
+	    updateComment=(action "updateComment")
+	    deleteComment=(action "deleteComment")
+	  }}
 	{{/each}}
 </section>
 
 <footer class="chat-input-container">
-	{{input value=body}}
-	<button {{action "doComment"}}>Send</button>
+	{{input value=body }}
+	<button {{action (action "createComment")}}>
+	  Send
+	</button>
 </footer>
-

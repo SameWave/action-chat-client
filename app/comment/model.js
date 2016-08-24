@@ -12,4 +12,6 @@ export default DS.Model.extend({
     inverse: 'comments',
     async: true
   }),
+
+
 });
