@@ -8,7 +8,8 @@ const {
   computed: {
     sort
   },
-  on
+  on,
+  run
 } = Ember;
 
 export default Ember.Controller.extend({
@@ -22,7 +23,6 @@ export default Ember.Controller.extend({
   sortedComments: sort('comments', 'sortProperties'),
 
   setupSubscription: on('init', function() {
-
 
     var consumer = this.get('cable').createConsumer(ENV.SOCKET);
     var subscription = consumer.subscriptions.create("CommentsChannel", {
@@ -74,15 +74,24 @@ export default Ember.Controller.extend({
     this.store.unloadRecord(comment);
   },
 
+  scrollToBottom() {
+    // TODO: This should be set on render when we move into a component
+    let commentsSection = $('#comments');
+    commentsSection.scrollTop(commentsSection.get(0).scrollHeight);
+  },
+
   actions: {
     createComment(body) {
-      let newId = 1 + parseInt(this.get('comments.lastObject.id'));
+      let newId = 1 + parseInt(this.get('sortedComments.lastObject.id'));
 
       let comment = this.store.createRecord('comment', {
         body: body,
         person: this.get('user'),
         id: newId
       });
+
+      // Scroll to bottom so that new comment is visible
+      run.next(this, this.scrollToBottom);
 
       this.get('subscription').send({
         comment: {

@@ -12,7 +12,7 @@
 	<button {{action "loadEarlier"}} class="btn amber || btn-load-earler btn--small">Load earlier</button>
 </header>
 
-<section class="grey lighten-4 || section-body">
+<section id='comments' class="grey lighten-4 || section-body">
 	{{#each sortedComments as |comment|}}
 	  {{stream-comment
 	    comment=comment

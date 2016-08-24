@@ -24,6 +24,9 @@
         <allow-intent href="itms:*" />
         <allow-intent href="itms-apps:*" />
     </platform>
+
+    <plugin name="cordova-plugin-wkwebview-engine" spec="~1.0.3" />
+
     <preference name="HideKeyboardFormAccessoryBar" value="false" />
     <preference name="KeyboardDisplayRequiresUserAction" value="false" />
     <engine name="ios" spec="~4.2.1" />
