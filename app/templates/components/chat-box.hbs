@@ -1,5 +1,5 @@
-{{input value=comment id='chat-area'}}
+{{textarea classNames="white || chat-input" id='chat-area' value=comment}}
 
-<button {{action (action 'doComment')}}>
+<button class="btn btn-chat-send" {{action (action 'doComment')}}>
   Send
 </button>

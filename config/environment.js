@@ -16,11 +16,9 @@ module.exports = function(environment) {
       'style-src': ["'self'"],
       'media-src': ["'self'"]
     },
-
     cordova: {
       reloadUrl: 'http://localhost:4200'
     },
-
     EmberENV: {
       FEATURES: {
         // Here you can enable experimental features on an ember canary build

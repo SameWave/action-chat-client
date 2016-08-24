@@ -1,11 +1,16 @@
-<p>
-  <b>{{comment.person.name}}</b>:
-  {{#if isEditing}}
-    {{input value=comment.body}}
-    <span {{action (action "doUpdate")}}>save</span>
-  {{else}}
-    {{comment.body}}
-    <span {{action (action "doEdit")}}>edit</span>
-    <span {{action (action "doDelete")}}>delete</span>
-  {{/if}}
-</p>
+<div class="message_author">
+  <p><b>{{comment.person.name}}</b>:</p>
+</div>
+
+{{#if isEditing}}
+	<div class="message_body">{{input value=comment.body}}</div>
+
+  <div class="green || message_option" {{action (action "doUpdate")}}>save</div>
+{{else}}
+<div class="message_body">
+  <p>{{comment.body}}</p>
+</div>
+
+<div class="amber || message_option" {{action (action "doEdit")}}>edit</div>
+<div class="red || message_option" {{action (action "doDelete")}}>delete</div>
+{{/if}}

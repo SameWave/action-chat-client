@@ -8,8 +8,7 @@ const {
   computed: {
     sort
   },
-  on,
-  run
+  on
 } = Ember;
 
 export default Ember.Controller.extend({

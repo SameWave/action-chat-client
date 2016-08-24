@@ -1,31 +1,30 @@
-<div>Currently 'logged in' as {{user.name}}</div>
+<header class="pink || stream-header">
+	<div class="shades white-text || user-info">Currently 'logged in' as {{user.name}}</div>
 
-<br/>
-<br/>
+	<div class="person-switch-control">
+	  <p class="shades white-text">Switch to</p>
 
-<div>
-  Switch to
-  {{#each people as |person|}}
-    <button {{action (action "doLogin" person)}}>
-      {{person.name}}
-    </button>
-  {{/each}}
-</div>
+	  {{#each people as |person|}}
+	    <button class="btn || btn-switch-user btn--small" {{action (action "doLogin" person)}}>{{person.name}}</button>
+	  {{/each}}
+	</div>
 
-<br/>
-<br/>
+	<button {{action "loadEarlier"}} class="btn amber || btn-load-earler btn--small">Load earlier</button>
+</header>
 
-<button {{action "loadEarlier"}}>
-  Load earlier
-</button>
+<section class="grey lighten-4 || section-body">
+	{{#each sortedComments as |comment|}}
+	  {{stream-comment
+	    comment=comment
+	    updateComment=(action "updateComment")
+	    deleteComment=(action "deleteComment")
+	    classNames="chip || message"
+	  }}
+	{{/each}}
+</section>
 
-{{#each sortedComments as |comment|}}
-  {{stream-comment
-    comment=comment
-    updateComment=(action "updateComment")
-    deleteComment=(action "deleteComment")
-  }}
-{{/each}}
+<footer class="pink || stream-chat-footer">
+  {{chat-box doComment=(action "createComment")}}
+</footer>
 
 
-{{chat-box doComment=(action "createComment")}}

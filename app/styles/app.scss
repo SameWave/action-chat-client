@@ -1,0 +1,145 @@
+// @import 'materialize';
+
+@import "components/mixins";
+@import "components/color";
+@import "components/variables";
+@import "components/normalize";
+@import "components/global";
+@import "components/typography";
+@import "components/buttons";
+@import "components/chips";
+
+* {
+	box-sizing: border-box;
+}
+
+
+[data-ember-action] {
+ cursor: pointer;
+}
+
+html, body, .ember-view {
+	height: 100%;
+	position: relative;
+	margin: 0;
+}
+
+h1 {
+	margin: 0;
+}
+
+p {
+	margin: 0;
+}
+
+$header-size: 100px;
+$footer-size: 56px;
+$button-line-height: 1.5rem;
+
+// Layout
+.section-header {
+	position: relative;
+	width: 100%;
+	height: $header-size; // ugly hack when not using flexbox
+	text-align: center;
+	padding: 5px 0;
+}
+
+.section-body {
+	width: 100%;
+	height: calc(100% - (#{$header-size} + #{$footer-size})); // ugly hack when not using flexbox
+	padding: 10px;
+	overflow: scroll;
+}
+
+.section-footer {
+	position: relative;
+	bottom: 0;
+	width: 100%;
+	height: $footer-size; // ugly hack when not using flexbox
+	padding: 10px;
+}
+
+// Modules
+.btn--small {
+	font-size: 10px;
+	line-height: $button-line-height;
+	height: $button-line-height;
+}
+
+
+
+// General
+.stream-header {
+	@extend .section-header;
+	font-size: 10px;
+}
+	.user-info {
+	}
+
+	.btn-switch-user {
+		margin-top: 5px;
+	}
+
+	.btn-load-earler {
+		margin-top: 5px;
+	}
+
+.message {
+	display: flex;
+	align-content: center;
+	height: auto;
+	min-height: 32px;
+	margin-bottom: 10px;
+
+	&_author {
+		flex: 0 0 auto;
+		align-self: flex-start;
+		margin: 5px 5px 0 0;
+		p {
+			line-height: 1.2rem;
+		}
+	}
+	
+	&_body {
+		flex: 1 1 32px;
+    align-self: flex-start;
+		margin: 5px 5px 5px 0;
+
+		p {
+			line-height: 1.2rem;
+		}
+	}
+
+	&_option {
+		flex: 0 0 44px;
+    align-self: flex-start;
+		margin: 5px 5px 5px 0px;
+		border-radius: 2px;
+		text-align: center;
+		color: map-get($shades, "white");
+
+		&:last-child {
+			margin-right: 0;
+		}
+	}
+}
+
+.stream-chat-footer {
+	@extend .section-footer;
+	display: flex;
+}
+
+.chat-input {
+	flex: 1 0 20px;
+	padding: 5px;
+	margin-right: 10px;
+}
+
+	.btn-chat-send {
+		flex: 0 0 100px;
+		font-size: 14px;
+	}
+
+
+
