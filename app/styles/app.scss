@@ -24,7 +24,7 @@ p {
 }
 
 $header-size: 100px;
-$footer-size: 80px;
+$footer-size: 56px;
 $button-line-height: 1.5rem;
 
 // Layout
@@ -77,24 +77,58 @@ $button-line-height: 1.5rem;
 	}
 
 .message {
-	display: block;
+	display: flex;
+	align-content: center;
 	height: auto;
 	min-height: 32px;
-	line-height: 1.5em;
-}
+	margin-bottom: 10px;
 
-.chat-input {
-	display: inline-block;
-	width: auto;
-	padding: 10px;
-	input {
-		margin: 0;
+	&_author {
+		flex: 0 0 auto;
+		align-self: flex-start;
+		margin: 5px 5px 0 0;
+		p {
+			line-height: 1.2rem;
+		}
+	}
+	
+	&_body {
+		flex: 1 1 32px;
+    align-self: flex-start;
+		margin: 5px 5px 5px 0;
+
+		p {
+			line-height: 1.2rem;
+		}
+	}
+
+	&_option {
+		flex: 0 0 44px;
+    align-self: flex-start;
+		margin: 5px 5px 5px 0px;
+		border-radius: 2px;
+		text-align: center;
+		color: map-get($shades, "white");
+
+		&:last-child {
+			margin-right: 0;
+		}
 	}
 }
 
+.stream-chat-footer {
+	@extend .section-footer;
+	display: flex;
+}
+
+.chat-input {
+	flex: 1 0 20px;
+	padding: 5px;
+	margin-right: 10px;
+}
+
 	.btn-chat-send {
-		width: 20%;
-		min-width: 100px;
+		flex: 0 0 100px;
 		font-size: 14px;
 	}
 

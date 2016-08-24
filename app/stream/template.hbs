@@ -1,4 +1,4 @@
-<header class="light-blue || stream-header">
+<header class="pink || stream-header">
 	<div class="shades white-text || user-info">Currently 'logged in' as {{user.name}}</div>
 
 	<div class="person-switch-control">
@@ -23,10 +23,8 @@
 	{{/each}}
 </section>
 
-<footer class="teal || section-footer">
-	<div class="inner">
-		<div class="white || chat-input">{{input value=body }}</div>
+<footer class="pink || stream-chat-footer">
+	{{textarea classNames="white || chat-input" value=body}}
 
-		<button class="btn btn-chat-send" {{action (action "createComment")}}>Send</button>
-	</div>
+	<button class="btn btn-chat-send" {{action (action "createComment")}}>Send</button>
 </footer>
