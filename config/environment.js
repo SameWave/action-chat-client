@@ -17,6 +17,10 @@ module.exports = function(environment) {
       'media-src': ["'self'"]
     },
 
+    cordova: {
+      reloadUrl: 'http://localhost:4200'
+    },
+
     EmberENV: {
       FEATURES: {
         // Here you can enable experimental features on an ember canary build
@@ -39,7 +43,6 @@ module.exports = function(environment) {
     // ENV.APP.LOG_TRANSITIONS = true;
     // ENV.APP.LOG_TRANSITIONS_INTERNAL = true;
     // ENV.APP.LOG_VIEW_LOOKUPS = true;
-    ENV.contentSecurityPolicy['connect-src'] = ["'self'", "localhost:3000", "ws://localhost:3000"];
   }
 
   if (environment === 'test') {
@@ -54,10 +57,12 @@ module.exports = function(environment) {
   }
 
   if (environment === 'production') {
-    ENV.contentSecurityPolicy['connect-src'] = ["'self'", "samewave-action-chat.herokuapp.com", "wss://samewave-action-chat.herokuapp.com"];
     ENV.HOST = 'http://samewave-action-chat.herokuapp.com';
     ENV.SOCKET = 'wss://samewave-action-chat.herokuapp.com/cable';
   }
+
+  ENV.contentSecurityPolicy['connect-src'].push(ENV.HOST);
+  ENV.contentSecurityPolicy['connect-src'].push(ENV.SOCKET);
 
   return ENV;
 };

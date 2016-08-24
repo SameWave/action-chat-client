@@ -19,3 +19,4 @@ testem.log
 /ember-cordova/cordova/platforms
 /ember-cordova/cordova/plugins
 /ember-cordova/cordova/www
+/ember-cordova/tmp-livereload
