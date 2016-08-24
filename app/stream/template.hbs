@@ -24,7 +24,7 @@
 </section>
 
 <footer class="pink || stream-chat-footer">
-	{{textarea classNames="white || chat-input" value=body}}
-
-	<button class="btn btn-chat-send" {{action (action "createComment")}}>Send</button>
+  {{chat-box doComment=(action "createComment")}}
 </footer>
+
+

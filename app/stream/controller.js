@@ -22,6 +22,8 @@ export default Ember.Controller.extend({
   sortedComments: sort('comments', 'sortProperties'),
 
   setupSubscription: on('init', function() {
+
+
     var consumer = this.get('cable').createConsumer(ENV.SOCKET);
     var subscription = consumer.subscriptions.create("CommentsChannel", {
       received: (data) => {
@@ -73,12 +75,11 @@ export default Ember.Controller.extend({
   },
 
   actions: {
-    createComment() {
-
+    createComment(body) {
       let newId = 1 + parseInt(this.get('comments.lastObject.id'));
 
       let comment = this.store.createRecord('comment', {
-        body: this.get('body'),
+        body: body,
         person: this.get('user'),
         id: newId
       });
@@ -91,7 +92,6 @@ export default Ember.Controller.extend({
         action: 'create'
       });
 
-      this.set('body', '');
     },
 
     updateComment(comment) {
