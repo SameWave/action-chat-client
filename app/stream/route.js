@@ -26,10 +26,10 @@ export default Ember.Route.extend({
     // Show 'load earlier' if there are more unread comments
     // Show unread comments below new message line
     // Show who is typing
+
     // Authentication
     // Authorization per stream
     // Allow deletes via websockets
-    // Allow edits via websockets
     // Show new comment before saving
   }
 });
