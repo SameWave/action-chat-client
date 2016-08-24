@@ -18,4 +18,4 @@ testem.log
 
 /ember-cordova/cordova/platforms
 /ember-cordova/cordova/plugins
-/ember-cordova/cordova/www/assets/
+/ember-cordova/cordova/www
