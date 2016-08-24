@@ -1,13 +1,15 @@
-<button {{action "loadEarlier"}}>
-  More
-</button>
+<header class="header">
+	<button {{action "loadEarlier"}}>More</button>
+</header>
 
-{{#each sortedComments as |comment|}}
-  <p><b>{{comment.person.name}}: </b>{{comment.body}}</p>
-{{/each}}
+<section class="chat-container">
+	{{#each sortedComments as |comment|}}
+	  <p><b>{{comment.person.name}}: </b>{{comment.body}}</p>
+	{{/each}}
+</section>
 
-{{input value=body }}
-<button {{action "doComment"}}>
-  Send
-</button>
+<footer class="chat-input-container">
+	{{input value=body}}
+	<button {{action "doComment"}}>Send</button>
+</footer>
 
