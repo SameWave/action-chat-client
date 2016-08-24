@@ -5,7 +5,6 @@ export default Ember.Component.extend({
   isEditing: false,
 
   actions: {
-
     doEdit() {
       this.set('isEditing', true);
     },

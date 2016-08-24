@@ -11,6 +11,10 @@ module.exports = function(defaults) {
     fingerprint: {
       enabled: false
     },
+    autoprefixer: {
+      browsers: ['last 2 ios version'],
+      cascade: false
+    }
   });
 
   // Use `app.import` to add additional libraries to the generated
