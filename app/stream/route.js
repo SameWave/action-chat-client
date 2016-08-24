@@ -29,7 +29,5 @@ export default Ember.Route.extend({
 
     // Authentication
     // Authorization per stream
-    // Allow deletes via websockets
-    // Show new comment before saving
   }
 });

@@ -1,0 +1,10 @@
+<div {{action (action 'doTap')}}>
+  {{#each comments as |comment|}}
+    {{stream-comment
+      comment=comment
+      updateComment=(action updateComment comment)
+      deleteComment=(action deleteComment comment)
+      classNames="chip || message"
+    }}
+  {{/each}}
+</div>
