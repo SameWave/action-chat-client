@@ -27,8 +27,5 @@
   }}
 {{/each}}
 
-{{input value=body }}
-<button {{action (action "createComment")}}>
-  Send
-</button>
 
+{{chat-box doComment=(action "createComment")}}
