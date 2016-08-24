@@ -27,17 +27,18 @@ $header-size: 100px;
 $footer-size: 80px;
 $button-line-height: 1.5rem;
 
+// Layout
 .section-header {
 	position: relative;
 	width: 100%;
 	height: $header-size; // ugly hack when not using flexbox
 	text-align: center;
-	padding: 15px 0;
+	padding: 5px 0;
 }
 
 .section-body {
 	width: 100%;
-	height: calc(100% - ($footer-size + $header-size)); // ugly hack when not using flexbox
+	height: calc(100% - (#{$header-size} + #{$footer-size})); // ugly hack when not using flexbox
 	padding: 10px;
 	overflow: scroll;
 }
@@ -50,22 +51,35 @@ $button-line-height: 1.5rem;
 	padding: 10px;
 }
 
-.btn-load-earler {
-	margin-top: 10px;
-	font-size: 12px;
+// Modules
+.btn--small {
+	font-size: 10px;
 	line-height: $button-line-height;
+	height: $button-line-height;
 }
 
-.btn-switch-user {
-	font-size: 14px;
-	margin-top: 10px;
-	line-height: $button-line-height;
+
+
+// General
+.stream-header {
+	@extend .section-header;
+	font-size: 10px;
 }
+	.user-info {
+	}
+
+	.btn-switch-user {
+		margin-top: 5px;
+	}
+
+	.btn-load-earler {
+		margin-top: 5px;
+	}
 
 .message {
 	display: block;
 	height: auto;
-	min-height: 32PX;
+	min-height: 32px;
 	line-height: 1.5em;
 }
 
