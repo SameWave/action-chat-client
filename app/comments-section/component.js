@@ -16,7 +16,7 @@ export default Ember.Component.extend({
 
   comments: [],
   typers: [],
-  sortProperties: ['id'],
+  sortProperties: ['createdAt', 'id'],
   sortedComments: sort('comments', 'sortProperties'),
 
   actions: {
