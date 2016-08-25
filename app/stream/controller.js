@@ -88,11 +88,19 @@ export default Ember.Controller.extend({
   },
 
   nudgeBottom() {
+    if (isEmpty(this.commentsElement)) {
+      this.commentsElement = $('#comments');
+    }
+
     // TODO: This should be set on render when we move into a component
     this.commentsElement.scrollTop(this.commentsElement.scrollTop() + NUDGE_PX);
   },
 
   bottomOffset() {
+    if (isEmpty(this.commentsElement)) {
+      this.commentsElement = $('#comments');
+    }
+
     let sectionHeight = this.commentsElement.height() + 20; // TODO: 20 for margin?
     let scrollHeight = this.commentsElement.get(0).scrollHeight;
     let scrollTop = this.commentsElement.scrollTop();
