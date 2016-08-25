@@ -34,7 +34,7 @@ export default Ember.Controller.extend({
       this.scrollToBottom();
 
       if (window.Keyboard) {
-        window.Keyboard.shrinkView(true);
+        // window.Keyboard.shrinkView(true);
       }
     });
   }),
