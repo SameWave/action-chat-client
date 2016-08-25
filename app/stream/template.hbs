@@ -1,4 +1,4 @@
-<header class="pink || stream-header">
+<header class="pink z-depth-1 || stream-header">
 	<div class="shades white-text || user-info">Currently 'logged in' as {{user.name}}</div>
 
 	<div class="person-switch-control">
@@ -9,22 +9,26 @@
 	  {{/each}}
 	</div>
 
-	<button {{action "loadEarlier"}} class="btn amber || btn-load-earler btn--small">Load earlier</button>
-
-  <div>
-    {{typingNotice}}
-    {{#if isLoadingEarlier}}
-      loading...
-    {{/if}}
-  </div>
+	<button {{action "loadEarlier"}} class="btn amber || btn-load-earler btn--small">Load earlier</button>    
 </header>
 
-{{comments-section
-  comments=comments
-  typers=typers
-  updateComment=(action "updateComment")
-  deleteComment=(action "deleteComment")
-}}
+<section class="grey lighten-4 || section-body">
+  {{#if isNoticeVisible}}
+    <div class="notice z-depth-2">
+      <p>{{typingNotice}}</p>
+      {{#if isLoadingEarlier}}
+        <p>loading...</p>
+      {{/if}}
+    </div>
+  {{/if}}
+  
+  {{comments-section
+    comments=comments
+    typers=typers
+    updateComment=(action "updateComment")
+    deleteComment=(action "deleteComment")
+  }}
+</section>
 
 <footer class="pink || stream-chat-footer">
   {{chat-box

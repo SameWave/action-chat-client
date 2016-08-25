@@ -12,7 +12,6 @@ export default Ember.Component.extend({
   tagName: 'section',
 
   elementId: 'comments',
-  classNames: ['grey', 'lighten-4', 'section-body'],
 
   comments: [],
   typers: [],

@@ -34,6 +34,7 @@ p {
 $header-size: 100px;
 $footer-size: 56px;
 $button-line-height: 1.5rem;
+$notice: 50;
 
 .ember-application > .ember-view {
 	display: flex;
@@ -46,7 +47,6 @@ $button-line-height: 1.5rem;
 	flex: 0 0 auto;
 	width: 100%;
 	text-align: center;
-	padding: 5px 0;
 }
 
 .section-body {
@@ -76,7 +76,9 @@ $button-line-height: 1.5rem;
 .stream-header {
 	@extend .section-header;
 	font-size: 10px;
+	padding: 5px 0;
 }
+
 	.user-info {
 	}
 
@@ -87,6 +89,23 @@ $button-line-height: 1.5rem;
 	.btn-load-earler {
 		margin-top: 5px;
 	}
+
+.notice {
+	position: absolute;
+	z-index: $notice;
+	top: 7px;
+	left: 0;
+	right: 0;
+	width: 30vw;
+	min-width: 80px;
+	margin: 0 auto;
+	padding: 4px 10px;
+	border-radius: 2px;
+	background: map-get($light-blue, base);
+	color: map-get($shades, 'white');
+	font-size: 14px;
+	text-align: center;
+}
 
 .message {
 	display: flex;
