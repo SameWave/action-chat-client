@@ -39,10 +39,6 @@ export default Ember.Controller.extend({
     });
   }),
 
-  isNoticeVisible: computed('isLoadingEarlier', 'typers.[]', function() {
-    return this.get('isLoadingEarlier') || this.get('typers') > 0 ? true : false;
-  }),
-
   subscribeComments() {
     var consumer = this.get('cable').createConsumer(ENV.SOCKET);
     var subscription = consumer.subscriptions.create("CommentsChannel", {
@@ -102,6 +98,10 @@ export default Ember.Controller.extend({
       default:
         return people.objectAt(0) + ', ' + people.objectAt(1) + ' and ' + (people.get('length') - 2) + ' others are typing...';
     }
+  }),
+
+  isNoticeVisible: computed('isLoadingEarlier', 'typingNotice', function() {
+    return this.get('isLoadingEarlier') || this.get('typingNotice.length');
   }),
 
   pushComment(data) {
@@ -215,8 +215,6 @@ export default Ember.Controller.extend({
       this.store.query('comment', {
         offset: this.get('comments.length')
       }).then(() => {
-        run.next(this, this.bottomOffset);
-
         run.next(this, function() {
           let newHeight = this.commentsElement.get(0).scrollHeight;
           let newTop = newHeight - initialHeight + initialTop;
