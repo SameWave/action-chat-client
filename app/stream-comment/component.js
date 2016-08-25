@@ -9,6 +9,11 @@ export default Ember.Component.extend({
       this.set('isEditing', true);
     },
 
+    doCancel() {
+      this.get('comment').rollbackAttributes();
+      this.set('isEditing', false);
+    },
+
     doUpdate() {
       this.set('isEditing', false);
       if (this.get('updateComment')) {
