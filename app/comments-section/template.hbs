@@ -1,5 +1,5 @@
 <div {{action (action 'doTap')}}>
-  {{#each comments as |comment|}}
+  {{#each sortedComments as |comment|}}
     {{stream-comment
       comment=comment
       updateComment=(action updateComment comment)

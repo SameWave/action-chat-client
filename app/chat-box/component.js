@@ -12,6 +12,11 @@ export default Ember.Component.extend({
 
   actions: {
     doComment() {
+
+      if (Ember.isEmpty(this.get('comment'))) {
+        return;
+      }
+
       this.inputElement.focus();
 
       if (this.get('doComment')) {

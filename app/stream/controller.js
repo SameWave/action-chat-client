@@ -5,12 +5,13 @@ const {
   inject: {
     service
   },
-  computed: {
-    sort
-  },
   on,
-  run
+  run,
+  isEmpty
 } = Ember;
+
+const NUDGE_OFFSET_PX = 40; // Pixels for determining nudge vs scroll for new comment
+const NUDGE_PX = 24; // Pixels for distance to nudge
 
 export default Ember.Controller.extend({
 
@@ -18,9 +19,7 @@ export default Ember.Controller.extend({
 
   user: null,
   comments: [],
-
-  sortProperties: ['id'],
-  sortedComments: sort('comments', 'sortProperties'),
+  commentsElement: null,
 
   setupSubscription: on('init', function() {
 
@@ -31,7 +30,13 @@ export default Ember.Controller.extend({
 
         if (comment === null) {
           if (data.action === 'created') {
+
+            let bottomOffset = this.bottomOffset();
+
             this.pushComment(data.comment);
+
+            run.next(this, this.nudgeOrScrollBottom, bottomOffset);
+            run.next(this, this.vibrate);
           }
         } else {
           if (data.action === 'destroyed') {
@@ -76,13 +81,42 @@ export default Ember.Controller.extend({
 
   scrollToBottom() {
     // TODO: This should be set on render when we move into a component
-    let commentsSection = $('#comments');
-    commentsSection.scrollTop(commentsSection.get(0).scrollHeight);
+    if (isEmpty(this.commentsElement)) {
+      this.commentsElement = $('#comments');
+    }
+    this.commentsElement.scrollTop(this.commentsElement.get(0).scrollHeight);
+  },
+
+  nudgeBottom() {
+    // TODO: This should be set on render when we move into a component
+    this.commentsElement.scrollTop(this.commentsElement.scrollTop() + NUDGE_PX);
+  },
+
+  bottomOffset() {
+    let sectionHeight = this.commentsElement.height() + 20; // TODO: 20 for margin?
+    let scrollHeight = this.commentsElement.get(0).scrollHeight;
+    let scrollTop = this.commentsElement.scrollTop();
+    // NOTE: (total scroll height) - (height of section + 20 for margin) - (scrolled distance)
+    return scrollHeight - sectionHeight - scrollTop;
+  },
+
+  nudgeOrScrollBottom(bottomOffset) {
+    if (bottomOffset > NUDGE_OFFSET_PX) {
+      this.nudgeBottom();
+    } else {
+      this.scrollToBottom();
+    }
+  },
+
+  vibrate() {
+    if (window.navigator) {
+      window.navigator.vibrate(2000); // Note: Time is ignored on iOS
+    }
   },
 
   actions: {
     createComment(body) {
-      let newId = 1 + parseInt(this.get('sortedComments.lastObject.id'));
+      let newId = 1 + parseInt(this.get('comments').mapBy('id').get('lastObject'));
 
       let comment = this.store.createRecord('comment', {
         body: body,

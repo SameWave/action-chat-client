@@ -1,7 +1,8 @@
 import Ember from 'ember';
 
 const {
-  RSVP
+  RSVP,
+  run
 } = Ember;
 
 export default Ember.Route.extend({
@@ -21,6 +22,8 @@ export default Ember.Route.extend({
       people: model.people,
       user: model.people.findBy('id', '1') // TODO: This shouldn't be hardcoded
     });
+
+    run.schedule('afterRender', this, controller.scrollToBottom);
 
     // TODO:
     // Show 'load earlier' if there are more unread comments

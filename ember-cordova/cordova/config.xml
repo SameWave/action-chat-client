@@ -24,12 +24,10 @@
         <allow-intent href="itms:*" />
         <allow-intent href="itms-apps:*" />
     </platform>
-
     <plugin name="cordova-plugin-wkwebview-engine" spec="~1.0.3" />
     <plugin name="cordova-plugin-keyboard" spec="~1.1.4" />
-
     <preference name="HideKeyboardFormAccessoryBar" value="true" />
     <preference name="KeyboardDisplayRequiresUserAction" value="false" />
-
     <engine name="ios" spec="~4.2.1" />
+    <plugin name="cordova-plugin-vibration" spec="~2.1.1" />
 </widget>
