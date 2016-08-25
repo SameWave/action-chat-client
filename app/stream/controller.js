@@ -7,7 +7,6 @@ const {
   },
   on,
   run,
-  isEmpty,
   computed
 } = Ember;
 
@@ -33,6 +32,10 @@ export default Ember.Controller.extend({
     run.schedule('afterRender', this, function() {
       this.commentsElement = $('#comments');
       this.scrollToBottom();
+
+      if (window.Keyboard) {
+        window.Keyboard.shrinkView(true);
+      }
     });
   }),
 
