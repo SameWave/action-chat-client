@@ -9,7 +9,7 @@
   <div class="green || message_option" {{action (action "doUpdate")}}>save</div>
 {{else}}
   <div class="message_body">
-    <p>{{comment.body}}</p>
+    <p>{{comment.body}} {{date-format comment.createdAt}}</p>
   </div>
 
   <div class="amber || message_option" {{action (action "doEdit")}}>edit</div>

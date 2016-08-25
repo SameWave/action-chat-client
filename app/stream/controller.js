@@ -216,7 +216,6 @@ export default Ember.Controller.extend({
     },
 
     doTyping() {
-      console.log('doTyping');
       let typingAt = new Date();
       this.get('streamsSubscription').send({
         member: {
