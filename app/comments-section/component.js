@@ -1,6 +1,7 @@
 import Ember from 'ember';
 
 const {
+  computed,
   computed: {
     sort
   }
@@ -14,6 +15,7 @@ export default Ember.Component.extend({
   classNames: ['grey', 'lighten-4', 'section-body'],
 
   comments: [],
+  typers: [],
   sortProperties: ['id'],
   sortedComments: sort('comments', 'sortProperties'),
 

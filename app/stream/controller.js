@@ -7,7 +7,8 @@ const {
   },
   on,
   run,
-  isEmpty
+  isEmpty,
+  computed
 } = Ember;
 
 const NUDGE_OFFSET_PX = 40; // Pixels for determining nudge vs scroll for new comment
@@ -19,10 +20,30 @@ export default Ember.Controller.extend({
 
   user: null,
   comments: [],
+  people: [],
   commentsElement: null,
+  commentsSubscription: null,
+  streamsSubscription: null,
 
-  setupSubscription: on('init', function() {
+  typers: computed.filterBy('people', 'isTyping'),
 
+  typingNotice: computed('typers.[]', function() {
+    let people = this.get('typers').mapBy('name');
+    switch (people.get('length')) {
+      case 0:
+        return '';
+      case 1:
+        return people.objectAt(0) + ' is typing ...';
+      case 2:
+        return people.objectAt(0) + ' and ' + people.objectAt(1) + ' are typing...';
+      case 3:
+        return people.objectAt(0) + ', ' + people.objectAt(1) + ' and 1 other are typing...';
+      default:
+        return people.objectAt(0) + ', ' + people.objectAt(1) + ' and ' + (people.get('length') - 2) + ' others are typing...';
+    }
+  }),
+
+  subscribeComments() {
     var consumer = this.get('cable').createConsumer(ENV.SOCKET);
     var subscription = consumer.subscriptions.create("CommentsChannel", {
       received: (data) => {
@@ -48,7 +69,26 @@ export default Ember.Controller.extend({
       }
     });
 
-    this.set('subscription', subscription);
+    this.set('commentsSubscription', subscription);
+  },
+
+  subscribeStreams() {
+    var consumer = this.get('cable').createConsumer(ENV.SOCKET);
+    var subscription = consumer.subscriptions.create("StreamsChannel", {
+      received: (data) => {
+        let person = this.get('people').findBy('id', data.member.person_id);
+        if (person.get('id') !== this.get('user.id')) {
+          person.setTypingAt(new Date(data.member.typing_at));
+        }
+      }
+    });
+
+    this.set('streamsSubscription', subscription);
+  },
+
+  setupSubscriptions: on('init', function() {
+    this.subscribeComments();
+    this.subscribeStreams();
   }),
 
   pushComment(data) {
@@ -135,7 +175,7 @@ export default Ember.Controller.extend({
       // Scroll to bottom so that new comment is visible
       run.next(this, this.scrollToBottom);
 
-      this.get('subscription').send({
+      this.get('commentsSubscription').send({
         comment: {
           body: comment.get('body'),
           person_id: comment.get('person.id')
@@ -146,7 +186,7 @@ export default Ember.Controller.extend({
     },
 
     updateComment(comment) {
-      this.get('subscription').send({
+      this.get('commentsSubscription').send({
         comment_id: comment.get('id'),
         comment: {
           body: comment.get('body'),
@@ -159,7 +199,7 @@ export default Ember.Controller.extend({
     deleteComment(comment) {
       this.unloadComment(comment);
 
-      this.get('subscription').send({
+      this.get('commentsSubscription').send({
         comment_id: comment.get('id'),
         action: 'destroy'
       });
@@ -173,6 +213,17 @@ export default Ember.Controller.extend({
 
     doLogin(person) {
       this.set('user', person);
+    },
+
+    doTyping() {
+      console.log('doTyping');
+      let typingAt = new Date();
+      this.get('streamsSubscription').send({
+        member: {
+          person_id: this.get('user.id'),
+          typing_at: typingAt
+        }
+      });
     }
   }
 });

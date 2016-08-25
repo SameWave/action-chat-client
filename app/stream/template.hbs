@@ -10,16 +10,24 @@
 	</div>
 
 	<button {{action "loadEarlier"}} class="btn amber || btn-load-earler btn--small">Load earlier</button>
+
+  <div>
+    {{typingNotice}}
+  </div>
 </header>
 
 {{comments-section
   comments=comments
+  typers=typers
   updateComment=(action "updateComment")
   deleteComment=(action "deleteComment")
 }}
 
 <footer class="pink || stream-chat-footer">
-  {{chat-box doComment=(action "createComment")}}
+  {{chat-box
+    doComment=(action "createComment")
+    doTyping=(action "doTyping")
+  }}
 </footer>
 
 
