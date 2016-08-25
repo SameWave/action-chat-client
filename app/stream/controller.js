@@ -24,23 +24,16 @@ export default Ember.Controller.extend({
   commentsElement: null,
   commentsSubscription: null,
   streamsSubscription: null,
+  isLoadingEarlier: false,
 
-  typers: computed.filterBy('people', 'isTyping'),
+  setup: on('init', function() {
+    this.subscribeComments();
+    this.subscribeStreams();
 
-  typingNotice: computed('typers.[]', function() {
-    let people = this.get('typers').mapBy('name');
-    switch (people.get('length')) {
-      case 0:
-        return '';
-      case 1:
-        return people.objectAt(0) + ' is typing ...';
-      case 2:
-        return people.objectAt(0) + ' and ' + people.objectAt(1) + ' are typing...';
-      case 3:
-        return people.objectAt(0) + ', ' + people.objectAt(1) + ' and 1 other are typing...';
-      default:
-        return people.objectAt(0) + ', ' + people.objectAt(1) + ' and ' + (people.get('length') - 2) + ' others are typing...';
-    }
+    run.schedule('afterRender', this, function() {
+      this.commentsElement = $('#comments');
+      this.scrollToBottom();
+    });
   }),
 
   subscribeComments() {
@@ -86,9 +79,22 @@ export default Ember.Controller.extend({
     this.set('streamsSubscription', subscription);
   },
 
-  setupSubscriptions: on('init', function() {
-    this.subscribeComments();
-    this.subscribeStreams();
+  typers: computed.filterBy('people', 'isTyping'),
+
+  typingNotice: computed('typers.[]', function() {
+    let people = this.get('typers').mapBy('name');
+    switch (people.get('length')) {
+      case 0:
+        return '';
+      case 1:
+        return people.objectAt(0) + ' is typing ...';
+      case 2:
+        return people.objectAt(0) + ' and ' + people.objectAt(1) + ' are typing...';
+      case 3:
+        return people.objectAt(0) + ', ' + people.objectAt(1) + ' and 1 other are typing...';
+      default:
+        return people.objectAt(0) + ', ' + people.objectAt(1) + ' and ' + (people.get('length') - 2) + ' others are typing...';
+    }
   }),
 
   pushComment(data) {
@@ -120,30 +126,18 @@ export default Ember.Controller.extend({
   },
 
   scrollToBottom() {
-    // TODO: This should be set on render when we move into a component
-    if (isEmpty(this.commentsElement)) {
-      this.commentsElement = $('#comments');
-    }
     this.commentsElement.scrollTop(this.commentsElement.get(0).scrollHeight);
   },
 
   nudgeBottom() {
-    if (isEmpty(this.commentsElement)) {
-      this.commentsElement = $('#comments');
-    }
-
-    // TODO: This should be set on render when we move into a component
     this.commentsElement.scrollTop(this.commentsElement.scrollTop() + NUDGE_PX);
   },
 
   bottomOffset() {
-    if (isEmpty(this.commentsElement)) {
-      this.commentsElement = $('#comments');
-    }
-
     let sectionHeight = this.commentsElement.height() + 20; // TODO: 20 for margin?
     let scrollHeight = this.commentsElement.get(0).scrollHeight;
     let scrollTop = this.commentsElement.scrollTop();
+
     // NOTE: (total scroll height) - (height of section + 20 for margin) - (scrolled distance)
     return scrollHeight - sectionHeight - scrollTop;
   },
@@ -206,9 +200,27 @@ export default Ember.Controller.extend({
     },
 
     loadEarlier() {
+      this.set('isLoadingEarlier', true);
+
+      let initialHeight = this.commentsElement.get(0).scrollHeight;
+      let initialTop = this.commentsElement.scrollTop();
+
       this.store.query('comment', {
         offset: this.get('comments.length')
+      }).then(() => {
+        run.next(this, this.bottomOffset);
+
+        run.next(this, function() {
+          let newHeight = this.commentsElement.get(0).scrollHeight;
+          let newTop = newHeight - initialHeight + initialTop;
+
+          this.commentsElement.scrollTop(newTop);
+
+        });
+
+        this.set('isLoadingEarlier', false);
       });
+
     },
 
     doLogin(person) {

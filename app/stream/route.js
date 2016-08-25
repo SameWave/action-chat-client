@@ -23,8 +23,6 @@ export default Ember.Route.extend({
       user: model.people.findBy('id', '1') // TODO: This shouldn't be hardcoded
     });
 
-    run.schedule('afterRender', this, controller.scrollToBottom);
-
     // TODO:
     // Show 'load earlier' if there are more unread comments
     // Show unread comments below new message line
