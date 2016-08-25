@@ -36,6 +36,10 @@ export default Ember.Controller.extend({
     });
   }),
 
+  isNoticeVisible: computed('isLoadingEarlier', 'typers.[]', function() {
+    return this.get('isLoadingEarlier') || this.get('typers') > 0 ? true : false;
+  }),
+
   subscribeComments() {
     var consumer = this.get('cable').createConsumer(ENV.SOCKET);
     var subscription = consumer.subscriptions.create("CommentsChannel", {
