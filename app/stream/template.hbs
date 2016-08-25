@@ -1,4 +1,4 @@
-<header class="pink || stream-header">
+<header class="pink z-depth-1 || stream-header animated bounceInDown">
 	<div class="shades white-text || user-info">Currently 'logged in' as {{user.name}}</div>
 
 	<div class="person-switch-control">
@@ -26,7 +26,7 @@
   deleteComment=(action "deleteComment")
 }}
 
-<footer class="pink || stream-chat-footer">
+<footer class="pink || stream-chat-footer animated bounceInUp">
   {{chat-box
     doComment=(action "createComment")
     doTyping=(action "doTyping")
