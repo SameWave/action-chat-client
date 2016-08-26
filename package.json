@@ -38,6 +38,7 @@
     "ember-cli-test-loader": "^1.1.0",
     "ember-cli-uglify": "^1.2.0",
     "ember-cordova": "0.2.7",
+    "ember-cordova-keyboard": "0.0.1",
     "ember-data": "^2.7.0",
     "ember-export-application-global": "^1.0.5",
     "ember-load-initializers": "^0.5.1",
