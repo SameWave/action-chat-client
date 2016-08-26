@@ -9,7 +9,7 @@
 	  {{/each}}
 	</div>
 
-	<button {{action "loadEarlier"}} class="btn amber || btn-load-earler btn--small">Load earlier</button>    
+	<button {{action "loadEarlier"}} class="btn amber || btn-load-earler btn--small">Load earlier</button>
 </header>
 
 <section class="grey lighten-4 || section-body">
@@ -21,7 +21,7 @@
       {{/if}}
     </div>
   {{/if}}
-  
+
   {{comments-section
     comments=comments
     typers=typers
@@ -34,8 +34,9 @@
   {{chat-box
     doComment=(action "createComment")
     doTyping=(action "doTyping")
+    isKeyboardOpen=isKeyboardOpen
     classNames="chat-box"
   }}
 </footer>
 
-
+<div class="keyboard pink the-force"></div>

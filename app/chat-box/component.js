@@ -1,4 +1,5 @@
 import Ember from 'ember';
+import ENV from 'action-chat-client/config/environment';
 
 const {
   run,
@@ -10,6 +11,7 @@ export default Ember.Component.extend({
   comment: '',
   inputElement: null,
   typingTimer: null,
+  isKeyboardOpen: false,
 
   didRender() {
     this._super(...arguments);
@@ -23,6 +25,18 @@ export default Ember.Component.extend({
   },
 
   actions: {
+
+    doFocusIn() {
+      if (ENV.environment === 'development') {
+        this.set('isKeyboardOpen', true);
+      }
+    },
+
+    doFocusOut() {
+      if (ENV.environment === 'development') {
+        this.set('isKeyboardOpen', false);
+      }
+    },
 
     doKeyDown() {
       this.typingTimer = run.throttle(this, this.doTyping, 500);

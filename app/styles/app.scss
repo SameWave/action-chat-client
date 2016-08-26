@@ -63,6 +63,12 @@ $notice: 50;
 	padding: 10px;
 }
 
+.keyboard {
+	flex: 0 0 auto;
+	height: 0;
+	transition: height 250ms ease;
+}
+
 // Modules
 .btn--small {
 	font-size: 10px;

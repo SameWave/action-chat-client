@@ -9,10 +9,6 @@ const {
 
 export default Ember.Component.extend({
 
-  tagName: 'section',
-
-  elementId: 'comments',
-
   comments: [],
   typers: [],
   sortProperties: ['createdAt', 'id'],

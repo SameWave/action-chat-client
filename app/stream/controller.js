@@ -7,7 +7,8 @@ const {
   },
   on,
   run,
-  computed
+  computed,
+  isEmpty
 } = Ember;
 
 const NUDGE_OFFSET_PX = 40; // Pixels for determining nudge vs scroll for new comment
@@ -24,19 +25,70 @@ export default Ember.Controller.extend({
   commentsSubscription: null,
   streamsSubscription: null,
   isLoadingEarlier: false,
+  isKeyboardOpen: false,
 
   setup: on('init', function() {
     this.subscribeComments();
     this.subscribeStreams();
 
     run.schedule('afterRender', this, function() {
-      this.commentsElement = $('#comments');
+      this.commentsElement = $('.section-body');
+      this.keyboardElement = $('.keyboard');
       this.scrollToBottom();
 
       if (window.Keyboard) {
         // window.Keyboard.shrinkView(true);
       }
+      if (window.cordova && window.cordova.plugins.Keyboard) {
+        this.setupKeyboardEvents();
+      }
     });
+
+  }),
+
+  setupKeyboardEvents() {
+    let _this = this;
+
+    window.addEventListener('native.keyboardshow', function(e) {
+      _this.showKeyboard(e.keyboardHeight);
+    });
+
+    window.addEventListener('native.keyboardhide', function(e) {
+      _this.hideKeyboard(e.keyboardHeight);
+    });
+  },
+
+  showKeyboard(height) {
+    let scrollHeight = this.commentsElement.get(0).scrollHeight;
+
+    this.keyboardElement.css({
+      'height': `${height}px`
+    });
+
+    // We need a run later so that scrollTop is only set after keyboard shows
+    run.later(this, () => {
+      this.commentsElement.scrollTop(scrollHeight + height);
+
+      this.commentsElement.animate({
+        scrollTop: scrollHeight + height
+      }, 100);
+    }, 120);
+  },
+
+  hideKeyboard() {
+    this.keyboardElement.css({
+      'height': 0
+    });
+  },
+
+  // For development only
+  isKeyboardDidChange: Ember.observer('isKeyboardOpen', function() {
+    if (this.get('isKeyboardOpen')) {
+      let height = 216; // iPhone 5 keyboard height
+      this.showKeyboard(height);
+    } else {
+      this.hideKeyboard();
+    }
   }),
 
   subscribeComments() {
@@ -44,8 +96,7 @@ export default Ember.Controller.extend({
     var subscription = consumer.subscriptions.create("CommentsChannel", {
       received: (data) => {
         let comment = this.store.peekRecord('comment', data.comment.id);
-
-        if (comment === null) {
+        if (isEmpty(comment)) {
           if (data.action === 'created') {
 
             let bottomOffset = this.bottomOffset();
@@ -132,12 +183,18 @@ export default Ember.Controller.extend({
     this.store.unloadRecord(comment);
   },
 
+  doScroll(top) {
+    this.commentsElement.animate({
+      scrollTop: top
+    }, 100);
+  },
+
   scrollToBottom() {
-    this.commentsElement.scrollTop(this.commentsElement.get(0).scrollHeight);
+    this.doScroll(this.commentsElement.get(0).scrollHeight);
   },
 
   nudgeBottom() {
-    this.commentsElement.scrollTop(this.commentsElement.scrollTop() + NUDGE_PX);
+    this.doScroll(this.commentsElement.scrollTop() + NUDGE_PX);
   },
 
   bottomOffset() {
@@ -219,8 +276,9 @@ export default Ember.Controller.extend({
           let newHeight = this.commentsElement.get(0).scrollHeight;
           let newTop = newHeight - initialHeight + initialTop;
 
-          this.commentsElement.scrollTop(newTop);
-
+          this.commentsElement.animate({
+            scrollTop: newTop
+          }, 250);
         });
 
         this.set('isLoadingEarlier', false);
