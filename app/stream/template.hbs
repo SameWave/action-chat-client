@@ -10,9 +10,7 @@
 	</div>
 
 	<button {{action "loadEarlier"}} class="btn amber || btn-load-earler btn--small">Load earlier</button>
-</header>
 
-<section class="grey lighten-4 || section-body">
   {{#if isNoticeVisible}}
     <div class="notice z-depth-2">
       <p>{{typingNotice}}</p>
@@ -22,6 +20,9 @@
     </div>
   {{/if}}
 
+</header>
+
+<section class="grey lighten-4 || section-body">
   {{comments-section
     comments=comments
     typers=typers

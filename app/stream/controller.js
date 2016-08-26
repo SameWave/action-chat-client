@@ -11,7 +11,7 @@ const {
   isEmpty
 } = Ember;
 
-const NUDGE_OFFSET_PX = 40; // Pixels for determining nudge vs scroll for new comment
+const NUDGE_OFFSET_PX = 60; // Pixels for determining nudge vs scroll for new comment
 const NUDGE_PX = 24; // Pixels for distance to nudge
 
 export default Ember.Controller.extend({
