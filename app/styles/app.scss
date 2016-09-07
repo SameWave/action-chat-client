@@ -1,178 +1,50 @@
-// @import 'materialize';
+// Vendors
+@import 'vendors/materialize/mixins';
+@import 'vendors/materialize/color';
+@import 'vendors/materialize/variables';
+@import 'vendors/materialize/normalize';
+@import 'vendors/materialize/global';
+@import 'vendors/materialize/typography';
+@import 'vendors/materialize/buttons';
+@import 'vendors/materialize/chips';
 
-@import "components/mixins";
-@import "components/color";
-@import "components/variables";
-@import "components/normalize";
-@import "components/global";
-@import "components/typography";
-@import "components/buttons";
-@import "components/chips";
+// Base
+@import 'base/reset';
+@import 'base/typography';
 
-* {
-	box-sizing: border-box;
-}
+// Abstracts
+@import 'abstracts/variables';
+@import 'abstracts/settings';
+@import 'abstracts/functions';
+@import 'abstracts/mixins';
+@import 'abstracts/placeholders';
+@import 'abstracts/utilities';
 
+// components
+@import 'components/buttons';
+@import 'components/chat-box';
+@import 'components/keyboard';
+@import 'components/message';
+@import 'components/notice';
 
-[data-ember-action] {
- cursor: pointer;
-}
+// Objects
+@import 'objects/ribbon';
 
-html, body {
-	margin: 0;
-	-webkit-overflow-scrolling: touch;
-}
+// layout
+@import 'layout/navigation';
+@import 'layout/header';
+@import 'layout/body';
+@import 'layout/footer';
+@import 'layout/sidebar';
 
-h1 {
-	margin: 0;
-}
+// pages
+@import 'pages/stream';
 
-p {
-	margin: 0;
-}
-
-$header-size: 100px;
-$footer-size: 56px;
-$button-line-height: 1.5rem;
-$notice: 50;
-
-.ember-application > .ember-view {
-	display: flex;
-	flex-direction: column;
-	height: 100vh;
-}
-
-// Layout
-.section-header {
-	flex: 0 0 auto;
-	width: 100%;
-	text-align: center;
-}
-
-.section-body {
-	flex: 1 1 auto;
-	position: relative;
-	width: 100%;
-	padding: 10px;
-	overflow: scroll;
-}
-
-.section-footer {
-	flex: 0 0 auto;
-	width: 100%;
-	padding: 10px;
-}
-
-.keyboard {
-	flex: 0 0 auto;
-	height: 0;
-	transition: height 250ms ease;
-}
-
-// Modules
-.btn--small {
-	font-size: 10px;
-	line-height: $button-line-height;
-	height: $button-line-height;
-}
+// Misc
+@import 'general';
 
 
 
-// General
-.stream-header {
-	@extend .section-header;
-	position: relative;
-	font-size: 10px;
-	padding: 5px 0;
-}
-
-.btn-switch-user {
-	margin-top: 5px;
-}
-
-.btn-load-earler {
-	margin-top: 5px;
-}
-
-.notice {
-	position: absolute;
-	z-index: $notice;
-	bottom: -40px;
-	left: 0;
-	right: 0;
-	width: 50vw;
-	min-width: 80px;
-	margin: 0 auto;
-	padding: 4px 10px;
-	border-radius: 2px;
-	background: map-get($light-blue, base);
-	color: map-get($shades, 'white');
-	font-size: 14px;
-	text-align: center;
-}
-
-.message {
-	display: flex;
-	align-content: center;
-	height: auto;
-	min-height: 32px;
-	margin-bottom: 10px;
-
-	&_author {
-		flex: 0 0 auto;
-		align-self: flex-start;
-		margin: 5px 5px 0 0;
-		p {
-			line-height: 1.2rem;
-		}
-	}
-
-	&_body {
-		flex: 1 1 32px;
-    align-self: flex-start;
-		margin: 5px 5px 5px 0;
-
-		p {
-			line-height: 1.2rem;
-			word-break: break-word;
-		}
-	}
-
-	&_option {
-		flex: 0 0 44px;
-    align-self: flex-start;
-		margin: 5px 5px 5px 0px;
-		border-radius: 2px;
-		text-align: center;
-		color: map-get($shades, "white");
-
-		&:last-child {
-			margin-right: 0;
-		}
-	}
-}
-
-.stream-chat-footer {
-	@extend .section-footer;
-}
-
-.chat-box {
-	display: flex;
-	flex-direction: row;
-}
-
-.chat-input {
-	flex: 1 0 20px;
-	padding: 5px;
-	margin-right: 10px;
-	max-height: 30px;
-	min-height: 20px;
-}
-
-	.btn-chat-send {
-		flex: 0 0 100px;
-		font-size: 14px;
-	}
 
 
 
