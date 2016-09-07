@@ -41,7 +41,10 @@ Make use of the many generators for code, try `ember help generate` for more det
 
 ### Deploying
 
-Specify what it takes to deploy your app.
+#### Android
+
+Run $ ember cordova:build --environment=production --platform=android.
+Upload apk found in ./ember-cordova/cordova/platforms/android/build/outputs/apk/android-debug.apk to hockeyapp
 
 ## Further Reading / Useful Links
 
