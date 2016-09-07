@@ -1,0 +1,9 @@
+.app-background {
+	position: fixed;
+	top: 0;
+	left: 0;
+	z-index: $ground-floor;
+	background: map-get($colours, 'pink');
+	width: 100vw;
+	height: 100vh;
+}

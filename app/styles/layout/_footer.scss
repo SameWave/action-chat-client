@@ -1,7 +1,11 @@
 .section-footer {
 	flex: 0 0 auto;
+	position: relative;
+	z-index: $z-footer;
 	width: 100%;
 	padding: 10px;
+	will-change: transform;
+	transition: transform 250ms ease;
 }
 
 .stream-chat-footer {
