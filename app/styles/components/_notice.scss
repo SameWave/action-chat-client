@@ -1,0 +1,17 @@
+// TODO: add prefix
+.notice {
+	position: absolute;
+	z-index: $notice;
+	bottom: -40px;
+	left: 0;
+	right: 0;
+	width: 50vw;
+	min-width: 80px;
+	margin: 0 auto;
+	padding: 4px 10px;
+	border-radius: 2px;
+	background: map-get($light-blue, base);
+	color: map-get($shades, 'white');
+	font-size: 14px;
+	text-align: center;
+}
