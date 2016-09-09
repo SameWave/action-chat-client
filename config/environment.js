@@ -13,7 +13,7 @@ module.exports = function(environment) {
       'font-src': ["'self'"],
       'connect-src': ["'self'"],
       'img-src': ["'self'"],
-      'style-src': ["'self'"],
+      'style-src': "'self' 'unsafe-inline'",
       'media-src': ["'self'"]
     },
     cordova: {
@@ -31,8 +31,8 @@ module.exports = function(environment) {
       // when it is created
     },
 
-    HOST: 'http://localhost:3000',
-    SOCKET: 'ws://localhost:3000/cable'
+    host: 'http://localhost:3000',
+    socket: 'ws://localhost:3000/cable'
   };
 
   if (environment === 'development') {
@@ -55,11 +55,11 @@ module.exports = function(environment) {
   }
 
   if (environment === 'production') {
-    ENV.HOST = 'http://samewave-action-chat.herokuapp.com';
+    ENV.host = 'http://samewave-action-chat.herokuapp.com';
     ENV.SOCKET = 'wss://samewave-action-chat.herokuapp.com/cable';
   }
 
-  ENV.contentSecurityPolicy['connect-src'].push(ENV.HOST);
+  ENV.contentSecurityPolicy['connect-src'].push(ENV.host);
   ENV.contentSecurityPolicy['connect-src'].push(ENV.SOCKET);
 
   return ENV;
