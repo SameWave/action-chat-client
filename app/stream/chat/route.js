@@ -28,7 +28,7 @@ export default Ember.Route.extend({
     // Show unread comments below new message line
     // Show who is typing
 
-    // Authentication
+		// Authentication
     // Authorization per stream
   }
 });

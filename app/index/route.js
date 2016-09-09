@@ -1,7 +1,11 @@
 import Ember from 'ember';
 
-export default Ember.Route.extend({
+const {
+  Route
+} = Ember;
+
+export default Route.extend({
   beforeModel() {
-    this.transitionTo('stream');
+    this.transitionTo('stream.chat');
   }
 });

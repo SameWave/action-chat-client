@@ -1,13 +1,20 @@
 import Ember from 'ember';
 import config from './config/environment';
 
-const Router = Ember.Router.extend({
+const {
+  Router
+} = Ember;
+
+const AppRouter = Router.extend({
   location: config.locationType,
   rootURL: config.rootURL
 });
 
-Router.map(function() {
-  this.route('stream');
+AppRouter.map(function() {
+  this.route('stream', function() {
+    this.route('scoreboard');
+    this.route('chat');
+  });
 });
 
-export default Router;
+export default AppRouter;
