@@ -1,11 +1,11 @@
 import Ember from 'ember';
 
 const {
-  RSVP,
-  run
+  Route,
+  RSVP
 } = Ember;
 
-export default Ember.Route.extend({
+export default Route.extend({
 
   model() {
     return RSVP.hash({
@@ -15,7 +15,6 @@ export default Ember.Route.extend({
   },
 
   setupController(controller, model) {
-
     controller.setProperties({
       model: null,
       comments: model.comments,
@@ -28,7 +27,7 @@ export default Ember.Route.extend({
     // Show unread comments below new message line
     // Show who is typing
 
-		// Authentication
+    // Authentication
     // Authorization per stream
   }
 });
