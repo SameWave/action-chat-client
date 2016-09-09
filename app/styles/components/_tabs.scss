@@ -1,0 +1,9 @@
+.c-tabs {
+	flex: 0 0 25px;
+	display: flex;
+	text-align: center;
+
+	&_item {
+		flex: 1 0 auto;
+	}
+}

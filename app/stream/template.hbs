@@ -1,1 +1,9 @@
+<nav class="c-tabs">
+  {{#link-to
+    'stream.chat'
+    classNames="c-tabs_item chat"}}Chat{{/link-to}}
+  {{#link-to 'stream.scoreboard'
+  classNames="c-tabs_item scoreboard"}}Scoreboard{{/link-to}}
+</nav>
+
 {{outlet}}
