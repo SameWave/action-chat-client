@@ -1,14 +1,17 @@
 .chat-box {
 	display: flex;
 	flex-direction: row;
+  align-items: flex-end;
 }
 
 .chat-input {
 	flex: 1 0 20px;
+	position: relative;
+	z-index: $z-chat-box;
+	box-sizing: content-box;
+	max-height: 110px;
 	padding: 5px;
 	margin-right: 10px;
-	max-height: 30px;
-	min-height: 20px;
 }
 
 	.btn-chat-send {
