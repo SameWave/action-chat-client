@@ -1,3 +1,12 @@
-<li><a href="#" {{action 'invalidateSession'}}>Logout</a></li>
+{{#if session.isAuthenticated}}
+  {{#if session.person.name}}
+    <div>
+      Logged in as {{session.person.name}}
+    </div>
+    <button {{action (action 'logout' target=session)}}>
+      Logout
+    </button>
+  {{/if}}
+{{/if}}
 
 {{outlet}}

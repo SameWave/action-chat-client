@@ -35,6 +35,11 @@ module.exports = function(environment) {
     socket: 'ws://localhost:3000/cable'
   };
 
+  ENV['ember-simple-auth'] = {
+    authorizer: 'authorizer:custom',
+    routeAfterAuthentication: '/stream'
+  };
+
   if (environment === 'development') {
     // ENV.APP.LOG_RESOLVER = true;
     // ENV.APP.LOG_ACTIVE_GENERATION = true;
@@ -56,11 +61,11 @@ module.exports = function(environment) {
 
   if (environment === 'production') {
     ENV.host = 'http://samewave-action-chat.herokuapp.com';
-    ENV.SOCKET = 'wss://samewave-action-chat.herokuapp.com/cable';
+    ENV.socket = 'wss://samewave-action-chat.herokuapp.com/cable';
   }
 
   ENV.contentSecurityPolicy['connect-src'].push(ENV.host);
-  ENV.contentSecurityPolicy['connect-src'].push(ENV.SOCKET);
+  ENV.contentSecurityPolicy['connect-src'].push(ENV.socket);
 
   return ENV;
 };

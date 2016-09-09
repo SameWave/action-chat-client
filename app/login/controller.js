@@ -4,7 +4,7 @@ export default Ember.Controller.extend({
   session: Ember.inject.service(),
 
   actions: {
-    authenticate() {
+    doLogin() {
       let credentials = this.getProperties('identification', 'password'),
         authenticator = 'authenticator:jwt';
 
