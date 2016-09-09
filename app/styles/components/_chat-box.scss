@@ -8,13 +8,12 @@
 	flex: 1 0 20px;
 	position: relative;
 	z-index: $z-chat-box;
-	box-sizing: content-box;
 	max-height: 110px;
 	padding: 5px;
 	margin-right: 10px;
 }
 
-	.btn-chat-send {
-		flex: 0 0 100px;
-		font-size: 14px;
-	}
+.btn-chat-send {
+	flex: 0 0 100px;
+	font-size: 14px;
+}

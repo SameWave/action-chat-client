@@ -6,6 +6,8 @@ const {
 } = Ember;
 
 export default TextArea.extend({
+  classNames: ['c-auto-resize-textarea'],
+
   _resize() {
     let textArea = this.element;
 
