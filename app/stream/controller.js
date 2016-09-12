@@ -8,7 +8,8 @@ const {
   on,
   run,
   computed,
-  isEmpty
+  isEmpty,
+  $
 } = Ember;
 
 const NUDGE_OFFSET_PX = 60; // Pixels for determining nudge vs scroll for new comment
@@ -33,7 +34,7 @@ export default Ember.Controller.extend({
 
     run.schedule('afterRender', this, function() {
       this.commentsElement = $('.section-body');
-      this.keyboardElement = $('.keyboard');
+      this.chatBox = $('.stream-chat-footer');
       this.scrollToBottom();
 
       if (window.Keyboard) {
@@ -61,9 +62,14 @@ export default Ember.Controller.extend({
   showKeyboard(height) {
     let scrollHeight = this.commentsElement.get(0).scrollHeight;
 
-    this.keyboardElement.css({
-      'height': `${height}px`
+    this.commentsElement.css({
+      'transform': `translateY(-${height}px)`,
     });
+
+    this.chatBox.css({
+      'transform': `translateY(-${height}px)`
+    });
+
 
     // We need a run later so that scrollTop is only set after keyboard shows
     run.later(this, () => {
@@ -76,8 +82,12 @@ export default Ember.Controller.extend({
   },
 
   hideKeyboard() {
-    this.keyboardElement.css({
-      'height': 0
+    this.commentsElement.css({
+      'transform': `translateY(-0px)`
+    });
+
+    this.chatBox.css({
+      '-webkit-transform': `translateY(0px)`
     });
   },
 

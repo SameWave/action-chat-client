@@ -28,6 +28,8 @@
     <preference name="HideKeyboardFormAccessoryBar" value="true" />
     <preference name="KeyboardDisplayRequiresUserAction" value="false" />
     <preference name="DisallowOverscroll" value="true" />
+    <preference name="BackgroundColor" value="0xFFE91E63" />
+    <preference name="StatusBarOverlaysWebView" value="false" />
     <engine name="ios" spec="~4.2.1" />
     <plugin name="cordova-plugin-vibration" spec="~2.1.1" />
     <plugin name="ionic-plugin-keyboard" spec="~2.2.1" />
