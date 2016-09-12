@@ -1,5 +1,18 @@
-{{#each streams as |stream|}}
-  <div {{action (action 'gotoStreamChat' stream)}}>
-    {{stream.title}}
-  </div>
-{{/each}}
+<section class="section-body--streams">
+	{{#each streams as |stream|}}
+	  <div class="c-media-block--stream" {{action (action 'gotoStreamChat' stream)}}>
+	  	<div class="c-media-block_first-section">
+	  		<div class="c-avatar">
+		  		<img src="http://placehold.it/150x150" class="c-avatar_img">
+	  		</div>
+	  	</div>
+
+	  	<div class="c-media-block_second-section">
+		    <p class="blue-text || c-media-block_title">{{stream.title}}</p>
+	  	</div>
+	  </div>
+	{{/each}}
+</section>
+
+
+<div class="c-fab"></div>

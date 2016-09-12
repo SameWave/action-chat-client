@@ -15,4 +15,9 @@
   	text-align: center;
     cursor: pointer;
   }
+
+  &--streams {
+    flex-direction: column;
+    justify-content: center;
+  }
 }

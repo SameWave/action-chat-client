@@ -1,0 +1,14 @@
+.c-fab {
+	position: fixed;
+	z-index: $z-top-floor;
+	right: 0;
+	bottom: 30px;
+	left: 0;
+	margin: auto;
+	width: 20vw;
+	max-width: 100px;
+	height: 20vw;
+	max-height: 100px;
+	border-radius: 100%;
+	background: map-get($blue, 'base');
+}
