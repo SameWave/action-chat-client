@@ -60,8 +60,8 @@ module.exports = function(environment) {
   }
 
   if (environment === 'production') {
-    ENV.host = 'http://samewave-action-chat.herokuapp.com';
-    ENV.socket = 'wss://samewave-action-chat.herokuapp.com/cable';
+    ENV.host = 'http://samewave-prototype.herokuapp.com';
+    ENV.socket = 'wss://samewave-prototype.herokuapp.com/cable';
   }
 
   ENV.contentSecurityPolicy['connect-src'].push(ENV.host);
