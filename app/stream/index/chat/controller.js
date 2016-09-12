@@ -21,6 +21,7 @@ const PAGE_SIZE = 10;
 export default Controller.extend({
 
   cable: service(),
+  platform: service('device/platform'),
 
   queryParams: ['page', 'size'],
 
@@ -59,11 +60,15 @@ export default Controller.extend({
     let _this = this;
 
     window.addEventListener('native.keyboardshow', function(e) {
-      _this.showKeyboard(e.keyboardHeight);
+      if(this.get('platform.isIOS')) {
+        _this.showKeyboard(e.keyboardHeight);
+      }
     });
 
     window.addEventListener('native.keyboardhide', function(e) {
+      if(this.get('platform.isIOS')) {
       _this.hideKeyboard(e.keyboardHeight);
+      }
     });
   },
 
