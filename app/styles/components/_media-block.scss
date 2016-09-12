@@ -1,0 +1,31 @@
+.c-media-block {
+	flex: 1 1 100%;
+	display: flex;
+	align-items: center;
+	padding: 10px;
+	border-bottom: 1px solid map-get($grey, 'lighten-1');
+
+
+	&--stream {
+		@extend .c-media-block;
+		background: map-get($blue-grey, 'lighten-5');
+	}
+
+	&_first-section {
+		flex: 0 0 auto;
+	}
+
+	&_second-section {
+		flex: 1 1 auto;
+		margin-left: 10px;
+	}
+
+	&_last-section {
+		flex: 0 0 auto;
+		margin-left: 10px;
+	}
+
+	&_title {
+		font-size: 14px;
+	}
+}
