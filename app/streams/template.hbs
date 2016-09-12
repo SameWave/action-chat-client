@@ -1,0 +1,5 @@
+{{#each streams as |stream|}}
+  <div {{action (action 'gotoStreamChat' stream)}}>
+    {{stream.title}}
+  </div>
+{{/each}}

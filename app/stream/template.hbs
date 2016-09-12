@@ -1,12 +1,1 @@
-<header id="header-destination" class="pink z-depth-1 || stream-header"></header>
-
-<nav class="c-tabs">
-  {{#link-to 'stream.chat' classNames="c-tabs_item chat"}}Chat{{/link-to}}
-  {{#link-to 'stream.scoreboard' classNames="c-tabs_item scoreboard"}}Scoreboard{{/link-to}}
-</nav>
-
-{{liquid-outlet class="grey lighten-4 || section-body"}}
-
-<footer id="footer-destination" class="pink || stream-chat-footer"></footer>
-
-<div class="app-background"></div>
+{{outlet}}

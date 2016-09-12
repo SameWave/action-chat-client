@@ -1,12 +1,20 @@
 {{#if session.isAuthenticated}}
-  {{#if session.person.name}}
-    <div {{action (action 'logout' target=session)}}>
+
+  <header class="pink z-depth-1 || section-header">
+
+    <div class="btn" {{action (action 'logout' target=session)}}>
       Logout
     </div>
-    <div>
-      Logged in as {{session.person.name}}
-    </div>
-  {{/if}}
+
+    {{#if session.person.name}}
+      <div class="white">
+        Logged in as {{session.person.name}}
+      </div>
+    {{/if}}
+  </header>
+
+  <header id="header-destination" class="pink z-depth-1 || stream-header"></header>
+
 {{/if}}
 
 {{outlet}}

@@ -6,6 +6,6 @@ const {
 
 export default Route.extend({
   beforeModel() {
-    this.transitionTo('stream.chat');
+    this.transitionTo('streams');
   }
 });

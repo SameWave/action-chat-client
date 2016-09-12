@@ -12,10 +12,20 @@ const AppRouter = Router.extend({
 
 AppRouter.map(function() {
   this.route('login');
-  this.route('stream', function() {
-    this.route('scoreboard');
-    this.route('chat');
+
+  this.route('streams');
+
+  this.route('stream', {
+    path: 'streams'
+  }, function() {
+    this.route('index', {
+      path: ":stream_id"
+    }, function() {
+      this.route('chat');
+      this.route('scoreboard');
+    });
   });
+
 });
 
 export default AppRouter;
