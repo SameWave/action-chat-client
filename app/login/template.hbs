@@ -6,12 +6,22 @@
 	<form class="l-form" {{action 'doLogin' on='submit'}}>
 		<div class="l-form_item c-input-field">
 		  <label for="identification" class="c-input-field_label">Email</label>
-		  {{input id='identification' value=identification classNames="c-input-field_input"}}
+		  {{input
+		  	id='identification'
+		  	type="email"
+		  	value=identification
+		  	required=true
+		  	autofocus=true
+		  	classNames="c-input-field_input"}}
 	  </div>
 
 	  <div class="l-form_item c-input-field">
 		  <label for="password" class="c-input-field_label">Password</label>
-		  {{input id='password' value=password classNames="c-input-field_input"}}
+		  {{input
+		  	id='password'
+		  	value=password
+		  	required=true
+		  	classNames="c-input-field_input"}}
 	  </div>
 
 	  <button type="submit" class="btn || l-form_item">
