@@ -1,0 +1,8 @@
+<svg version="1.1" id="Layer_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px"
+   viewBox="0 0 40 40" enable-background="new 0 0 40 40" xml:space="preserve">
+<g>
+  <polygon points="37.5,37.5 2.5,37.5 2.5,22.5 0,22.5 0,40 40,40 40,22.5 37.5,22.5  "/>
+  <path d="M35.8,0H4.2L0,9.5v10h40v-10L35.8,0z M5.8,2.5h28.4L37,9H3L5.8,2.5z M2.5,17v-5.4h35V17H2.5z"/>
+  <path d="M21.8,28.9c1.1,0,2-0.9,2-2s-0.9-2-2-2h-3.6c-1.1,0-2,0.9-2,2s0.9,2,2,2H21.8z"/>
+</g>
+</svg>
