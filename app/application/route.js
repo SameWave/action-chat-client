@@ -9,7 +9,7 @@ export default Ember.Route.extend(ApplicationRouteMixin, {
 
   sessionAuthenticated() {
     this._loadSessionPerson().then(() => {
-      this.transitionTo('stream');
+      this.transitionTo('streams');
     }).catch(() => this.get('session').send('logout'));
   },
 
