@@ -1,0 +1,11 @@
+.l-form {
+	padding: 0 10px;
+
+  &_item {
+		margin-top: 15px;
+
+		&:first-child {
+			margin-top: 0;
+		}
+  }
+}

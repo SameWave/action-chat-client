@@ -4,6 +4,13 @@
 	width: 100%;
 	text-align: center;
 	position: relative;
+
+	&--login {
+		@extend .section-header;
+		padding: 20px 10px;
+		color: map-get($shades, 'white');
+		text-align: center;
+	}
 }
 
 .stream-header {

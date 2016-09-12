@@ -1,10 +1,21 @@
-<form {{action 'doLogin' on='submit'}}>
+<header class="pink z-depth-1 || section-header--login">
+	<h1>Samewave prototype</h1>
+</header>
 
-  <label for="identification">Email</label>
-  {{input id='identification' value=identification}}
+<section class="section-body--login">
+	<form class="l-form" {{action 'doLogin' on='submit'}}>
+		<div class="l-form_item c-input-field">
+		  <label for="identification" class="c-input-field_label">Email</label>
+		  {{input id='identification' value=identification classNames="c-input-field_input"}}
+	  </div>
 
-  <label for="password">Password</label>
-  {{input id='password' value=password}}
+	  <div class="l-form_item c-input-field">
+		  <label for="password" class="c-input-field_label">Password</label>
+		  {{input id='password' value=password classNames="c-input-field_input"}}
+	  </div>
 
-  <button type="submit">Login</button>
-</form>
+	  <button type="submit" class="btn || l-form_item">
+	  	Login
+	  </button>
+	</form>
+</section>

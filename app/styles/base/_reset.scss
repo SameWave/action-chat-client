@@ -1,6 +1,8 @@
-* {
+ *,
+ *:before,
+ *:after {
 	box-sizing: border-box;
-}
+ }
 
 [data-ember-action] {
  cursor: pointer;
@@ -22,6 +24,23 @@ p {
 textarea {
   outline: none;
   resize: none;
+}
+
+input:not([type]),
+input[type=date],
+input[type=datetime-local],
+input[type=datetime],
+input[type=email],
+input[type=number],
+input[type=password],
+input[type=search],
+input[type=tel],
+input[type=text],
+input[type=time],
+input[type=url],
+textarea.materialize-textarea {
+	height: 1.2em;
+	margin: 0;
 }
 
 .ember-application > .ember-view {
