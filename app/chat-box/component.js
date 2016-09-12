@@ -2,11 +2,13 @@ import Ember from 'ember';
 import ENV from 'action-chat-client/config/environment';
 
 const {
+  Component,
   run,
   isEmpty
 } = Ember;
 
-export default Ember.Component.extend({
+export default Component.extend({
+  classNames: ['c-chat-box'],
 
   comment: '',
   inputElement: null,

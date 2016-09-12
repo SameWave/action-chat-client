@@ -24,3 +24,8 @@ p {
 	flex-direction: column;
 	height: 100vh;
 }
+
+textarea {
+  outline: none;
+  resize: none;
+}
