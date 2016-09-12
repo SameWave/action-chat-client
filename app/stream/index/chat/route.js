@@ -8,11 +8,17 @@ const {
 
 export default Route.extend(AuthenticatedRouteMixin, {
 
-  model() {
-    // TODO: Confirm that this comment lookup works for all scenarios
+  model(params) {
+
     let stream = this.modelFor('stream.index');
+
     return this.store.query('comment', {
-      stream_id: stream.get('id')
+      page: {
+        number: params.page,
+        size: params.size
+      },
+      stream_id: stream.get('id'),
+
     });
   },
 
@@ -24,5 +30,14 @@ export default Route.extend(AuthenticatedRouteMixin, {
       stream: stream,
       comments: model
     });
+  },
+
+  queryParams: {
+    page: {
+      refreshModel: true
+    },
+    size: {
+      refreshModel: true
+    }
   }
 });
