@@ -41,7 +41,10 @@ Make use of the many generators for code, try `ember help generate` for more det
 
 ### Deploying
 
-Specify what it takes to deploy your app.
+#### Android
+
+Run $ ember cordova:build --environment=production --platform=android.
+Upload apk found in ./ember-cordova/cordova/platforms/android/build/outputs/apk/android-debug.apk to hockeyapp
 
 ## Further Reading / Useful Links
 
@@ -51,3 +54,59 @@ Specify what it takes to deploy your app.
   * [ember inspector for chrome](https://chrome.google.com/webstore/detail/ember-inspector/bmdblncegkenkacieihfhpjfppoconhi)
   * [ember inspector for firefox](https://addons.mozilla.org/en-US/firefox/addon/ember-inspector/)
 
+### CSS
+
+[Styleguide](http://cssguidelin.es/)
+
+#### Folder layout
+
+```
+sass/
+|
+|– abstracts/
+|   |– _variables.scss    # Sass Variables
+|   |– _functions.scss    # Sass Functions
+|   |– _mixins.scss       # Sass Mixins
+|   |– _placeholders.scss # Sass Placeholders
+|   |– _utitilies.scss    # Sass Utilities
+|
+|– base/
+|   |– _reset.scss        # Reset/normalize
+|   |– _typography.scss   # Typography rules and imports
+|   …                     # Etc.
+|
+|– components/
+|   |– _buttons.scss      # Buttons
+|   |– _chat-box.scss     # Chat box
+|   |– _keyboard.scss     # force push for native IOS keyboard
+|   |– _message.scss      # Chat messages
+|   |– _notice.scss      	# stream notice
+|   …                     # Etc.
+|
+|– layout/
+|   |– _navigation.scss   # Navigation
+|   |– _header.scss       # Header
+|   |– _footer.scss       # Footer
+|   |– _sidebar.scss      # Sidebar
+|   |– _body.scss         # Sidebar
+|   …                     # Etc.
+|
+|– objects/
+|   |– ribbon.scss        # ribbon in stream page
+|   …                     # Etc.
+|
+|– pages/
+|   |– stream.scss        # stream specific styles
+|   …                     # Etc.
+|
+|– themes/
+|   |– _theme.scss        # Default theme
+|   |– _admin.scss        # Admin theme
+|   …                     # Etc.
+|
+|– vendors/
+|   |– _materialize.scss    # Materialize
+|   …                     # Etc.
+|
+`– app.scss              # Imports all scss files
+```

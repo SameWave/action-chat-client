@@ -31,4 +31,5 @@
     <engine name="ios" spec="~4.2.1" />
     <plugin name="cordova-plugin-vibration" spec="~2.1.1" />
     <plugin name="ionic-plugin-keyboard" spec="~2.2.1" />
+    <engine name="android" spec="~5.2.2" />
 </widget>

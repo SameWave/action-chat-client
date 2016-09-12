@@ -1,0 +1,40 @@
+.message {
+	display: flex;
+	align-content: center;
+	height: auto;
+	min-height: 32px;
+	margin-bottom: 10px;
+
+	&_author {
+		flex: 0 0 auto;
+		align-self: flex-start;
+		margin: 5px 5px 0 0;
+		p {
+			line-height: 1.2rem;
+		}
+	}
+
+	&_body {
+		flex: 1 1 32px;
+    align-self: flex-start;
+		margin: 5px 5px 5px 0;
+
+		p {
+			line-height: 1.2rem;
+			word-break: break-word;
+		}
+	}
+
+	&_option {
+		flex: 0 0 44px;
+    align-self: flex-start;
+		margin: 5px 5px 5px 0px;
+		border-radius: 2px;
+		text-align: center;
+		color: map-get($shades, "white");
+
+		&:last-child {
+			margin-right: 0;
+		}
+	}
+}

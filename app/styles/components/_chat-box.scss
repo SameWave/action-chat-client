@@ -1,0 +1,20 @@
+.c-chat-box {
+	display: flex;
+	flex-direction: row;
+  align-items: flex-end;
+
+  &_input {
+		flex: 1 0 20px;
+		position: relative;
+		z-index: $z-chat-box;
+		max-height: 110px;
+		padding: 5px;
+		margin-right: 10px;
+  }
+
+	&_btn-send {
+		flex: 0 0 100px;
+		font-size: 14px;
+	}
+}
+
