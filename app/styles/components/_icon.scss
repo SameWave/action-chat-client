@@ -1,7 +1,17 @@
 .c-icon {
 	&--back {
-		width: 10px;
-		height: 10px;
+	  display: inline-block;
+		width: 21px;
+		height: 21px;
 		fill: map-get($shades, 'white');
+	  vertical-align: middle;
+	}
+
+	&--logout {
+		display: inline-block;
+		width: 21px;
+		height: 21px;
+		fill: map-get($shades, 'white');
+		vertical-align: middle;
 	}
 }

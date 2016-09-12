@@ -14,14 +14,18 @@
 
 	&--app {
 		@extend .section-header;
+		justify-content: space-between;
+		align-items: center;
 		display: flex;
 		padding: 10px 10px 0;
 		color: map-get($shades, 'white');
 		height: 50px;
+		padding-top: 0;
 	}
 
 	&_first-section {
-		flex: 0 0 40px;
+		flex: 0 0 72px;
+		text-align: left;
 	}
 
 	&_second-section {
@@ -29,7 +33,8 @@
 	}
 
 	&_last-section {
-		flex: 0 0 40px;
+		flex: 0 0 72px;
+		text-align: right;
 	}
 
 	&_title {

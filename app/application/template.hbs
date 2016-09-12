@@ -1,6 +1,8 @@
 {{#if session.isAuthenticated}}
   <header class="pink || section-header--app">
-    <div class="section-header_first-section"></div>
+    <div class="section-header_first-section">
+      {{inline-svg "images/icons/icon-back" class="c-icon--back"}}
+    </div>
 
     {{#if session.person.name}}
       <div class="section-header_second-section">
@@ -14,10 +16,8 @@
       </div>
     {{/if}}
 
-    <div class="section-header_last-section">
-      <button class="btn btn--small" {{action (action 'logout' target=session)}}>
-        Logout
-      </button>
+    <div class="section-header_last-section" {{action (action 'logout' target=session)}}>
+      {{inline-svg "images/icons/icon-logout" class="c-icon--logout"}}
     </div>
   </header>
 
