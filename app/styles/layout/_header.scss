@@ -11,6 +11,34 @@
 		color: map-get($shades, 'white');
 		text-align: center;
 	}
+
+	&--app {
+		@extend .section-header;
+		display: flex;
+		padding: 10px 10px 0;
+		color: map-get($shades, 'white');
+		height: 50px;
+	}
+
+	&_first-section {
+		flex: 0 0 40px;
+	}
+
+	&_second-section {
+		flex: 1 1 auto;
+	}
+
+	&_last-section {
+		flex: 0 0 40px;
+	}
+
+	&_title {
+		font-size: 16px;
+	}
+
+	&_subtitle {
+		font-size: 14px;	
+	}
 }
 
 .stream-header {

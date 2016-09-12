@@ -1,20 +1,27 @@
 {{#if session.isAuthenticated}}
-
-  <header class="pink z-depth-1 || section-header">
-
-    <div class="btn" {{action (action 'logout' target=session)}}>
-      Logout
-    </div>
+  <header class="pink || section-header--app">
+    <div class="section-header_first-section"></div>
 
     {{#if session.person.name}}
-      <div class="white">
-        Logged in as {{session.person.name}}
+      <div class="section-header_second-section">
+        <h1 class="section-header_title">
+          Stream name
+        </h1>
+
+        <h2 class="section-header_subtitle">
+          Logged in as {{session.person.name}}
+        </h2>
       </div>
     {{/if}}
+
+    <div class="section-header_last-section">
+      <button class="btn btn--small" {{action (action 'logout' target=session)}}>
+        Logout
+      </button>
+    </div>
   </header>
 
-  <header id="header-destination" class="pink z-depth-1 || stream-header"></header>
-
+  <section id="header-destination" class="pink z-depth-1 || stream-header"></section>
 {{/if}}
 
 {{outlet}}
