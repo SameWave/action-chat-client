@@ -1,7 +1,8 @@
 .section-body {
-	flex: 1 1 auto;
-	position: relative;
-	width: 100%;
-	overflow-x: hidden;
-	overflow-y: scroll;
+  flex: 1 1 auto;
+  position: relative;
+  z-index: $z-body;
+  width: 100%;
+  overflow-x: hidden;
+  overflow-y: scroll;
 }

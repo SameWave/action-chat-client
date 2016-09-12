@@ -1,7 +1,9 @@
 .section-header {
 	flex: 0 0 auto;
+	z-index: $z-header;
 	width: 100%;
 	text-align: center;
+	position: relative;
 }
 
 .stream-header {

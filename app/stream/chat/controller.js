@@ -36,7 +36,7 @@ export default Controller.extend({
 
     run.schedule('afterRender', this, function() {
       this.commentsElement = $('.section-body');
-      this.keyboardElement = $('.keyboard');
+      this.chatBox = $('.stream-chat-footer');
       this.scrollToBottom();
 
       if (window.Keyboard) {
@@ -64,11 +64,17 @@ export default Controller.extend({
   showKeyboard(height) {
     let scrollHeight = this.commentsElement.get(0).scrollHeight; // TODO: Use object destructing
 
-    this.keyboardElement.css({
-      'height': `${height}px`
+    this.commentsElement.css({
+      'transform': `translateY(-${height}px)`,
+      '-webkit-transform': `translateY(-${height}px)`
     });
 
-    // NOTE: We need a run later so that scrollTop is only set after keyboard shows
+    this.chatBox.css({
+      'transform': `translateY(-${height}px)`,
+      '-webkit-transform': `translateY(-${height}px)`
+    });
+
+    // We need a run later so that scrollTop is only set after keyboard shows
     run.later(this, () => {
       this.commentsElement.scrollTop(scrollHeight + height);
 
@@ -79,8 +85,14 @@ export default Controller.extend({
   },
 
   hideKeyboard() {
-    this.keyboardElement.css({
-      'height': 0
+    this.commentsElement.css({
+      'transform': `translateY(-0px)`,
+      '-webkit-transform': `translateY(-0px)`,
+    });
+
+    this.chatBox.css({
+      'transform': `translateY(0px)`,
+      '-webkit-transform': `translateY(0px)`
     });
   },
 
@@ -95,8 +107,8 @@ export default Controller.extend({
   }),
 
   subscribeComments() {
-    let consumer = this.get('cable').createConsumer(ENV.SOCKET);
-    let subscription = consumer.subscriptions.create('CommentsChannel', {
+    var consumer = this.get('cable').createConsumer(ENV.socket);
+    var subscription = consumer.subscriptions.create("CommentsChannel", {
       received: (data) => {
         let comment = this.store.peekRecord('comment', data.comment.id);
         if (isEmpty(comment)) {
@@ -123,7 +135,7 @@ export default Controller.extend({
   },
 
   subscribeStreams() {
-    let consumer = this.get('cable').createConsumer(ENV.SOCKET);
+    let consumer = this.get('cable').createConsumer(ENV.socket);
     let subscription = consumer.subscriptions.create('StreamsChannel', {
       received: (data) => {
         let person = this.get('people').findBy('id', data.member.person_id);
@@ -148,7 +160,7 @@ export default Controller.extend({
       case 2:
         return `${people.objectAt(0)} and ${people.objectAt(1)} are typing...`;
       case 3:
-        return `${people.objectAt(0)}, ${people.objectAt(1)} and 1 other are typing...`;
+      return `${people.objectAt(0)}, ${people.objectAt(1)} and 1 other are typing...`;
       default:
         return `${people.objectAt(0)}, ${people.objectAt(1)} and ${(people.get('length') - 2)} others are typing...`;
     }

@@ -11,6 +11,7 @@ const AppRouter = Router.extend({
 });
 
 AppRouter.map(function() {
+  this.route('login');
   this.route('stream', function() {
     this.route('scoreboard');
     this.route('chat');

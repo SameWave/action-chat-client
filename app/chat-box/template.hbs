@@ -1,13 +1,14 @@
-{{textarea
-  classNames="white || chat-input"
+{{auto-resize-textarea
+  classNames="white || c-chat-box_input"
   id="chat-area"
   key-down="doKeyDown"
   key-up="doKeyUp"
   focus-in="doFocusIn"
   focus-out="doFocusOut"
   value=comment
+  rows=1
 }}
 
-<button class="btn btn-chat-send" {{action (action 'doComment')}}>
+<button class="btn || c-chat-box_btn-send" {{action (action 'doComment')}}>
   Send
 </button>
