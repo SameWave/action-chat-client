@@ -5,4 +5,14 @@
   width: 100%;
   overflow-x: hidden;
   overflow-y: scroll;
+
+  &--login {
+    @extend .section-body;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    padding: 0 0 10px;
+  	text-align: center;
+    cursor: pointer;
+  }
 }

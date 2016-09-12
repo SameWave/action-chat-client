@@ -1,0 +1,16 @@
+.c-input-field {
+	width: 100%;
+
+	&_label {
+		text-align: left;
+		float: left;
+		clear:right;
+	}
+
+	&_input,
+	input[type=text].c-input-field_input {
+		margin: 0;
+		height: 2em;
+		line-height: 2em;
+	}
+}
