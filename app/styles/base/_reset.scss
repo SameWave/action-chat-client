@@ -19,13 +19,17 @@ p {
 	margin: 0;
 }
 
+textarea {
+  outline: none;
+  resize: none;
+}
+
 .ember-application > .ember-view {
 	display: flex;
 	flex-direction: column;
 	height: 100vh;
 }
 
-textarea {
-  outline: none;
-  resize: none;
+::-webkit-scrollbar { 
+  display: none; 
 }

@@ -1,42 +1,12 @@
-<header class="pink z-depth-1 || stream-header">
-	<div class="shades white-text || user-info">Currently 'logged in' as {{user.name}}</div>
+<header id="header-destination" class="pink z-depth-1 || stream-header"></header>
 
-	<div class="person-switch-control">
-	  <p class="shades white-text">Switch to</p>
+<nav class="c-tabs">
+  {{#link-to 'stream.chat' classNames="c-tabs_item chat"}}Chat{{/link-to}}
+  {{#link-to 'stream.scoreboard' classNames="c-tabs_item scoreboard"}}Scoreboard{{/link-to}}
+</nav>
 
-	  {{#each people as |person|}}
-	    <button class="btn || btn-switch-user btn--small" {{action (action "doLogin" person)}}>{{person.name}}</button>
-	  {{/each}}
-	</div>
+{{liquid-outlet class="grey lighten-4 || section-body"}}
 
-	<button {{action "loadEarlier"}} class="btn amber || btn-load-earler btn--small">Load earlier</button>
-
-  {{#if isNoticeVisible}}
-    <div class="notice z-depth-2">
-      <p>{{typingNotice}}</p>
-      {{#if isLoadingEarlier}}
-        <p>loading...</p>
-      {{/if}}
-    </div>
-  {{/if}}
-
-</header>
-
-<section class="grey lighten-4 || section-body">
-  {{comments-section
-    comments=comments
-    typers=typers
-    updateComment=(action "updateComment")
-    deleteComment=(action "deleteComment")
-  }}
-</section>
-
-<footer class="pink || stream-chat-footer">
-  {{chat-box
-    doComment=(action "createComment")
-    doTyping=(action "doTyping")
-    isKeyboardOpen=isKeyboardOpen
-  }}
-</footer>
+<footer id="footer-destination" class="pink || stream-chat-footer"></footer>
 
 <div class="app-background"></div>

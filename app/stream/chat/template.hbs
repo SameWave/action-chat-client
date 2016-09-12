@@ -1,0 +1,45 @@
+{{#ember-wormhole to="header-destination"}}
+	<div class="shades white-text || user-info">Currently 'logged in' as {{user.name}}</div>
+
+	<div class="person-switch-control">
+	  <p class="shades white-text">Switch to</p>
+
+	  {{#each people as |person|}}
+	    <button class="btn || btn-switch-user btn--small" {{action (action "doLogin" person)}}>{{person.name}}</button>
+	  {{/each}}
+	</div>
+
+	<button {{action "loadEarlier"}} class="btn amber || btn-load-earler btn--small">Load earlier</button>
+
+  {{#if isNoticeVisible}}
+    <div class="notice z-depth-2">
+      <p>{{typingNotice}}</p>
+      {{#if isLoadingEarlier}}
+        <p>loading...</p>
+      {{/if}}
+    </div>
+  {{/if}}
+{{/ember-wormhole}}
+
+{{!-- BODY --}}
+<div>
+  {{comments-section
+    classNames="list"
+    comments=comments
+    typers=typers
+    updateComment=(action "updateComment")
+    deleteComment=(action "deleteComment")
+  }}
+</div>
+{{!-- END OF BODY --}}
+
+{{#ember-wormhole to="footer-destination"}}
+  {{chat-box
+    doComment=(action "createComment")
+    doTyping=(action "doTyping")
+    isKeyboardOpen=isKeyboardOpen
+    classNames="chat-box"
+  }}
+  <div class="keyboard pink the-force"></div>
+{{/ember-wormhole}}
+

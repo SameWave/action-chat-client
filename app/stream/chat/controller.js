@@ -2,20 +2,22 @@ import Ember from 'ember';
 import ENV from 'action-chat-client/config/environment';
 
 const {
+  Controller,
+  $,
+  observer,
   inject: {
     service
   },
   on,
   run,
   computed,
-  isEmpty,
-  $
+  isEmpty
 } = Ember;
 
 const NUDGE_OFFSET_PX = 60; // Pixels for determining nudge vs scroll for new comment
 const NUDGE_PX = 24; // Pixels for distance to nudge
 
-export default Ember.Controller.extend({
+export default Controller.extend({
 
   cable: service(),
 
@@ -60,16 +62,17 @@ export default Ember.Controller.extend({
   },
 
   showKeyboard(height) {
-    let scrollHeight = this.commentsElement.get(0).scrollHeight;
+    let scrollHeight = this.commentsElement.get(0).scrollHeight; // TODO: Use object destructing
 
     this.commentsElement.css({
       'transform': `translateY(-${height}px)`,
+      '-webkit-transform': `translateY(-${height}px)`
     });
 
     this.chatBox.css({
-      'transform': `translateY(-${height}px)`
+      'transform': `translateY(-${height}px)`,
+      '-webkit-transform': `translateY(-${height}px)`
     });
-
 
     // We need a run later so that scrollTop is only set after keyboard shows
     run.later(this, () => {
@@ -83,16 +86,18 @@ export default Ember.Controller.extend({
 
   hideKeyboard() {
     this.commentsElement.css({
-      'transform': `translateY(-0px)`
+      'transform': `translateY(-0px)`,
+      '-webkit-transform': `translateY(-0px)`,
     });
 
     this.chatBox.css({
+      'transform': `translateY(0px)`,
       '-webkit-transform': `translateY(0px)`
     });
   },
 
   // For development only
-  isKeyboardDidChange: Ember.observer('isKeyboardOpen', function() {
+  isKeyboardDidChange: observer('isKeyboardOpen', function() {
     if (this.get('isKeyboardOpen')) {
       let height = 216; // iPhone 5 keyboard height
       this.showKeyboard(height);
@@ -130,8 +135,8 @@ export default Ember.Controller.extend({
   },
 
   subscribeStreams() {
-    var consumer = this.get('cable').createConsumer(ENV.socket);
-    var subscription = consumer.subscriptions.create("StreamsChannel", {
+    let consumer = this.get('cable').createConsumer(ENV.socket);
+    let subscription = consumer.subscriptions.create('StreamsChannel', {
       received: (data) => {
         let person = this.get('people').findBy('id', data.member.person_id);
         if (person.get('id') !== this.get('user.id')) {
@@ -151,13 +156,13 @@ export default Ember.Controller.extend({
       case 0:
         return '';
       case 1:
-        return people.objectAt(0) + ' is typing ...';
+        return `${people.objectAt(0)} is typing ...`;
       case 2:
-        return people.objectAt(0) + ' and ' + people.objectAt(1) + ' are typing...';
+        return `${people.objectAt(0)} and ${people.objectAt(1)} are typing...`;
       case 3:
-        return people.objectAt(0) + ', ' + people.objectAt(1) + ' and 1 other are typing...';
+      return `${people.objectAt(0)}, ${people.objectAt(1)} and 1 other are typing...`;
       default:
-        return people.objectAt(0) + ', ' + people.objectAt(1) + ' and ' + (people.get('length') - 2) + ' others are typing...';
+        return `${people.objectAt(0)}, ${people.objectAt(1)} and ${(people.get('length') - 2)} others are typing...`;
     }
   }),
 
@@ -209,7 +214,7 @@ export default Ember.Controller.extend({
 
   bottomOffset() {
     let sectionHeight = this.commentsElement.height() + 20; // TODO: 20 for margin?
-    let scrollHeight = this.commentsElement.get(0).scrollHeight;
+    let scrollHeight = this.commentsElement.get(0).scrollHeight; // TODO: Use object destructing
     let scrollTop = this.commentsElement.scrollTop();
 
     // NOTE: (total scroll height) - (height of section + 20 for margin) - (scrolled distance)
@@ -235,7 +240,7 @@ export default Ember.Controller.extend({
       let newId = 1 + parseInt(this.get('comments').mapBy('id').get('lastObject'));
 
       let comment = this.store.createRecord('comment', {
-        body: body,
+        body,
         person: this.get('user'),
         id: newId
       });
