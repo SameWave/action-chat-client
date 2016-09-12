@@ -160,7 +160,7 @@ export default Controller.extend({
       case 2:
         return `${people.objectAt(0)} and ${people.objectAt(1)} are typing...`;
       case 3:
-      return `${people.objectAt(0)}, ${people.objectAt(1)} and 1 other are typing...`;
+        return `${people.objectAt(0)}, ${people.objectAt(1)} and 1 other are typing...`;
       default:
         return `${people.objectAt(0)}, ${people.objectAt(1)} and ${(people.get('length') - 2)} others are typing...`;
     }
@@ -285,8 +285,13 @@ export default Controller.extend({
       let initialTop = this.commentsElement.scrollTop();
 
       this.store.query('comment', {
+        stream_id: this.get('stream.id'),
         offset: this.get('comments.length')
-      }).then(() => {
+      }).then((comments) => {
+        console.log('then in loadEarlier');
+
+        this.get('comments').pushObjects(comments);
+
         run.next(this, function() {
           let newHeight = this.commentsElement.get(0).scrollHeight;
           let newTop = newHeight - initialHeight + initialTop;
