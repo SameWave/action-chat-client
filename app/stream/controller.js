@@ -102,7 +102,7 @@ export default Ember.Controller.extend({
   }),
 
   subscribeComments() {
-    var consumer = this.get('cable').createConsumer(ENV.SOCKET);
+    var consumer = this.get('cable').createConsumer(ENV.socket);
     var subscription = consumer.subscriptions.create("CommentsChannel", {
       received: (data) => {
         let comment = this.store.peekRecord('comment', data.comment.id);
@@ -130,7 +130,7 @@ export default Ember.Controller.extend({
   },
 
   subscribeStreams() {
-    var consumer = this.get('cable').createConsumer(ENV.SOCKET);
+    var consumer = this.get('cable').createConsumer(ENV.socket);
     var subscription = consumer.subscriptions.create("StreamsChannel", {
       received: (data) => {
         let person = this.get('people').findBy('id', data.member.person_id);
