@@ -24,3 +24,7 @@ p {
 	flex-direction: column;
 	height: 100vh;
 }
+
+::-webkit-scrollbar { 
+  display: none; 
+}

@@ -1,4 +1,4 @@
-<header class="pink z-depth-1 || stream-header">
+{{#ember-wormhole to="header-destination"}}
 	<div class="shades white-text || user-info">Currently 'logged in' as {{user.name}}</div>
 
 	<div class="person-switch-control">
@@ -19,25 +19,27 @@
       {{/if}}
     </div>
   {{/if}}
+{{/ember-wormhole}}
 
-</header>
-
-<section class="grey lighten-4 || section-body">
+{{!-- BODY --}}
+<div>
   {{comments-section
+    classNames="list"
     comments=comments
     typers=typers
     updateComment=(action "updateComment")
     deleteComment=(action "deleteComment")
   }}
-</section>
+</div>
+{{!-- END OF BODY --}}
 
-<footer class="pink || stream-chat-footer">
+{{#ember-wormhole to="footer-destination"}}
   {{chat-box
     doComment=(action "createComment")
     doTyping=(action "doTyping")
     isKeyboardOpen=isKeyboardOpen
     classNames="chat-box"
   }}
-</footer>
+  <div class="keyboard pink the-force"></div>
+{{/ember-wormhole}}
 
-<div class="keyboard pink the-force"></div>
