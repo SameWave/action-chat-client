@@ -26,8 +26,7 @@ export default Route.extend(AuthenticatedRouteMixin, {
 
     controller.setProperties({
       comments: model,
-      stream: this.modelFor('stream.index'),
-      people: this.store.peekAll('person')
+      stream: this.modelFor('stream.index')
     });
   },
 

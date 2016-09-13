@@ -33,8 +33,10 @@ export default Controller.extend({
   size: PAGE_SIZE,
 
   user: alias('session.person'),
+
+  stream: null,
+  members: alias('stream.members'),
   comments: [],
-  people: [],
 
   commentsElement: null,
   commentsSubscription: null,
@@ -150,9 +152,9 @@ export default Controller.extend({
     let consumer = this.get('cable').createConsumer(ENV.socket);
     let subscription = consumer.subscriptions.create('StreamsChannel', {
       received: (data) => {
-        let person = this.get('people').findBy('id', data.member.person_id);
-        if (person.get('id') !== this.get('user.id')) {
-          person.setTypingAt(new Date(data.member.typing_at));
+        let member = this.get('members').findBy('person.id', data.member.person_id);
+        if (member.get('person.id') !== this.get('user.id')) {
+          member.setTypingAt(new Date(data.member.typing_at));
         }
       }
     });
@@ -160,21 +162,21 @@ export default Controller.extend({
     this.set('streamsSubscription', subscription);
   },
 
-  typers: computed.filterBy('people', 'isTyping'),
+  typers: computed.filterBy('members', 'isTyping'),
 
   typingNotice: computed('typers.[]', function() {
-    let people = this.get('typers').mapBy('name');
-    switch (people.get('length')) {
+    let names = this.get('typers').mapBy('person.name');
+    switch (names.get('length')) {
       case 0:
         return '';
       case 1:
-        return `${people.objectAt(0)} is typing ...`;
+        return `${names.objectAt(0)} is typing ...`;
       case 2:
-        return `${people.objectAt(0)} and ${people.objectAt(1)} are typing...`;
+        return `${names.objectAt(0)} and ${names.objectAt(1)} are typing...`;
       case 3:
-        return `${people.objectAt(0)}, ${people.objectAt(1)} and 1 other are typing...`;
+        return `${names.objectAt(0)}, ${names.objectAt(1)} and 1 other are typing...`;
       default:
-        return `${people.objectAt(0)}, ${people.objectAt(1)} and ${(people.get('length') - 2)} others are typing...`;
+        return `${names.objectAt(0)}, ${names.objectAt(1)} and ${(names.get('length') - 2)} others are typing...`;
     }
   }),
 
@@ -182,12 +184,13 @@ export default Controller.extend({
     return this.get('isLoadingEarlier') || this.get('typingNotice.length');
   }),
 
-  peopleNames: computed('people.[]', function() {
-    return this.get('people').mapBy('name').compact().join(', ');
+  memberNames: computed('members.[]', function() {
+    console.log(this.get('members'));
+    return this.get('members').mapBy('person.name').compact().join(', ');
   }),
 
-  headerContent: computed('typingNotice', 'peopleNames', function() {
-    return this.get('typingNotice') || this.get('peopleNames');
+  headerContent: computed('typingNotice', 'memberNames', function() {
+    return this.get('typingNotice') || this.get('memberNames');
   }),
 
   pushComment(data) {
