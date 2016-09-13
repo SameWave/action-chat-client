@@ -1,9 +1,28 @@
+{{#ember-wormhole to="header-destination"}}
+  <header class="pink || section-header--app">
+
+    {{#if session.person.name}}
+      <div class="section-header_second-section">
+        <h1 class="section-header_title">
+        </h1>
+
+        <h2 class="section-header_subtitle">
+          Logged in as {{session.person.name}}
+        </h2>
+      </div>
+    {{/if}}
+
+    <div class="section-header_last-section" {{action (action 'logout' target=session)}}>
+      {{inline-svg "images/icons/icon-logout" class="c-icon--logout"}}
+    </div>
+  </header>
+{{/ember-wormhole}}
+
 <section class="section-body--streams">
 	{{#each streams as |stream|}}
 	  <div class="c-media-block--stream" {{action (action 'gotoStreamChat' stream)}}>
 	  	<div class="c-media-block_first-section">
 	  		<div class="c-avatar">
-		  		<img src="http://placehold.it/150x150" class="c-avatar_img">
 	  		</div>
 	  	</div>
 
