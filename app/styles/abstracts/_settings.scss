@@ -8,7 +8,14 @@ $z-header: 500;
 $z-body: 100;
 $z-footer: 300;
 $ground-floor: 0;
-$middle-floor: 500;
+$z-middle-floor: 500;
 $z-ceiling: 1000;
 $z-top-floor: 900;
 $z-chat-box: 250;
+
+// Transition speeds
+$speed-base: 500ms;
+$speed-fast: $speed-base / 2;
+$speed-normal: $speed-base;
+$speed-slow: $speed-base * 2;
+$speed-very-slow: $speed-base * 3;

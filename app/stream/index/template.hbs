@@ -1,10 +1,13 @@
 <nav class="c-tabs">
   {{#link-to 'stream.index.chat' classNames="c-tabs_item chat"}}
-    Chat
+  	{{inline-svg 'images/icons/icon-stream' class="c-tabs_icon"}}
   {{/link-to}}
+
   {{#link-to 'stream.index.scoreboard' classNames="c-tabs_item scoreboard"}}
-    Scoreboard
+	  {{inline-svg 'images/icons/icon-scoreboard' class="c-tabs_icon"}}
   {{/link-to}}
+  
+	<div class="c-tabs_line"></div>
 </nav>
 
 {{liquid-outlet class="grey lighten-4 || section-body"}}

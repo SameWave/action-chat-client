@@ -1,10 +1,47 @@
 .c-tabs {
-	flex: 0 0 25px;
+	@extend .z-depth-2;
+	flex: 0 0 24px;
 	display: flex;
+	position: relative;
   align-items: center;
 	text-align: center;
+	border-top: 1px solid map-get($blue, 'lighten-4');
 
 	&_item {
 		flex: 1 0 auto;
+		height: 100%;
+	}
+
+	&_icon {
+    display: inline-block;
+		width: 20px;
+		height: 20px;
+    vertical-align: middle;
+		fill: map-get($blue, 'lighten-4');
+		transition: fill $speed-normal;
+
+		@at-root .c-tabs_item.active .c-tabs_icon {
+			fill: map-get($blue, 'base');
+		}
+	}
+
+	$number-of-tabs: 2;
+
+	&_line {
+		position: absolute;
+		top: -1px;
+		left: 0;
+		width: calc(100% / #{$number-of-tabs});
+		height: 1px;
+		background: map-get($blue, 'base');
+		z-index: $z-middle-floor;
+		transition: transform $speed-fast ease-in-out;
+		transform: translateX(0%);
+
+		@for $i from 2 through $number-of-tabs {
+			@at-root .c-tabs .c-tabs_item:nth-child(#{$i}).active ~ .c-tabs_line {
+				transform: translateX(#{$i - 1}00%);
+			}
+		}
 	}
 }
