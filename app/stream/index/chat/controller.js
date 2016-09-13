@@ -287,8 +287,7 @@ export default Controller.extend({
     loadEarlier() {
       this.setProperties({
         isLoadingEarlier: true,
-        previousScrollHeight: this.commentsElement.get(0).scrollHeight,
-        previousTop: this.commentsElement.scrollTop()
+        previousTop: this.commentsElement.get(0).scrollHeight + this.commentsElement.scrollTop()
       });
 
       // This will trigger a model reload
@@ -296,20 +295,8 @@ export default Controller.extend({
     },
 
     doneLoadingEarlier() {
-
-      this.setProperties({
-        isLoadingEarlier: false,
-        previousScrollHeight: this.commentsElement.get(0).scrollHeight,
-        previousTop: this.commentsElement.scrollTop()
-      });
-
       run.next(this, function() {
-        let newHeight = this.commentsElement.get(0).scrollHeight;
-        let newTop = newHeight - this.get('previousScrollHeight') + this.get('previousTop');
-        this.commentsElement.scrollTop(newTop);
-        // this.commentsElement.animate({
-        //   scrollTop: newTop
-        // }, 250);
+        this.commentsElement.scrollTop(this.commentsElement.get(0).scrollHeight - this.get('previousTop'));
       });
 
       this.set('isLoadingEarlier', false);
