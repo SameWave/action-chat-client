@@ -16,7 +16,7 @@ const {
 
 const NUDGE_OFFSET_PX = 60; // Pixels for determining nudge vs scroll for new comment
 const NUDGE_PX = 24; // Pixels for distance to nudge
-const PAGE_SIZE = 10;
+const PAGE_SIZE = 5;
 
 export default Controller.extend({
 
@@ -285,35 +285,21 @@ export default Controller.extend({
     },
 
     loadEarlier() {
-      this.set('isLoadingEarlier', true);
+      this.setProperties({
+        isLoadingEarlier: true,
+        previousTop: this.commentsElement.get(0).scrollHeight + this.commentsElement.scrollTop()
+      });
 
-      let initialHeight = this.commentsElement.get(0).scrollHeight;
-      let initialTop = this.commentsElement.scrollTop();
-
+      // This will trigger a model reload
       this.set('size', this.get('size') + PAGE_SIZE);
+    },
+
+    doneLoadingEarlier() {
+      run.next(this, function() {
+        this.commentsElement.scrollTop(this.commentsElement.get(0).scrollHeight - this.get('previousTop'));
+      });
 
       this.set('isLoadingEarlier', false);
-
-      // this.store.query('comment', {
-      //   stream_id: this.get('stream.id'),
-      //   offset: this.get('comments.length')
-      // }).then((comments) => {
-      //   console.log('then in loadEarlier');
-
-      //   this.get('comments').pushObjects(comments);
-
-      //   run.next(this, function() {
-      //     let newHeight = this.commentsElement.get(0).scrollHeight;
-      //     let newTop = newHeight - initialHeight + initialTop;
-
-      //     this.commentsElement.animate({
-      //       scrollTop: newTop
-      //     }, 250);
-      //   });
-
-      //   this.set('isLoadingEarlier', false);
-      // });
-
     },
 
     doLogin(person) {

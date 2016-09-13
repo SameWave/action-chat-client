@@ -9,7 +9,6 @@ const {
 export default Route.extend(AuthenticatedRouteMixin, {
 
   model(params) {
-
     let stream = this.modelFor('stream.index');
 
     return this.store.query('comment', {
@@ -23,6 +22,9 @@ export default Route.extend(AuthenticatedRouteMixin, {
   },
 
   setupController(controller, model) {
+    if (controller.get('isLoadingEarlier')) {
+      controller.send('doneLoadingEarlier');
+    }
 
     let stream = this.modelFor('stream.index');
 
