@@ -5,13 +5,11 @@
       {{inline-svg "images/icons/icon-back" class="c-icon--back"}}
     </div>
 
-    {{#if session.person.name}}
-      <div class="section-header_second-section">
-        <h1 class="section-header_title">
-          Stream name
-        </h1>
-      </div>
-    {{/if}}
+    <div class="section-header_second-section">
+      <h1 class="section-header_title">
+        {{stream.title}}
+      </h1>
+    </div>
 
     <section id="header-content-destination"></section>
 
@@ -30,7 +28,7 @@
   {{#link-to 'stream.index.scoreboard' classNames="c-tabs_item scoreboard"}}
 	  {{inline-svg 'images/icons/icon-scoreboard' class="c-tabs_icon"}}
   {{/link-to}}
-  
+
 	<div class="c-tabs_line"></div>
 </nav>
 
