@@ -12,21 +12,21 @@ const AppRouter = Router.extend({
 
 AppRouter.map(function() {
   this.route('login');
-
+  this.route('freestyle');
   this.route('streams');
 
   this.route('stream', {
     path: 'streams'
   }, function() {
     this.route('index', {
-      path: ":stream_id"
+      path: ':stream_id'
     }, function() {
       this.route('chat');
       this.route('scoreboard');
+      this.route('loading');
     });
   });
 
-  this.route('freestyle');
   this.route('loading');
 });
 
