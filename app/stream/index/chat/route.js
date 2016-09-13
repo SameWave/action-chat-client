@@ -24,11 +24,10 @@ export default Route.extend(AuthenticatedRouteMixin, {
       controller.send('doneLoadingEarlier');
     }
 
-    let stream = this.modelFor('stream.index');
-
     controller.setProperties({
-      stream: stream,
-      comments: model
+      comments: model,
+      stream: this.modelFor('stream.index'),
+      people: this.store.peekAll('person')
     });
   },
 

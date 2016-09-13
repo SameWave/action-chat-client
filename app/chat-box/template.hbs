@@ -1,10 +1,10 @@
 {{auto-resize-textarea
   classNames="white || c-chat-box_input"
   id="chat-area"
-  key-down="doKeyDown"
-  key-up="doKeyUp"
-  focus-in="doFocusIn"
-  focus-out="doFocusOut"
+  onKeyDown=(action "doKeyDown")
+  onKeyUp=(action "doKeyUp")
+  onFocusIn=(action "doFocusIn")
+  onFocusOut=(action "doFocusOut")
   value=comment
   rows=1
 }}
