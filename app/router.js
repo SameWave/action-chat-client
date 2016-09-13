@@ -25,7 +25,8 @@ AppRouter.map(function() {
       this.route('scoreboard');
     });
   });
-
+  
+  this.route('freestyle');
 });
 
 export default AppRouter;
