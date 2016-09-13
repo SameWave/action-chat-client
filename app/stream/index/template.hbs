@@ -1,3 +1,28 @@
+{{#ember-wormhole to="header-destination"}}
+  <header class="pink || section-header--app">
+
+    <div class="section-header_first-section">
+      {{inline-svg "images/icons/icon-back" class="c-icon--back"}}
+    </div>
+
+    {{#if session.person.name}}
+      <div class="section-header_second-section">
+        <h1 class="section-header_title">
+          Stream name
+        </h1>
+
+        <h2 class="section-header_subtitle">
+          Logged in as {{session.person.name}}
+        </h2>
+      </div>
+    {{/if}}
+
+    <div class="section-header_last-section" {{action (action 'logout' target=session)}}>
+      {{inline-svg "images/icons/icon-logout" class="c-icon--logout"}}
+    </div>
+  </header>
+{{/ember-wormhole}}
+
 <nav class="c-tabs">
   {{#link-to 'stream.index.chat' classNames="c-tabs_item chat"}}
     Chat

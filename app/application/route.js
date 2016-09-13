@@ -13,6 +13,8 @@ export default Ember.Route.extend(ApplicationRouteMixin, {
     }).catch(() => this.get('session').send('logout'));
   },
 
+  invalidationSucceeded() {},
+
   _loadSessionPerson() {
     return this.get('session').loadPerson();
   }

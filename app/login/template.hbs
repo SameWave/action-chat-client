@@ -1,6 +1,8 @@
-<header class="pink z-depth-1 || section-header--login">
-	<h1>Samewave prototype</h1>
-</header>
+{{#ember-wormhole to="header-destination"}}
+	<header class="pink z-depth-1 || section-header--login" {{action (action 'doDevLogin')}}>
+		<h1>Samewave prototype</h1>
+	</header>
+{{/ember-wormhole}}
 
 <section class="section-body--login">
 	<form class="l-form" {{action 'doLogin' on='submit'}}>

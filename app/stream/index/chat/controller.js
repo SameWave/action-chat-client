@@ -20,6 +20,8 @@ const PAGE_SIZE = 5;
 
 export default Controller.extend({
 
+  session: service(),
+
   cable: service(),
 
   queryParams: ['page', 'size'],

@@ -4,6 +4,15 @@ export default Ember.Controller.extend({
   session: Ember.inject.service(),
 
   actions: {
+
+    doDevLogin() {
+      this.setProperties({
+        identification: 'graeme@samewave.com',
+        password: 'password'
+      });
+      this.send('doLogin');
+    },
+
     doLogin() {
       let credentials = this.getProperties('identification', 'password'),
         authenticator = 'authenticator:jwt';
