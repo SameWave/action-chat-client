@@ -8,7 +8,18 @@
 	}
 
 	&_input,
-	input[type=text].c-input-field_input {
+	input:not([type]).c-input-field_input,
+	input[type=date].c-input-field_input,
+	input[type=datetime-local].c-input-field_input,
+	input[type=datetime].c-input-field_input,
+	input[type=email].c-input-field_input,
+	input[type=number].c-input-field_input,
+	input[type=password].c-input-field_input,
+	input[type=search].c-input-field_input,
+	input[type=tel].c-input-field_input,
+	input[type=text].c-input-field_input,
+	input[type=time].c-input-field_input,
+	input[type=url].c-input-field_input {
 		margin: 0;
 		height: 2em;
 		line-height: 2em;
