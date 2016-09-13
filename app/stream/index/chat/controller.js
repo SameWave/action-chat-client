@@ -34,6 +34,10 @@ export default Controller.extend({
 
   user: alias('session.person'),
 
+  sessionMember: computed('user', 'members.[]', function() {
+    return this.get('members').findBy('person.id', this.get('user.id'));
+  }),
+
   stream: null,
   members: alias('stream.members'),
   comments: [],
@@ -152,8 +156,8 @@ export default Controller.extend({
     let consumer = this.get('cable').createConsumer(ENV.socket);
     let subscription = consumer.subscriptions.create('StreamsChannel', {
       received: (data) => {
-        let member = this.get('members').findBy('person.id', data.member.person_id);
-        if (member.get('person.id') !== this.get('user.id')) {
+        let member = this.get('members').findBy('id', data.member.id);
+        if (member.get('id') !== this.get('sessionMember.id')) {
           member.setTypingAt(new Date(data.member.typing_at));
         }
       }
@@ -322,7 +326,7 @@ export default Controller.extend({
       let typingAt = new Date();
       this.get('streamsSubscription').send({
         member: {
-          person_id: this.get('user.id'),
+          id: this.get('sessionMember.id'),
           typing_at: typingAt
         }
       });
