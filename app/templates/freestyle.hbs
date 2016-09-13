@@ -1,7 +1,15 @@
 {{#freestyle-guide
-  title='Ember Freestyle'
+  title='Samewave styleguide'
   subtitle='Living Style Guide'
   }}
+
+  {{#freestyle-section name="UI Elements"}}
+
+    {{#freestyle-usage "chat-box" title="Chat box"}}
+      {{chat-box classNames="chat-box"}}
+    {{/freestyle-usage}}
+
+  {{/freestyle-section}}
 
   {{#freestyle-section name='Visual Style' as |section|}}
 
@@ -19,10 +27,10 @@
 
     {{#freestyle-subsection name='Color' section=section}}
 
-      {{#freestyle-usage 'fp' title='Freestyle Palette' usageTitle='Usage'}}
+      {{#freestyle-usage 'fp' title='Samewave Palette' usageTitle='Usage'}}
         {{freestyle-palette
         colorPalette=colorPalette
-        title='Dummy App Color Palette'
+        title='Color Palette'
         description='This component displays the color palette specified in freestyle/palette.json'
         }}
       {{/freestyle-usage}}
