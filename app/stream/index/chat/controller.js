@@ -178,6 +178,14 @@ export default Controller.extend({
     return this.get('isLoadingEarlier') || this.get('typingNotice.length');
   }),
 
+  peopleNames: computed('people.[]', function() {
+    return this.get('people').mapBy('name');
+  }),
+
+  headerContent: computed('typingNotice', function() {
+    return this.get('typingNotice');
+  }),
+
   pushComment(data) {
     this.store.push({
       data: {

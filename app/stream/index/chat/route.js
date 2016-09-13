@@ -2,8 +2,7 @@ import Ember from 'ember';
 import AuthenticatedRouteMixin from 'ember-simple-auth/mixins/authenticated-route-mixin';
 
 const {
-  Route,
-  RSVP
+  Route
 } = Ember;
 
 export default Route.extend(AuthenticatedRouteMixin, {
@@ -17,7 +16,6 @@ export default Route.extend(AuthenticatedRouteMixin, {
         size: params.size
       },
       stream_id: stream.get('id'),
-
     });
   },
 
