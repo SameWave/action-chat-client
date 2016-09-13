@@ -10,14 +10,13 @@
         <h1 class="section-header_title">
           Stream name
         </h1>
-
-        <h2 class="section-header_subtitle">
-          Logged in as {{session.person.name}}
-        </h2>
       </div>
     {{/if}}
 
+    <section id="header-content-destination"></section>
+
     <div class="section-header_last-section" {{action (action 'logout' target=session)}}>
+      {{session.person.name}}
       {{inline-svg "images/icons/icon-logout" class="c-icon--logout"}}
     </div>
   </header>
