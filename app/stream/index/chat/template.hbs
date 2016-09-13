@@ -1,7 +1,5 @@
 {{#ember-wormhole to="header-destination"}}
 
-  <button {{action "loadEarlier"}} class="btn amber || btn-load-earler btn--small">Load earlier</button>
-
   {{#if isNoticeVisible}}
     <div class="notice z-depth-2">
       <p>{{typingNotice}}</p>
@@ -20,6 +18,7 @@
     typers=typers
     updateComment=(action "updateComment")
     deleteComment=(action "deleteComment")
+    loadEarlier=(action "loadEarlier")
   }}
 </div>
 {{!-- END OF BODY --}}
