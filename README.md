@@ -56,9 +56,14 @@ Upload apk found in ./ember-cordova/cordova/platforms/android/build/outputs/apk/
 
 ### CSS
 
-[Styleguide](http://cssguidelin.es/)
+#### Style guide
+
+We use a living style guide provided by [Ember Freestyle](http://ember-freestyle.com/). To view the style guide go to the freestyle route
+[http://localhost:4200/#/freestyle](http://localhost:4200/#/freestyle)
+
 
 #### Folder layout
+[Style guide](http://cssguidelin.es/)
 
 ```
 sass/
