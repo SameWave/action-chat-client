@@ -1,0 +1,7 @@
+.c-icon {
+	&--back {
+		width: 10px;
+		height: 10px;
+		fill: map-get($shades, 'white');
+	}
+}

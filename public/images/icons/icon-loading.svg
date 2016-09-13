@@ -1,0 +1,10 @@
+<svg version="1.1" class="icon-loading" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px"
+   viewBox="0 0 50 50" enable-background="new 0 0 50 50" xml:space="preserve">
+<g>
+  <g class="slice">
+    <path d="M3.1,25H0v-0.2C0,11.1,11.1,0,24.8,0H25v3.1h-0.2c-11.9,0-21.6,9.7-21.6,21.6V25z"/>
+  </g>
+  <path class="ring" d="M25.2,0H25v3.1h0.2c11.9,0,21.6,9.7,21.6,21.6V25v0.2c0,11.9-9.7,21.6-21.6,21.6H25h-0.2
+    c-11.9,0-21.6-9.7-21.6-21.6V25H0v0.2C0,38.9,11.1,50,24.8,50H25h0.2C38.9,50,50,38.9,50,25.2V25v-0.2C50,11.1,38.9,0,25.2,0z"/>
+</g>
+</svg>
