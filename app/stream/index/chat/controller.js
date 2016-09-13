@@ -100,13 +100,13 @@ export default Controller.extend({
 
   hideKeyboard() {
     this.commentsElement.css({
-      'transform': `translateY(-0px)`,
-      '-webkit-transform': `translateY(-0px)`,
+      'transform': 'translateY(-0px)',
+      '-webkit-transform': 'translateY(-0px)'
     });
 
     this.chatBox.css({
-      'transform': `translateY(0px)`,
-      '-webkit-transform': `translateY(0px)`
+      'transform': 'translateY(0px)',
+      '-webkit-transform': 'translateY(0px)'
     });
   },
 
@@ -121,8 +121,8 @@ export default Controller.extend({
   }),
 
   subscribeComments() {
-    var consumer = this.get('cable').createConsumer(ENV.socket);
-    var subscription = consumer.subscriptions.create("CommentsChannel", {
+    let consumer = this.get('cable').createConsumer(ENV.socket);
+    let subscription = consumer.subscriptions.create('CommentsChannel', {
       received: (data) => {
         let comment = this.store.peekRecord('comment', data.comment.id);
         if (isEmpty(comment)) {
@@ -185,7 +185,6 @@ export default Controller.extend({
   }),
 
   memberNames: computed('members.[]', function() {
-    console.log(this.get('members'));
     return this.get('members').mapBy('person.name').compact().join(', ');
   }),
 
