@@ -20,7 +20,6 @@
     @extend .l-app-body;
     flex-direction: column;
     justify-content: center;
-    background-color: map-get($grey, 'lighten-4');
   }
 
   &--stream {
@@ -30,6 +29,7 @@
     height: 100%;
     overflow-y: hidden;
     transition: transform $speed-fast;
+    background-color: map-get($grey, 'lighten-4');
 
     .liquid-child {
       display: flex;
