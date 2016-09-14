@@ -1,23 +1,26 @@
 {{#ember-wormhole to="header-destination"}}
-  <header class="pink || section-header--app">
-
-    <div class="section-header_first-section">
+  <div class="c-header">
+    <section class="c-header_first-section" {{action "gotoStreams"}}>
       {{inline-svg "images/icons/icon-back" class="c-icon--back"}}
-    </div>
+    </section>
 
-    <div class="section-header_second-section">
-      <h1 class="section-header_title">
+    <section class="c-header_second-section">
+      <h1 class="c-header_title">
         {{stream.title}}
       </h1>
-    </div>
 
-    <section id="header-content-destination"></section>
+      {{#liquid-spacer
+        growDuration=250
+        growWidth=false}}
+        <div id="header-content-destination" class="c-header_subtitle"></div>
+      {{/liquid-spacer}}
+    </section>
 
-    <div class="section-header_last-section" {{action (action 'logout' target=session)}}>
-      {{session.person.name}}
+    <section class="c-header_last-section" {{action (action 'logout' target=session)}}>
+      <p class="c-header_user-name">{{session.person.name}}</p>
       {{inline-svg "images/icons/icon-logout" class="c-icon--logout"}}
-    </div>
-  </header>
+    </section>
+  </div>
 {{/ember-wormhole}}
 
 <nav class="c-tabs">

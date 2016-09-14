@@ -1,0 +1,20 @@
+$fade-small: 10px;
+$fade-standard: 30px;
+$fade-large: 50px;
+
+@mixin fade($color: map-get($shades, 'white'), $width: $fade-standard, $height: 100%, $right: 0, $top: 0, $left: auto, $bottom: auto, $deg: 90deg, $opa1: 0, $opa2: 1) {
+  position: relative;
+
+  &::after {
+    content: '';
+    display: block;
+    position: absolute;
+    top: $top;
+    right: $right;
+    bottom: $bottom;
+    left: $left;
+    width: $width;
+    height: $height;
+    background-image: linear-gradient($deg, rgba($color, $opa1), rgba($color, $opa2));
+  }
+}

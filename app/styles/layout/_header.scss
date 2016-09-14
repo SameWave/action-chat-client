@@ -1,39 +1,60 @@
-.section-header {
+.l-app-header {
 	flex: 0 0 auto;
 	z-index: $z-header;
 	width: 100%;
-	text-align: center;
 	position: relative;
+	height: 65px;
 
-	&--login {
-		@extend .section-header;
-		padding: 20px 10px;
-		color: map-get($shades, 'white');
-		text-align: center;
-	}
+	// &--login {
+	// 	@extend .section-header;
+	// 	padding: 20px 10px;
+	// 	color: map-get($shades, 'white');
+	// 	text-align: center;
+	// }
 
-	&--app {
-		@extend .section-header;
-		justify-content: space-between;
-		align-items: center;
-		display: flex;
-		padding: 10px 10px 0;
-		color: map-get($shades, 'white');
-		height: 50px;
-		padding-top: 0;
+	// &--app {
+	// 	@extend .section-header;
+	// 	display: flex;
+	// 	justify-content: space-between;
+	// 	align-items: center;
+	// 	color: map-get($shades, 'white');
+	// }
+}
+
+.c-header {
+	display: flex;
+	justify-content: space-between;
+	align-items: center;
+	width: 100%;
+	height: 100%;
+	padding: 0 10px;
+	color: map-get($shades, 'white');
+	font-size: 10px;
+
+	// Modifiers
+
+	// Elements
+	%side-elements {
+		flex: 0 0 20%;
+		min-width: 72px;
 	}
 
 	&_first-section {
-		flex: 0 0 72px;
+		@extend %side-elements;
 		text-align: left;
 	}
 
 	&_second-section {
-		flex: 1 1 auto;
+		flex: 1 2 60%;
+		overflow: hidden;
+		text-align: center;
+		@include fade($color: map-get($pink, 'base'));
 	}
 
 	&_last-section {
-		flex: 0 0 72px;
+		@extend %side-elements;
+		display: flex;
+		margin-left: 5px;
 		text-align: right;
 	}
 
@@ -42,13 +63,16 @@
 	}
 
 	&_subtitle {
-		font-size: 14px;	
+		font-size: 12px;
 	}
-}
 
-.stream-header {
-	@extend .section-header;
-	position: relative;
-	font-size: 10px;
-	padding: 5px 0;
+	&_user-name {
+		flex: 1 1 auto;
+		margin-right: 5px;
+		font-size: 1rem;
+	}
+
+	&_logout {
+		flex: 1 1 auto;	
+	}
 }

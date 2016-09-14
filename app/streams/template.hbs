@@ -1,17 +1,18 @@
 {{#ember-wormhole to="header-destination"}}
-  <header class="pink || section-header--app">
-
-    <div class="section-header_second-section">
-      <h1 class="section-header_title">
+  <div class="c-header">
+  	<section class="c-header_first-section"></section>
+  	
+    <section class="c-header_second-section">
+      <h1 class="c-header_title">
         Streams
       </h1>
-    </div>
+    </section>
 
-    <div class="section-header_last-section" {{action (action 'logout' target=session)}}>
+    <section class="c-header_last-section" {{action (action 'logout' target=session)}}>
       {{session.person.name}}
       {{inline-svg "images/icons/icon-logout" class="c-icon--logout"}}
-    </div>
-  </header>
+    </section>
+  </div>
 {{/ember-wormhole}}
 
 <section class="section-body--streams">
