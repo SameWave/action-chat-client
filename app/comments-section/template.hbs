@@ -1,6 +1,6 @@
 <button {{action (action loadEarlier)}} class="btn amber || btn-load-earler btn--small">Load earlier</button>
 
-{{sessionMember.lastReadAt}}
+{{!-- {{sessionMember.lastReadAt}} --}}
 
 <div {{action (action 'doTap')}}>
   {{#each sortedComments as |comment|}}
@@ -13,6 +13,6 @@
   {{/each}}
 </div>
 
-<div class="new-message">
+{{!-- <div class="new-message">
   <div class="new-message_label">new messages</div>
-</div>
+</div> --}}
