@@ -49,7 +49,7 @@ export default Controller.extend({
     this.subscribeStreams();
 
     run.schedule('afterRender', this, function() {
-      this.commentsElement = $('.list');
+      this.commentsElement = $('.js-comments-section');
       this.chatBox = $('.js-chat-box');
       this.streamBody = $('.js-stream-body');
       this.scrollToBottom();
