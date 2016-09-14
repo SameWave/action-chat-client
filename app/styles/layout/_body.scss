@@ -1,4 +1,4 @@
-.section-body {
+.l-app-body {
   flex: 1 1 auto;
   position: relative;
   z-index: $z-body;
@@ -8,7 +8,7 @@
   overflow-y: scroll;
 
   &--login {
-    @extend .section-body;
+    @extend .l-app-body;
     display: flex;
     flex-direction: column;
     padding: 20px 0 10px;
@@ -17,12 +17,14 @@
   }
 
   &--streams {
+    @extend .l-app-body;
     flex-direction: column;
     justify-content: center;
+    background-color: map-get($grey, 'lighten-4');
   }
 
   &--stream {
-    @extend .section-body;
+    @extend .l-app-body;
     display: flex;
     flex-direction: column;
     height: 100%;
