@@ -6,15 +6,13 @@
 	height: 100%;
 	width: 100%;
 	z-index: $z-ceiling;
-	// animation: loading $speed-fast;
-	background: map-get($shades, 'black');
+	background: map-get($shades, 'white');
 
 	&_icon {
 		width: 40px;
 		height: 40px;
 		fill: map-get($blue, 'base');
 		animation: loading_icon $speed-slow infinite;
-	  
 	}
 
 	&--body {
