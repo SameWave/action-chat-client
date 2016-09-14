@@ -49,8 +49,9 @@ export default Controller.extend({
     this.subscribeStreams();
 
     run.schedule('afterRender', this, function() {
-      this.commentsElement = $('.section-body');
-      this.chatBox = $('.stream-chat-footer');
+      this.commentsElement = $('.list');
+      this.chatBox = $('.js-chat-box');
+      this.streamBody = $('.js-stream-body');
       this.scrollToBottom();
 
       if (window.Keyboard) {
@@ -78,12 +79,7 @@ export default Controller.extend({
   showKeyboard(height) {
     let scrollHeight = this.commentsElement.get(0).scrollHeight; // TODO: Use object destructing
 
-    this.commentsElement.css({
-      'transform': `translateY(-${height}px)`,
-      '-webkit-transform': `translateY(-${height}px)`
-    });
-
-    this.chatBox.css({
+    this.streamBody.css({
       'transform': `translateY(-${height}px)`,
       '-webkit-transform': `translateY(-${height}px)`
     });
@@ -99,14 +95,9 @@ export default Controller.extend({
   },
 
   hideKeyboard() {
-    this.commentsElement.css({
+    this.streamBody.css({
       'transform': 'translateY(-0px)',
       '-webkit-transform': 'translateY(-0px)'
-    });
-
-    this.chatBox.css({
-      'transform': 'translateY(0px)',
-      '-webkit-transform': 'translateY(0px)'
     });
   },
 
