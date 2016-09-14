@@ -13,5 +13,11 @@ const {
 export default Controller.extend({
   session: service(),
 
-  stream: alias('model')
+  stream: alias('model'),
+
+  actions: {
+    gotoStreams() {
+      this.transitionToRoute('streams');
+    }
+  }
 });

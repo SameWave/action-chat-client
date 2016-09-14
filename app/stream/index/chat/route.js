@@ -37,5 +37,24 @@ export default Route.extend(AuthenticatedRouteMixin, {
     size: {
       refreshModel: true
     }
+  },
+
+  isLoadingEnabled: true,
+
+  actions: {
+
+    willTransition(transition) {
+      if (transition.targetName === 'stream.index.chat') {
+        this.set('isLoadingEnabled', false);
+      }
+    },
+
+    didTransition(transition) {
+      this.set('isLoadingEnabled', true);
+    },
+
+    loading(transition, originRoute) {
+      return this.get('isLoadingEnabled');
+    }
   }
 });
