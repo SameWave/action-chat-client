@@ -4,21 +4,6 @@
 	width: 100%;
 	position: relative;
 	height: 65px;
-
-	// &--login {
-	// 	@extend .section-header;
-	// 	padding: 20px 10px;
-	// 	color: map-get($shades, 'white');
-	// 	text-align: center;
-	// }
-
-	// &--app {
-	// 	@extend .section-header;
-	// 	display: flex;
-	// 	justify-content: space-between;
-	// 	align-items: center;
-	// 	color: map-get($shades, 'white');
-	// }
 }
 
 .c-header {
@@ -32,6 +17,9 @@
 	font-size: 10px;
 
 	// Modifiers
+	&--login {
+		@extend .c-header;
+	}
 
 	// Elements
 	%side-elements {
@@ -49,17 +37,23 @@
 		overflow: hidden;
 		text-align: center;
 		@include fade($color: map-get($pink, 'base'));
+
 	}
 
 	&_last-section {
 		@extend %side-elements;
 		display: flex;
+		justify-content: flex-end;
 		margin-left: 5px;
 		text-align: right;
 	}
 
 	&_title {
 		font-size: 16px;
+
+		@at-root .c-header--login .c-header_title {
+			font-size: 21px;
+		}
 	}
 
 	&_subtitle {

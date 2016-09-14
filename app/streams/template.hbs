@@ -9,7 +9,7 @@
     </section>
 
     <section class="c-header_last-section" {{action (action 'logout' target=session)}}>
-      {{session.person.name}}
+      <p class="c-header_user-name">{{session.person.name}}</p>
       {{inline-svg "images/icons/icon-logout" class="c-icon--logout"}}
     </section>
   </div>
