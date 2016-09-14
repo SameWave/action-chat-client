@@ -1,0 +1,26 @@
+.c-loading-page {
+	position: absolute;
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	height: 100%;
+	width: 100%;
+	z-index: $z-ceiling;
+	background: map-get($shades, 'white');
+
+	&_icon {
+		width: 40px;
+		height: 40px;
+		fill: map-get($blue, 'base');
+		animation: loading_icon $speed-slow infinite;
+	}
+
+	&--body {
+		@extend .c-loading-page;
+		position: relative;
+	}
+
+  .svg-loading_slice {
+    opacity: 0.2;
+  }
+}

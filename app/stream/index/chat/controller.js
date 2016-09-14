@@ -27,12 +27,8 @@ export default Controller.extend({
 
   cable: service(),
 
-  queryParams: ['page', 'size'],
-
-  page: 1,
-  size: PAGE_SIZE,
-
   user: alias('session.person'),
+  page: 1,
 
   sessionMember: computed('user', 'members.[]', function() {
     return this.get('members').findBy('person.id', this.get('user.id'));
@@ -157,7 +153,7 @@ export default Controller.extend({
     let subscription = consumer.subscriptions.create('StreamsChannel', {
       received: (data) => {
         let member = this.get('members').findBy('id', data.member.id);
-        if (member.get('id') !== this.get('sessionMember.id')) {
+        if (member && member.get('id') !== this.get('sessionMember.id')) {
           member.setTypingAt(new Date(data.member.typing_at));
         }
       }
@@ -209,6 +205,12 @@ export default Controller.extend({
             'data': {
               'type': 'person',
               'id': data.person_id
+            }
+          },
+          'stream': {
+            'data': {
+              'type': 'stream',
+              'id': data.stream_id
             }
           }
         }
@@ -263,12 +265,10 @@ export default Controller.extend({
 
   actions: {
     createComment(body) {
-      let newId = 1 + parseInt(this.get('comments').mapBy('id').get('lastObject'));
-
       let comment = this.store.createRecord('comment', {
         body,
         person: this.get('user'),
-        id: newId
+        stream: this.get('stream')
       });
 
       // Scroll to bottom so that new comment is visible
@@ -276,8 +276,10 @@ export default Controller.extend({
 
       this.get('commentsSubscription').send({
         comment: {
+          id: comment.get('id'),
           body: comment.get('body'),
-          person_id: comment.get('person.id')
+          person_id: comment.get('person.id'),
+          stream_id: comment.get('stream.id')
         },
         action: 'create'
       });
@@ -307,11 +309,21 @@ export default Controller.extend({
     loadEarlier() {
       this.setProperties({
         isLoadingEarlier: true,
+        page: this.get('page') + 1,
         previousTop: this.commentsElement.get(0).scrollHeight + this.commentsElement.scrollTop()
       });
 
-      // This will trigger a model reload
-      this.set('size', this.get('size') + PAGE_SIZE);
+      let comments = this.store.query('comment', {
+        page: {
+          number: this.get('page'),
+          size: PAGE_SIZE
+        },
+        stream_id: this.get('stream.id')
+      }).then((comments) => {
+        console.log('earlier comments: ', comments.get('length'));
+        // this.get('comments').pushObjects(comments);
+        this.send('doneLoadingEarlier');
+      });
     },
 
     doneLoadingEarlier() {
