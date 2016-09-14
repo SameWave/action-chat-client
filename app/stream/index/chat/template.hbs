@@ -1,11 +1,6 @@
-{{#if isNoticeVisible}}
-  <div class="notice z-depth-2">
-    <p>{{typingNotice}}</p>
-    {{#if isLoadingEarlier}}
-      <p>loading...</p>
-    {{/if}}
-  </div>
-{{/if}}
+{{#ember-wormhole to="header-content-destination"}}
+  {{headerContent}}
+{{/ember-wormhole}}
 
 {{!-- BODY --}}
 <div>

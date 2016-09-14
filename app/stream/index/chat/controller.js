@@ -11,6 +11,9 @@ const {
   on,
   run,
   computed,
+  computed: {
+    alias
+  },
   isEmpty
 } = Ember;
 
@@ -29,9 +32,10 @@ export default Controller.extend({
   page: 1,
   size: PAGE_SIZE,
 
-  user: null,
+  user: alias('session.person'),
   comments: [],
   people: [],
+
   commentsElement: null,
   commentsSubscription: null,
   streamsSubscription: null,
@@ -178,6 +182,14 @@ export default Controller.extend({
     return this.get('isLoadingEarlier') || this.get('typingNotice.length');
   }),
 
+  peopleNames: computed('people.[]', function() {
+    return this.get('people').mapBy('name').compact().join(', ');
+  }),
+
+  headerContent: computed('typingNotice', 'peopleNames', function() {
+    return this.get('typingNotice') || this.get('peopleNames');
+  }),
+
   pushComment(data) {
     this.store.push({
       data: {
@@ -302,10 +314,6 @@ export default Controller.extend({
       });
 
       this.set('isLoadingEarlier', false);
-    },
-
-    doLogin(person) {
-      this.set('user', person);
     },
 
     doTyping() {
