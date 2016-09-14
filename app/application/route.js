@@ -37,7 +37,8 @@ export default Route.extend(ApplicationRouteMixin, {
   _findAll() {
     return RSVP.hash({
       people: this.store.findAll('person'),
-      streams: this.store.findAll('stream')
+      streams: this.store.findAll('stream'),
+      members: this.store.findAll('member')
     });
   }
 });

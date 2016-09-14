@@ -1,5 +1,6 @@
 .list {
   padding: 10px;
+  position: relative;
 }
 
 .app-background {
@@ -10,4 +11,20 @@
   background: map-get($colours, 'pink');
   width: 100vw;
   height: 100vh;
+}
+
+.new-message {
+  position: absolute;
+  top: 100px;
+  left: 0;
+  z-index: 1000;
+  background-color: purple;
+  width: 100%;
+  height: 2px;
+}
+
+.new-message_label {
+  position: absolute;
+  right: 0;
+  top: -8px;
 }
