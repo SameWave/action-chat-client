@@ -1,7 +1,11 @@
 {{#ember-wormhole to="header-destination"}}
-	<header class="pink z-depth-1 || section-header--login" {{action (action 'doDevLogin')}}>
-		<h1>Samewave prototype</h1>
-	</header>
+	<div class="c-header--login">
+    <section class="c-header_second-section" {{action (action 'doDevLogin')}}>
+      <h1 class="c-header_title">
+        Samewave prototype
+      </h1>
+    </section>
+  </div>
 {{/ember-wormhole}}
 
 <section class="l-app-body--login">

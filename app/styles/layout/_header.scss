@@ -1,54 +1,7 @@
-.section-header {
+.l-app-header {
 	flex: 0 0 auto;
 	z-index: $z-header;
 	width: 100%;
-	text-align: center;
 	position: relative;
-
-	&--login {
-		@extend .section-header;
-		padding: 20px 10px;
-		color: map-get($shades, 'white');
-		text-align: center;
-	}
-
-	&--app {
-		@extend .section-header;
-		justify-content: space-between;
-		align-items: center;
-		display: flex;
-		padding: 10px 10px 0;
-		color: map-get($shades, 'white');
-		height: 50px;
-		padding-top: 0;
-	}
-
-	&_first-section {
-		flex: 0 0 72px;
-		text-align: left;
-	}
-
-	&_second-section {
-		flex: 1 1 auto;
-	}
-
-	&_last-section {
-		flex: 0 0 72px;
-		text-align: right;
-	}
-
-	&_title {
-		font-size: 16px;
-	}
-
-	&_subtitle {
-		font-size: 14px;	
-	}
-}
-
-.stream-header {
-	@extend .section-header;
-	position: relative;
-	font-size: 10px;
-	padding: 5px 0;
+	height: 65px;
 }
