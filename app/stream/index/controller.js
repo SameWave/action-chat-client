@@ -13,7 +13,7 @@ const {
 export default Controller.extend({
   session: service(),
 
-  stream: alias('model'),
+  stream: alias('model.stream'),
 
   actions: {
     gotoStreams() {

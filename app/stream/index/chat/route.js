@@ -2,59 +2,27 @@ import Ember from 'ember';
 import AuthenticatedRouteMixin from 'ember-simple-auth/mixins/authenticated-route-mixin';
 
 const {
-  Route
+  Route,
+  RSVP
 } = Ember;
 
 export default Route.extend(AuthenticatedRouteMixin, {
 
-  model(params) {
-    let stream = this.modelFor('stream.index');
-
-    return this.store.query('comment', {
-      page: {
-        number: params.page,
-        size: params.size
-      },
-      stream_id: stream.get('id'),
+  model() {
+    let stream = this.modelFor('stream.index').stream;
+    return RSVP.hash({
+      stream: stream,
+      comments: this.store.peekAll('comment') //.filterBy('stream.id', stream.get('id'))
     });
   },
 
   setupController(controller, model) {
-    if (controller.get('isLoadingEarlier')) {
-      controller.send('doneLoadingEarlier');
-    }
+    let stream = model.stream;
+    let comments = model.comments;
 
     controller.setProperties({
-      comments: model,
-      stream: this.modelFor('stream.index')
+      comments: comments,
+      stream: stream
     });
-  },
-
-  queryParams: {
-    page: {
-      refreshModel: true
-    },
-    size: {
-      refreshModel: true
-    }
-  },
-
-  isLoadingEnabled: true,
-
-  actions: {
-
-    willTransition(transition) {
-      if (transition.targetName === 'stream.index.chat') {
-        this.set('isLoadingEnabled', false);
-      }
-    },
-
-    didTransition(transition) {
-      this.set('isLoadingEnabled', true);
-    },
-
-    loading(transition, originRoute) {
-      return this.get('isLoadingEnabled');
-    }
   }
 });
