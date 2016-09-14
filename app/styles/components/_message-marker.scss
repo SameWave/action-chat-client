@@ -1,0 +1,25 @@
+.c-message-marker {
+	position: absolute;
+	top: 30px;
+	left: 0;
+	width: 100%;
+	height: 10px;
+	z-index: $z-body-float;
+
+	// Elements
+	&_line {
+		position: relative;
+		margin: auto;
+		width: 100%;
+		height: 1px;
+		background-color: map-get($red, 'base');
+	}
+
+	&_label {
+		position: relative;
+		margin: auto;
+		width: 100%;
+		height: 1px;
+		z-index: $z-body-float + 10;
+	}
+}
