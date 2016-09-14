@@ -19,5 +19,4 @@ export default DS.Model.extend({
     async: true
   }),
 
-
 });

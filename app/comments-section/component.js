@@ -9,6 +9,7 @@ const {
 
 export default Ember.Component.extend({
 
+  sessionMember: null,
   comments: [],
   typers: [],
   sortProperties: ['createdAt', 'id'],
