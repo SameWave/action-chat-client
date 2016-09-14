@@ -20,4 +20,20 @@
     flex-direction: column;
     justify-content: center;
   }
+
+  &--stream {
+    @extend .section-body;
+    overflow-y: hidden;
+    // display: flex;
+    // flex-direction: column;
+    height: 100%;
+    transition: transform $speed-fast;
+
+    .liquid-child {
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      height: 100%;
+    }
+  }
 }

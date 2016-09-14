@@ -15,13 +15,12 @@ export default Ember.Route.extend(AuthenticatedRouteMixin, {
           number: 1,
           size: 5
         },
-        stream_id: params.stream_id,
+        stream_id: params.stream_id
       })
     });
   },
 
   afterModel(model) {
-    model.stream.get('members')
+    model.stream.get('members');
   }
-
 });

@@ -1,4 +1,5 @@
 import Ember from 'ember';
+import { animate } from 'liquid-fire';
 
 const {
   TextArea,
@@ -9,11 +10,14 @@ export default TextArea.extend({
   classNames: ['c-auto-resize-textarea'],
 
   _resize() {
-    let textArea = this.element;
+    let textArea = this.$();
 
     run.later(this, function() {
-      textArea.style.cssText = 'height:auto; padding:0';
-      textArea.style.cssText = `height:${textArea.scrollHeight}px`;
+      // debugger;
+      // animate(textArea, { height: 'auto', padding: 0 });
+      textArea[0].style.cssText = 'height:auto; padding:0';
+      animate(textArea, { height: `${textArea[0].scrollHeight}px` });
+      // textArea.style.cssText = `height:${textArea.scrollHeight}px`;
     }, 0);
   },
 
