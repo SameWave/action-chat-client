@@ -10,17 +10,12 @@ export default TextArea.extend({
   classNames: ['c-auto-resize-textarea'],
 
   _resize() {
-    let textArea = this.$();
+    let textArea = this.element;
 
-    run.later(this, function() {
-      run.throttle(this, function() {
-        textArea[0].style.cssText = 'height:auto; padding:0';
-        animate(textArea, { height: `${textArea[0].scrollHeight}px` });
-      }, 50);
-      // debugger;
-      // animate(textArea, { height: 'auto', padding: 0 });
-      // textArea.style.cssText = `height:${textArea.scrollHeight}px`;
-    }, 0);
+    run.debounce(this, function() {
+      textArea.style.cssText = 'height:auto; padding:0';
+      textArea.style.cssText = `height:${textArea.scrollHeight}px`;
+    }, 50);
   },
 
   keyDown() {

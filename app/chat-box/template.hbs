@@ -1,13 +1,15 @@
-{{auto-resize-textarea
-  classNames="white || c-chat-box_input"
-  id="chat-area"
-  onKeyDown=(action "doKeyDown")
-  onKeyUp=(action "doKeyUp")
-  onFocusIn=(action "doFocusIn")
-  onFocusOut=(action "doFocusOut")
-  value=comment
-  rows=1
-}}
+<div class="c-chat-box_input-container">
+	{{auto-resize-textarea
+	  classNames="c-chat-box_input"
+	  id="chat-area"
+	  onKeyDown=(action "doKeyDown")
+	  onKeyUp=(action "doKeyUp")
+	  onFocusIn=(action "doFocusIn")
+	  onFocusOut=(action "doFocusOut")
+	  value=comment
+	  rows=1
+	}}
+</div>
 
 <button class="btn || c-chat-box_btn-send" {{action (action 'doComment')}}>
   Send

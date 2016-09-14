@@ -23,10 +23,10 @@
 
   &--stream {
     @extend .section-body;
-    overflow-y: hidden;
-    // display: flex;
-    // flex-direction: column;
+    display: flex;
+    flex-direction: column;
     height: 100%;
+    overflow-y: hidden;
     transition: transform $speed-fast;
 
     .liquid-child {
