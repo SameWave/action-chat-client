@@ -34,6 +34,7 @@
 @import 'components/media-block';
 @import 'components/avatar';
 @import 'components/fab';
+@import 'components/header';
 
 // Objects
 @import 'objects/ribbon';
@@ -51,9 +52,4 @@
 
 // Misc
 @import 'general';
-@import 'ember-freestyle'; 
-
-
-
-
-
+@import 'ember-freestyle';
