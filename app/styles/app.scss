@@ -22,6 +22,7 @@
 @import 'abstracts/placeholders';
 @import 'abstracts/animations';
 @import 'abstracts/utilities';
+@import 'abstracts/animations';
 
 // components
 @import 'components/icon';
@@ -35,6 +36,7 @@
 @import 'components/media-block';
 @import 'components/avatar';
 @import 'components/fab';
+@import 'components/header';
 @import 'components/loading-page';
 
 // Objects
@@ -53,9 +55,4 @@
 
 // Misc
 @import 'general';
-@import 'ember-freestyle'; 
-
-
-
-
-
+@import 'ember-freestyle';
