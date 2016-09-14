@@ -26,8 +26,7 @@ export default Route.extend(AuthenticatedRouteMixin, {
 
     controller.setProperties({
       comments: model,
-      stream: this.modelFor('stream.index'),
-      people: this.store.peekAll('person')
+      stream: this.modelFor('stream.index')
     });
   },
 
@@ -37,6 +36,25 @@ export default Route.extend(AuthenticatedRouteMixin, {
     },
     size: {
       refreshModel: true
+    }
+  },
+
+  isLoadingEnabled: true,
+
+  actions: {
+
+    willTransition(transition) {
+      if (transition.targetName === 'stream.index.chat') {
+        this.set('isLoadingEnabled', false);
+      }
+    },
+
+    didTransition(transition) {
+      this.set('isLoadingEnabled', true);
+    },
+
+    loading(transition, originRoute) {
+      return this.get('isLoadingEnabled');
     }
   }
 });
