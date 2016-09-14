@@ -3,26 +3,25 @@
 {{/ember-wormhole}}
 
 {{!-- BODY --}}
-<div>
-  {{comments-section
-    classNames="list"
-    comments=comments
-    typers=typers
-    sessionMember=sessionMember
-    updateComment=(action "updateComment")
-    deleteComment=(action "deleteComment")
-    loadEarlier=(action "loadEarlier")
-  }}
-</div>
-{{!-- END OF BODY --}}
+{{comments-section
+  classNames="list"
+  comments=comments
+  typers=typers
+  sessionMember=sessionMember
+  updateComment=(action "updateComment")
+  deleteComment=(action "deleteComment")
+  loadEarlier=(action "loadEarlier")
+}}
 
-{{#ember-wormhole to="footer-destination"}}
+<div class="pink || c-footer">
   {{chat-box
     doComment=(action "createComment")
     doTyping=(action "doTyping")
     isKeyboardOpen=isKeyboardOpen
-    classNames="chat-box"
   }}
+
   <div class="keyboard pink the-force"></div>
-{{/ember-wormhole}}
+</div>
+{{!-- END OF BODY --}}
+
 

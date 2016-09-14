@@ -7,9 +7,11 @@
 		flex: 1 0 20px;
 		position: relative;
 		z-index: $z-chat-box;
-		max-height: 110px;
-		padding: 5px;
 		margin-right: 10px;
+		padding: 5px;
+		height: 25px;
+		max-height: 110px;
+		transition: height $speed-fast;
   }
 
 	&_btn-send {
