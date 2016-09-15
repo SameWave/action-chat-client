@@ -11,5 +11,8 @@ $button-line-height: 1.5rem;
 }
 
 .btn-load-earler {
-	margin-top: 5px;
+	display: block;
+	position: relative;
+	margin: 0 auto $margin-large;
+	z-index: $z-comment-floats;
 }
