@@ -6,8 +6,6 @@
 	{{/if}}
 </button>
 
-{{!-- {{sessionMember.lastReadAt}} --}}
-
 <div {{action (action 'doTap')}}>
   {{#each sortedComments as |comment|}}
     {{stream-comment
@@ -19,4 +17,8 @@
   {{/each}}
 </div>
 
-{{message-marker top=349}}
+{{#if newMessagesTop}}
+  {{message-marker top=newMessagesTop}}
+{{/if}}
+
+

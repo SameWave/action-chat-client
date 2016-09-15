@@ -7,44 +7,57 @@ const {
   RSVP,
   inject: {
     service
+  },
+  run,
+  computed: {
+    alias
   }
 } = Ember;
 
 export default Route.extend(AuthenticatedRouteMixin, {
 
+  session: service(),
   cable: service(),
+  user: alias('session.person'),
 
   model() {
     let stream = this.modelFor('stream.index').stream;
     return RSVP.hash({
       stream: stream,
-      comments: this.store.peekAll('comment')
+      comments: this.store.peekAll('comment'),
+      members: this.store.peekAll('member').filterBy('stream.id', stream.get('id'))
     });
   },
 
   setupController(controller, model) {
     let stream = model.stream;
     let comments = model.comments;
+    let members = model.members;
+
+    let sessionMember = members.findBy('person.id', this.get('user.id'));
 
     controller.setProperties({
       allComments: comments,
-      stream: stream
+      stream: stream,
+      members: members,
+      sessionMember: sessionMember
     });
 
-    this.subscribeComments(controller, model);
-    this.subscribeMembers(controller, model);
+    const consumer = this.get('cable').createConsumer(ENV.socket);
+
+    this.subscribeComments(consumer, controller, model);
+    this.subscribeMembers(consumer, controller, model);
   },
 
-  subscribeComments(controller, model) {
+  subscribeComments(consumer, controller, model) {
     let stream = model.stream;
     let channel = 'CommentsChannel';
 
     Ember.debug('subscribeComments');
 
-    const consumer = this.get('cable').createConsumer(ENV.socket);
     const subscription = consumer.subscriptions.create({
       channel: channel,
-      // stream_id: stream.get('id')
+      stream_id: stream.get('id')
     }, {
       connected() {
         Ember.debug(`connected to ${channel}`);
@@ -63,14 +76,18 @@ export default Route.extend(AuthenticatedRouteMixin, {
     controller.set('commentsSubscription', subscription);
   },
 
-  subscribeMembers(controller) {
-    let consumer = this.get('cable').createConsumer(ENV.socket);
-    let channel = 'StreamsChannel';
+  subscribeMembers(consumer, controller, model) {
+    let stream = model.stream;
+    let channel = 'MembersChannel';
 
-    let subscription = consumer.subscriptions.create(channel, {
+    const subscription = consumer.subscriptions.create({
+      channel: channel,
+      stream_id: stream.get('id')
+    }, {
 
       connected() {
         Ember.debug(`connected to ${channel}`);
+        controller.setLastReadAt();
       },
 
       disconnected() {
@@ -83,6 +100,16 @@ export default Route.extend(AuthenticatedRouteMixin, {
     });
 
     controller.set('membersSubscription', subscription);
+  },
+
+  actions: {
+    didTransition() {
+      Ember.debug('didTransition');
+
+      run.schedule('afterRender', this, function() {
+        this.get('controller').didRender();
+      });
+    }
   }
 
 });

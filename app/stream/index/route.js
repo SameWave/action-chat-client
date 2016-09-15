@@ -6,19 +6,20 @@ const {
   RSVP
 } = Ember;
 
+import {
+  COMMENT_LOAD_SIZE
+}
+from 'action-chat-client/stream/index/chat/controller';
+
 export default Route.extend(AuthenticatedRouteMixin, {
   model(params) {
     return RSVP.hash({
       stream: this.store.peekRecord('stream', params.stream_id),
       comments: this.store.query('comment', {
-        limit: 5,
+        limit: COMMENT_LOAD_SIZE,
         offset: 0,
         stream_id: params.stream_id
       })
     });
-  },
-
-  afterModel(model) {
-    model.stream.get('members');
   }
 });
