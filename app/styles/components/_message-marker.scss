@@ -1,9 +1,9 @@
 .c-message-marker {
 	position: absolute;
-	top: 30px;
+	// NOTE: Initial value overwritten by component
+	top: -10px;
 	left: 0;
 	width: 100%;
-	height: 10px;
 	z-index: $z-body-float;
 
 	// Elements
@@ -17,9 +17,14 @@
 
 	&_label {
 		position: relative;
+		top: -12px;
 		margin: auto;
-		width: 100%;
-		height: 1px;
+		width: 120px;
+		height: auto;
+		border-radius: 3px;
 		z-index: $z-body-float + 10;
+		background: map-get($deep-orange, 'darken-2');
+		color: map-get($shades, 'white');
+		text-align: center;
 	}
 }
