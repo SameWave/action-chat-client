@@ -54,6 +54,51 @@ Upload apk found in ./ember-cordova/cordova/platforms/android/build/outputs/apk/
   * [ember inspector for chrome](https://chrome.google.com/webstore/detail/ember-inspector/bmdblncegkenkacieihfhpjfppoconhi)
   * [ember inspector for firefox](https://addons.mozilla.org/en-US/firefox/addon/ember-inspector/)
 
+
+### SW JS style guide
+
+#### Organizing your modules
+```
+export default Component.extend({
+  // LABEL: Defaults
+  tagName: 'div'
+  classNames: ['c-auto-resize-textarea'],
+
+  // LABEL: Externally set props
+  value: '',
+
+  // Single line CP
+  isEmpty: computed.empty('value')
+
+  // LABEL: Multiline CP
+  resetSize: computed('value', function() {
+    ...
+  }),
+
+  // LABEL: Methods
+  _resize() {
+    ...
+  },
+
+  // LABEL: Events
+  keyDown() {
+    ...
+  },
+
+  // LABEL: Lifecycle hooks
+	init() {
+    this._super(...arguments);
+    ...
+  },
+
+  actions: {
+		someAction() {
+			...
+		}
+  }
+});
+```
+
 ### CSS
 
 #### Style guide

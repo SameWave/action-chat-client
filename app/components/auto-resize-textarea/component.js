@@ -1,13 +1,19 @@
 import Ember from 'ember';
-import { animate } from 'liquid-fire';
 
 const {
   TextArea,
-  run
+  run,
+  observer
 } = Ember;
 
 export default TextArea.extend({
   classNames: ['c-auto-resize-textarea'],
+
+  value: '',
+
+  resetSize: observer('value', function() {
+    this._resize();
+  }),
 
   _resize() {
     let textArea = this.element;
@@ -19,7 +25,6 @@ export default TextArea.extend({
   },
 
   keyDown() {
-    this._resize();
     if (this.get('onKeyDown')) {
       this.get('onKeyDown')();
     }
