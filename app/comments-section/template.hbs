@@ -1,7 +1,5 @@
 <button {{action (action loadEarlier)}} class="btn amber || btn-load-earler btn--small">Load earlier</button>
 
-{{!-- {{sessionMember.lastReadAt}} --}}
-
 <div {{action (action 'doTap')}}>
   {{#each sortedComments as |comment|}}
     {{stream-comment
