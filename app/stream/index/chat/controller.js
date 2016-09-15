@@ -28,7 +28,6 @@ export default Controller.extend({
   cable: service(),
 
   user: alias('session.person'),
-  page: 1,
 
   sessionMember: computed('user', 'members.[]', function() {
     return this.get('members').findBy('person.id', this.get('user.id'));
@@ -36,7 +35,11 @@ export default Controller.extend({
 
   stream: null,
   members: alias('stream.members'),
-  comments: [],
+  allComments: [],
+
+  comments: computed('allComments.[]', function() {
+    return this.get('allComments').filterBy('stream.id', this.get('stream.id'));
+  }),
 
   commentsElement: null,
   commentsSubscription: null,
@@ -45,8 +48,6 @@ export default Controller.extend({
   isKeyboardOpen: false,
 
   setup: on('init', function() {
-    this.subscribeComments();
-    this.subscribeStreams();
 
     run.schedule('afterRender', this, function() {
       this.commentsElement = $('.section-body');
@@ -62,6 +63,34 @@ export default Controller.extend({
     });
 
   }),
+
+  receivedCommentsData(data) {
+    let comment = this.store.peekRecord('comment', data.comment.id);
+    if (isEmpty(comment)) {
+      if (data.action === 'created') {
+
+        let bottomOffset = this.bottomOffset();
+
+        this.pushComment(data.comment);
+
+        run.next(this, this.nudgeOrScrollBottom, bottomOffset);
+        run.next(this, this.vibrate);
+      }
+    } else {
+      if (data.action === 'destroyed') {
+        this.unloadComment(comment);
+      } else {
+        this.updateComment(comment, data.comment);
+      }
+    }
+  },
+
+  receivedMembersData(data) {
+    let member = this.get('members').findBy('id', data.member.id);
+    if (member && member.get('id') !== this.get('sessionMember.id')) {
+      member.setTypingAt(new Date(data.member.typing_at));
+    }
+  },
 
   setupKeyboardEvents() {
     let _this = this;
@@ -120,48 +149,6 @@ export default Controller.extend({
     }
   }),
 
-  subscribeComments() {
-    let consumer = this.get('cable').createConsumer(ENV.socket);
-    let subscription = consumer.subscriptions.create('CommentsChannel', {
-      received: (data) => {
-        let comment = this.store.peekRecord('comment', data.comment.id);
-        if (isEmpty(comment)) {
-          if (data.action === 'created') {
-
-            let bottomOffset = this.bottomOffset();
-
-            this.pushComment(data.comment);
-
-            run.next(this, this.nudgeOrScrollBottom, bottomOffset);
-            run.next(this, this.vibrate);
-          }
-        } else {
-          if (data.action === 'destroyed') {
-            this.unloadComment(comment);
-          } else {
-            this.updateComment(comment, data.comment);
-          }
-        }
-      }
-    });
-
-    this.set('commentsSubscription', subscription);
-  },
-
-  subscribeStreams() {
-    let consumer = this.get('cable').createConsumer(ENV.socket);
-    let subscription = consumer.subscriptions.create('StreamsChannel', {
-      received: (data) => {
-        let member = this.get('members').findBy('id', data.member.id);
-        if (member && member.get('id') !== this.get('sessionMember.id')) {
-          member.setTypingAt(new Date(data.member.typing_at));
-        }
-      }
-    });
-
-    this.set('streamsSubscription', subscription);
-  },
-
   typers: computed.filterBy('members', 'isTyping'),
 
   typingNotice: computed('typers.[]', function() {
@@ -178,10 +165,6 @@ export default Controller.extend({
       default:
         return `${names.objectAt(0)}, ${names.objectAt(1)} and ${(names.get('length') - 2)} others are typing...`;
     }
-  }),
-
-  isNoticeVisible: computed('isLoadingEarlier', 'typingNotice', function() {
-    return this.get('isLoadingEarlier') || this.get('typingNotice.length');
   }),
 
   memberNames: computed('members.[]', function() {
@@ -265,6 +248,7 @@ export default Controller.extend({
 
   actions: {
     createComment(body) {
+      Ember.debug('createComment');
       let comment = this.store.createRecord('comment', {
         body,
         person: this.get('user'),
@@ -283,7 +267,6 @@ export default Controller.extend({
         },
         action: 'create'
       });
-
     },
 
     updateComment(comment) {
@@ -309,19 +292,14 @@ export default Controller.extend({
     loadEarlier() {
       this.setProperties({
         isLoadingEarlier: true,
-        page: this.get('page') + 1,
         previousTop: this.commentsElement.get(0).scrollHeight + this.commentsElement.scrollTop()
       });
 
       let comments = this.store.query('comment', {
-        page: {
-          number: this.get('page'),
-          size: PAGE_SIZE
-        },
+        limit: PAGE_SIZE,
+        offset: this.get('comments.length'),
         stream_id: this.get('stream.id')
       }).then((comments) => {
-        console.log('earlier comments: ', comments.get('length'));
-        // this.get('comments').pushObjects(comments);
         this.send('doneLoadingEarlier');
       });
     },
@@ -336,7 +314,7 @@ export default Controller.extend({
 
     doTyping() {
       let typingAt = new Date();
-      this.get('streamsSubscription').send({
+      this.get('membersSubscription').send({
         member: {
           id: this.get('sessionMember.id'),
           typing_at: typingAt
