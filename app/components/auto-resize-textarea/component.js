@@ -12,9 +12,7 @@ export default TextArea.extend({
   value: '',
 
   resetSize: observer('value', function() {
-    if (this.get('value') === '') {
-      this._resize();
-    }
+    this._resize();
   }),
 
   _resize() {
@@ -27,8 +25,6 @@ export default TextArea.extend({
   },
 
   keyDown() {
-    this._resize();
-
     if (this.get('onKeyDown')) {
       this.get('onKeyDown')();
     }
