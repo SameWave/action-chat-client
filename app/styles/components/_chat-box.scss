@@ -3,13 +3,26 @@
 	flex-direction: row;
   align-items: flex-end;
 
-  &_input {
+  &_input-container {
+  	// TODO: Add box-shadow
+  	position: relative;
 		flex: 1 0 20px;
-		position: relative;
 		z-index: $z-chat-box;
-		max-height: 110px;
-		padding: 5px;
 		margin-right: 10px;
+		padding: 5px;
+		background-color: map-get($shades, 'white');
+  }
+
+  &_input {
+  	display: block;
+  	width: 100%;
+  	// NOTE: Initial height before js takes over
+		height: 21px;
+		max-height: 103px;
+		margin: auto;
+		padding: 0;
+		border: 0 solid transparent;
+		background-color: inherit;
   }
 
 	&_btn-send {
