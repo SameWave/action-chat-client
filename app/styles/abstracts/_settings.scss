@@ -6,6 +6,8 @@ $colours: (
 $z-notice: 550;
 $z-header: 500;
 $z-body: 100;
+$z-comment-section: $z-body + 10;
+$z-comment-floats: $z-comment-section + 10;
 $z-footer: 300;
 $z-ground-floor: 0;
 $z-middle-floor: 500;
@@ -20,3 +22,13 @@ $speed-fast: $speed-base / 2;
 $speed-normal: $speed-base;
 $speed-slow: $speed-base * 2;
 $speed-very-slow: $speed-base * 3;
+
+// Margins
+$margin-base: 10px;
+$margin-small: $margin-base * 50%;
+$margin-medium: $margin-base;
+$margin-large: $margin-base * 1.5;
+$margin-extra-large: $margin-base * 2;
+
+// buttons
+$button-line-height: 1.5rem;
