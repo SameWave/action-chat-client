@@ -11,10 +11,8 @@ export default Route.extend(AuthenticatedRouteMixin, {
     return RSVP.hash({
       stream: this.store.peekRecord('stream', params.stream_id),
       comments: this.store.query('comment', {
-        page: {
-          number: 1,
-          size: 5
-        },
+        limit: 5,
+        offset: 0,
         stream_id: params.stream_id
       })
     });
