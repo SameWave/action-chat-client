@@ -11,7 +11,6 @@ const {
 
 export default Component.extend({
   classNames: ['c-comments-section'],
-  lastReadAt: null,
   comments: [],
   typers: [],
   sortProperties: ['createdAt', 'id'],
