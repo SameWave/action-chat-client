@@ -2,6 +2,7 @@ import Ember from 'ember';
 
 const {
   Component,
+  computed,
   computed: {
     sort
   },
@@ -10,11 +11,13 @@ const {
 
 export default Component.extend({
   classNames: ['c-comments-section'],
-  sessionMember: null,
+  lastReadAt: null,
   comments: [],
   typers: [],
   sortProperties: ['createdAt', 'id'],
   sortedComments: sort('comments', 'sortProperties'),
+
+  newMessagesTop: 0,
 
   actions: {
     doTap() {
