@@ -3,12 +3,13 @@
 module.exports = function(environment) {
   var ENV = {
     modulePrefix: 'action-chat-client',
-    environment: environment,
+    environment,
     rootURL: '',
     locationType: 'hash',
 
     contentSecurityPolicy: {
       'default-src': ["'none'"],
+      'frame-src': ['gap:'],
       'script-src': ["'self'"],
       'font-src': ["'self'"],
       'connect-src': ["'self'"],
