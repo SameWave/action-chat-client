@@ -6,18 +6,11 @@ const {
 } = Ember;
 
 export default Component.extend({
-  classNameBindings: [':c-unread-notifier', 'isHidden'],
+  classNameBindings: [':c-unread-notifier'],
   lastReadAt: '',
-
-  isHidden: false,
 
   text: computed('lastReadAt', function() {
     let date = this.get('lastReadAt');
-    let output = `last read at: ${date.getDate()}/${date.getMonth()}/${date.getFullYear()}`;
-    return output;
-  }),
-
-  click() {
-    this.set('isHidden', true);
-  }
+    return `last read at: ${date.getDate()}/${date.getMonth()}/${date.getFullYear()}`;
+  })
 });
