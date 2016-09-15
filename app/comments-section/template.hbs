@@ -1,4 +1,10 @@
-<button {{action (action loadEarlier)}} class="btn amber || btn-load-earler btn--small">Load earlier</button>
+<button {{action (action loadEarlier)}} class="c-load-earlier">
+	{{#if isLoadingEarlier}}
+		{{inline-svg "images/icons/icon-loading" class="c-load-earlier_icon a-fade-in"}}
+	{{else}}
+		<p class="a-fade-in">Load earlier</p>
+	{{/if}}
+</button>
 
 <div {{action (action 'doTap')}}>
   {{#each sortedComments as |comment|}}
@@ -11,4 +17,8 @@
   {{/each}}
 </div>
 
-{{message-marker top=349}}
+{{#if newMessagesTop}}
+  {{message-marker top=newMessagesTop}}
+{{/if}}
+
+

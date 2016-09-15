@@ -19,25 +19,20 @@ const {
 
 const NUDGE_OFFSET_PX = 60; // Pixels for determining nudge vs scroll for new comment
 const NUDGE_PX = 24; // Pixels for distance to nudge
-const PAGE_SIZE = 5;
+const COMMENT_LOAD_SIZE = 5;
+
+export {
+  COMMENT_LOAD_SIZE
+};
 
 export default Controller.extend({
 
-  session: service(),
-
-  cable: service(),
-
-  user: alias('session.person'),
-
-  sessionMember: computed('user', 'members.[]', function() {
-    return this.get('members').findBy('person.id', this.get('user.id'));
-  }),
-
   stream: null,
+  sessionMember: null,
   members: alias('stream.members'),
   allComments: [],
 
-  comments: computed('allComments.[]', function() {
+  comments: computed('allComments.[]', 'stream.id', function() {
     return this.get('allComments').filterBy('stream.id', this.get('stream.id'));
   }),
 
@@ -47,24 +42,57 @@ export default Controller.extend({
   isLoadingEarlier: false,
   isKeyboardOpen: false,
   isNotifierVisible: true,
+  newMessagesTop: 0,
 
-  setup: on('init', function() {
+  didRender() {
+    Ember.debug('controller didRender');
 
-    run.schedule('afterRender', this, function() {
-      this.commentsElement = $('.js-comments-section');
-      this.chatBox = $('.js-chat-box');
-      this.streamBody = $('.js-stream-body');
-      this.scrollToBottom();
+    this.commentsElement = $('.js-comments-section');
+    this.chatBox = $('.js-chat-box');
+    this.streamBody = $('.js-stream-body');
+    this.scrollToBottom();
 
-      if (window.Keyboard) {
-        // window.Keyboard.shrinkView(true);
-      }
-      if (window.cordova && window.cordova.plugins.Keyboard) {
-        this.setupKeyboardEvents();
-      }
+    if (window.Keyboard) {
+      // window.Keyboard.shrinkView(true);
+    }
+    if (window.cordova && window.cordova.plugins.Keyboard) {
+      this.setupKeyboardEvents();
+    }
+
+    this.showNewMessagesMarker();
+
+  },
+
+  showNewMessagesMarker() {
+
+    let lastReadAt = this.get('sessionMember.lastReadAt');
+
+    let readComments = this.get('comments').sortBy('createdAt').filter((comment) => {
+      return comment.get('createdAt') < lastReadAt;
     });
 
-  }),
+    if (readComments.get('length') < this.get('comments.length')) {
+
+      let lastReadCommentElement = $(`#comment-${readComments.get('lastObject.id')}`);
+      let newMessagesTop = lastReadCommentElement.position().top + lastReadCommentElement.height() + 10;
+
+      this.set('newMessagesTop', newMessagesTop);
+
+    }
+  },
+
+  setLastReadAt() {
+    let lastReadAt = new Date();
+    Ember.debug('setLastReadAt', lastReadAt);
+
+    this.get('membersSubscription').send({
+      member_id: this.get('sessionMember.id'),
+      member: {
+        last_read_at: lastReadAt
+      },
+      action: 'update'
+    });
+  },
 
   receivedCommentsData(data) {
     let comment = this.store.peekRecord('comment', data.comment.id);
@@ -247,7 +275,7 @@ export default Controller.extend({
       Ember.debug('createComment');
       let comment = this.store.createRecord('comment', {
         body,
-        person: this.get('user'),
+        person: this.get('sessionMember.person'),
         stream: this.get('stream')
       });
 
@@ -292,7 +320,7 @@ export default Controller.extend({
       });
 
       let comments = this.store.query('comment', {
-        limit: PAGE_SIZE,
+        limit: COMMENT_LOAD_SIZE,
         offset: this.get('comments.length'),
         stream_id: this.get('stream.id')
       }).then((comments) => {
@@ -312,6 +340,7 @@ export default Controller.extend({
       let typingAt = new Date();
       this.get('membersSubscription').send({
         member: {
+          stream_id: this.get('stream.id'),
           id: this.get('sessionMember.id'),
           typing_at: typingAt
         }

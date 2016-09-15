@@ -4,6 +4,10 @@ export default Ember.Component.extend({
   comment: null,
   isEditing: false,
 
+  setElementId: Ember.on('init', function() {
+    this.set('elementId', 'comment-' + this.get('comment.id'));
+  }),
+
   actions: {
     doEdit() {
       this.set('isEditing', true);
