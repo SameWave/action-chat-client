@@ -1,0 +1,32 @@
+.c-message-marker {
+	position: absolute;
+	// NOTE: Initial value overwritten by component
+	top: -100px;
+	left: 0;
+	width: 100%;
+	z-index: $z-body-float;
+	margin-top: -7px;
+
+	// Elements
+	&_line {
+		position: relative;
+		margin: auto;
+		width: 100%;
+		height: 1px;
+		background-color: map-get($red, 'base');
+	}
+
+	&_label {
+		position: relative;
+		top: -9px;
+		margin: auto;
+		width: 120px;
+		height: auto;
+		border-radius: 3px;
+		z-index: $z-body-float + 10;
+		background: map-get($deep-orange, 'darken-2');
+		color: map-get($shades, 'white');
+		text-align: center;
+		font-size: 10px;
+	}
+}
