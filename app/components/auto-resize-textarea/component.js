@@ -9,17 +9,17 @@ const {
 export default TextArea.extend({
   classNames: ['c-auto-resize-textarea'],
 
-  _resize() {
-    let textArea = this.element;
+  // _resize() {
+  //   let textArea = this.element;
 
-    run.debounce(this, function() {
-      textArea.style.cssText = 'height:auto; padding:0';
-      textArea.style.cssText = `height:${textArea.scrollHeight}px`;
-    }, 50);
-  },
+  //   run.debounce(this, function() {
+  //     textArea.style.cssText = 'height:auto; padding:0';
+  //     textArea.style.cssText = `height:${textArea.scrollHeight}px`;
+  //   }, 50);
+  // },
 
   keyDown() {
-    this._resize();
+    // this._resize();
     if (this.get('onKeyDown')) {
       this.get('onKeyDown')();
     }
