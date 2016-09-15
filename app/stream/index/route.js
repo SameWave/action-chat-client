@@ -19,4 +19,8 @@ export default Route.extend(AuthenticatedRouteMixin, {
       })
     });
   },
+
+  afterModel(model) {
+    model.stream.get('members');
+  }
 });
