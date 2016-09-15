@@ -26,13 +26,6 @@ export default Component.extend({
     run.cancel(this.typingTimer);
   },
 
-  _resize() {
-    let [textArea] = this.inputElement;
-
-    textArea.style.cssText = 'height:auto; padding:0';
-    textArea.style.cssText = `height:${textArea.scrollHeight}px`;
-  },
-
   actions: {
 
     doFocusIn() {
@@ -48,10 +41,7 @@ export default Component.extend({
     },
 
     doKeyDown() {
-      this.typingTimer = run.throttle(this, function() {
-        this._resize();
-        this.doTyping;
-      }, 500);
+      this.typingTimer = run.throttle(this, this.doTyping, 500);
     },
 
     doKeyUp() {},
@@ -74,7 +64,6 @@ export default Component.extend({
         this.get('doComment')(this.get('comment'));
       }
       this.set('comment', '');
-      this._resize();
     }
   }
 });

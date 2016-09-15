@@ -1,25 +1,34 @@
 import Ember from 'ember';
-import { animate } from 'liquid-fire';
 
 const {
   TextArea,
-  run
+  run,
+  observer
 } = Ember;
 
 export default TextArea.extend({
   classNames: ['c-auto-resize-textarea'],
 
-  // _resize() {
-  //   let textArea = this.element;
+  value: '',
 
-  //   run.debounce(this, function() {
-  //     textArea.style.cssText = 'height:auto; padding:0';
-  //     textArea.style.cssText = `height:${textArea.scrollHeight}px`;
-  //   }, 50);
-  // },
+  resetSize: observer('value', function() {
+    if (this.get('value') === '') {
+      this._resize();
+    }
+  }),
+
+  _resize() {
+    let textArea = this.element;
+
+    run.debounce(this, function() {
+      textArea.style.cssText = 'height:auto; padding:0';
+      textArea.style.cssText = `height:${textArea.scrollHeight}px`;
+    }, 50);
+  },
 
   keyDown() {
-    // this._resize();
+    this._resize();
+
     if (this.get('onKeyDown')) {
       this.get('onKeyDown')();
     }
