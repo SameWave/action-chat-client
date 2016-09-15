@@ -1,14 +1,15 @@
 import Ember from 'ember';
 
 const {
+  Component,
   computed: {
     sort
   },
   $
 } = Ember;
 
-export default Ember.Component.extend({
-
+export default Component.extend({
+  classNames: ['c-comments-section'],
   sessionMember: null,
   comments: [],
   typers: [],

@@ -1,11 +1,13 @@
 .c-tabs {
-	@extend .z-depth-2;
+	@extend .z-depth-1;
 	flex: 0 0 24px;
 	display: flex;
 	position: relative;
   align-items: center;
-	text-align: center;
+  z-index: $z-body + 10;
 	border-top: 1px solid map-get($blue, 'lighten-4');
+	background-color: map-get($shades, 'white');
+	text-align: center;
 
 	&_item {
 		flex: 1 0 auto;
