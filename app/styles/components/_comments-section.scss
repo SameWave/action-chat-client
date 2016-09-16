@@ -4,4 +4,6 @@
   position: relative;
   overflow-y: scroll;	
   cursor: pointer;
+  overflow-scrolling: touch;
+  -webkit-overflow-scrolling: touch;
 }
