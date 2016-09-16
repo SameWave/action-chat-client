@@ -37,7 +37,8 @@ export default Route.extend(AuthenticatedRouteMixin, {
     let sessionMember = members.findBy('person.id', this.get('user.id'));
 
     controller.setProperties({
-      allComments: comments,
+      totalCommentCount: stream.get('commentCount'),
+      comments: comments,
       stream: stream,
       members: members,
       sessionMember: sessionMember

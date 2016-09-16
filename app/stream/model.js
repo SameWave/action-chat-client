@@ -17,5 +17,7 @@ export default Model.extend({
   comments: hasMany('comment', {
     inverse: 'stream',
     async: true
-  })
+  }),
+
+  commentCount: attr('number')
 });
