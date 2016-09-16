@@ -1,14 +1,10 @@
 import Ember from 'ember';
-import ENV from 'action-chat-client/config/environment';
 
 const {
   Controller,
+  debug,
   $,
   observer,
-  inject: {
-    service
-  },
-  on,
   run,
   computed,
   computed: {
@@ -45,7 +41,7 @@ export default Controller.extend({
   newMessagesTop: 0,
 
   didRender() {
-    Ember.debug('controller didRender');
+    debug('controller didRender');
 
     this.commentsElement = $('.js-comments-section');
     this.chatBox = $('.js-chat-box');
@@ -135,7 +131,7 @@ export default Controller.extend({
   },
 
   showKeyboard(height) {
-    let scrollHeight = this.commentsElement.get(0).scrollHeight; // TODO: Use object destructing
+    let { scrollHeight } = this.commentsElement.get(0);
 
     this.streamBody.css({
       'transform': `translateY(-${height}px)`,
@@ -219,7 +215,7 @@ export default Controller.extend({
 
   bottomOffset() {
     let sectionHeight = this.commentsElement.height() + 20; // TODO: 20 for margin?
-    let scrollHeight = this.commentsElement.get(0).scrollHeight; // TODO: Use object destructing
+    let { scrollHeight } = this.commentsElement.get(0);
     let scrollTop = this.commentsElement.scrollTop();
 
     // NOTE: (total scroll height) - (height of section + 20 for margin) - (scrolled distance)
@@ -246,7 +242,7 @@ export default Controller.extend({
     },
 
     createComment(body) {
-      Ember.debug('createComment');
+      debug('createComment');
       let comment = this.store.createRecord('comment', {
         body,
         person: this.get('sessionMember.person'),
@@ -293,11 +289,11 @@ export default Controller.extend({
         previousTop: this.commentsElement.get(0).scrollHeight + this.commentsElement.scrollTop()
       });
 
-      let comments = this.store.query('comment', {
+      this.store.query('comment', {
         limit: COMMENT_LOAD_SIZE,
         offset: this.get('comments.length'),
         stream_id: this.get('stream.id')
-      }).then((comments) => {
+      }).then(() => {
         this.send('doneLoadingEarlier');
       });
     },

@@ -1,13 +1,15 @@
 import Ember from 'ember';
 
 const {
+  Controller,
+  inject,
   computed: {
     alias
   }
 } = Ember;
 
-export default Ember.Controller.extend({
-  session: Ember.inject.service(),
+export default Controller.extend({
+  session: inject.service(),
   streams: alias('model'),
 
   actions: {

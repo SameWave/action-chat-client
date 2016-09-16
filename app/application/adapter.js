@@ -7,12 +7,15 @@ const {
 	JSONAPIAdapter
 } = DS;
 
+const {
+	String
+} = Ember;
+
 export default JSONAPIAdapter.extend(DataAdapterMixin, {
   host: ENV.host,
   authorizer: 'authorizer:custom',
 
   pathForType(type) {
-    return Ember.String.pluralize(Ember.String.underscore(type));
+    return String.pluralize(String.underscore(type));
   }
-
 });

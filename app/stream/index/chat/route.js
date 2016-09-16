@@ -4,7 +4,9 @@ import ENV from 'action-chat-client/config/environment';
 
 const {
   Route,
+  debug,
   RSVP,
+  inspect,
   inject: {
     service
   },
@@ -21,7 +23,7 @@ export default Route.extend(AuthenticatedRouteMixin, {
   user: alias('session.person'),
 
   model() {
-    let stream = this.modelFor('stream.index').stream;
+    let { stream } = this.modelFor('stream.index');
     return RSVP.hash({
       stream: stream,
       comments: this.store.peekAll('comment'),
@@ -30,9 +32,9 @@ export default Route.extend(AuthenticatedRouteMixin, {
   },
 
   setupController(controller, model) {
-    let stream = model.stream;
-    let comments = model.comments;
-    let members = model.members;
+    let { stream } = model;
+    let { comments } = model;
+    let { members } = model;
 
     let sessionMember = members.findBy('person.id', this.get('user.id'));
 
@@ -43,32 +45,32 @@ export default Route.extend(AuthenticatedRouteMixin, {
       sessionMember: sessionMember
     });
 
-    const consumer = this.get('cable').createConsumer(ENV.socket);
+    let consumer = this.get('cable').createConsumer(ENV.socket);
 
     this.subscribeComments(consumer, controller, model);
     this.subscribeMembers(consumer, controller, model);
   },
 
   subscribeComments(consumer, controller, model) {
-    let stream = model.stream;
+    let { stream } = model;
     let channel = 'CommentsChannel';
 
-    Ember.debug('subscribeComments');
+    debug('subscribeComments');
 
-    const subscription = consumer.subscriptions.create({
+    let subscription = consumer.subscriptions.create({
       channel: channel,
       stream_id: stream.get('id')
     }, {
       connected() {
-        Ember.debug(`connected to ${channel}`);
+        debug(`connected to ${channel}`);
       },
 
       disconnected() {
-        Ember.debug(`disconnected from ${channel}`);
+        debug(`disconnected from ${channel}`);
       },
 
       received(data) {
-        Ember.debug(`${channel} received data -> ${Ember.inspect(data)}`);
+        debug(`${channel} received data -> ${inspect(data)}`);
         controller.receivedCommentsData(data);
       }
     });
@@ -77,21 +79,21 @@ export default Route.extend(AuthenticatedRouteMixin, {
   },
 
   subscribeMembers(consumer, controller, model) {
-    let stream = model.stream;
+    let { stream } = model;
     let channel = 'MembersChannel';
 
-    const subscription = consumer.subscriptions.create({
+    let subscription = consumer.subscriptions.create({
       channel: channel,
       stream_id: stream.get('id')
     }, {
 
       connected() {
-        Ember.debug(`connected to ${channel}`);
+        debug(`connected to ${channel}`);
         controller.setLastReadAt();
       },
 
       disconnected() {
-        Ember.debug(`disconnected from ${channel}`);
+        debug(`disconnected from ${channel}`);
       },
 
       received: (data) => {
@@ -104,7 +106,7 @@ export default Route.extend(AuthenticatedRouteMixin, {
 
   actions: {
     didTransition() {
-      Ember.debug('didTransition');
+      debug('didTransition');
 
       run.schedule('afterRender', this, function() {
         this.get('controller').didRender();

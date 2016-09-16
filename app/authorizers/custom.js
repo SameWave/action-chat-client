@@ -1,8 +1,12 @@
 import Base from 'ember-simple-auth/authorizers/base';
 import Ember from 'ember';
 
+const {
+	inject
+} = Ember;
+
 export default Base.extend({
-  session: Ember.inject.service(),
+  session: inject.service(),
 
   authorize(data, block) {
     const {
