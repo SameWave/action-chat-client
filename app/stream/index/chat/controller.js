@@ -25,7 +25,8 @@ export default Controller.extend({
 
   stream: null,
   sessionMember: null,
-  members: alias('stream.members'),
+  members: [],
+  comments: [],
 
   commentsElement: null,
   commentsSubscription: null,
@@ -57,14 +58,17 @@ export default Controller.extend({
 
     let lastReadAt = this.get('sessionMember.lastReadAt');
 
-    let readComments = this.get('comments').sortBy('createdAt').filter((comment) => {
-      return comment.get('createdAt') < lastReadAt;
+    let unreadComments = this.get('comments').sortBy('createdAt').filter((comment) => {
+      return comment.get('createdAt') > lastReadAt;
     });
 
-    if (readComments.get('length') < this.get('comments.length')) {
+    Ember.debug(`comments: ${this.get('comments.length')}`);
+    Ember.debug(`unreadComments: ${unreadComments.get('length')}`);
 
-      let lastReadCommentElement = $(`#comment-${readComments.get('lastObject.id')}`);
-      let newMessagesTop = lastReadCommentElement.position().top + lastReadCommentElement.height() + 10;
+    if (unreadComments.get('length')) {
+
+      let unreadCommentElement = $(`#comment-${unreadComments.get('firstObject.id')}`);
+      let newMessagesTop = unreadCommentElement.position().top - 10;
 
       this.set('newMessagesTop', newMessagesTop);
 
@@ -178,13 +182,13 @@ export default Controller.extend({
           'person': {
             'data': {
               'type': 'person',
-              'id': data.person_id
+              'id': data.person.id
             }
           },
           'stream': {
             'data': {
               'type': 'stream',
-              'id': data.stream_id
+              'id': data.stream.id
             }
           }
         }

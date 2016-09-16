@@ -3,7 +3,8 @@ import ApplicationRouteMixin from 'ember-simple-auth/mixins/application-route-mi
 
 const {
   Route,
-  RSVP
+  RSVP,
+  isEmpty
 } = Ember;
 
 export default Route.extend(ApplicationRouteMixin, {
@@ -37,8 +38,7 @@ export default Route.extend(ApplicationRouteMixin, {
   _findAll() {
     return RSVP.hash({
       people: this.store.findAll('person'),
-      streams: this.store.findAll('stream'),
-      members: this.store.findAll('member')
+      streams: this.store.findAll('stream')
     });
   }
 });

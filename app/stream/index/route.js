@@ -3,7 +3,8 @@ import AuthenticatedRouteMixin from 'ember-simple-auth/mixins/authenticated-rout
 
 const {
   Route,
-  RSVP
+  RSVP,
+  isEmpty
 } = Ember;
 
 import {
@@ -23,7 +24,9 @@ export default Route.extend(AuthenticatedRouteMixin, {
         offset: 0,
         stream_id: params.stream_id
       }),
-      members: stream.get('members')
+      members: this.store.query('member', {
+        stream_id: params.stream_id
+      })
     });
   },
 

@@ -4,8 +4,8 @@ import ENV from 'action-chat-client/config/environment';
 
 const {
   Route,
-  debug,
   RSVP,
+  debug,
   inspect,
   inject: {
     service
@@ -29,7 +29,7 @@ export default Route.extend(AuthenticatedRouteMixin, {
     return RSVP.hash({
       stream,
       comments: this.store.peekAll('comment'),
-      members: this.store.peekAll('member').filterBy('stream.id', stream.get('id'))
+      members: this.store.peekAll('member')
     });
   },
 
@@ -44,7 +44,7 @@ export default Route.extend(AuthenticatedRouteMixin, {
 
     controller.setProperties({
       totalCommentCount: stream.get('commentCount'),
-      comments,
+      comments: comments,
       stream,
       members,
       sessionMember
