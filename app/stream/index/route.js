@@ -28,8 +28,10 @@ export default Route.extend(AuthenticatedRouteMixin, {
   },
 
   actions: {
-    willTransition() {
-      this.store.unloadAll('comment');
+    willTransition(transition) {
+      if (!['stream.index.chat', 'stream.index.scoreboard'].contains(transition.targetName)) {
+        this.store.unloadAll('comment');
+      }
     }
   }
 });

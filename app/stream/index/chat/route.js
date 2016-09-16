@@ -23,7 +23,9 @@ export default Route.extend(AuthenticatedRouteMixin, {
   sessionPerson: alias('session.person'),
 
   model() {
-    let { stream } = this.modelFor('stream.index');
+    let {
+      stream
+    } = this.modelFor('stream.index');
     return RSVP.hash({
       stream,
       comments: this.store.peekAll('comment'),
@@ -32,12 +34,13 @@ export default Route.extend(AuthenticatedRouteMixin, {
   },
 
   setupController(controller, model) {
-    let { stream } = model;
-    let { comments } = model;
-    let { members } = model;
+    let {
+      stream,
+      comments,
+      members
+    } = model;
 
     let sessionMember = members.findBy('person.id', this.get('sessionPerson.id'));
-    console.log('sessionMember');
 
     controller.setProperties({
       totalCommentCount: stream.get('commentCount'),
@@ -54,7 +57,9 @@ export default Route.extend(AuthenticatedRouteMixin, {
   },
 
   subscribeComments(consumer, controller, model) {
-    let { stream } = model;
+    let {
+      stream
+    } = model;
     let channel = 'CommentsChannel';
     let subscription = consumer.subscriptions.create({
       channel,
@@ -78,7 +83,9 @@ export default Route.extend(AuthenticatedRouteMixin, {
   },
 
   subscribeMembers(consumer, controller, model) {
-    let { stream } = model;
+    let {
+      stream
+    } = model;
     let channel = 'MembersChannel';
 
     let subscription = consumer.subscriptions.create({
