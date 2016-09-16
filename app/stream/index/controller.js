@@ -15,7 +15,7 @@ export default Controller.extend({
   session: service(),
 
   stream: alias('model.stream'),
-  members: alias('stream.members'),
+  members: alias('model.members'),
 
   typers: computed.filterBy('members', 'isTyping'),
 
