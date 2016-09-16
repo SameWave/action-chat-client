@@ -19,12 +19,13 @@
   newMessagesTop=newMessagesTop
 }}
 
-<div class="c-footer js-chat-box">
-  {{chat-box
-    doComment=(action "createComment")
-    doTyping=(action "doTyping")
-    isKeyboardOpen=isKeyboardOpen
-  }}
-</div>
-
+{{#if sessionMember}}
+  <div class="c-footer js-chat-box">
+    {{chat-box
+      doComment=(action "createComment")
+      doTyping=(action "doTyping")
+      isKeyboardOpen=isKeyboardOpen
+    }}
+  </div>
+{{/if}}
 

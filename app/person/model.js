@@ -1,13 +1,14 @@
 import DS from 'ember-data';
 
 const {
-	Model,
-	attr,
-	hasMany
+  Model,
+  hasMany,
+  attr
 } = DS;
 
 export default Model.extend({
   name: attr('string'),
+  isAdmin: attr('boolean'),
 
   members: hasMany('member', {
     inverse: 'person',
@@ -18,4 +19,5 @@ export default Model.extend({
     inverse: 'person',
     async: true
   })
+
 });

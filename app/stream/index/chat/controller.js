@@ -37,8 +37,6 @@ export default Controller.extend({
   newMessagesTop: 0,
 
   didRender() {
-    debug('controller didRender');
-
     this.commentsElement = $('.js-comments-section');
     this.chatBox = $('.js-chat-box');
     this.streamBody = $('.js-stream-body');
@@ -132,7 +130,9 @@ export default Controller.extend({
   },
 
   showKeyboard(height) {
-    let { scrollHeight } = this.commentsElement.get(0);
+    let {
+      scrollHeight
+    } = this.commentsElement.get(0);
 
     this.streamBody.css({
       'transform': `translateY(-${height}px)`,
@@ -216,7 +216,9 @@ export default Controller.extend({
 
   bottomOffset() {
     let sectionHeight = this.commentsElement.height() + 20; // TODO: 20 for margin?
-    let { scrollHeight } = this.commentsElement.get(0);
+    let {
+      scrollHeight
+    } = this.commentsElement.get(0);
     let scrollTop = this.commentsElement.scrollTop();
 
     // NOTE: (total scroll height) - (height of section + 20 for margin) - (scrolled distance)
