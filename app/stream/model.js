@@ -22,7 +22,7 @@ export default Model.extend({
   commentCount: attr('number'),
 
   lastCommentedAt: attr('date', {
-    defaultValue: function() {
+    defaultValue: () => {
       return new Date();
     }
   })

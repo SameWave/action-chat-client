@@ -18,7 +18,7 @@ export default Route.extend(AuthenticatedRouteMixin, {
 
   session: service(),
   cable: service(),
-  user: alias('session.person'),
+  sessionPerson: alias('session.person'),
 
   model() {
     let stream = this.modelFor('stream.index').stream;
@@ -34,7 +34,8 @@ export default Route.extend(AuthenticatedRouteMixin, {
     let comments = model.comments;
     let members = model.members;
 
-    let sessionMember = members.findBy('person.id', this.get('user.id'));
+    let sessionMember = members.findBy('person.id', this.get('sessionPerson.id'));
+    console.log('sessionMember');
 
     controller.setProperties({
       totalCommentCount: stream.get('commentCount'),

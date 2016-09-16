@@ -36,8 +36,6 @@ export default Controller.extend({
   newMessagesTop: 0,
 
   didRender() {
-    Ember.debug('controller didRender');
-
     this.commentsElement = $('.js-comments-section');
     this.chatBox = $('.js-chat-box');
     this.streamBody = $('.js-stream-body');
