@@ -26,11 +26,6 @@ export default Controller.extend({
   stream: null,
   sessionMember: null,
   members: alias('stream.members'),
-  allComments: [],
-
-  comments: computed('allComments.[]', 'stream.id', function() {
-    return this.get('allComments').filterBy('stream.id', this.get('stream.id'));
-  }),
 
   commentsElement: null,
   commentsSubscription: null,
@@ -38,6 +33,7 @@ export default Controller.extend({
   isLoadingEarlier: false,
   isKeyboardOpen: false,
   isNotifierVisible: true,
+  totalCommentCount: 0,
   newMessagesTop: 0,
 
   didRender() {
@@ -90,6 +86,10 @@ export default Controller.extend({
     // });
   },
 
+  isShowingAllComments: computed('totalCommentCount', 'comments.length', function() {
+    return this.get('comments.length') >= this.get('totalCommentCount');
+  }),
+
   receivedCommentsData(data) {
     let comment = this.store.peekRecord('comment', data.comment.id);
     if (isEmpty(comment)) {
@@ -98,6 +98,7 @@ export default Controller.extend({
         let bottomOffset = this.bottomOffset();
 
         this.pushComment(data.comment);
+        this.commentCountPlusPlus();
 
         run.next(this, this.nudgeOrScrollBottom, bottomOffset);
         run.next(this, this.vibrate);
@@ -236,6 +237,10 @@ export default Controller.extend({
     }
   },
 
+  commentCountPlusPlus() {
+    this.set('totalCommentCount', this.get('totalCommentCount') + 1);
+  },
+
   actions: {
     toggleNotifierVisibility() {
       this.set('isNotifierVisible', false);
@@ -248,6 +253,8 @@ export default Controller.extend({
         person: this.get('sessionMember.person'),
         stream: this.get('stream')
       });
+
+      this.commentCountPlusPlus();
 
       // Scroll to bottom so that new comment is visible
       run.next(this, this.scrollToBottom);

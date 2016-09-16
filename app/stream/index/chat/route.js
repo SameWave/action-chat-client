@@ -39,7 +39,8 @@ export default Route.extend(AuthenticatedRouteMixin, {
     let sessionMember = members.findBy('person.id', this.get('user.id'));
 
     controller.setProperties({
-      allComments: comments,
+      totalCommentCount: stream.get('commentCount'),
+      comments,
       stream,
       members,
       sessionMember
@@ -54,23 +55,20 @@ export default Route.extend(AuthenticatedRouteMixin, {
   subscribeComments(consumer, controller, model) {
     let { stream } = model;
     let channel = 'CommentsChannel';
-
-    debug('subscribeComments');
-
     let subscription = consumer.subscriptions.create({
       channel,
       stream_id: stream.get('id')
     }, {
       connected() {
-        debug(`connected to ${channel}`);
+        // Ember.debug(`connected to ${channel}`);
       },
 
       disconnected() {
-        debug(`disconnected from ${channel}`);
+        // Ember.debug(`disconnected from ${channel}`);
       },
 
       received(data) {
-        debug(`${channel} received data -> ${inspect(data)}`);
+        // Ember.debug(`${channel} received data -> ${Ember.inspect(data)}`);
         controller.receivedCommentsData(data);
       }
     });
@@ -88,12 +86,12 @@ export default Route.extend(AuthenticatedRouteMixin, {
     }, {
 
       connected() {
-        debug(`connected to ${channel}`);
+        // Ember.debug(`connected to ${channel}`);
         controller.setLastReadAt();
       },
 
       disconnected() {
-        debug(`disconnected from ${channel}`);
+        // Ember.debug(`disconnected from ${channel}`);
       },
 
       received: (data) => {
@@ -106,8 +104,6 @@ export default Route.extend(AuthenticatedRouteMixin, {
 
   actions: {
     didTransition() {
-      debug('didTransition');
-
       run.schedule('afterRender', this, function() {
         this.get('controller').didRender();
       });
