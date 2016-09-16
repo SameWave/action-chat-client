@@ -3,7 +3,7 @@
 </div>
 
 {{#if isEditing}}
-	<div class="message_body">{{input value=comment.body}}</div>
+	<div class="message_body">{{{input value=comment.body}}}</div>
 
   <div class="red || message_option" {{action (action "doCancel")}}>cancel</div>
   <div class="green || message_option" {{action (action "doUpdate")}}>save</div>
