@@ -1,4 +1,5 @@
-.message {
+.c-stream-comment {
+	@extend .chip;
 	display: flex;
 	align-content: center;
 	height: auto;
