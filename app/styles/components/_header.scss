@@ -1,7 +1,7 @@
 .c-header {
 	display: flex;
 	justify-content: space-between;
-	align-items: center;
+	align-items: stretch;
 	width: 100%;
 	height: 100%;
 	padding: 0 10px;
@@ -16,6 +16,8 @@
 	// Layouts
 	%side-elements {
 		flex: 0 0 20%;
+		display: flex;
+		align-items: center;
 		min-width: 72px;
 	}
 
@@ -27,13 +29,15 @@
 	&_second-section {
 		@include fade($color: map-get($pink, 'base'));
 		flex: 1 2 60%;
+		display: flex;
+		flex-direction: column;
+		justify-content: center;
+		align-items: center;
 		overflow: hidden;
-		text-align: center;
 	}
 
 	&_last-section {
 		@extend %side-elements;
-		display: flex;
 		justify-content: flex-end;
 		margin-left: 5px;
 		text-align: right;
