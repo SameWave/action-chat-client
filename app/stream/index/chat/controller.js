@@ -41,6 +41,7 @@ export default Controller.extend({
   streamsSubscription: null,
   isLoadingEarlier: false,
   isKeyboardOpen: false,
+  isNotifierVisible: true,
   newMessagesTop: 0,
 
   didRender() {
@@ -266,6 +267,10 @@ export default Controller.extend({
   },
 
   actions: {
+    toggleNotifierVisibility() {
+      this.set('isNotifierVisible', false);
+    },
+
     createComment(body) {
       Ember.debug('createComment');
       let comment = this.store.createRecord('comment', {

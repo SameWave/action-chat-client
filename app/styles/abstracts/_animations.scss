@@ -20,3 +20,23 @@
 .a-fade-in {
   animation: fade-in $speed-normal forwards;
 }
+
+@keyframes fade-out {
+	0% {
+		opacity: 1;
+	}
+
+	99% {
+		opacity: 0;
+	}
+
+	100% {
+		opacity: 0;
+		visibility: hidden;
+		display: none;
+	}
+}
+
+.a-fade-out {
+  animation: fade-out $speed-normal forwards;
+}

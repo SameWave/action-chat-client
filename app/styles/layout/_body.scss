@@ -7,6 +7,7 @@
   overflow-x: hidden;
   overflow-y: scroll;
 
+  // Modifiers
   &--login {
     @extend .l-app-body;
     display: flex;
@@ -37,5 +38,14 @@
       justify-content: space-between;
       height: 100%;
     }
+  }
+
+  // Elements
+  &_top-anchor {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    z-index: $z-body-float + 20;
   }
 }

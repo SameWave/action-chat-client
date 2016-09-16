@@ -2,7 +2,13 @@
   <p class="a-fade-in o-stream-members-list">{{headerContent}}</p>
 {{/ember-wormhole}}
 
-{{!-- BODY --}}
+
+{{#liquid-if isNotifierVisible class="l-app-body_top-anchor"}}
+  {{unread-notifier
+    lastReadAt=sessionMember.lastReadAt
+    click=(action "toggleNotifierVisibility")}} 
+{{/liquid-if}}
+
 {{comments-section
   classNames="js-comments-section"
   comments=comments
@@ -22,6 +28,5 @@
     isKeyboardOpen=isKeyboardOpen
   }}
 </div>
-{{!-- END OF BODY --}}
 
 
