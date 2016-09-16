@@ -10,7 +10,7 @@
 
 html, body {
 	margin: 0;
-	-webkit-overflow-scrolling: touch;
+	-webkit-overflow-scrolling: auto;
 }
 
 h1, h2, h3, h4, h5, h6, p {
@@ -43,6 +43,7 @@ textarea.materialize-textarea {
 	display: flex;
 	flex-direction: column;
 	height: 100vh;
+	-webkit-overflow-scrolling: auto;
 }
 
 ::-webkit-scrollbar { 

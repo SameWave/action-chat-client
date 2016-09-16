@@ -4,4 +4,16 @@
   position: relative;
   overflow-y: scroll;	
   cursor: pointer;
+  -webkit-overflow-scrolling: touch;
+
+	// NOTE: Trick to get IOS over-scroll working when there is one comment
+	&::before {
+		content: '';
+		display: block;
+		position: absolute;
+		top: -1px;
+		left: 0;
+		bottom: -1px;
+		width: 1px;
+	}
 }
