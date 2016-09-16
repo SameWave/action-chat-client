@@ -5,6 +5,7 @@ const {
 } = Ember;
 
 export default Component.extend({
+  classNames: ['c-stream-comment'],
   comment: null,
   isEditing: false,
 
