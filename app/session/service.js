@@ -2,6 +2,7 @@ import Ember from 'ember';
 import SessionService from 'ember-simple-auth/services/session';
 
 const {
+  isEmpty,
   computed: {
     alias
   },
@@ -20,10 +21,9 @@ export default SessionService.extend({
 
   loadPerson() {
     return new RSVP.Promise((resolve, reject) => {
-      if (!Ember.isEmpty(this.get('token'))) {
+      if (!isEmpty(this.get('token'))) {
         // TODO: Use the person ID here rather than 'me'
-        return this.get('store').findRecord('person',
-          'me').then((person) => {
+        return this.get('store').findRecord('person', 'me').then((person) => {
           this.set('person', person);
           resolve();
         }, reject);

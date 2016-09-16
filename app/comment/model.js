@@ -1,22 +1,28 @@
 import DS from 'ember-data';
 
-export default DS.Model.extend({
-  body: DS.attr('string'),
+const {
+  Model,
+  attr,
+  belongsTo
+} = DS;
 
-  createdAt: DS.attr('date', {
-    defaultValue: function() {
+export default Model.extend({
+  body: attr('string'),
+
+  createdAt: attr('date', {
+    defaultValue() {
       return new Date();
     }
   }),
 
-  person: DS.belongsTo('person', {
+  person: belongsTo('person', {
     inverse: 'comments',
     async: true
   }),
 
-  stream: DS.belongsTo('stream', {
+  stream: belongsTo('stream', {
     inverse: 'comments',
     async: true
-  }),
+  })
 
 });

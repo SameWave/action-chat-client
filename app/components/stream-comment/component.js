@@ -1,12 +1,18 @@
 import Ember from 'ember';
 
-export default Ember.Component.extend({
+const {
+  Component
+} = Ember;
+
+export default Component.extend({
   comment: null,
   isEditing: false,
 
-  setElementId: Ember.on('init', function() {
-    this.set('elementId', 'comment-' + this.get('comment.id'));
-  }),
+  init() {
+    this._super(...arguments);
+
+    this.set('elementId', `comment-${this.get('comment.id')}`);
+  },
 
   actions: {
     doEdit() {
