@@ -19,5 +19,12 @@ export default Model.extend({
     async: true
   }),
 
-  commentCount: attr('number')
+  commentCount: attr('number'),
+
+  lastCommentedAt: attr('date', {
+    defaultValue: function() {
+      return new Date();
+    }
+  })
+
 });
