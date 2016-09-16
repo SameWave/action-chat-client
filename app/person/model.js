@@ -1,15 +1,20 @@
 import DS from 'ember-data';
-import Ember from 'ember';
 
-export default DS.Model.extend({
-  name: DS.attr('string'),
+const {
+	Model,
+	attr,
+	hasMany
+} = DS;
 
-  members: DS.hasMany('member', {
+export default Model.extend({
+  name: attr('string'),
+
+  members: hasMany('member', {
     inverse: 'person',
     async: true
   }),
 
-  comments: DS.hasMany('comment', {
+  comments: hasMany('comment', {
     inverse: 'person',
     async: true
   })

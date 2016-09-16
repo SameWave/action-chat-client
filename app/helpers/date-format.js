@@ -1,8 +1,12 @@
 import Ember from 'ember';
 
+const {
+	Helper
+} = Ember;
+
 export function dateFormat(params) {
-  let date = params[0];
+  let [date] = params;
   return date.toTimeString();
 }
 
-export default Ember.Helper.helper(dateFormat);
+export default Helper.helper(dateFormat);

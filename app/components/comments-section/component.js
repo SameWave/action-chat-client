@@ -3,9 +3,6 @@ import Ember from 'ember';
 const {
   Component,
   computed,
-  computed: {
-    sort
-  },
   $
 } = Ember;
 
@@ -14,7 +11,7 @@ export default Component.extend({
   comments: [],
   typers: [],
   sortProperties: ['createdAt', 'id'],
-  sortedComments: sort('comments', 'sortProperties'),
+  sortedComments: computed.sort('comments', 'sortProperties'),
 
   newMessagesTop: 0,
 

@@ -4,7 +4,9 @@ import ENV from 'action-chat-client/config/environment';
 
 const {
   Route,
+  debug,
   RSVP,
+  inspect,
   inject: {
     service
   },
@@ -21,7 +23,7 @@ export default Route.extend(AuthenticatedRouteMixin, {
   user: alias('session.person'),
 
   model() {
-    let stream = this.modelFor('stream.index').stream;
+    let { stream } = this.modelFor('stream.index');
     return RSVP.hash({
       stream,
       comments: this.store.peekAll('comment'),
@@ -30,9 +32,9 @@ export default Route.extend(AuthenticatedRouteMixin, {
   },
 
   setupController(controller, model) {
-    let stream = model.stream;
-    let comments = model.comments;
-    let members = model.members;
+    let { stream } = model;
+    let { comments } = model;
+    let { members } = model;
 
     let sessionMember = members.findBy('person.id', this.get('user.id'));
 
@@ -51,9 +53,8 @@ export default Route.extend(AuthenticatedRouteMixin, {
   },
 
   subscribeComments(consumer, controller, model) {
-    let stream = model.stream;
+    let { stream } = model;
     let channel = 'CommentsChannel';
-
     let subscription = consumer.subscriptions.create({
       channel,
       stream_id: stream.get('id')
@@ -76,11 +77,11 @@ export default Route.extend(AuthenticatedRouteMixin, {
   },
 
   subscribeMembers(consumer, controller, model) {
-    let stream = model.stream;
+    let { stream } = model;
     let channel = 'MembersChannel';
 
     let subscription = consumer.subscriptions.create({
-      channel: channel,
+      channel,
       stream_id: stream.get('id')
     }, {
 

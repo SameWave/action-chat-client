@@ -1,4 +1,5 @@
 import DS from 'ember-data';
+import Ember from 'ember';
 
 const {
   run,
@@ -8,7 +9,8 @@ const {
 
 const {
   Model,
-  belongsTo
+  belongsTo,
+  attr
 } = DS;
 
 export default Model.extend({
@@ -23,8 +25,8 @@ export default Model.extend({
     async: true
   }),
 
-  lastReadAt: DS.attr('date', {
-    defaultValue: function() {
+  lastReadAt: attr('date', {
+    defaultValue() {
       return new Date();
     }
   }),
