@@ -28,4 +28,8 @@
 	&_title {
 		font-size: 14px;
 	}
+	&_meta {
+		font-size: 10px;
+		color: map-get($grey, 'base');
+	}
 }
