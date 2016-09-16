@@ -25,7 +25,7 @@ export default Route.extend(AuthenticatedRouteMixin, {
   model() {
     let { stream } = this.modelFor('stream.index');
     return RSVP.hash({
-      stream: stream,
+      stream,
       comments: this.store.peekAll('comment'),
       members: this.store.peekAll('member').filterBy('stream.id', stream.get('id'))
     });
@@ -40,9 +40,9 @@ export default Route.extend(AuthenticatedRouteMixin, {
 
     controller.setProperties({
       allComments: comments,
-      stream: stream,
-      members: members,
-      sessionMember: sessionMember
+      stream,
+      members,
+      sessionMember
     });
 
     let consumer = this.get('cable').createConsumer(ENV.socket);
@@ -58,7 +58,7 @@ export default Route.extend(AuthenticatedRouteMixin, {
     debug('subscribeComments');
 
     let subscription = consumer.subscriptions.create({
-      channel: channel,
+      channel,
       stream_id: stream.get('id')
     }, {
       connected() {
@@ -83,7 +83,7 @@ export default Route.extend(AuthenticatedRouteMixin, {
     let channel = 'MembersChannel';
 
     let subscription = consumer.subscriptions.create({
-      channel: channel,
+      channel,
       stream_id: stream.get('id')
     }, {
 

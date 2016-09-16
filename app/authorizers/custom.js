@@ -9,7 +9,7 @@ export default Base.extend({
   session: inject.service(),
 
   authorize(data, block) {
-    const {
+    let {
       token
     } = data;
 
