@@ -8,23 +8,25 @@ const {
   inject: {
     service
   },
-  RSVP
+  RSVP,
+  isEmpty
 } = Ember;
 
 export default SessionService.extend({
 
   store: service(),
+  push: service(),
   person: null,
 
   token: alias('data.authenticated.token'),
 
   loadPerson() {
     return new RSVP.Promise((resolve, reject) => {
-      if (!Ember.isEmpty(this.get('token'))) {
+      if (!isEmpty(this.get('token'))) {
         // TODO: Use the person ID here rather than 'me'
-        return this.get('store').findRecord('person',
-          'me').then((person) => {
+        return this.get('store').findRecord('person', 'me').then((person) => {
           this.set('person', person);
+          this.get('push').setup(person.get('id'));
           resolve();
         }, reject);
       } else {

@@ -32,8 +32,8 @@ module.exports = function(environment) {
       // when it is created
     },
 
-    host: 'http://localhost:3000',
-    socket: 'ws://localhost:3000/cable'
+    host: 'http://b27d9f4b.ngrok.io',
+    socket: 'ws://10.99.220.230:3000/cable'
   };
 
   ENV['ember-simple-auth'] = {
