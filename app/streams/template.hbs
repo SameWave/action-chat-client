@@ -16,7 +16,7 @@
 </header>
 
 <section class="l-app-body--streams">
-	{{#each streams as |stream|}}
+	{{#each sortedStreams as |stream|}}
 	  <div class="c-media-block--stream" {{action (action 'gotoStreamChat' stream)}}>
 	  	<div class="c-media-block_first-section">
 	  		<div class="c-avatar">
@@ -25,6 +25,7 @@
 
 	  	<div class="c-media-block_second-section">
 		    <p class="blue-text || c-media-block_title">{{stream.title}}</p>
+        <p>{{stream.lastCommentedAt}}</p>
 	  	</div>
 	  </div>
 	{{/each}}
