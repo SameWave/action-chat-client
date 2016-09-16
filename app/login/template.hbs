@@ -1,4 +1,4 @@
-{{#ember-wormhole to="header-destination"}}
+<header class="pink || l-app-header">
 	<div class="c-header--login">
     <section class="c-header_second-section" {{action (action 'doDevLogin')}}>
       <h1 class="c-header_title">
@@ -6,7 +6,7 @@
       </h1>
     </section>
   </div>
-{{/ember-wormhole}}
+</header>
 
 <section class="l-app-body--login">
 	<form class="l-form" {{action 'doLogin' on='submit'}}>

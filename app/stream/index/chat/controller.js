@@ -82,16 +82,16 @@ export default Controller.extend({
   },
 
   setLastReadAt() {
-    let lastReadAt = new Date();
-    Ember.debug('setLastReadAt', lastReadAt);
+    // let lastReadAt = new Date();
+    // Ember.debug('setLastReadAt', lastReadAt);
 
-    this.get('membersSubscription').send({
-      member_id: this.get('sessionMember.id'),
-      member: {
-        last_read_at: lastReadAt
-      },
-      action: 'update'
-    });
+    // this.get('membersSubscription').send({
+    //   member_id: this.get('sessionMember.id'),
+    //   member: {
+    //     last_read_at: lastReadAt
+    //   },
+    //   action: 'update'
+    // });
   },
 
   receivedCommentsData(data) {
@@ -167,32 +167,6 @@ export default Controller.extend({
     } else {
       this.hideKeyboard();
     }
-  }),
-
-  typers: computed.filterBy('members', 'isTyping'),
-
-  typingNotice: computed('typers.[]', function() {
-    let names = this.get('typers').mapBy('person.name');
-    switch (names.get('length')) {
-      case 0:
-        return '';
-      case 1:
-        return `${names.objectAt(0)} is typing ...`;
-      case 2:
-        return `${names.objectAt(0)} and ${names.objectAt(1)} are typing...`;
-      case 3:
-        return `${names.objectAt(0)}, ${names.objectAt(1)} and 1 other are typing...`;
-      default:
-        return `${names.objectAt(0)}, ${names.objectAt(1)} and ${(names.get('length') - 2)} others are typing...`;
-    }
-  }),
-
-  memberNames: computed('members.[]', function() {
-    return this.get('members').mapBy('person.name').compact().join(', ');
-  }),
-
-  headerContent: computed('typingNotice', 'memberNames', function() {
-    return this.get('typingNotice') || this.get('memberNames');
   }),
 
   pushComment(data) {
