@@ -19,10 +19,11 @@
     align-self: flex-start;
 		margin: 5px 5px 5px 0;
 
-		p {
-			line-height: 1.2rem;
-			word-break: break-word;
-		}
+	}
+	
+	&_text {
+		line-height: 1.2rem;
+		word-break: break-word;
 	}
 
 	&_option {
@@ -31,10 +32,17 @@
 		margin: 5px 5px 5px 0px;
 		border-radius: 2px;
 		text-align: center;
-		color: map-get($shades, "white");
+		color: map-get($shades, 'white');
 
 		&:last-child {
 			margin-right: 0;
 		}
+	}
+
+	&_time-stamp {
+		float: right;
+		font-size: 10px;
+		line-height: 1em;
+		color: map-get($grey, 'lighten-1');
 	}
 }
