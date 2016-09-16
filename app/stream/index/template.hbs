@@ -8,15 +8,16 @@
       <h1 class="c-header_title">
         {{stream.title}}
       </h1>
+      
+      {{#liquid-spacer
+        growDuration=250
+        growWidth=false}}
+        <div id="header-content-destination" class="c-header_subtitle">
+          <p class="a-fade-in o-stream-members-list">{{headerContent}}</p>
+        </div>
+      {{/liquid-spacer}}
     </section>
 
-    {{#liquid-spacer
-      growDuration=250
-      growWidth=false}}
-      <div id="header-content-destination" class="c-header_subtitle">
-        <p class="a-fade-in o-stream-members-list">{{headerContent}}</p>
-      </div>
-    {{/liquid-spacer}}
 
     <section class="c-header_last-section" {{action (action 'logout' target=session)}}>
       <p class="c-header_user-name">{{session.person.name}}</p>
