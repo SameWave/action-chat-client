@@ -52,6 +52,16 @@
 		}
 	}
 
+	&_tagline {
+		padding-top: 3px;
+		font-size: 8px;
+		font-style: italic;
+
+		@at-root .c-header--login .c-header_tagline {
+			font-size: 13px;
+		}
+	}
+
 	&_spacer {
 		width: 100%;
 	}
@@ -67,6 +77,6 @@
 	}
 
 	&_logout {
-		flex: 1 1 auto;	
+		flex: 1 1 auto;
 	}
 }
