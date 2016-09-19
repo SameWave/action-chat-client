@@ -30,7 +30,13 @@
 		align-content: center;
 		justify-content: flex-end;
 		margin-left: 10px;
+	}
 
+	&_icon-up {
+    display: inline-block;
+		width: 12px;
+		height: auto;
+    vertical-align: middle;
 	}
 
 	&_close-icon {

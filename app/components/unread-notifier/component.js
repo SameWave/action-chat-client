@@ -2,7 +2,8 @@ import Ember from 'ember';
 
 const {
   Component,
-  computed
+  computed,
+  debug
 } = Ember;
 
 export default Component.extend({
@@ -10,7 +11,11 @@ export default Component.extend({
   lastReadAt: '',
 
   text: computed('lastReadAt', function() {
-    let date = this.get('lastReadAt');
-    return `last read at: ${date.getDate()}/${date.getMonth()}/${date.getFullYear()}`;
+    if (this.get('lastReadAt')) {
+      let date = this.get('lastReadAt');
+      return `last read at: ${date.date()}/${date.month()}/${date.weekYear()}`;
+    } else {
+      return debug(`No date was set: ${this}`);
+    }
   })
 });
