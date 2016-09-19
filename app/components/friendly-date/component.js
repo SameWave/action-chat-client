@@ -7,6 +7,7 @@ const {
 } = Ember;
 
 export default Component.extend({
+  tagName: 'span',
   date: null,
   showTime: false,
   isLocal: false,
