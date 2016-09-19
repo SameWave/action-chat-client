@@ -22,8 +22,8 @@ export default SessionService.extend({
   loadPerson() {
     return new RSVP.Promise((resolve, reject) => {
       if (!isEmpty(this.get('token'))) {
-        // TODO: Use the person ID here rather than 'me'
-        return this.get('store').findRecord('person', 'me').then((person) => {
+        let personId = JSON.parse(atob(this.get('data.authenticated.token').split('.')[1])).sub;
+        return this.get('store').findRecord('person', personId).then((person) => {
           this.set('person', person);
           resolve();
         }, reject);
