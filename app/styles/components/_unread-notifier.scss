@@ -18,18 +18,18 @@
 	// Elements
 	&_first-section {
 		flex: 0 0 30px;
-		@include safeTapArea($width: 120%, $top: -4px, $left: -10px);
+		@include safe-tap-area($width: 120%, $top: -4px, $left: -10px);
 	}
 
 	&_title {
-		@include safeTapArea($width: 100%, $top: -7px, $left: 0);
+		@include safe-tap-area($width: 100%, $top: -7px, $left: 0);
 		flex: 1 1 auto;
 		font-size: 12px;
 		text-align: center;
 	}
 
 	&_close {
-		@include safeTapArea($width: 120%, $top: -7px, $right: -10px, $left: initial);
+		@include safe-tap-area($width: 120%, $top: -7px, $right: -10px, $left: initial);
 		flex: 0 0 30px;
 		display: flex;
 		align-content: center;

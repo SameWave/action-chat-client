@@ -20,10 +20,16 @@ $fade-large: 50px;
 }
 
 
-@mixin safeTapArea($top: -10px, $left: -10px, $right: initial, $bottom: initial, $width: 47px, $height: 47px, $z-index: $z-top-floor) {
+@mixin safe-tap-area($top: -10px, $left: -10px, $right: initial, $bottom: initial, $width: 47px, $height: 47px, $z-index: $z-top-floor) {
+  @if $width < 47 {
+    @warn 'The width hit area is too small, current size is: `#{$width}`';
+  } @else if $height < 47 {
+    @warn 'The height hit area is too small, current size is: `#{$height}`';
+  }
+
   position: relative;
 
-  &:before {
+  &::before {
     cursor: pointer;
     content: '';
     display: block;
