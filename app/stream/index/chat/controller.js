@@ -36,9 +36,10 @@ export default Controller.extend({
   totalCommentCount: 0,
   newMessagesTop: 0,
   unreadCommentsLength: 0,
-  timer: null,
 
   didRender() {
+    this._super(...arguments);
+
     this.commentsElement = $('.js-comments-section');
     this.chatBox = $('.js-chat-box');
     this.streamBody = $('.js-stream-body');
@@ -258,7 +259,7 @@ export default Controller.extend({
 
   actions: {
     scrollToLastRead() {
-      // TODO: swap this our for ember-cli-velocity
+      // TODO: swap this out for ember-cli-velocity
       this.commentsElement.animate({
         scrollTop: this.get('newMessagesTop')
       }, DELAY, () => {
