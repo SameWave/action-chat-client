@@ -34,7 +34,7 @@ export default Component.extend({
       } else if (daysSinceDate < 7) {
         label = dateOn.format('dddd');
       } else if (this.get('showTime')) {
-        label = dateOn.format('DD/MM/YYYY | HH:MM');
+        label = dateOn.format('DD/MM/YYYY | HH:mm');
       } else {
         label = dateOn.format('DD/MM/YYYY');
       }
