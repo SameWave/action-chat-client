@@ -1,6 +1,5 @@
 import Ember from 'ember';
 import moment from 'moment';
-import now from 'action-chat-client/utils/now';
 
 const {
 	Component,
@@ -19,7 +18,7 @@ export default Component.extend({
 
     let label;
 
-    let today = now().startOf('day');
+    let today = moment.utc().startOf('day');
 
     let date = (moment.isMoment(this.get('date'))) ? this.get('date') : this.get('isLocal') ? moment(this.get('date')) : moment.utc(this.get('date'));
 
