@@ -3,7 +3,8 @@ import moment from 'moment';
 import now from 'action-chat-client/utils/now';
 
 const {
-	Component
+	Component,
+	computed
 } = Ember;
 
 export default Component.extend({
@@ -14,8 +15,7 @@ export default Component.extend({
   showTime: false,
   isLocal: false,
 
-  label: function() {
-
+  label: computed('date', 'showTime', function() {
     if (!this.get('date')) {
       return;
     }
@@ -44,5 +44,5 @@ export default Component.extend({
     }
 
     return label;
-  }.property('date', 'showTime')
+  })
 });
