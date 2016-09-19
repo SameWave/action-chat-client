@@ -18,3 +18,22 @@ $fade-large: 50px;
     background-image: linear-gradient($deg, rgba($color, $opa1), rgba($color, $opa2));
   }
 }
+
+
+@mixin safeTapArea($top: -10px, $left: -10px, $right: initial, $bottom: initial, $width: 47px, $height: 47px, $z-index: $z-top-floor) {
+  position: relative;
+
+  &:before {
+    cursor: pointer;
+    content: '';
+    display: block;
+    position: absolute;
+    top: $top;
+    right: $right;
+    bottom: $bottom;
+    left: $left;
+    width: $width;
+    height: $height;
+    z-index: $z-index;
+  } 
+}

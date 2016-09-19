@@ -8,6 +8,8 @@
 	background-color: map-get($purple, 'darken-1');
 	color: map-get($shades, 'white');
 	fill: map-get($shades, 'white');
+	position: relative;
+	z-index: $z-body-float;
 
 	&:hover {
 		background-color: darken(map-get($purple, 'darken-2'), 10);
@@ -16,15 +18,18 @@
 	// Elements
 	&_first-section {
 		flex: 0 0 30px;
+		@include safeTapArea($width: 120%, $top: -4px, $left: -10px);
 	}
 
 	&_title {
+		@include safeTapArea($width: 100%, $top: -7px, $left: 0);
 		flex: 1 1 auto;
 		font-size: 12px;
 		text-align: center;
 	}
 
 	&_close {
+		@include safeTapArea($width: 120%, $top: -7px, $right: -10px, $left: initial);
 		flex: 0 0 30px;
 		display: flex;
 		align-content: center;
