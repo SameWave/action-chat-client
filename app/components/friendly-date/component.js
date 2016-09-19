@@ -8,9 +8,6 @@ const {
 } = Ember;
 
 export default Component.extend({
-  tagName: 'span',
-  classNames: ['friendly-date'],
-
   date: null,
   showTime: false,
   isLocal: false,
