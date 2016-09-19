@@ -1,11 +1,11 @@
-<div class="c-unread-notifier_first-section">
+<div class="c-unread-notifier_first-section" {{action (action "tapArrowUp")}}>
 	{{inline-svg "images/icons/icon-arrow-up" class="c-unread-notifier_icon-up"}}
 </div>
 
-<h2 class="c-unread-notifier_title">
-	{{text}}
+<h2 class="c-unread-notifier_title" {{action (action "tapBody")}}>
+	Unread comments: {{numberOfUnreadComments}}
 </h2>
 
-<div class="c-unread-notifier_close">
+<div class="c-unread-notifier_close" {{action (action "tapClose")}}>
 	{{inline-svg "images/icons/icon-close" class="c-unread-notifier_close-icon"}}
 </div>

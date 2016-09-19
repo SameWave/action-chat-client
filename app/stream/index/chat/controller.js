@@ -1,4 +1,5 @@
 import Ember from 'ember';
+import moment from 'moment';
 
 const {
   Controller,
@@ -7,15 +8,14 @@ const {
   observer,
   run,
   computed,
-  computed: {
-    alias
-  },
-  isEmpty
+  isEmpty,
+  testing
 } = Ember;
 
 const NUDGE_OFFSET_PX = 60; // Pixels for determining nudge vs scroll for new comment
 const NUDGE_PX = 24; // Pixels for distance to nudge
 const COMMENT_LOAD_SIZE = 10;
+const DELAY = testing ? 0 : 500;
 
 export {
   COMMENT_LOAD_SIZE
@@ -33,9 +33,10 @@ export default Controller.extend({
   streamsSubscription: null,
   isLoadingEarlier: false,
   isKeyboardOpen: false,
-  isNotifierVisible: true,
   totalCommentCount: 0,
   newMessagesTop: 0,
+  unreadCommentsLength: 0,
+  timer: null,
 
   didRender() {
     this.commentsElement = $('.js-comments-section');
@@ -62,8 +63,10 @@ export default Controller.extend({
       return comment.get('createdAt') > lastReadAt;
     });
 
-    Ember.debug(`comments: ${this.get('comments.length')}`);
-    Ember.debug(`unreadComments: ${unreadComments.get('length')}`);
+    debug(`comments: ${this.get('comments.length')}`);
+    debug(`unreadComments: ${unreadComments.get('length')}`);
+
+    this.set('unreadCommentsLength', unreadComments.get('length'));
 
     if (unreadComments.get('length')) {
 
@@ -247,9 +250,24 @@ export default Controller.extend({
     this.set('totalCommentCount', this.get('totalCommentCount') + 1);
   },
 
+  isNotifierVisible: computed('sessionMember.lastReadAt', function() {
+    // TODO: when all data is moment then remove this check
+    let currentDate = moment.isMoment(this.get('sessionMember.lastReadAt')) ? this.get('sessionMember.lastReadAt') : moment(this.get('sessionMember.lastReadAt'));
+    return currentDate.isBefore(moment().utc(), 'second');
+  }),
+
   actions: {
-    toggleNotifierVisibility() {
-      this.set('isNotifierVisible', false);
+    scrollToLastRead() {
+      // TODO: swap this our for ember-cli-velocity
+      this.commentsElement.animate({
+        scrollTop: this.get('newMessagesTop')
+      }, DELAY, () => {
+        this.send('setAllMessagesAsRead');
+      });
+    },
+
+    setAllMessagesAsRead() {
+      this.set('sessionMember.lastReadAt', moment().utc());
     },
 
     createComment(body) {

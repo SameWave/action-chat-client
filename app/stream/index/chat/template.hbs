@@ -1,10 +1,14 @@
-{{#if false}}
-  {{#liquid-if isNotifierVisible class="l-app-body_top-anchor"}}
-    {{unread-notifier
-      lastReadAt=sessionMember.lastReadAt
-      click=(action "toggleNotifierVisibility")}}
-  {{/liquid-if}}
-{{/if}}
+{{#liquid-if
+  isNotifierVisible
+  use="toUp"
+  class="l-app-body_top-anchor"}}
+
+  {{unread-notifier
+    numberOfUnreadComments=unreadCommentsLength
+    onTapArrowUp=(action "scrollToLastRead")
+    onTapBody=(action "setAllMessagesAsRead")
+    onTapClose=(action "setAllMessagesAsRead")}}
+{{/liquid-if}}
 
 {{comments-section
   classNames="js-comments-section"

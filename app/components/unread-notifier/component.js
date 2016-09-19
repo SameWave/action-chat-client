@@ -1,21 +1,31 @@
 import Ember from 'ember';
 
 const {
-  Component,
-  computed,
-  debug
+  Component
 } = Ember;
 
 export default Component.extend({
   classNameBindings: [':c-unread-notifier'],
   lastReadAt: '',
+  numberOfUnreadComments: 0,
 
-  text: computed('lastReadAt', function() {
-    if (this.get('lastReadAt')) {
-      let date = this.get('lastReadAt');
-      return `last read at: ${date.date()}/${date.month()}/${date.weekYear()}`;
-    } else {
-      return debug(`No date was set: ${this}`);
+  actions: {
+    tapArrowUp() {
+      if (this.get('onTapArrowUp')) {
+        this.get('onTapArrowUp')();
+      }
+    },
+
+    tapBody() {
+      if (this.get('onTapBody')) {
+        this.get('onTapBody')();
+      }
+    },
+
+    tapClose() {
+      if (this.get('onTapClose')) {
+        this.get('onTapClose')();
+      }
     }
-  })
+  }
 });
