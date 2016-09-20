@@ -1,4 +1,5 @@
 import Ember from 'ember';
+import { animate } from 'liquid-fire';
 
 const {
   Controller,
@@ -7,9 +8,6 @@ const {
   observer,
   run,
   computed,
-  computed: {
-    alias
-  },
   isEmpty
 } = Ember;
 
@@ -39,8 +37,7 @@ export default Controller.extend({
 
   didRender() {
     this.commentsElement = $('.js-comments-section');
-    this.chatBox = $('.js-chat-box');
-    this.streamBody = $('.js-stream-body');
+    this.$keyboardPusher = $('#ios-keyboard-push');
     this.scrollToBottom();
 
     if (window.Keyboard) {
@@ -52,6 +49,11 @@ export default Controller.extend({
 
     this.showNewMessagesMarker();
 
+  },
+
+  keyboardPusherOptions: {
+    duration: 150,
+    easing: 'ease-in-out'
   },
 
   showNewMessagesMarker() {
@@ -134,30 +136,23 @@ export default Controller.extend({
   },
 
   showKeyboard(height) {
+    if (window.cordova.platformId !== 'ios') {
+      return;
+    }
+
     let {
       scrollHeight
     } = this.commentsElement.get(0);
 
-    this.streamBody.css({
-      'transform': `translateY(-${height}px)`,
-      '-webkit-transform': `translateY(-${height}px)`
-    });
-
-    // We need a run later so that scrollTop is only set after keyboard shows
-    run.later(this, () => {
-      this.commentsElement.scrollTop(scrollHeight + height);
-
+    animate(this.$keyboardPusher, { height }, this.get('keyboardPusherOptions'), 'keyboard-animation').then(() => {
       this.commentsElement.animate({
         scrollTop: scrollHeight + height
-      }, 100);
-    }, 120);
+      }, 200);
+    });
   },
 
   hideKeyboard() {
-    this.streamBody.css({
-      'transform': 'translateY(-0px)',
-      '-webkit-transform': 'translateY(-0px)'
-    });
+    animate(this.$keyboardPusher, { height: 0 }, this.get('keyboardPusherOptions'), 'keyboard-animation');
   },
 
   // For development only
