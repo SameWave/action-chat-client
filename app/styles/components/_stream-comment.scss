@@ -26,6 +26,8 @@
 	&_text {
 		line-height: 1.2rem;
 		word-break: break-word;
+    white-space: pre-wrap;
+    hyphens: auto;
 	}
 
 	&_option {
