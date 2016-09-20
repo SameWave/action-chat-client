@@ -22,8 +22,31 @@ You will need the following things properly installed on your computer.
 
 ## Running / Development
 
+### On local pc
+
 * `ember serve`
 * Visit your app at [http://localhost:4200](http://localhost:4200).
+
+### On device against production data
+
+* ember cdv run ios
+* ember cdv:s --env=production
+
+
+### On device against local dev env
+
+In ember-env change following:
+
+```
+host: 'http://10.99.220.237:8080',
+socket: 'ws://10.99.220.237:8080/cable'
+```
+
+On rails
+* rails s -b 0.0.0.0 -p 8080
+
+On Node
+*ember cdv:s
 
 ### Code Generators
 
