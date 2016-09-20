@@ -136,6 +136,10 @@ export default Controller.extend({
   },
 
   showKeyboard(height) {
+    if (window.cordova.platformId !== 'ios') {
+      return;
+    }
+
     let {
       scrollHeight
     } = this.commentsElement.get(0);
