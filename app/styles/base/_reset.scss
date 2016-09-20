@@ -22,6 +22,12 @@ textarea {
   resize: none;
 }
 
+button {
+  -webkit-appearance: none;
+  background: inherit;
+  border: inherit;
+}
+
 input:not([type]),
 input[type=date],
 input[type=datetime-local],

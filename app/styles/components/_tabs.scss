@@ -1,6 +1,6 @@
 .c-tabs {
 	@extend .z-depth-1;
-	flex: 0 0 24px;
+	flex: 0 0 35px;
 	display: flex;
 	position: relative;
   align-items: center;
@@ -11,14 +11,15 @@
 
 	&_item {
 		flex: 1 0 auto;
+    display: flex;
+    justify-content: center;
+    align-items: center;
 		height: 100%;
 	}
 
 	&_icon {
-    display: inline-block;
 		width: 20px;
 		height: 20px;
-    vertical-align: middle;
 		fill: map-get($blue, 'lighten-4');
 		transition: fill $speed-normal;
 
