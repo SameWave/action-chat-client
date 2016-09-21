@@ -155,6 +155,14 @@ export default Controller.extend({
       transform: `translateY(-${height}px)`
     });
 
+    function increaseSpacer() {
+      this.$commentSpacer.css({
+        height
+      });
+    }
+
+    run.later(this, increaseSpacer, 300);
+
     // TODO: Scroll to last comment
     // run.later(this, () => {
     //   this.commentsElement.animate({
@@ -169,6 +177,9 @@ export default Controller.extend({
     });
     this.commentsElement.css({
       transform: 'translateY(0)'
+    });
+    this.$commentSpacer.css({
+      height: 0
     });
   },
 
