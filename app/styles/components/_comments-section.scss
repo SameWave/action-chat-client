@@ -5,8 +5,7 @@
   overflow-y: scroll;	
   cursor: pointer;
   -webkit-overflow-scrolling: touch;
-  will-change: height, scroll-position;
-  transform: height $speed-fast;
+  transition: transform $speed-fast ease-out;
 
 	// NOTE: Trick to get IOS over-scroll working when there is one comment
 	&::before {
