@@ -1,5 +1,6 @@
 import Ember from 'ember';
 import { animate } from 'liquid-fire';
+import ENV from 'action-chat-client/config/environment';
 
 const {
   Controller,
@@ -52,8 +53,8 @@ export default Controller.extend({
   },
 
   keyboardPusherOptions: {
-    duration: 150,
-    easing: 'ease-in-out'
+    duration: 100,
+    easing: 'ease'
   },
 
   showNewMessagesMarker() {
@@ -147,7 +148,7 @@ export default Controller.extend({
     animate(this.$keyboardPusher, { height }, this.get('keyboardPusherOptions'), 'keyboard-animation').then(() => {
       this.commentsElement.animate({
         scrollTop: scrollHeight + height
-      }, 200);
+      }, 100);
     });
   },
 
