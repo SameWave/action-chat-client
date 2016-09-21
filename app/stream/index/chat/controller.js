@@ -114,13 +114,6 @@ export default Controller.extend({
     }
   },
 
-  receivedMembersData(data) {
-    let member = this.get('members').findBy('id', data.member.id);
-    if (member && member.get('id') !== this.get('sessionMember.id')) {
-      member.setTypingAt(new Date(data.member.typing_at));
-    }
-  },
-
   setupKeyboardEvents() {
     let _this = this;
 
@@ -306,14 +299,13 @@ export default Controller.extend({
     },
 
     doTyping() {
-      let typingAt = new Date();
-      // this.get('membersSubscription').send({
-      //   member: {
-      //     stream_id: this.get('stream.id'),
-      //     id: this.get('sessionMember.id'),
-      //     typing_at: typingAt
-      //   }
-      // });
+      debug('controller doTyping');
+      run.debounce(this, () => {
+        let typingAt = new Date();
+        debug('controller doTyping 2');
+        this.set('sessionMember.typingAt', typingAt);
+        this.get('sessionMember').save();
+      }, 300);
     }
   }
 });
