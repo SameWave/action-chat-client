@@ -8,12 +8,18 @@ const {
 } = DS;
 
 const {
-  String,
+  // String,
   inject: {
     service
   },
-  isEmpty
+  isEmpty,
+  RSVP,
+  debug
 } = Ember;
+
+const channels = {
+  stream: 'StreamsChannel'
+};
 
 export default JSONAPIAdapter.extend(DataAdapterMixin, {
 
@@ -31,7 +37,7 @@ export default JSONAPIAdapter.extend(DataAdapterMixin, {
   initSubscriptions() {
     if (isEmpty(this._consumer)) {
       this._consumer = this.get('cable').createConsumer(ENV.socket);
-      this.subscribe('StreamsChannel', 'stream');
+      this.subscribe('stream');
     }
   },
 
@@ -43,15 +49,15 @@ export default JSONAPIAdapter.extend(DataAdapterMixin, {
     });
   },
 
-  createRecord(store, type, snapshot) {
+  createRecord(type, snapshot) {
     let data = this.serialize(snapshot, {
       includeId: true
     });
 
-    // TODO: Infer this channel name
-    let subscription = this._subscriptions['StreamsChannel'];
+    let subscription = this._subscriptions[channels[type]];
 
-    return new Ember.RSVP.Promise((resolve, reject) => {
+    return new RSVP.Promise((resolve) => {
+      // TODO: Is it ok to assume success here?
       subscription.send({
         action: 'create',
         stream: data.data
@@ -61,17 +67,17 @@ export default JSONAPIAdapter.extend(DataAdapterMixin, {
 
   },
 
-  updateRecord(store, type, snapshot) {
-    Ember.debug(`adapter updateRecord`);
+  updateRecord(type, snapshot) {
+    debug('adapter updateRecord');
 
     let data = this.serialize(snapshot, {
       includeId: true
     });
 
-    // TODO: Infer this channel name
-    let subscription = this._subscriptions['StreamsChannel'];
+    let subscription = this._subscriptions[channels[type]];
 
-    return new Ember.RSVP.Promise((resolve, reject) => {
+    return new RSVP.Promise((resolve) => {
+      // TODO: Is it ok to assume success here?
       subscription.send({
         action: 'update',
         stream: data.data
@@ -80,51 +86,51 @@ export default JSONAPIAdapter.extend(DataAdapterMixin, {
     });
   },
 
-  subscribe(channel, modelName) {
-    let store = this.store;
+  subscribe(modelName) {
+    let channel = channels[modelName];
 
     this._subscriptions[channel] = this._consumer.subscriptions.create({
       channel
     }, {
 
       connected() {
-        Ember.debug(`connected to ${channel}`);
+        debug(`connected to ${channel}`);
       },
 
       disconnected() {
-        Ember.debug(`disconnected from ${channel}`);
+        debug(`disconnected from ${channel}`);
       },
 
       received: (message) => {
-        Ember.debug(`received in ${channel}`);
+        debug(`received in ${channel}`);
         // TODO: Remove data.data nesting here
-        let snapshot = message.data.data
+        let snapshot = message.data.data;
 
         if (message.action === 'created') {
-          this._createdRecord(store, modelName, snapshot);
+          this._createdRecord(modelName, snapshot);
         } else {
-          this._updatedRecord(store, modelName, snapshot);
+          this._updatedRecord(modelName, snapshot);
         }
       }
     });
   },
 
-  _createdRecord(store, modelName, snapshot) {
+  _createdRecord(modelName, snapshot) {
 
     let record = this.store.peekRecord(modelName, snapshot.id);
 
     // Record was created by another client so we need to push into the store
     if (isEmpty(record)) {
-      store.pushPayload(snapshot);
+      this.store.pushPayload(snapshot);
     }
   },
 
-  _updatedRecord(store, modelName, snapshot) {
+  _updatedRecord(modelName, snapshot) {
 
     let record = this.store.peekRecord(modelName, snapshot.id);
-    var modelClass = store.modelFor(modelName);
-    var serializer = store.serializerFor(modelName);
-    var normalized = serializer.normalizeSingleResponse(store, modelClass, snapshot, snapshot.id);
+    // let modelClass = this.store.modelFor(modelName);
+    // let serializer = this.store.serializerFor(modelName);
+    // let normalized = serializer.normalizeSingleResponse(this.store, modelClass, snapshot, snapshot.id);
 
     // TODO: Do we need to set relationships here?
     record.setProperties(snapshot.attributes);
