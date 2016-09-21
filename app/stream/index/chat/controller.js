@@ -1,5 +1,7 @@
 import Ember from 'ember';
-import { animate } from 'liquid-fire';
+import {
+  animate
+} from 'liquid-fire';
 import ENV from 'action-chat-client/config/environment';
 
 const {
@@ -138,7 +140,7 @@ export default Controller.extend({
   },
 
   showKeyboard(height) {
-    if (window.cordova.platformId !== 'ios') {
+    if (window.cordova && window.cordova.platformId === 'android') {
       return;
     }
 
@@ -146,8 +148,12 @@ export default Controller.extend({
       scrollHeight
     } = this.commentsElement.get(0);
 
-    this.$chatBox.css({ transform: `translateY(-${height}px)` });
-    this.commentsElement.css({ transform: `translateY(-${height}px)` });
+    this.$chatBox.css({
+      transform: `translateY(-${height}px)`
+    });
+    this.commentsElement.css({
+      transform: `translateY(-${height}px)`
+    });
 
     // TODO: Scroll to last comment
     // run.later(this, () => {
@@ -158,8 +164,12 @@ export default Controller.extend({
   },
 
   hideKeyboard() {
-    this.$chatBox.css({ transform: 'translateY(0)' });
-    this.commentsElement.css({ transform: 'translateY(0)' });
+    this.$chatBox.css({
+      transform: 'translateY(0)'
+    });
+    this.commentsElement.css({
+      transform: 'translateY(0)'
+    });
   },
 
   // For development only
