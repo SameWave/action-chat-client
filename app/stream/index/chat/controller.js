@@ -302,7 +302,6 @@ export default Controller.extend({
       debug('controller doTyping');
       run.debounce(this, () => {
         let typingAt = new Date();
-        debug('controller doTyping 2');
         this.set('sessionMember.typingAt', typingAt);
         this.get('sessionMember').save();
       }, 300);
