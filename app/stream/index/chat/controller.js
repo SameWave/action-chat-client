@@ -38,7 +38,8 @@ export default Controller.extend({
 
   didRender() {
     this.commentsElement = $('.js-comments-section');
-    this.$keyboardPusher = $('#ios-keyboard-push');
+    this.$chatBox = $('.js-chat-box');
+    this.$commentSpacer = $('.js-comment-spacer');
     this.scrollToBottom();
 
     if (window.Keyboard) {
@@ -145,15 +146,20 @@ export default Controller.extend({
       scrollHeight
     } = this.commentsElement.get(0);
 
-    animate(this.$keyboardPusher, { height }, this.get('keyboardPusherOptions'), 'keyboard-animation').then(() => {
-      this.commentsElement.animate({
-        scrollTop: scrollHeight + height
-      }, 100);
-    });
+    this.$chatBox.css({ transform: `translateY(-${height}px)` });
+    this.commentsElement.css({ transform: `translateY(-${height}px)` });
+
+    // TODO: Scroll to last comment
+    // run.later(this, () => {
+    //   this.commentsElement.animate({
+    //     scrollTop: scrollHeight + height
+    //   }, 200);
+    // }, 300);
   },
 
   hideKeyboard() {
-    animate(this.$keyboardPusher, { height: 0 }, this.get('keyboardPusherOptions'), 'keyboard-animation');
+    this.$chatBox.css({ transform: 'translateY(0)' });
+    this.commentsElement.css({ transform: 'translateY(0)' });
   },
 
   // For development only
