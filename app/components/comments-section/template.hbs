@@ -1,10 +1,14 @@
+{{#liquid-spacer}}
+<div class="js-comment-spacer" role="hack"></div>
+{{/liquid-spacer}}
+
 {{#unless isShowingAllComments}}
   <button {{action (action loadEarlier)}} class="c-load-earlier">
-  	{{#if isLoadingEarlier}}
-  		{{inline-svg "images/icons/icon-loading" class="c-load-earlier_icon a-fade-in"}}
-  	{{else}}
-  		<p class="a-fade-in">Load earlier</p>
-  	{{/if}}
+    {{#if isLoadingEarlier}}
+      {{inline-svg "images/icons/icon-loading" class="c-load-earlier_icon a-fade-in"}}
+    {{else}}
+      <p class="a-fade-in">Load earlier</p>
+    {{/if}}
   </button>
 {{/unless}}
 
