@@ -17,7 +17,9 @@ export default Controller.extend({
   stream: alias('model.stream'),
   members: alias('model.members'),
 
-  typers: computed.filterBy('members', 'isTyping'),
+  typers: computed('session.person.id', 'members.@each.isTyping', function() {
+    return this.get('members').rejectBy('person.id', this.get('session.person.id')).filterBy('isTyping');
+  }),
 
   typingNotice: computed('typers.[]', function() {
     let names = this.get('typers').mapBy('person.name');

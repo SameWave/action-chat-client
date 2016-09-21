@@ -19,7 +19,8 @@ const {
 
 const channels = {
   stream: 'StreamsChannel',
-  comment: 'CommentsChannel'
+  comment: 'CommentsChannel',
+  member: 'MembersChannel'
 };
 
 export default JSONAPIAdapter.extend(DataAdapterMixin, {
@@ -75,7 +76,6 @@ export default JSONAPIAdapter.extend(DataAdapterMixin, {
     let serialized = this.serialize(snapshot, {
       includeId: true
     });
-
     return new RSVP.Promise((resolve) => {
       // TODO: Is it ok to assume success here?
       this._subscriptionForModel(snapshot.modelName).send({

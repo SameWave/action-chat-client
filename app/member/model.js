@@ -4,7 +4,8 @@ import Ember from 'ember';
 const {
   run,
   isEmpty,
-  computed
+  computed,
+  observer
 } = Ember;
 
 const {
@@ -31,17 +32,23 @@ export default Model.extend({
     }
   }),
 
-  typingAt: null,
+  typingAt: attr('date', {
+    defaultValue() {
+      return new Date();
+    }
+  }),
+
   typingTimer: null,
 
   isTyping: computed('typingAt', function() {
     return !isEmpty(this.get('typingAt'));
   }),
 
-  setTypingAt(typingAt) {
-    this.set('typingAt', typingAt);
-    this.typingTimer = run.debounce(this, this.clearTypingAt, 1200);
-  },
+  typingAtObserver: observer('typingAt', function() {
+    if (!isEmpty(this.get('typingAt'))) {
+      this.typingTimer = run.debounce(this, this.clearTypingAt, 1200);
+    }
+  }),
 
   clearTypingAt() {
     this.set('typingAt', null);
