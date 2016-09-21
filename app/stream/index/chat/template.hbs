@@ -22,7 +22,7 @@
 {{#if sessionMember}}
   <div class="c-footer js-chat-box">
     {{chat-box
-      onTapInput=(action "tapInput")
+      onTapInput=(action "tappedInput")
       doComment=(action "createComment")
       doTyping=(action "doTyping")
       isKeyboardOpen=isKeyboardOpen
