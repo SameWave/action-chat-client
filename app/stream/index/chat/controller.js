@@ -265,34 +265,20 @@ export default Controller.extend({
       // Scroll to bottom so that new comment is visible
       run.next(this, this.scrollToBottom);
 
-      this.get('commentsSubscription').send({
-        comment: {
-          id: comment.get('id'),
-          body: comment.get('body'),
-          person_id: comment.get('person.id'),
-          stream_id: comment.get('stream.id')
-        },
-        action: 'create'
+      comment.save().then(() => {
+        debug('comment created');
       });
     },
 
     updateComment(comment) {
-      this.get('commentsSubscription').send({
-        comment_id: comment.get('id'),
-        comment: {
-          body: comment.get('body'),
-          person_id: comment.get('person.id')
-        },
-        action: 'update'
+      comment.save().then(() => {
+        debug('comment updated');
       });
     },
 
     deleteComment(comment) {
-      this.unloadComment(comment);
-
-      this.get('commentsSubscription').send({
-        comment_id: comment.get('id'),
-        action: 'destroy'
+      comment.destroyRecord().then(() => {
+        debug('comment destroyed');
       });
     },
 
@@ -321,13 +307,13 @@ export default Controller.extend({
 
     doTyping() {
       let typingAt = new Date();
-      this.get('membersSubscription').send({
-        member: {
-          stream_id: this.get('stream.id'),
-          id: this.get('sessionMember.id'),
-          typing_at: typingAt
-        }
-      });
+      // this.get('membersSubscription').send({
+      //   member: {
+      //     stream_id: this.get('stream.id'),
+      //     id: this.get('sessionMember.id'),
+      //     typing_at: typingAt
+      //   }
+      // });
     }
   }
 });

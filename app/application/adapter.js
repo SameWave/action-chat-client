@@ -8,7 +8,7 @@ const {
 } = DS;
 
 const {
-  // String,
+  String,
   inject: {
     service
   },
@@ -18,7 +18,8 @@ const {
 } = Ember;
 
 const channels = {
-  stream: 'StreamsChannel'
+  stream: 'StreamsChannel',
+  comment: 'CommentsChannel'
 };
 
 export default JSONAPIAdapter.extend(DataAdapterMixin, {
@@ -30,9 +31,11 @@ export default JSONAPIAdapter.extend(DataAdapterMixin, {
   _consumer: null,
   _subscriptions: {},
 
-  // pathForType(type) {
-  //   return String.pluralize(String.underscore(type));
-  // },
+  // Overridden functions
+
+  pathForType(type) {
+    return String.pluralize(String.underscore(type));
+  },
 
   generateIdForRecord() {
     return 'xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx'.replace(/[xy]/g, (c) => {
@@ -43,72 +46,56 @@ export default JSONAPIAdapter.extend(DataAdapterMixin, {
   },
 
   createRecord(store, type, snapshot) {
-    let data = this.serialize(snapshot, {
-      includeId: true
-    });
-
-    return new RSVP.Promise((resolve) => {
-      // TODO: Is it ok to assume success here?
-      this._subscriptionForModel(snapshot.modelName).send({
-        action: 'create',
-        stream: data.data
-      });
-      resolve();
-    });
-
+    debug('createRecord');
+    return this._send('create', snapshot);
   },
 
   updateRecord(store, type, snapshot) {
-    debug('adapter updateRecord');
-
-    let data = this.serialize(snapshot, {
-      includeId: true
-    });
-
-    return new RSVP.Promise((resolve) => {
-      // TODO: Is it ok to assume success here?
-      this._subscriptionForModel(snapshot.modelName).send({
-        action: 'update',
-        stream: data.data
-      });
-      resolve();
-    });
+    debug('updateRecord');
+    return this._send('update', snapshot);
   },
 
   deleteRecord(store, type, snapshot) {
     debug('deleteRecord');
+    return this._send('destroy', snapshot);
+  },
 
-    let data = this.serialize(snapshot, {
+  // Custom functions
+
+  initSubscriptions() {
+    if (isEmpty(this._consumer)) {
+      this._consumer = this.get('cable').createConsumer(ENV.socket);
+      this.subscribe({
+        channel: 'StreamsChannel'
+      });
+    }
+  },
+
+  _send(action, snapshot) {
+    let serialized = this.serialize(snapshot, {
       includeId: true
     });
 
     return new RSVP.Promise((resolve) => {
       // TODO: Is it ok to assume success here?
       this._subscriptionForModel(snapshot.modelName).send({
-        action: 'destroy',
-        stream: data.data
+        action: action,
+        data: serialized.data
       });
       resolve();
     });
-  },
-
-  initSubscriptions() {
-    if (isEmpty(this._consumer)) {
-      this._consumer = this.get('cable').createConsumer(ENV.socket);
-      this.subscribe('stream');
-    }
   },
 
   _subscriptionForModel(modelName) {
     return this._subscriptions[channels[modelName]];
   },
 
-  subscribe(modelName) {
-    let channel = channels[modelName];
-
-    this._subscriptions[channel] = this._consumer.subscriptions.create({
+  subscribe(options) {
+    let {
       channel
-    }, {
+    } = options;
+
+    this._subscriptions[channel] = this._consumer.subscriptions.create(options, {
 
       connected() {
         debug(`connected to ${channel}`);
@@ -121,51 +108,16 @@ export default JSONAPIAdapter.extend(DataAdapterMixin, {
       received: (message) => {
         debug(`received in ${channel}`);
 
-        if (message.action === 'created') {
-          this._createdRecord(modelName, message.data);
-        } else if (message.action === 'updated') {
-          this._updatedRecord(modelName, message.data);
+        if (['created', 'updated'].contains(message.action)) {
+          this.store.pushPayload(message.data);
         } else if (message.action === 'destroyed') {
-          this._destroyedRecord(modelName, message.data);
+          // Record was destroyed by another client so we need to unload it from the store
+          let record = this.store.peekRecord(message.modelName, message.data.data.id);
+          if (record) {
+            record.unloadRecord();
+          }
         }
       }
     });
-  },
-
-  _createdRecord(modelName, data) {
-    debug('record created');
-    let snapshot = data;
-    let record = this.store.peekRecord(modelName, snapshot.id);
-
-    // Record was created by another client so we need to push into the store
-    if (isEmpty(record)) {
-      this.store.pushPayload(snapshot);
-    }
-  },
-
-  _updatedRecord(modelName, data) {
-    debug('record updated');
-    let snapshot = data.data;
-    let record = this.store.peekRecord(modelName, snapshot.id);
-
-    if (!isEmpty(record)) {
-      // TODO: Do we need to set relationships here?
-      record.setProperties(snapshot.attributes);
-
-      // TODO: Is there a cleaner way to do this?
-      record._internalModel.flushChangedAttributes();
-      record._internalModel.adapterWillCommit();
-      record._internalModel.adapterDidCommit();
-    }
-  },
-
-  _destroyedRecord(modelName, data) {
-    debug('record destroyed');
-    let snapshot = data.data;
-    let record = this.store.peekRecord(modelName, snapshot.id);
-    // Record was destroyed by another client so we need to remove it from the store
-    if (!isEmpty(record)) {
-      record.unloadRecord();
-    }
   }
 });

@@ -16,13 +16,13 @@ export default Store.extend({
     this._super(...arguments);
 
     // TODO: Is there a better place to trigger this?
-    this.subscribe();
-  },
-
-  subscribe() {
-    Ember.debug(`store subscribe`);
     let adapter = this.adapterFor('application');
     adapter.initSubscriptions();
+  },
+
+  subscribe(options) {
+    let adapter = this.adapterFor('application');
+    adapter.subscribe(options);
   }
 
 });
