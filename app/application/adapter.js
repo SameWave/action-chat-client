@@ -97,16 +97,19 @@ export default JSONAPIAdapter.extend(DataAdapterMixin, {
 
       received: (message) => {
         Ember.debug(`received in ${channel}`);
+        // TODO: Remove data.data nesting here
+        let snapshot = message.data.data
+
         if (message.action === 'created') {
-          this._createdRecord(store, modelName, message.data);
+          this._createdRecord(store, modelName, snapshot);
         } else {
-          this._updatedRecord(store, modelName, message.data);
+          this._updatedRecord(store, modelName, snapshot);
         }
       }
     });
   },
 
-  _createdRecord(store, type, snapshot) {
+  _createdRecord(store, modelName, snapshot) {
 
     let record = this.store.peekRecord(modelName, snapshot.id);
 
@@ -116,16 +119,15 @@ export default JSONAPIAdapter.extend(DataAdapterMixin, {
     }
   },
 
-  _updatedRecord(store, type, snapshot) {
+  _updatedRecord(store, modelName, snapshot) {
 
     let record = this.store.peekRecord(modelName, snapshot.id);
-
     var modelClass = store.modelFor(modelName);
     var serializer = store.serializerFor(modelName);
     var normalized = serializer.normalizeSingleResponse(store, modelClass, snapshot, snapshot.id);
 
-    // TODO: Set the relevant record properties, not just title
-    record.set('title', normalized.title);
+    // TODO: Do we need to set relationships here?
+    record.setProperties(snapshot.attributes);
 
     // TODO: Is there a cleaner way to do this?
     record._internalModel.flushChangedAttributes();
