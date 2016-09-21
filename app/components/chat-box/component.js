@@ -27,6 +27,11 @@ export default Component.extend({
   },
 
   actions: {
+    tapInput() {
+      if (this.get('onTapInput')) {
+        this.get('onTapInput')();
+      }
+    },
 
     doFocusIn() {
       if (ENV.environment === 'development') {
