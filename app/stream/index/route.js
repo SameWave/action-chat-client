@@ -3,8 +3,7 @@ import AuthenticatedRouteMixin from 'ember-simple-auth/mixins/authenticated-rout
 
 const {
   Route,
-  RSVP,
-  isEmpty
+  RSVP
 } = Ember;
 
 import {
@@ -15,10 +14,10 @@ from 'action-chat-client/stream/index/chat/controller';
 export default Route.extend(AuthenticatedRouteMixin, {
   model(params) {
 
-    let stream = this.store.peekRecord('stream', params.stream_id)
+    let stream = this.store.peekRecord('stream', params.stream_id);
 
     return RSVP.hash({
-      stream: stream,
+      stream,
       comments: this.store.query('comment', {
         limit: COMMENT_LOAD_SIZE,
         offset: 0,
