@@ -37,11 +37,14 @@ export default Controller.extend({
   isNotifierVisible: true,
   totalCommentCount: 0,
   newMessagesTop: 0,
+  timer: null,
 
   didRender() {
     this.commentsElement = $('.js-comments-section');
     this.$chatBox = $('.js-chat-box');
     this.$commentSpacer = $('.js-comment-spacer');
+    this.commentsElement.on('touchmove',  run.bind(this, this.commentsSectionScroll)),
+    this.commentsElement.on('scroll',  run.bind(this, this.commentsSectionScroll)),
     this.scrollToBottom();
 
     if (window.Keyboard) {
@@ -53,6 +56,14 @@ export default Controller.extend({
 
     this.showNewMessagesMarker();
 
+  },
+
+  commentsSectionScroll() {
+    this.timer = run.debounce(this, function() {
+      if (this.commentsElement.scrollTop() < 10) {
+        this.send('loadEarlier');
+      }
+    }, 20000, true);
   },
 
   keyboardPusherOptions: {
