@@ -44,6 +44,9 @@ export default Controller.extend({
     this.$commentSpacer = $('.js-comment-spacer');
     this.scrollToBottom();
 
+    $('.js-comments-section').on('scroll', run.bind(this, this.scroll));
+    this.setupScroll();
+
     if (window.Keyboard) {
       // window.Keyboard.shrinkView(true);
     }
@@ -139,6 +142,10 @@ export default Controller.extend({
     });
   },
 
+  scroll(e) {
+    console.log(`scrolling: ${e}`);
+  },
+
   showKeyboard(height) {
     if (window.cordova && window.cordova.platformId === 'android') {
       return;
@@ -159,6 +166,9 @@ export default Controller.extend({
       this.$commentSpacer.css({
         height
       });
+      this.commentsElement.animate({
+        scrollTop: scrollHeight + height
+      }, 300);
     }
 
     run.later(this, increaseSpacer, 300);
@@ -167,8 +177,8 @@ export default Controller.extend({
     // run.later(this, () => {
     //   this.commentsElement.animate({
     //     scrollTop: scrollHeight + height
-    //   }, 200);
-    // }, 300);
+    //   }, 300);
+    // }, 600);
   },
 
   hideKeyboard() {
