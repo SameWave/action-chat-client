@@ -27,9 +27,8 @@
 		    <p class="blue-text || c-media-block_title">{{stream.title}}</p>
         {{#if stream.lastComment}}
           <p class="c-media-block_meta">
-            {{moment-format
-              stream.lastCommentedAt
-              "DD/MM/YYYY | HH:mm"
+            {{friendly-date
+              date=stream.lastCommentedAt
             }}
           </p>
           {{stream.lastComment.body}}

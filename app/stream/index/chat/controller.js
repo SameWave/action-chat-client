@@ -1,5 +1,9 @@
 import Ember from 'ember';
 import moment from 'moment';
+import {
+  animate
+} from 'liquid-fire';
+import ENV from 'action-chat-client/config/environment';
 
 const {
   Controller,
@@ -41,8 +45,8 @@ export default Controller.extend({
     this._super(...arguments);
 
     this.commentsElement = $('.js-comments-section');
-    this.chatBox = $('.js-chat-box');
-    this.streamBody = $('.js-stream-body');
+    this.$chatBox = $('.js-chat-box');
+    this.$commentSpacer = $('.js-comment-spacer');
     this.scrollToBottom();
 
     if (window.Keyboard) {
@@ -54,6 +58,11 @@ export default Controller.extend({
 
     this.showNewMessagesMarker();
 
+  },
+
+  keyboardPusherOptions: {
+    duration: 100,
+    easing: 'ease'
   },
 
   showNewMessagesMarker() {
@@ -138,29 +147,35 @@ export default Controller.extend({
   },
 
   showKeyboard(height) {
+    if (window.cordova && window.cordova.platformId === 'android') {
+      return;
+    }
+
     let {
       scrollHeight
     } = this.commentsElement.get(0);
 
-    this.streamBody.css({
-      'transform': `translateY(-${height}px)`,
-      '-webkit-transform': `translateY(-${height}px)`
+    this.$chatBox.css({
+      transform: `translateY(-${height}px)`
+    });
+    this.commentsElement.css({
+      transform: `translateY(-${height}px)`
     });
 
-    // We need a run later so that scrollTop is only set after keyboard shows
-    run.later(this, () => {
-      this.commentsElement.scrollTop(scrollHeight + height);
-
-      this.commentsElement.animate({
-        scrollTop: scrollHeight + height
-      }, 100);
-    }, 120);
+    // TODO: Scroll to last comment
+    // run.later(this, () => {
+    //   this.commentsElement.animate({
+    //     scrollTop: scrollHeight + height
+    //   }, 200);
+    // }, 300);
   },
 
   hideKeyboard() {
-    this.streamBody.css({
-      'transform': 'translateY(-0px)',
-      '-webkit-transform': 'translateY(-0px)'
+    this.$chatBox.css({
+      transform: 'translateY(0)'
+    });
+    this.commentsElement.css({
+      transform: 'translateY(0)'
     });
   },
 
