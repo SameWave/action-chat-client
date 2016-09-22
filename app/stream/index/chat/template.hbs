@@ -21,10 +21,40 @@
 
 {{#if sessionMember}}
   <div class="c-footer js-chat-box">
+    <section class="u-position-relative">
+      {{#if isMentionListVisible}}
+        <div class="c-action-sheet--chat-box" {{action (action "pickMentionMember")}}>
+          <h2 class="c-action-sheet_title">hello</h2>
+
+          <section class="c-action-sheet_body">
+            <div class="c-action-sheet_list">
+              <div class="c-media-block">
+                <section class="c-media-block_first-section">
+                  <div class="c-avatar">
+                  </div>
+                </section>
+
+                <section class="c-media-block_second-section">
+                  <p class="blue-text || c-media-block_title">
+                    title
+                  </p>
+
+                  <p class="c-media-block_meta">
+                    meta
+                  </p>
+                </section>
+              </div>
+            </div>
+          </section>        
+        </div>
+      {{/if}}
+    </section>
+
     {{chat-box
+      isKeyboardOpen=isKeyboardOpen
       doComment=(action "createComment")
       doTyping=(action "doTyping")
-      isKeyboardOpen=isKeyboardOpen
+      onKeyDown=(action "chatBoxTapEvent")
     }}
   </div>
 {{/if}}

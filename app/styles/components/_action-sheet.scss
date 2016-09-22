@@ -1,0 +1,17 @@
+.c-action-sheet {
+	background-color: map-get($grey, 'base');
+	width: 100%;
+
+	// Modifiers
+	&--chat-box {
+		@extend .c-action-sheet;
+		position: absolute;
+		bottom: 0;
+		left: 0;
+		margin-bottom: 15px;
+	}
+
+	&_title {
+		text-align: center;
+	}
+}

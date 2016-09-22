@@ -32,16 +32,21 @@ export default Controller.extend({
   commentsElement: null,
   commentsSubscription: null,
   streamsSubscription: null,
+  $inputElement: null,
+  $chatBox: null,
   isLoadingEarlier: false,
   isKeyboardOpen: false,
   isNotifierVisible: true,
   totalCommentCount: 0,
   newMessagesTop: 0,
+  isMentionListVisible: false,
+  typingTimer: null,
+  lastCharacterTyped: '',
 
   didRender() {
     this.commentsElement = $('.js-comments-section');
     this.$chatBox = $('.js-chat-box');
-    this.$commentSpacer = $('.js-comment-spacer');
+    this.$inputElement = $('#chat-area');
     this.scrollToBottom();
 
     if (window.Keyboard) {
@@ -68,8 +73,8 @@ export default Controller.extend({
       return comment.get('createdAt') > lastReadAt;
     });
 
-    Ember.debug(`comments: ${this.get('comments.length')}`);
-    Ember.debug(`unreadComments: ${unreadComments.get('length')}`);
+    debug(`comments: ${this.get('comments.length')}`);
+    debug(`unreadComments: ${unreadComments.get('length')}`);
 
     if (unreadComments.get('length')) {
 
@@ -260,6 +265,37 @@ export default Controller.extend({
   },
 
   actions: {
+    chatBoxTapEvent(e) {
+      let currentKeyCode = e.which;
+      let currentCharacter = String.fromCharCode(currentKeyCode);
+      let spaceKeycode = 32;
+
+      if (this.get('lastCharacterTyped') === spaceKeycode && currentCharacter === '@') {
+        this.send('showMentionList');
+      } else {
+        this.send('hideMentionList');
+      }
+
+      this.set('lastCharacterTyped', currentKeyCode);
+
+      this.typingTimer = run.throttle(this, () => {
+        this.send('doTyping');
+      }, 500);
+    },
+
+    showMentionList() {
+      this.set('isMentionListVisible', true);
+    },
+
+    hideMentionList() {
+      this.set('isMentionListVisible', false);
+    },
+
+    pickMentionMember() {
+      this.set('isMentionListVisible', false);
+      this.$inputElement.focus();
+    },
+
     toggleNotifierVisibility() {
       this.set('isNotifierVisible', false);
     },

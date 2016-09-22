@@ -24,9 +24,9 @@ export default TextArea.extend({
     }, 50);
   },
 
-  keyDown() {
+  keyPress(e) {
     if (this.get('onKeyDown')) {
-      this.get('onKeyDown')();
+      this.get('onKeyDown')(e);
     }
   },
 
