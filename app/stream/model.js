@@ -27,12 +27,5 @@ export default Model.extend({
   comments: hasMany('comment', {
     inverse: 'stream',
     async: true
-  }),
-
-  lastComment: belongsTo('comment', {
-    inverse: 'stream',
-    async: true
-  }),
-
-  lastCommentedAt: alias('lastComment.createdAt')
+  })
 });
