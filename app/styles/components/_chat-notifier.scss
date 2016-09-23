@@ -1,0 +1,40 @@
+.c-chat-notifier {
+	display: flex;
+	justify-content: space-between;
+	align-items: center;
+	width: 100%;
+	height: auto;
+	padding: 3px 10px;
+	background-color: map-get($purple, 'darken-1');
+	color: map-get($shades, 'white');
+	fill: map-get($shades, 'white');
+
+	&:hover {
+		background-color: darken(map-get($purple, 'darken-2'), 10);
+	}
+
+	// Elements
+	&_first-section {
+		flex: 0 0 30px;
+	}
+
+	&_title {
+		flex: 1 1 auto;
+		font-size: 12px;
+		text-align: center;
+	}
+
+	&_close {
+		flex: 0 0 30px;
+		display: flex;
+		align-content: center;
+		justify-content: flex-end;
+		margin-left: 10px;
+
+	}
+
+	&_close-icon {
+		width: 15px;
+		height: 15px;
+	}
+}
