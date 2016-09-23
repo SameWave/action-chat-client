@@ -32,8 +32,8 @@ module.exports = function(environment) {
       // when it is created
     },
 
-    host: 'http://localhost:3000',
-    socket: 'ws://localhost:3000/cable'
+    host: 'http://10.0.0.11:8080',
+    socket: 'ws://10.0.0.11:8080/cable'
   };
 
   ENV['ember-simple-auth'] = {
