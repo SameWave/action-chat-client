@@ -50,8 +50,8 @@ export default Controller.extend({
     this.$commentsElement = $('.js-comments-section');
     this.$chatBox = $('.js-chat-box');
     this.$inputElement = $('#chat-area');
-    this.$commentsElement.on('touchmove',  run.bind(this, this.commentsSectionScroll)),
-    this.$commentsElement.on('scroll',  run.bind(this, this.commentsSectionScroll)),
+    this.$commentsElement.on('touchmove', run.bind(this, this.commentsSectionScroll));
+    this.$commentsElement.on('scroll', run.bind(this, this.commentsSectionScroll));
     this.scrollToBottom();
 
     if (window.Keyboard) {
@@ -284,8 +284,7 @@ export default Controller.extend({
       }
 
       this.set('lastCharacterTyped', currentKeyCode);
-
-      this.typingTimer = run.throttle(this, function() {
+      this.typingTimer = run.throttle(this, () => {
         this.send('doTyping');
       }, 500);
     },

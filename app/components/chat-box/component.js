@@ -53,12 +53,6 @@ export default Component.extend({
 
     doKeyUp() {},
 
-    doTyping() {
-      if (this.get('doTyping')) {
-        this.get('doTyping')();
-      }
-    },
-
     doComment() {
 
       if (isEmpty(this.get('comment'))) {
