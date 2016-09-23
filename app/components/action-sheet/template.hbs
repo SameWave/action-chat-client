@@ -4,7 +4,7 @@
   <div class="c-action-sheet_list">
   	{{#each items as |item|}}
   		{{#with item.person as |person|}}
-	    <div class="c-media-block--action-sheet">
+	    <div class="c-media-block--action-sheet" {{action (action "selectItem" person)}}>
 	      <section class="c-media-block_first-section">
 	        <div class="c-avatar--small">
 	        </div>

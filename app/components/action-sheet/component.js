@@ -5,5 +5,13 @@ const {
 } = Ember;
 
 export default Component.extend({
-  classNames: ['c-action-sheet']
+  classNames: ['c-action-sheet'],
+
+  actions: {
+    selectItem(person) {
+      if (this.get('onSelectItem')) {
+        this.get('onSelectItem')(person);
+      }
+    }
+  }
 });

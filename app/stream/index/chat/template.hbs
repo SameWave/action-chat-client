@@ -22,17 +22,18 @@
 {{#if sessionMember}}
   <div class="c-footer js-chat-box">
     <section class="u-position-relative">
-      {{!-- {{#if isMentionListVisible}} --}}
+      {{#if isMentionListVisible}}
         {{action-sheet
           classNames="c-action-sheet--chat-box"
           items=members
-          action=(action "pickMentionMember")
+          onSelectItem=(action "pickMentionMember")
         }}
-      {{!-- {{/if}} --}}
+      {{/if}}
     </section>
 
     {{chat-box
       isKeyboardOpen=isKeyboardOpen
+      comment=currentComment
       doComment=(action "createComment")
       doTyping=(action "doTyping")
       onKeyDown=(action "chatBoxTapEvent")
