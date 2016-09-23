@@ -27,15 +27,27 @@
   deleteComment=(action "deleteComment")
   loadEarlier=(action "loadEarlier")
   newMessagesTop=newMessagesTop
+  click=(action "hideMentionList")
 }}
 
 {{#if sessionMember}}
   <div class="c-footer js-chat-box">
+    <section class="u-position-relative">
+      {{#if isMentionListVisible}}
+        {{mention-list
+          classNames="c-mention-list--chat-box"
+          items=members
+          onSelectItem=(action "pickMentionMember")
+        }}
+      {{/if}}
+    </section>
+
     {{chat-box
+      isKeyboardOpen=isKeyboardOpen
+      comment=currentComment
       onTapInput=(action "tappedInput")
       doComment=(action "createComment")
-      doTyping=(action "doTyping")
-      isKeyboardOpen=isKeyboardOpen
+      onKeyDown=(action "chatBoxTapEvent")
     }}
   </div>
 {{/if}}
