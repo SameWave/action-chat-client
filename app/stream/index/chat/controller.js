@@ -265,10 +265,6 @@ export default Controller.extend({
   },
 
   actions: {
-    commentsSectionTapped() {
-      this.set('isMentionListVisible', false);
-    },
-
     chatBoxTapEvent(e) {
       let currentKeyCode = e.which;
       let currentCharacter = String.fromCharCode(currentKeyCode);
