@@ -59,11 +59,13 @@ export default Controller.extend({
   },
 
   commentsSectionScroll() {
-    this.timer = run.debounce(this, function() {
-      if (this.$commentsElement.scrollTop() < 10) {
-        this.send('loadEarlier');
-      }
-    }, 20000, true);
+    if (this.get('isShowingAllComments')) {
+      this.timer = run.debounce(this, function() {
+        if (this.$commentsElement.scrollTop() < 10) {
+          this.send('loadEarlier');
+        }
+      }, 20000, true);
+    }
   },
 
   keyboardPusherOptions: {
