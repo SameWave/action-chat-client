@@ -29,7 +29,8 @@ export default Controller.extend({
   members: [],
   comments: [],
 
-  commentsElement: null,
+  $commentsElement: null,
+  $chatBox: null,
   commentsSubscription: null,
   streamsSubscription: null,
   isLoadingEarlier: false,
@@ -37,11 +38,13 @@ export default Controller.extend({
   isNotifierVisible: true,
   totalCommentCount: 0,
   newMessagesTop: 0,
+  timer: null,
 
   didRender() {
-    this.commentsElement = $('.js-comments-section');
+    this.$commentsElement = $('.js-comments-section');
     this.$chatBox = $('.js-chat-box');
-    this.$commentSpacer = $('.js-comment-spacer');
+    this.$commentsElement.on('touchmove',  run.bind(this, this.commentsSectionScroll)),
+    this.$commentsElement.on('scroll',  run.bind(this, this.commentsSectionScroll)),
     this.scrollToBottom();
 
     if (window.Keyboard) {
@@ -53,6 +56,16 @@ export default Controller.extend({
 
     this.showNewMessagesMarker();
 
+  },
+
+  commentsSectionScroll() {
+    if (!this.get('isShowingAllComments')) {
+      this.timer = run.debounce(this, function() {
+        if (this.$commentsElement.scrollTop() < 10) {
+          this.send('loadEarlier');
+        }
+      }, 20000, true);
+    }
   },
 
   keyboardPusherOptions: {
@@ -139,18 +152,18 @@ export default Controller.extend({
 
     let {
       scrollHeight
-    } = this.commentsElement.get(0);
+    } = this.$commentsElement.get(0);
 
     this.$chatBox.css({
       transform: `translateY(-${height}px)`
     });
-    this.commentsElement.css({
+    this.$commentsElement.css({
       transform: `translateY(-${height}px)`
     });
 
     // TODO: Scroll to last comment
     // run.later(this, () => {
-    //   this.commentsElement.animate({
+    //   this.$commentsElement.animate({
     //     scrollTop: scrollHeight + height
     //   }, 200);
     // }, 300);
@@ -160,7 +173,7 @@ export default Controller.extend({
     this.$chatBox.css({
       transform: 'translateY(0)'
     });
-    this.commentsElement.css({
+    this.$commentsElement.css({
       transform: 'translateY(0)'
     });
   },
@@ -210,25 +223,25 @@ export default Controller.extend({
   },
 
   doScroll(top) {
-    this.commentsElement.animate({
+    this.$commentsElement.animate({
       scrollTop: top
     }, 100);
   },
 
   scrollToBottom() {
-    this.doScroll(this.commentsElement.get(0).scrollHeight);
+    this.doScroll(this.$commentsElement.get(0).scrollHeight);
   },
 
   nudgeBottom() {
-    this.doScroll(this.commentsElement.scrollTop() + NUDGE_PX);
+    this.doScroll(this.$commentsElement.scrollTop() + NUDGE_PX);
   },
 
   bottomOffset() {
-    let sectionHeight = this.commentsElement.height() + 20; // TODO: 20 for margin?
+    let sectionHeight = this.$commentsElement.height() + 20; // TODO: 20 for margin?
     let {
       scrollHeight
-    } = this.commentsElement.get(0);
-    let scrollTop = this.commentsElement.scrollTop();
+    } = this.$commentsElement.get(0);
+    let scrollTop = this.$commentsElement.scrollTop();
 
     // NOTE: (total scroll height) - (height of section + 20 for margin) - (scrolled distance)
     return scrollHeight - sectionHeight - scrollTop;
@@ -298,7 +311,7 @@ export default Controller.extend({
     loadEarlier() {
       this.setProperties({
         isLoadingEarlier: true,
-        previousTop: this.commentsElement.get(0).scrollHeight + this.commentsElement.scrollTop()
+        previousTop: this.$commentsElement.get(0).scrollHeight + this.$commentsElement.scrollTop()
       });
 
       this.store.query('comment', {
@@ -312,7 +325,7 @@ export default Controller.extend({
 
     doneLoadingEarlier() {
       run.next(this, function() {
-        this.commentsElement.scrollTop(this.commentsElement.get(0).scrollHeight - this.get('previousTop'));
+        this.$commentsElement.scrollTop(this.$commentsElement.get(0).scrollHeight - this.get('previousTop'));
       });
 
       this.set('isLoadingEarlier', false);
