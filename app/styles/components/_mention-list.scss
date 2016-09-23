@@ -1,15 +1,14 @@
 .c-mention-list {
 	background-color: map-get($shades, 'white');
 	width: 100%;
-	padding: 15px 0;
+	padding: 0;
 
 	// Modifiers
 	&--chat-box {
 		@extend .c-mention-list;
 		position: absolute;
-		bottom: 0;
+		bottom: 1px;
 		left: 0;
-		margin-bottom: 15px;
 	}
 
 	// Elements

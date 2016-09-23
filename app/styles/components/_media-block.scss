@@ -3,7 +3,7 @@
 	display: flex;
 	align-items: center;
 	padding: 10px;
-	border-bottom: 1px solid map-get($grey, 'lighten-1');
+	border-bottom: 1px solid map-get($grey, 'lighten-3');
 
 	// Modifiers
 	&--stream {
@@ -13,7 +13,7 @@
 
 	&--mention-list {
 		@extend .c-media-block;
-		padding: 3px;
+		padding: 1px;
 	}
 
 	// layout
