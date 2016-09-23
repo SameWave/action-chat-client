@@ -277,7 +277,7 @@ export default Controller.extend({
       let currentCharacter = String.fromCharCode(currentKeyCode);
       let spaceKeycode = 32;
 
-      if (this.get('lastCharacterTyped') === spaceKeycode && currentCharacter === '@') {
+      if (this.get('lastCharacterTyped') === spaceKeycode && currentCharacter === '@' || this.get('currentComment') === '' && currentCharacter === '@') {
         this.send('showMentionList');
       } else {
         this.send('hideMentionList');
