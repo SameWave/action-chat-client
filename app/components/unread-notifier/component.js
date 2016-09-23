@@ -6,7 +6,7 @@ const {
 } = Ember;
 
 export default Component.extend({
-  classNameBindings: [':c-unread-notifier'],
+  classNameBindings: [':c-chat-notifier'],
   lastReadAt: '',
 
   text: computed('lastReadAt', function() {
