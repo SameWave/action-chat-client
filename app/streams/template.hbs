@@ -17,11 +17,22 @@
 
 <section class="l-app-body--streams">
 	{{#each sortedStreams as |stream|}}
-	  {{media-block/stream
+	  {{#media-block
       title=stream.title
       body=stream.lastComment.body
       lastCommentedAt=stream.lastComment
+      action=(action 'gotoStreamChat')
     }}
+      {{#if stream.lastComment}}
+         <p class="c-media-block_meta">
+           {{friendly-date
+             date=stream.lastCommentedAt
+             isLocal=true
+           }}
+         </p>
+       {{stream.lastComment.body}}
+     {{/if}}
+    {{/media-block}}
 	{{/each}}
 </section>
 
