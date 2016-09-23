@@ -35,6 +35,7 @@
     {{chat-box
       isKeyboardOpen=isKeyboardOpen
       comment=currentComment
+      onTapInput=(action "tappedInput")
       doComment=(action "createComment")
       doTyping=(action "doTyping")
       onKeyDown=(action "chatBoxTapEvent")

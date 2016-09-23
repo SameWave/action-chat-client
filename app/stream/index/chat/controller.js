@@ -125,13 +125,6 @@ export default Controller.extend({
     }
   },
 
-  receivedMembersData(data) {
-    let member = this.get('members').findBy('id', data.member.id);
-    if (member && member.get('id') !== this.get('sessionMember.id')) {
-      member.setTypingAt(new Date(data.member.typing_at));
-    }
-  },
-
   setupKeyboardEvents() {
     let _this = this;
 
@@ -177,7 +170,7 @@ export default Controller.extend({
     });
   },
 
-  // For development only
+  // NOTE: For development only
   isKeyboardDidChange: observer('isKeyboardOpen', function() {
     if (this.get('isKeyboardOpen')) {
       let height = 216; // iPhone 5 keyboard height
@@ -298,6 +291,14 @@ export default Controller.extend({
       this.$inputElement.focus();
     },
 
+    tappedInput() {
+      function refocus() {
+        this.$chatBox.find('.c-auto-resize-textarea').blur().focus();
+      }
+
+      run.later(this, refocus, 300);
+    },
+
     toggleNotifierVisibility() {
       this.set('isNotifierVisible', false);
     },
@@ -315,34 +316,20 @@ export default Controller.extend({
       // Scroll to bottom so that new comment is visible
       run.next(this, this.scrollToBottom);
 
-      this.get('commentsSubscription').send({
-        comment: {
-          id: comment.get('id'),
-          body: comment.get('body'),
-          person_id: comment.get('person.id'),
-          stream_id: comment.get('stream.id')
-        },
-        action: 'create'
+      comment.save().then(() => {
+        debug('comment created');
       });
     },
 
     updateComment(comment) {
-      this.get('commentsSubscription').send({
-        comment_id: comment.get('id'),
-        comment: {
-          body: comment.get('body'),
-          person_id: comment.get('person.id')
-        },
-        action: 'update'
+      comment.save().then(() => {
+        debug('comment updated');
       });
     },
 
     deleteComment(comment) {
-      this.unloadComment(comment);
-
-      this.get('commentsSubscription').send({
-        comment_id: comment.get('id'),
-        action: 'destroy'
+      comment.destroyRecord().then(() => {
+        debug('comment destroyed');
       });
     },
 
@@ -370,14 +357,12 @@ export default Controller.extend({
     },
 
     doTyping() {
-      let typingAt = new Date();
-      this.get('membersSubscription').send({
-        member: {
-          stream_id: this.get('stream.id'),
-          id: this.get('sessionMember.id'),
-          typing_at: typingAt
-        }
-      });
+      debug('controller doTyping');
+      run.debounce(this, () => {
+        let typingAt = new Date();
+        this.set('sessionMember.typingAt', typingAt);
+        this.get('sessionMember').save();
+      }, 300);
     }
   }
 });
