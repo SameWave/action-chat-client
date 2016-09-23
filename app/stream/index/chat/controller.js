@@ -29,12 +29,14 @@ export default Controller.extend({
   members: [],
   comments: [],
 
-  $commentsElement: null,
-  $chatBox: null,
-  commentsSubscription: null,
-  streamsSubscription: null,
-  $inputElement: null,
-  $chatBox: null,
+  streamMembers: computed('members.[]', 'stream.id', function() {
+    return this.get('members').filterBy('stream.id', this.get('stream.id'));
+  }),
+
+  streamComments: computed('comments.[]', 'stream.id', function() {
+    return this.get('comments').filterBy('stream.id', this.get('stream.id'));
+  }),
+
   isLoadingEarlier: false,
   isKeyboardOpen: false,
   isNotifierVisible: true,
@@ -46,12 +48,16 @@ export default Controller.extend({
   currentComment: '',
   loadingTimer: null,
 
+  $comments: null,
+  $chatBox: null,
+  $input: null,
+
   didRender() {
-    this.$commentsElement = $('.js-comments-section');
+    this.$comments = $('.js-comments-section');
     this.$chatBox = $('.js-chat-box');
-    this.$inputElement = $('#chat-area');
-    this.$commentsElement.on('touchmove', run.bind(this, this.commentsSectionScroll));
-    this.$commentsElement.on('scroll', run.bind(this, this.commentsSectionScroll));
+    this.$input = $('#chat-area');
+    this.$comments.on('touchmove', run.bind(this, this.commentsSectionScroll));
+    this.$comments.on('scroll', run.bind(this, this.commentsSectionScroll));
     this.scrollToBottom();
 
     if (window.Keyboard) {
@@ -67,7 +73,7 @@ export default Controller.extend({
   commentsSectionScroll() {
     if (!this.get('isShowingAllComments')) {
       this.loadingTimer = run.debounce(this, function() {
-        if (this.$commentsElement.scrollTop() < 10) {
+        if (this.$comments.scrollTop() < 10) {
           this.send('loadEarlier');
         }
       }, 20000, true);
@@ -83,11 +89,11 @@ export default Controller.extend({
 
     let lastReadAt = this.get('sessionMember.lastReadAt');
 
-    let unreadComments = this.get('comments').sortBy('createdAt').filter((comment) => {
+    let unreadComments = this.get('streamComments').sortBy('createdAt').filter((comment) => {
       return comment.get('createdAt') > lastReadAt;
     });
 
-    debug(`comments: ${this.get('comments.length')}`);
+    debug(`comments: ${this.get('streamComments.length')}`);
     debug(`unreadComments: ${unreadComments.get('length')}`);
 
     if (unreadComments.get('length')) {
@@ -113,31 +119,32 @@ export default Controller.extend({
     // });
   },
 
-  isShowingAllComments: computed('totalCommentCount', 'comments.length', function() {
-    return this.get('comments.length') >= this.get('totalCommentCount');
+  isShowingAllComments: computed('totalCommentCount', 'streamComments.length', function() {
+    return this.get('streamComments.length') >= this.get('totalCommentCount');
   }),
 
-  receivedCommentsData(data) {
-    let comment = this.store.peekRecord('comment', data.comment.id);
-    if (isEmpty(comment)) {
-      if (data.action === 'created') {
+  // TODO: Hook into new comments and trigger scroll/nudge here
+  // receivedCommentsData(data) {
+  //   let comment = this.store.peekRecord('comment', data.comment.id);
+  //   if (isEmpty(comment)) {
+  //     if (data.action === 'created') {
 
-        let bottomOffset = this.bottomOffset();
+  //       let bottomOffset = this.bottomOffset();
 
-        this.pushComment(data.comment);
-        this.commentCountPlusPlus();
+  //       this.pushComment(data.comment);
+  //       this.commentCountPlusPlus();
 
-        run.next(this, this.nudgeOrScrollBottom, bottomOffset);
-        run.next(this, this.vibrate);
-      }
-    } else {
-      if (data.action === 'destroyed') {
-        this.unloadComment(comment);
-      } else {
-        this.updateComment(comment, data.comment);
-      }
-    }
-  },
+  //       run.next(this, this.nudgeOrScrollBottom, bottomOffset);
+  //       run.next(this, this.vibrate);
+  //     }
+  //   } else {
+  //     if (data.action === 'destroyed') {
+  //       this.unloadComment(comment);
+  //     } else {
+  //       this.updateComment(comment, data.comment);
+  //     }
+  //   }
+  // },
 
   setupKeyboardEvents() {
     let _this = this;
@@ -158,18 +165,18 @@ export default Controller.extend({
 
     let {
       scrollHeight
-    } = this.$commentsElement.get(0);
+    } = this.$comments.get(0);
 
     this.$chatBox.css({
       transform: `translateY(-${height}px)`
     });
-    this.$commentsElement.css({
+    this.$comments.css({
       transform: `translateY(-${height}px)`
     });
 
     // TODO: Scroll to last comment
     // run.later(this, () => {
-    //   this.$commentsElement.animate({
+    //   this.$comments.animate({
     //     scrollTop: scrollHeight + height
     //   }, 200);
     // }, 300);
@@ -179,20 +186,20 @@ export default Controller.extend({
     this.$chatBox.css({
       transform: 'translateY(0)'
     });
-    this.$commentsElement.css({
+    this.$comments.css({
       transform: 'translateY(0)'
     });
   },
 
   // NOTE: For development only
-  isKeyboardDidChange: observer('isKeyboardOpen', function() {
-    if (this.get('isKeyboardOpen')) {
-      let height = 216; // iPhone 5 keyboard height
-      this.showKeyboard(height);
-    } else {
-      this.hideKeyboard();
-    }
-  }),
+  // isKeyboardDidChange: observer('isKeyboardOpen', function() {
+  //   if (this.get('isKeyboardOpen')) {
+  //     let height = 216; // iPhone 5 keyboard height
+  //     this.showKeyboard(height);
+  //   } else {
+  //     this.hideKeyboard();
+  //   }
+  // }),
 
   pushComment(data) {
     this.store.push({
@@ -229,25 +236,25 @@ export default Controller.extend({
   },
 
   doScroll(top) {
-    this.$commentsElement.animate({
+    this.$comments.animate({
       scrollTop: top
     }, 100);
   },
 
   scrollToBottom() {
-    this.doScroll(this.$commentsElement.get(0).scrollHeight);
+    this.doScroll(this.$comments.get(0).scrollHeight);
   },
 
   nudgeBottom() {
-    this.doScroll(this.$commentsElement.scrollTop() + NUDGE_PX);
+    this.doScroll(this.$comments.scrollTop() + NUDGE_PX);
   },
 
   bottomOffset() {
-    let sectionHeight = this.$commentsElement.height() + 20; // TODO: 20 for margin?
+    let sectionHeight = this.$comments.height() + 20; // TODO: 20 for margin?
     let {
       scrollHeight
-    } = this.$commentsElement.get(0);
-    let scrollTop = this.$commentsElement.scrollTop();
+    } = this.$comments.get(0);
+    let scrollTop = this.$comments.scrollTop();
 
     // NOTE: (total scroll height) - (height of section + 20 for margin) - (scrolled distance)
     return scrollHeight - sectionHeight - scrollTop;
@@ -301,7 +308,7 @@ export default Controller.extend({
       this.set('isMentionListVisible', false);
 
       this.set('currentComment', `${this.get('currentComment')}${person.get('name')} `);
-      this.$inputElement.focus();
+      this.$input.focus();
     },
 
     tappedInput() {
@@ -349,7 +356,7 @@ export default Controller.extend({
     loadEarlier() {
       this.setProperties({
         isLoadingEarlier: true,
-        previousTop: this.$commentsElement.get(0).scrollHeight + this.$commentsElement.scrollTop()
+        previousTop: this.$comments.get(0).scrollHeight + this.$comments.scrollTop()
       });
 
       this.store.query('comment', {
@@ -363,7 +370,7 @@ export default Controller.extend({
 
     doneLoadingEarlier() {
       run.next(this, function() {
-        this.$commentsElement.scrollTop(this.$commentsElement.get(0).scrollHeight - this.get('previousTop'));
+        this.$comments.scrollTop(this.$comments.get(0).scrollHeight - this.get('previousTop'));
       });
 
       this.set('isLoadingEarlier', false);

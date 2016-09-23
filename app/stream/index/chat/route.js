@@ -44,9 +44,9 @@ export default Route.extend(AuthenticatedRouteMixin, {
 
     controller.setProperties({
       totalCommentCount: stream.get('commentCount'),
-      comments: comments,
-      stream,
+      comments,
       members,
+      stream,
       sessionMember
     });
 

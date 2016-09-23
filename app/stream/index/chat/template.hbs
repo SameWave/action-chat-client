@@ -18,7 +18,7 @@
 
 {{comments-section
   classNames="js-comments-section"
-  comments=comments
+  comments=streamComments
   typers=typers
   sessionMember=sessionMember
   isShowingAllComments=isShowingAllComments
@@ -36,7 +36,7 @@
       {{#if isMentionListVisible}}
         {{mention-list
           classNames="c-mention-list--chat-box"
-          items=members
+          items=streamMembers
           onSelectItem=(action "pickMentionMember")
         }}
       {{/if}}
