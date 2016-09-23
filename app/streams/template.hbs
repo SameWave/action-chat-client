@@ -25,14 +25,14 @@
 
 	  	<div class="c-media-block_second-section">
 		    <p class="blue-text || c-media-block_title">{{stream.title}}</p>
-        {{#if stream.lastComment}}
+        {{#if stream.comments.lastObject}}
           <p class="c-media-block_meta">
             {{friendly-date
-              date=stream.lastCommentedAt
+              date=stream.comments.lastObject.createdAt
               isLocal=true
             }}
           </p>
-          {{stream.lastComment.body}}
+          {{stream.comments.lastObject.body}}
         {{/if}}
 	  	</div>
 	  </div>
