@@ -1,9 +1,35 @@
-<section class="c-media-block_first-section">
-	<div class="c-avatar">
-	</div>
-</section>
+<div class="c-media-block_front" {{action (action "tapFront" on="tap")}}>
+	<section class="c-media-block_first-section">
+		<div class="c-avatar">
+		</div>
+	</section>
 
-<section class="c-media-block_second-section">
- <p class="blue-text || c-media-block_title">{{title}}</p>
- {{yield}}
-</section>
+	<section class="c-media-block_second-section">
+	 <p class="blue-text || c-media-block_title">{{title}}</p>
+		 {{yield}}
+	</section>
+
+	<section class="c-media-block_last-section">
+		<p class="c-media-block_meta">
+       {{friendly-date date=date isLocal=true}}
+  	</p>
+	</section>
+</div>
+
+<div class="c-media-block_back">
+	<section class="option-block">
+	 <p class="blue-text || c-media-block_title">1</p>
+	</section>
+
+	<section class="option-block">
+	 <p class="blue-text || c-media-block_title">2</p>
+	</section>
+
+	<section class="option-block">
+	 <p class="blue-text || c-media-block_title">3</p>
+	</section>
+
+	<section class="option-block">
+	 <p class="blue-text || c-media-block_title">4</p>
+	</section>
+</div>

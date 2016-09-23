@@ -20,16 +20,12 @@
 	  {{#media-block
       title=stream.title
       body=stream.lastComment.body
+      date=stream.lastCommentedAt
       lastCommentedAt=stream.lastComment
-      action=(action 'gotoStreamChat')
+      onTapFront=(action 'gotoStreamChat' stream)
     }}
       {{#if stream.lastComment}}
-         <p class="c-media-block_meta">
-           {{friendly-date
-             date=stream.lastCommentedAt
-             isLocal=true
-           }}
-         </p>
+         <p>stream.lastComment.body</p>
        {{stream.lastComment.body}}
      {{/if}}
     {{/media-block}}

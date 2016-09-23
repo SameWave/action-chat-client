@@ -1,16 +1,12 @@
 .c-media-block {
 	flex: 1 1 100%;
-	display: flex;
 	align-items: center;
-	padding: 10px;
 	border-bottom: 1px solid map-get($grey, 'lighten-3');
-	transform: translateX(0);
-	transition: transform $speed-fast;
+	position: relative;
 
 	// Modifiers
 	&--stream {
 		@extend .c-media-block;
-		background: map-get($blue-grey, 'lighten-5');
 	}
 
 	&--mention-list {
@@ -19,11 +15,34 @@
 	}
 
 	// states
-	&.is-open {
-		transform: translateX(-80%);
-	}
 
 	// layout
+	&_front {
+		position: relative;
+		z-index: $z-stream-blocks + 10;
+		width: 100%;
+		display: flex;
+		padding: 10px;
+		transition: transform $speed-fast;
+		transform: translateX(0);
+		background: map-get($grey, 'lighten-3');
+
+		@at-root .c-media-block.is-open .c-media-block_front {
+			transform: translateX(-80%);
+		}
+	}
+
+	&_back {
+		position: absolute;
+		z-index: $z-stream-blocks;
+		top: 0;
+		right: 0;
+		width: 80%;
+		height: 100%;
+		display: flex;
+		background: map-get($grey, 'lighten-1');
+	}
+
 	&_first-section {
 		flex: 0 0 auto;
 	}
@@ -46,4 +65,10 @@
 		font-size: 10px;
 		color: map-get($grey, 'base');
 	}
+}
+
+.option-block {
+	padding: 10px;
+	flex: 1 1 auto;
+	height: 100%;
 }

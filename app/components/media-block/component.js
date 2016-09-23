@@ -7,8 +7,11 @@ const {
 
 export default Component.extend(RecognizerMixin, {
   classNames: ['c-media-block--stream'],
+  recognizers: 'tap swipe',
 
-  recognizers: 'swipe',
+  title: '',
+  date: '',
+  body: '',
 
   swipeLeft() {
     console.log('left');
@@ -20,6 +23,12 @@ export default Component.extend(RecognizerMixin, {
     this.element.classList.remove('is-open');
   },
 
-  title: '',
-  body: ''
+  actions: {
+    tapFront() {
+      console.log('tapped Component');
+      if (this.get('onTapFront')) {
+        this.get('onTapFront')();
+      }
+    }
+  }
 });
