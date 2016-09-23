@@ -285,8 +285,8 @@ export default Controller.extend({
 
       this.set('lastCharacterTyped', currentKeyCode);
 
-      this.typingTimer = run.throttle(this, () => {
-        // this.send('doTyping');
+      this.typingTimer = run.throttle(this, function() {
+        this.send('doTyping');
       }, 500);
     },
 
@@ -301,7 +301,7 @@ export default Controller.extend({
     pickMentionMember(person) {
       this.set('isMentionListVisible', false);
 
-      this.set('currentComment', `${this.get('currentComment')} ${person.get('name')} `);
+      this.set('currentComment', `${this.get('currentComment')}${person.get('name')} `);
       this.$inputElement.focus();
     },
 
@@ -372,7 +372,7 @@ export default Controller.extend({
 
     doTyping() {
       debug('controller doTyping');
-      run.debounce(this, () => {
+      run.debounce(this, function() {
         let typingAt = new Date();
         this.set('sessionMember.typingAt', typingAt);
         this.get('sessionMember').save();
