@@ -294,24 +294,9 @@ export default Controller.extend({
     pickMentionMember(person) {
       this.set('isMentionListVisible', false);
 
-      // let mention = `@~${person.get('id')}|${person.get('name')}~@`;
-
-      this.set('currentComment', this.get('currentComment') + mention);
-      this.send('formatCurrentComment');
+      this.set('currentComment', `${this.get('currentComment')} ${person.get('name')} `);
       this.$inputElement.focus();
     },
-
-    // TODO
-    // formatCurrentComment() {
-    //   let text = this.get('currentComment');
-    //   let mentionPerson = new RegExp('@~([^|]+)\\|([^|]+)~@', 'gi');
-
-    //   text = text.replace(mentionPerson, (match, personId) => {
-    //     this.get('store').find('person', s1).then(person => {
-    //       this.get('livePeople').addObject(person);
-    //     });
-    //   });
-    // },
 
     toggleNotifierVisibility() {
       this.set('isNotifierVisible', false);
