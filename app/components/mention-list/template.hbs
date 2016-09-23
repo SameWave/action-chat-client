@@ -1,0 +1,24 @@
+<section class="c-mention-list_body">
+  <div class="c-mention-list_list">
+  	{{#each items as |item|}}
+  		{{#with item.person as |person|}}
+	    <div class="c-media-block--mention-list" {{action (action "selectItem" person)}}>
+	      <section class="c-media-block_first-section">
+	        <div class="c-avatar--small">
+	        </div>
+	      </section>
+
+	      <section class="c-media-block_second-section">
+	        <p class="blue-text || c-media-block_title">
+	          {{person.name}}
+	        </p>
+
+	        <p class="c-media-block_meta">
+		        {{person.isAdmin}}
+	        </p>
+	      </section>
+	    </div>
+	    {{/with}}
+   	{{/each}}
+  </div>
+</section>        

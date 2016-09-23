@@ -10,7 +10,7 @@
 {{else}}
   <div class="c-stream-comment_body">
     <p class="c-stream-comment_text">{{comment.body}}</p>
-    <p class="c-stream-comment_time-stamp">{{moment-format comment.createdAt "MM:SS"}}</p>
+    <p class="c-stream-comment_time-stamp">{{friendly-date date=comment.createdAt isLocal=true}}</p>
   </div>
 
   <div class="amber || c-stream-comment_option" {{action (action "doEdit")}}>edit</div>

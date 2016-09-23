@@ -3,14 +3,20 @@
 	display: flex;
 	align-items: center;
 	padding: 10px;
-	border-bottom: 1px solid map-get($grey, 'lighten-1');
+	border-bottom: 1px solid map-get($grey, 'lighten-3');
 
-
+	// Modifiers
 	&--stream {
 		@extend .c-media-block;
 		background: map-get($blue-grey, 'lighten-5');
 	}
 
+	&--mention-list {
+		@extend .c-media-block;
+		padding: 1px;
+	}
+
+	// layout
 	&_first-section {
 		flex: 0 0 auto;
 	}
@@ -25,6 +31,7 @@
 		margin-left: 10px;
 	}
 
+	// Elements
 	&_title {
 		font-size: 14px;
 	}

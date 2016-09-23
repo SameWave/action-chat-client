@@ -1,10 +1,20 @@
-{{#if false}}
-  {{#liquid-if isNotifierVisible class="l-app-body_top-anchor"}}
-    {{unread-notifier
-      lastReadAt=sessionMember.lastReadAt
-      click=(action "toggleNotifierVisibility")}}
-  {{/liquid-if}}
-{{/if}}
+<section class="l-app-body_top-anchor">
+  {{#if false}}
+    {{#liquid-if isNotifierVisible}}
+      {{unread-notifier
+        lastReadAt=sessionMember.lastReadAt
+        click=(action "toggleNotifierVisibility")}}
+    {{/liquid-if}}
+  {{/if}}
+
+  {{#unless isShowingAllComments}}
+    {{#if isLoadingEarlier}}
+        <div class="c-chat-notifier">
+          <h2 class="c-chat-notifier_title">Loading earlier comments</h2>
+        </div>
+    {{/if}}
+  {{/unless}}
+</section>
 
 {{comments-section
   classNames="js-comments-section"
@@ -17,14 +27,27 @@
   deleteComment=(action "deleteComment")
   loadEarlier=(action "loadEarlier")
   newMessagesTop=newMessagesTop
+  click=(action "hideMentionList")
 }}
 
 {{#if sessionMember}}
   <div class="c-footer js-chat-box">
+    <section class="u-position-relative">
+      {{#if isMentionListVisible}}
+        {{mention-list
+          classNames="c-mention-list--chat-box"
+          items=members
+          onSelectItem=(action "pickMentionMember")
+        }}
+      {{/if}}
+    </section>
+
     {{chat-box
-      doComment=(action "createComment")
-      doTyping=(action "doTyping")
       isKeyboardOpen=isKeyboardOpen
+      comment=currentComment
+      onTapInput=(action "tappedInput")
+      doComment=(action "createComment")
+      onKeyDown=(action "chatBoxTapEvent")
     }}
   </div>
 {{/if}}

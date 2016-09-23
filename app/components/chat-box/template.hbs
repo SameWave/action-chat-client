@@ -1,4 +1,8 @@
-<div class="c-chat-box_input-container">
+<section class="c-chat-box_first-section" role="button">
+	{{inline-svg 'images/icons/icon-update' class="c-chat-box_upload-icon"}}
+</section>
+
+<section class="c-chat-box_second-section" role="button" {{action (action 'tapInput')}}>
 	{{auto-resize-textarea
 	  classNames="c-chat-box_input"
 	  id="chat-area"
@@ -9,8 +13,8 @@
 	  value=comment
 	  rows=1
 	}}
-</div>
+</section>
 
-<button class="btn || c-chat-box_btn-send" {{action (action 'doComment')}}>
+<button class="c-chat-box_btn-send" {{action (action 'doComment')}}>
   Send
 </button>

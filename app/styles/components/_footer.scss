@@ -1,5 +1,7 @@
 .c-footer {
   flex: 0 0 auto;
-  padding: 10px;
-  background-color: map-get($pink, 'base');
+  position: relative;
+  background-color: map-get($shades, 'white');
+  border-top: 1px solid map-get($grey, 'base');
+  transition: transform $speed-fast ease-out;
 }
