@@ -27,7 +27,6 @@ export default Component.extend({
   },
 
   actions: {
-
     doFocusIn() {
       if (ENV.environment === 'development') {
         this.set('isKeyboardOpen', true);
@@ -40,8 +39,10 @@ export default Component.extend({
       }
     },
 
-    doKeyDown() {
-      this.typingTimer = run.throttle(this, this.doTyping, 500);
+    doKeyDown(e) {
+      if (this.get('onKeyDown')) {
+        this.get('onKeyDown')(e);
+      }
     },
 
     doKeyUp() {},
