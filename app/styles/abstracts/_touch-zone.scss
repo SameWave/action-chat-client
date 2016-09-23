@@ -1,0 +1,89 @@
+// TODO: Clean this up
+.u-touchZone::after {
+  content: ' ';
+  display: block;
+  width: 100%;
+  height: 100%;
+  z-index: 100;
+  top: 0;
+  position: absolute;
+}
+
+.u-touchZone.active::after,
+.u-touchZone:active::after {
+  transform: scale(1.25, 1.25);
+}
+
+/*
+  :active::after often not always work
+*/
+
+.u-touchZone:focus::after {
+  transform: scale(1.25, 1.25);
+}
+
+.u-touchZone-left::after {
+  left: -10%;
+  width: 110%;
+}
+
+.u-touchZone-right::after {
+  width: 110%;
+}
+
+.u-touchZone-left.u-touchZone-right::after {
+  width: 120%;
+}
+
+.u-touchZone-top::after {
+  top: -10%;
+  height: 110%;
+}
+
+.u-touchZone-bottom::after {
+  height: 110%;
+}
+
+.u-touchZone-top.u-touchZone-bottom::after {
+  height: 120%;
+}
+
+.u-touchZone-all::after {
+  top: -10%;
+  left: -10%;
+  width: 120%;
+  height: 120%;
+}
+
+.u-touchZone-2x-left::after {
+  left: -20%;
+  width: 120%;
+}
+
+.u-touchZone-2x-right::after {
+  width: 120%;
+}
+
+.u-touchZone-2x-left.u-touchZone-2x-right::after {
+  width: 140%;
+}
+
+.u-touchZone-2x-top::after {
+  top: -20%;
+  height: 120%;
+}
+
+.u-touchZone-2x-bottom::after {
+  height: 120%;
+}
+
+.u-touchZone-2x-top.u-touchZone-2x-bottom::after {
+  height: 120%;
+}
+
+.u-touchZone-2x-all::after {
+  top: -20%;
+  left: -20%;
+  width: 140%;
+  height: 140%;
+}
