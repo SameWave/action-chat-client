@@ -59,7 +59,7 @@ export default Controller.extend({
   },
 
   commentsSectionScroll() {
-    if (this.get('isShowingAllComments')) {
+    if (!this.get('isShowingAllComments')) {
       this.timer = run.debounce(this, function() {
         if (this.$commentsElement.scrollTop() < 10) {
           this.send('loadEarlier');
