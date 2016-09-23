@@ -165,7 +165,7 @@ export default Controller.extend({
     });
   },
 
-  // For development only
+  // NOTE: For development only
   isKeyboardDidChange: observer('isKeyboardOpen', function() {
     if (this.get('isKeyboardOpen')) {
       let height = 216; // iPhone 5 keyboard height
@@ -253,6 +253,14 @@ export default Controller.extend({
   },
 
   actions: {
+    tappedInput() {
+      function refocus() {
+        this.$chatBox.find('.c-auto-resize-textarea').blur().focus();
+      }
+
+      run.later(this, refocus, 300);
+    },
+
     toggleNotifierVisibility() {
       this.set('isNotifierVisible', false);
     },
