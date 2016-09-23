@@ -1,11 +1,11 @@
-.c-action-sheet {
+.c-mention-list {
 	background-color: map-get($shades, 'white');
 	width: 100%;
 	padding: 15px 0;
 
 	// Modifiers
 	&--chat-box {
-		@extend .c-action-sheet;
+		@extend .c-mention-list;
 		position: absolute;
 		bottom: 0;
 		left: 0;

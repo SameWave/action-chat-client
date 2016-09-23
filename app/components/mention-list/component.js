@@ -5,12 +5,12 @@ const {
 } = Ember;
 
 export default Component.extend({
-  classNames: ['c-action-sheet'],
+  classNames: ['c-mention-list'],
 
   actions: {
-    selectItem(person) {
+    selectItem(item) {
       if (this.get('onSelectItem')) {
-        this.get('onSelectItem')(person);
+        this.get('onSelectItem')(item);
       }
     }
   }

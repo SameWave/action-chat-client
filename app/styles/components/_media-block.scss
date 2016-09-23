@@ -11,7 +11,7 @@
 		background: map-get($blue-grey, 'lighten-5');
 	}
 
-	&--action-sheet {
+	&--mention-list {
 		@extend .c-media-block;
 		padding: 3px;
 	}
