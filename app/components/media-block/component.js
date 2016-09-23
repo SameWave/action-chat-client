@@ -14,18 +14,15 @@ export default Component.extend(RecognizerMixin, {
   body: '',
 
   swipeLeft() {
-    console.log('left');
     this.element.classList.add('is-open');
   },
 
   swipeRight() {
-    console.log('right');
     this.element.classList.remove('is-open');
   },
 
   actions: {
     tapFront() {
-      console.log('tapped Component');
       if (this.get('onTapFront')) {
         this.get('onTapFront')();
       }

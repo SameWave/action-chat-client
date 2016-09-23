@@ -1,7 +1,7 @@
 .c-media-block {
 	flex: 1 1 100%;
 	align-items: center;
-	border-bottom: 1px solid map-get($grey, 'lighten-3');
+	border-bottom: 1px solid map-get($shades, 'white');
 	position: relative;
 
 	// Modifiers
@@ -65,10 +65,4 @@
 		font-size: 10px;
 		color: map-get($grey, 'base');
 	}
-}
-
-.option-block {
-	padding: 10px;
-	flex: 1 1 auto;
-	height: 100%;
 }
