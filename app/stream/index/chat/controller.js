@@ -33,18 +33,25 @@ export default Controller.extend({
   $chatBox: null,
   commentsSubscription: null,
   streamsSubscription: null,
+  $inputElement: null,
+  $chatBox: null,
   isLoadingEarlier: false,
   isKeyboardOpen: false,
   isNotifierVisible: true,
   totalCommentCount: 0,
   newMessagesTop: 0,
-  timer: null,
+  isMentionListVisible: false,
+  typingTimer: null,
+  lastCharacterTyped: '',
+  currentComment: '',
+  loadingTimer: null,
 
   didRender() {
     this.$commentsElement = $('.js-comments-section');
     this.$chatBox = $('.js-chat-box');
-    this.$commentsElement.on('touchmove',  run.bind(this, this.commentsSectionScroll)),
-    this.$commentsElement.on('scroll',  run.bind(this, this.commentsSectionScroll)),
+    this.$inputElement = $('#chat-area');
+    this.$commentsElement.on('touchmove', run.bind(this, this.commentsSectionScroll));
+    this.$commentsElement.on('scroll', run.bind(this, this.commentsSectionScroll));
     this.scrollToBottom();
 
     if (window.Keyboard) {
@@ -55,12 +62,11 @@ export default Controller.extend({
     }
 
     this.showNewMessagesMarker();
-
   },
 
   commentsSectionScroll() {
     if (!this.get('isShowingAllComments')) {
-      this.timer = run.debounce(this, function() {
+      this.loadingTimer = run.debounce(this, function() {
         if (this.$commentsElement.scrollTop() < 10) {
           this.send('loadEarlier');
         }
@@ -81,8 +87,8 @@ export default Controller.extend({
       return comment.get('createdAt') > lastReadAt;
     });
 
-    Ember.debug(`comments: ${this.get('comments.length')}`);
-    Ember.debug(`unreadComments: ${unreadComments.get('length')}`);
+    debug(`comments: ${this.get('comments.length')}`);
+    debug(`unreadComments: ${unreadComments.get('length')}`);
 
     if (unreadComments.get('length')) {
 
@@ -266,6 +272,38 @@ export default Controller.extend({
   },
 
   actions: {
+    chatBoxTapEvent(e) {
+      let currentKeyCode = e.which;
+      let currentCharacter = String.fromCharCode(currentKeyCode);
+      let spaceKeycode = 32;
+
+      if (this.get('lastCharacterTyped') === spaceKeycode && currentCharacter === '@' || this.get('currentComment') === '' && currentCharacter === '@') {
+        this.send('showMentionList');
+      } else {
+        this.send('hideMentionList');
+      }
+
+      this.set('lastCharacterTyped', currentKeyCode);
+      this.typingTimer = run.throttle(this, () => {
+        this.send('doTyping');
+      }, 500);
+    },
+
+    showMentionList() {
+      this.set('isMentionListVisible', true);
+    },
+
+    hideMentionList() {
+      this.set('isMentionListVisible', false);
+    },
+
+    pickMentionMember(person) {
+      this.set('isMentionListVisible', false);
+
+      this.set('currentComment', `${this.get('currentComment')}${person.get('name')} `);
+      this.$inputElement.focus();
+    },
+
     tappedInput() {
       function refocus() {
         this.$chatBox.find('.c-auto-resize-textarea').blur().focus();
@@ -333,7 +371,7 @@ export default Controller.extend({
 
     doTyping() {
       debug('controller doTyping');
-      run.debounce(this, () => {
+      run.debounce(this, function() {
         let typingAt = new Date();
         this.set('sessionMember.typingAt', typingAt);
         this.get('sessionMember').save();
