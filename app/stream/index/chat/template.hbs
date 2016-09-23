@@ -1,19 +1,27 @@
-{{#ember-wormhole to="header-content-destination"}}
-  <p class="a-fade-in o-stream-members-list">{{headerContent}}</p>
-{{/ember-wormhole}}
+<section class="l-app-body_top-anchor">
+  {{#if false}}
+    {{#liquid-if isNotifierVisible}}
+      {{unread-notifier
+        lastReadAt=sessionMember.lastReadAt
+        click=(action "toggleNotifierVisibility")}}
+    {{/liquid-if}}
+  {{/if}}
 
-
-{{#liquid-if isNotifierVisible class="l-app-body_top-anchor"}}
-  {{unread-notifier
-    lastReadAt=sessionMember.lastReadAt
-    click=(action "toggleNotifierVisibility")}} 
-{{/liquid-if}}
+  {{#unless isShowingAllComments}}
+    {{#if isLoadingEarlier}}
+        <div class="c-chat-notifier">
+          <h2 class="c-chat-notifier_title">Loading earlier comments</h2>
+        </div>
+    {{/if}}
+  {{/unless}}
+</section>
 
 {{comments-section
   classNames="js-comments-section"
   comments=comments
   typers=typers
   sessionMember=sessionMember
+  isShowingAllComments=isShowingAllComments
   isLoadingEarlier=isLoadingEarlier
   updateComment=(action "updateComment")
   deleteComment=(action "deleteComment")
@@ -21,12 +29,14 @@
   newMessagesTop=newMessagesTop
 }}
 
-<div class="c-footer js-chat-box">
-  {{chat-box
-    doComment=(action "createComment")
-    doTyping=(action "doTyping")
-    isKeyboardOpen=isKeyboardOpen
-  }}
-</div>
-
+{{#if sessionMember}}
+  <div class="c-footer js-chat-box">
+    {{chat-box
+      onTapInput=(action "tappedInput")
+      doComment=(action "createComment")
+      doTyping=(action "doTyping")
+      isKeyboardOpen=isKeyboardOpen
+    }}
+  </div>
+{{/if}}
 

@@ -1,17 +1,18 @@
-<div class="message_author">
+<div class="c-stream-comment_author">
   <p><b>{{comment.person.name}}</b>:</p>
 </div>
 
 {{#if isEditing}}
-	<div class="message_body">{{{input value=comment.body}}}</div>
+	<div class="c-stream-comment_body">{{{input value=comment.body}}}</div>
 
-  <div class="red || message_option" {{action (action "doCancel")}}>cancel</div>
-  <div class="green || message_option" {{action (action "doUpdate")}}>save</div>
+  <div class="red || c-stream-comment_option" {{action (action "doCancel")}}>cancel</div>
+  <div class="green || c-stream-comment_option" {{action (action "doUpdate")}}>save</div>
 {{else}}
-  <div class="message_body">
-    <p>{{{comment.body}}} {{date-format comment.createdAt}}</p>
+  <div class="c-stream-comment_body">
+    <p class="c-stream-comment_text">{{comment.body}}</p>
+    <p class="c-stream-comment_time-stamp">{{friendly-date date=comment.createdAt isLocal=true}}</p>
   </div>
 
-  <div class="amber || message_option" {{action (action "doEdit")}}>edit</div>
-  <div class="red || message_option" {{action (action "doDelete")}}>delete</div>
+  <div class="amber || c-stream-comment_option" {{action (action "doEdit")}}>edit</div>
+  <div class="red || c-stream-comment_option" {{action (action "doDelete")}}>delete</div>
 {{/if}}

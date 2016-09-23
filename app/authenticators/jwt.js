@@ -3,6 +3,7 @@ import Base from 'ember-simple-auth/authenticators/base';
 import ENV from '../config/environment';
 
 const {
+  isEmpty,
   RSVP: {
     Promise
   },
@@ -18,7 +19,7 @@ export default Base.extend({
 
   restore(data) {
     return new Promise((resolve, reject) => {
-      if (!Ember.isEmpty(data.token)) {
+      if (!isEmpty(data.token)) {
         resolve(data);
       } else {
         reject();
@@ -27,19 +28,19 @@ export default Base.extend({
   },
 
   authenticate(creds) {
-    const {
+    let {
       identification,
       password
     } = creds;
 
-    const data = JSON.stringify({
+    let data = JSON.stringify({
       auth: {
         email: identification,
         password
       }
     });
 
-    const requestOptions = {
+    let requestOptions = {
       url: this.tokenEndpoint,
       type: 'POST',
       data,
@@ -49,7 +50,7 @@ export default Base.extend({
 
     return new Promise((resolve, reject) => {
       ajax(requestOptions).then((response) => {
-        const {
+        let {
           jwt
         } = response;
         // Wrapping aync operation in Ember.run

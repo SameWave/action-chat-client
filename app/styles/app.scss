@@ -28,7 +28,7 @@
 @import 'components/icon';
 @import 'components/buttons';
 @import 'components/chat-box';
-@import 'components/message';
+@import 'components/stream-comment';
 @import 'components/notice';
 @import 'components/tabs';
 @import 'components/auto-resize-textarea';
@@ -41,8 +41,8 @@
 @import 'components/message-marker';
 @import 'components/footer';
 @import 'components/comments-section';
-@import 'components/unread-notifier';
-@import 'components/load-earlier';
+@import 'components/chat-notifier';
+@import 'components/keyboard-push';
 
 // Objects
 @import 'objects/ribbon';

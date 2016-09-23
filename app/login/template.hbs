@@ -1,12 +1,15 @@
-{{#ember-wormhole to="header-destination"}}
+<header class="pink || l-app-header">
 	<div class="c-header--login">
     <section class="c-header_second-section" {{action (action 'doDevLogin')}}>
       <h1 class="c-header_title">
         Samewave prototype
       </h1>
+      <h5 class="c-header_tagline">
+      	Take only what we need to survive
+      </h5>
     </section>
   </div>
-{{/ember-wormhole}}
+</header>
 
 <section class="l-app-body--login">
 	<form class="l-form" {{action 'doLogin' on='submit'}}>

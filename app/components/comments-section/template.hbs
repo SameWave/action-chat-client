@@ -1,24 +1,16 @@
-<button {{action (action loadEarlier)}} class="c-load-earlier">
-	{{#if isLoadingEarlier}}
-		{{inline-svg "images/icons/icon-loading" class="c-load-earlier_icon a-fade-in"}}
-	{{else}}
-		<p class="a-fade-in">Load earlier</p>
-	{{/if}}
-</button>
-
 <div {{action (action 'doTap')}}>
   {{#each sortedComments as |comment|}}
     {{stream-comment
       comment=comment
       updateComment=(action updateComment comment)
       deleteComment=(action deleteComment comment)
-      classNames="chip || message"
     }}
   {{/each}}
 </div>
 
-{{#if newMessagesTop}}
-  {{message-marker top=newMessagesTop}}
+{{#if false}}
+  {{#if newMessagesTop}}
+    {{message-marker top=newMessagesTop}}
+  {{/if}}
 {{/if}}
-
 

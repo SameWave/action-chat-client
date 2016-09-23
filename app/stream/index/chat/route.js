@@ -5,6 +5,8 @@ import ENV from 'action-chat-client/config/environment';
 const {
   Route,
   RSVP,
+  debug,
+  inspect,
   inject: {
     service
   },
@@ -18,94 +20,49 @@ export default Route.extend(AuthenticatedRouteMixin, {
 
   session: service(),
   cable: service(),
-  user: alias('session.person'),
+  sessionPerson: alias('session.person'),
 
   model() {
-    let stream = this.modelFor('stream.index').stream;
+    let {
+      stream
+    } = this.modelFor('stream.index');
     return RSVP.hash({
-      stream: stream,
+      stream,
       comments: this.store.peekAll('comment'),
-      members: this.store.peekAll('member').filterBy('stream.id', stream.get('id'))
+      members: this.store.peekAll('member')
     });
   },
 
   setupController(controller, model) {
-    let stream = model.stream;
-    let comments = model.comments;
-    let members = model.members;
+    let {
+      stream,
+      comments,
+      members
+    } = model;
 
-    let sessionMember = members.findBy('person.id', this.get('user.id'));
+    let sessionMember = members.findBy('person.id', this.get('sessionPerson.id'));
 
     controller.setProperties({
-      allComments: comments,
-      stream: stream,
-      members: members,
-      sessionMember: sessionMember
+      totalCommentCount: stream.get('commentCount'),
+      comments: comments,
+      stream,
+      members,
+      sessionMember
     });
 
-    const consumer = this.get('cable').createConsumer(ENV.socket);
-
-    this.subscribeComments(consumer, controller, model);
-    this.subscribeMembers(consumer, controller, model);
-  },
-
-  subscribeComments(consumer, controller, model) {
-    let stream = model.stream;
-    let channel = 'CommentsChannel';
-
-    Ember.debug('subscribeComments');
-
-    const subscription = consumer.subscriptions.create({
-      channel: channel,
+    this.store.subscribe({
+      channel: 'CommentsChannel',
       stream_id: stream.get('id')
-    }, {
-      connected() {
-        Ember.debug(`connected to ${channel}`);
-      },
-
-      disconnected() {
-        Ember.debug(`disconnected from ${channel}`);
-      },
-
-      received(data) {
-        Ember.debug(`${channel} received data -> ${Ember.inspect(data)}`);
-        controller.receivedCommentsData(data);
-      }
     });
 
-    controller.set('commentsSubscription', subscription);
-  },
-
-  subscribeMembers(consumer, controller, model) {
-    let stream = model.stream;
-    let channel = 'MembersChannel';
-
-    const subscription = consumer.subscriptions.create({
-      channel: channel,
+    this.store.subscribe({
+      channel: 'MembersChannel',
       stream_id: stream.get('id')
-    }, {
-
-      connected() {
-        Ember.debug(`connected to ${channel}`);
-        controller.setLastReadAt();
-      },
-
-      disconnected() {
-        Ember.debug(`disconnected from ${channel}`);
-      },
-
-      received: (data) => {
-        controller.receivedMembersData(data);
-      }
     });
-
-    controller.set('membersSubscription', subscription);
   },
 
   actions: {
     didTransition() {
-      Ember.debug('didTransition');
-
       run.schedule('afterRender', this, function() {
         this.get('controller').didRender();
       });

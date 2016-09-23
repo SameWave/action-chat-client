@@ -1,14 +1,19 @@
 import Ember from 'ember';
 
 const {
+  Controller,
+  inject,
   computed: {
-    alias
+    alias,
+    sort
   }
 } = Ember;
 
-export default Ember.Controller.extend({
-  session: Ember.inject.service(),
+export default Controller.extend({
+  session: inject.service(),
   streams: alias('model'),
+  sortProperties: ['lastCommentedAt:desc'],
+  sortedStreams: sort('streams', 'sortProperties'),
 
   actions: {
     gotoStreamChat(stream) {

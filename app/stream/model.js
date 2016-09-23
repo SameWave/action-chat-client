@@ -1,13 +1,23 @@
+import Ember from 'ember';
 import DS from 'ember-data';
+
+const {
+  computed,
+  computed: {
+    alias
+  }
+} = Ember;
 
 const {
   Model,
   attr,
-  hasMany
+  hasMany,
+  belongsTo
 } = DS;
 
 export default Model.extend({
   title: attr('string'),
+  commentCount: attr('number'),
 
   members: hasMany('member', {
     inverse: 'stream',
@@ -17,5 +27,12 @@ export default Model.extend({
   comments: hasMany('comment', {
     inverse: 'stream',
     async: true
-  })
+  }),
+
+  lastComment: belongsTo('comment', {
+    inverse: 'stream',
+    async: true
+  }),
+
+  lastCommentedAt: alias('lastComment.createdAt')
 });

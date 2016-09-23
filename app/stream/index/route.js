@@ -13,13 +13,27 @@ from 'action-chat-client/stream/index/chat/controller';
 
 export default Route.extend(AuthenticatedRouteMixin, {
   model(params) {
+
+    let stream = this.store.peekRecord('stream', params.stream_id);
+
     return RSVP.hash({
-      stream: this.store.peekRecord('stream', params.stream_id),
+      stream,
       comments: this.store.query('comment', {
         limit: COMMENT_LOAD_SIZE,
         offset: 0,
         stream_id: params.stream_id
+      }),
+      members: this.store.query('member', {
+        stream_id: params.stream_id
       })
     });
+  },
+
+  actions: {
+    willTransition(transition) {
+      if (!['stream.index.chat', 'stream.index.scoreboard'].contains(transition.targetName)) {
+        this.store.unloadAll('comment');
+      }
+    }
   }
 });
