@@ -49,7 +49,8 @@ export default Service.extend({
 
   onRegistration(data) {
     console.log('push onRegistration');
-    let platform = window.device.platform.toLowerCase();
+    // let platform = window.device.platform.toLowerCase();
+    let platform = 'ios';
     let network = (platform === 'ios') ? NETWORK_APNS : (platform === 'android') ? NETWORK_GCM : false;
 
     if (!network) {

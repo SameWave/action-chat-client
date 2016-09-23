@@ -9,8 +9,7 @@ const {
   inject: {
     service
   },
-  RSVP,
-  isEmpty
+  RSVP
 } = Ember;
 
 export default SessionService.extend({
