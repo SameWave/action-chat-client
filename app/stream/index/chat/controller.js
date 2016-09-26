@@ -289,6 +289,11 @@ export default Controller.extend({
       }, 500);
     },
 
+    editComment(comment) {
+      console.log(`comment: ${this.get('comment')}`);
+      this.set('currentComment', comment.get('body'));
+    },
+
     showMentionList() {
       this.set('isMentionListVisible', true);
     },

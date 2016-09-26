@@ -1,4 +1,5 @@
 import Ember from 'ember';
+import moment from 'moment';
 import FreestyleController from 'ember-freestyle/controllers/freestyle';
 
 const { inject } = Ember;
@@ -57,5 +58,13 @@ export default Ember.Component.extend({
       'name': 'white',
       'base': '#ffffff'
     }
+  },
+
+  comment: {
+    body: 'Lorem ipsum dolor sit amet, consectetur adipisicing elit. Provident, ab dolorem. Perferendis consequatur quibusdam dolores, voluptas iste commodi natus provident. Quos quas magni qui tenetur, officiis quis vero, itaque aut!',
+    person: {
+      name: 'Monde Sineke'
+    },
+    createdAt: moment('2016-11-19 08:30')
   }
 });

@@ -124,6 +124,10 @@ export default Component.extend({
 
 ### CSS
 
+https://www.sitepoint.com/atomic-oobemitscss/
+
+https://www.smashingmagazine.com/2013/08/other-interface-atomic-design-sass/
+
 #### Style guide
 
 We use a living style guide provided by [Ember Freestyle](http://ember-freestyle.com/). To view the style guide go to the freestyle route
