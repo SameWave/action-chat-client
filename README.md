@@ -19,6 +19,7 @@ You will need the following things properly installed on your computer.
 * change into the new directory
 * `npm install`
 * `bower install`
+* `ember cdv:prepare`
 
 ## Running / Development
 
@@ -124,6 +125,8 @@ export default Component.extend({
 
 ### CSS
 
+We use atomic ...
+
 #### Style guide
 
 We use a living style guide provided by [Ember Freestyle](http://ember-freestyle.com/). To view the style guide go to the freestyle route
@@ -183,3 +186,7 @@ sass/
 |
 `– app.scss              # Imports all scss files
 ```
+
+## Touch
+
+Using [Ember-gestures](https://github.com/runspired/ember-gestures) powered by [hammer.js](http://hammerjs.github.io/api/) to provide api for working on mobile touch gestures.
