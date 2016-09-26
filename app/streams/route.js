@@ -10,5 +10,4 @@ export default Route.extend(AuthenticatedRouteMixin, {
   model() {
     return this.store.peekAll('stream');
   }
-
 });

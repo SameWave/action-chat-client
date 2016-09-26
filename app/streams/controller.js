@@ -12,6 +12,7 @@ const {
 export default Controller.extend({
   session: inject.service(),
   streams: alias('model'),
+
   sortProperties: ['lastCommentedAt:desc'],
   sortedStreams: sort('streams', 'sortProperties'),
 

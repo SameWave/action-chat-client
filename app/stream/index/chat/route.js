@@ -44,70 +44,21 @@ export default Route.extend(AuthenticatedRouteMixin, {
 
     controller.setProperties({
       totalCommentCount: stream.get('commentCount'),
-      comments: comments,
-      stream,
+      comments,
       members,
+      stream,
       sessionMember
     });
 
-    let consumer = this.get('cable').createConsumer(ENV.socket);
-
-    this.subscribeComments(consumer, controller, model);
-    this.subscribeMembers(consumer, controller, model);
-  },
-
-  subscribeComments(consumer, controller, model) {
-    let {
-      stream
-    } = model;
-    let channel = 'CommentsChannel';
-    let subscription = consumer.subscriptions.create({
-      channel,
+    this.store.subscribe({
+      channel: 'CommentsChannel',
       stream_id: stream.get('id')
-    }, {
-      connected() {
-        // Ember.debug(`connected to ${channel}`);
-      },
-
-      disconnected() {
-        // Ember.debug(`disconnected from ${channel}`);
-      },
-
-      received(data) {
-        // Ember.debug(`${channel} received data -> ${Ember.inspect(data)}`);
-        controller.receivedCommentsData(data);
-      }
     });
 
-    controller.set('commentsSubscription', subscription);
-  },
-
-  subscribeMembers(consumer, controller, model) {
-    let {
-      stream
-    } = model;
-    let channel = 'MembersChannel';
-
-    let subscription = consumer.subscriptions.create({
-      channel,
+    this.store.subscribe({
+      channel: 'MembersChannel',
       stream_id: stream.get('id')
-    }, {
-
-      connected() {
-        // Ember.debug(`connected to ${channel}`);
-        controller.setLastReadAt();
-      },
-
-      disconnected() {
-        // Ember.debug(`disconnected from ${channel}`);
-      },
-
-      received: (data) => {
-        controller.receivedMembersData(data);
-      }
     });
-
-    controller.set('membersSubscription', subscription);
   },
 
   actions: {

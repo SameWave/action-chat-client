@@ -27,6 +27,11 @@ export default Component.extend({
   },
 
   actions: {
+    tapInput() {
+      if (this.get('onTapInput')) {
+        this.get('onTapInput')();
+      }
+    },
 
     doFocusIn() {
       if (ENV.environment === 'development') {
@@ -40,17 +45,13 @@ export default Component.extend({
       }
     },
 
-    doKeyDown() {
-      this.typingTimer = run.throttle(this, this.doTyping, 500);
+    doKeyDown(e) {
+      if (this.get('onKeyDown')) {
+        this.get('onKeyDown')(e);
+      }
     },
 
     doKeyUp() {},
-
-    doTyping() {
-      if (this.get('doTyping')) {
-        this.get('doTyping')();
-      }
-    },
 
     doComment() {
 

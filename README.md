@@ -43,8 +43,13 @@ host: 'http://10.99.220.237:8080',
 socket: 'ws://10.99.220.237:8080/cable'
 ```
 
-On rails
-* rails s -b 0.0.0.0 -p 8080
+NB: Make sure postgres is running
+
+On Server
+```
+$ rails db:migrate:reset && rails db:seed
+$ rails s -b 0.0.0.0 -p 8080
+```
 
 On Node
 *ember cdv:s

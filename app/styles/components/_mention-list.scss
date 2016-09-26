@@ -1,0 +1,25 @@
+.c-mention-list {
+	background-color: map-get($shades, 'white');
+	width: 100%;
+	padding: 0;
+
+	// Modifiers
+	&--chat-box {
+		@extend .c-mention-list;
+		position: absolute;
+		bottom: 1px;
+		left: 0;
+	}
+
+	// Elements
+	&_title {
+		text-align: center;
+		font-size: 14px;
+	}
+
+	&_list {
+		height: 100%;
+		max-height: 180px;
+		overflow-y: scroll;
+	}
+}

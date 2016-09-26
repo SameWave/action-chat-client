@@ -29,10 +29,10 @@ export default Model.extend({
     async: true
   }),
 
-  lastComment: belongsTo('comment', {
-    inverse: 'stream',
-    async: true
+  lastComment: computed('comments.@each.createdAt', function() {
+    return this.get('comments').sortBy('createdAt').get('lastObject');
   }),
 
   lastCommentedAt: alias('lastComment.createdAt')
+
 });

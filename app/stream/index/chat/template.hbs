@@ -12,7 +12,7 @@
 
 {{comments-section
   classNames="js-comments-section"
-  comments=comments
+  comments=streamComments
   typers=typers
   sessionMember=sessionMember
   isShowingAllComments=isShowingAllComments
@@ -21,14 +21,27 @@
   deleteComment=(action "deleteComment")
   loadEarlier=(action "loadEarlier")
   newMessagesTop=newMessagesTop
+  click=(action "hideMentionList")
 }}
 
 {{#if sessionMember}}
   <div class="c-footer js-chat-box">
+    <section class="u-position-relative">
+      {{#if isMentionListVisible}}
+        {{mention-list
+          classNames="c-mention-list--chat-box"
+          items=streamMembers
+          onSelectItem=(action "pickMentionMember")
+        }}
+      {{/if}}
+    </section>
+
     {{chat-box
-      doComment=(action "createComment")
-      doTyping=(action "doTyping")
       isKeyboardOpen=isKeyboardOpen
+      comment=currentComment
+      onTapInput=(action "tappedInput")
+      doComment=(action "createComment")
+      onKeyDown=(action "chatBoxTapEvent")
     }}
   </div>
 {{/if}}
