@@ -32,6 +32,8 @@ export default Model.extend({
     }
   }),
 
+  unreadCount: attr('number'),
+
   typingAt: attr('date'),
 
   typingTimer: null,

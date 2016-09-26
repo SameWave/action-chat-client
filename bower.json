@@ -1,7 +1,7 @@
 {
   "name": "action-chat-client",
   "dependencies": {
-    "ember": "~2.7.0",
+    "ember": "~2.8.0",
     "ember-cli-shims": "0.1.1",
     "ember-qunit-notifications": "0.1.0",
     "remarkable": "1.6.2",

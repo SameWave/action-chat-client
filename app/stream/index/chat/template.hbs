@@ -1,24 +1,28 @@
 {{#liquid-if
-  isNotifierVisible
+  hasUnreadOffScreenComments
   use="toUp"
   class="l-app-body_top-anchor"}}
 
   {{unread-notifier
-    numberOfUnreadComments=unreadCommentsLength
+    unreadOffScreenCount=unreadOffScreenCount
+    lastReadAt=sessionMember.lastReadAt
     onTapArrowUp=(action "scrollToLastRead")
     onTapBody=(action "scrollToLastRead")
-    onTapClose=(action "setAllMessagesAsRead")}}
+    onTapClose=(action "setAllMessagesAsRead")
+  }}
 {{/liquid-if}}
 
 {{comments-section
   classNames="js-comments-section"
-  comments=streamComments
+  comments=sortedComments
+  unreadTop=unreadTop
   typers=typers
   sessionMember=sessionMember
   isShowingAllComments=isShowingAllComments
   isLoadingEarlier=isLoadingEarlier
   updateComment=(action "updateComment")
   deleteComment=(action "deleteComment")
+  doReadComment=(action "doReadComment")
   loadEarlier=(action "loadEarlier")
   click=(action "hideMentionList")
 }}
@@ -44,4 +48,3 @@
     }}
   </div>
 {{/if}}
-
