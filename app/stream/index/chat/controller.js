@@ -99,7 +99,7 @@ export default Controller.extend({
       return comment.get('createdAt') > lastReadAt;
     });
 
-    debug(`comments: ${this.get('comments.length')}`);
+    debug(`comments: ${this.get('streamComments.length')}`);
     debug(`unreadComments: ${unreadComments.get('length')}`);
 
     this.set('unreadCommentsLength', unreadComments.get('length'));
