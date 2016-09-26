@@ -44,8 +44,6 @@ export default Controller.extend({
   isKeyboardOpen: false,
   totalCommentCount: 0,
 
-  unreadCommentsLength: 0,
-
   isMentionListVisible: false,
   typingTimer: null,
   lastCharacterTyped: '',
@@ -89,31 +87,6 @@ export default Controller.extend({
     easing: 'ease'
   },
 
-  << << << < HEAD
-  showNewMessagesMarker() {
-
-    let lastReadAt = this.get('sessionMember.lastReadAt');
-
-    let unreadComments = this.get('streamComments').sortBy('createdAt').filter((comment) => {
-      return comment.get('createdAt') > lastReadAt;
-    });
-
-    debug(`comments: ${this.get('streamComments.length')}`);
-    debug(`unreadComments: ${unreadComments.get('length')}`);
-
-    this.set('unreadCommentsLength', unreadComments.get('length'));
-
-    if (unreadComments.get('length')) {
-
-      let unreadCommentElement = $(`#comment-${unreadComments.get('firstObject.id')}`);
-      let newMessagesTop = unreadCommentElement.position().top - 10;
-
-      this.set('newMessagesTop', newMessagesTop);
-
-    }
-  },
-
-  === === = >>> >>> > master
   setLastReadAt() {
     let lastReadAt = new Date();
     debug('setLastReadAt', lastReadAt);
