@@ -62,10 +62,15 @@ export default Route.extend(AuthenticatedRouteMixin, {
   },
 
   actions: {
+
     didTransition() {
-      run.schedule('afterRender', this, function() {
+      run.schedule('afterRender', this, () => {
         this.get('controller').didRender();
       });
+    },
+
+    willTransition(transition) {
+      this.get('controller').setLastReadAt();
     }
   }
 

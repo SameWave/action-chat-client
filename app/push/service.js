@@ -17,10 +17,7 @@ export default Service.extend({
   }.property(),
 
   setup(personId) {
-    console.log('push setup');
-    Ember.debug('push setup');
     if (!this.get('isAvailable')) {
-      Ember.debug('push setup is not available');
       if (ENV.environment === 'production') {
         alert('Push notification setup failed!');
       }

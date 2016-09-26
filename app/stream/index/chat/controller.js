@@ -41,7 +41,6 @@ export default Controller.extend({
   isKeyboardOpen: false,
   isNotifierVisible: true,
   totalCommentCount: 0,
-  newMessagesTop: 0,
   isMentionListVisible: false,
   typingTimer: null,
   lastCharacterTyped: '',
@@ -66,8 +65,6 @@ export default Controller.extend({
     if (window.cordova && window.cordova.plugins.Keyboard) {
       this.setupKeyboardEvents();
     }
-
-    this.showNewMessagesMarker();
   },
 
   commentsSectionScroll() {
@@ -85,38 +82,11 @@ export default Controller.extend({
     easing: 'ease'
   },
 
-  showNewMessagesMarker() {
-
-    let lastReadAt = this.get('sessionMember.lastReadAt');
-
-    let unreadComments = this.get('streamComments').sortBy('createdAt').filter((comment) => {
-      return comment.get('createdAt') > lastReadAt;
-    });
-
-    debug(`comments: ${this.get('streamComments.length')}`);
-    debug(`unreadComments: ${unreadComments.get('length')}`);
-
-    if (unreadComments.get('length')) {
-
-      let unreadCommentElement = $(`#comment-${unreadComments.get('firstObject.id')}`);
-      let newMessagesTop = unreadCommentElement.position().top - 10;
-
-      this.set('newMessagesTop', newMessagesTop);
-
-    }
-  },
-
   setLastReadAt() {
-    // let lastReadAt = new Date();
-    // Ember.debug('setLastReadAt', lastReadAt);
-
-    // this.get('membersSubscription').send({
-    //   member_id: this.get('sessionMember.id'),
-    //   member: {
-    //     last_read_at: lastReadAt
-    //   },
-    //   action: 'update'
-    // });
+    let lastReadAt = new Date();
+    debug('setLastReadAt', lastReadAt);
+    this.set('sessionMember.lastReadAt', lastReadAt);
+    this.get('sessionMember').save();
   },
 
   isShowingAllComments: computed('totalCommentCount', 'streamComments.length', function() {
