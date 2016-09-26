@@ -47,17 +47,17 @@ export default JSONAPIAdapter.extend(DataAdapterMixin, {
   },
 
   createRecord(store, type, snapshot) {
-    debug('createRecord');
+    // debug('createRecord');
     return this._send('create', snapshot);
   },
 
   updateRecord(store, type, snapshot) {
-    debug('updateRecord');
+    // debug('updateRecord');
     return this._send('update', snapshot);
   },
 
   deleteRecord(store, type, snapshot) {
-    debug('deleteRecord');
+    // debug('deleteRecord');
     return this._send('destroy', snapshot);
   },
 

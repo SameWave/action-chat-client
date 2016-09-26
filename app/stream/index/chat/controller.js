@@ -43,7 +43,7 @@ export default Controller.extend({
   isLoadingEarlier: false,
   isKeyboardOpen: false,
   totalCommentCount: 0,
-  newMessagesTop: 0,
+
   unreadCommentsLength: 0,
 
   isMentionListVisible: false,
@@ -72,8 +72,6 @@ export default Controller.extend({
     if (window.cordova && window.cordova.plugins.Keyboard) {
       this.setupKeyboardEvents();
     }
-
-    this.showNewMessagesMarker();
   },
 
   commentsSectionScroll() {
@@ -91,6 +89,7 @@ export default Controller.extend({
     easing: 'ease'
   },
 
+  << << << < HEAD
   showNewMessagesMarker() {
 
     let lastReadAt = this.get('sessionMember.lastReadAt');
@@ -114,17 +113,12 @@ export default Controller.extend({
     }
   },
 
+  === === = >>> >>> > master
   setLastReadAt() {
-    // let lastReadAt = new Date();
-    // Ember.debug('setLastReadAt', lastReadAt);
-
-    // this.get('membersSubscription').send({
-    //   member_id: this.get('sessionMember.id'),
-    //   member: {
-    //     last_read_at: lastReadAt
-    //   },
-    //   action: 'update'
-    // });
+    let lastReadAt = new Date();
+    debug('setLastReadAt', lastReadAt);
+    this.set('sessionMember.lastReadAt', lastReadAt);
+    this.get('sessionMember').save();
   },
 
   isShowingAllComments: computed('totalCommentCount', 'streamComments.length', function() {
