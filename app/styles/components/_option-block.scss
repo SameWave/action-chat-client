@@ -1,0 +1,21 @@
+.c-option-block {
+	flex: 0 0 calc(100% / 4);
+	height: 100%;
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	flex-direction: column;
+	fill: map-get($blue, 'base');
+	color: map-get($blue, 'base');
+
+	&_icon {
+		width: 20px;
+		height: 20px;
+	}
+
+	&_title {
+		font-size: 12px;
+		line-height: 1em;
+		margin-top: 13px;
+	}
+}

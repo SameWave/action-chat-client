@@ -1,14 +1,12 @@
 .c-media-block {
 	flex: 1 1 100%;
-	display: flex;
 	align-items: center;
-	padding: 10px;
-	border-bottom: 1px solid map-get($grey, 'lighten-3');
+	border-bottom: 1px solid map-get($shades, 'white');
+	position: relative;
 
 	// Modifiers
 	&--stream {
 		@extend .c-media-block;
-		background: map-get($blue-grey, 'lighten-5');
 	}
 
 	&--mention-list {
@@ -16,7 +14,35 @@
 		padding: 1px;
 	}
 
+	// states
+
 	// layout
+	&_front {
+		position: relative;
+		z-index: $z-stream-blocks + 10;
+		width: 100%;
+		display: flex;
+		padding: 10px;
+		transition: transform $speed-fast;
+		transform: translateX(0);
+		background: map-get($grey, 'lighten-3');
+
+		@at-root .c-media-block.is-open .c-media-block_front {
+			transform: translateX(-80%);
+		}
+	}
+
+	&_back {
+		position: absolute;
+		z-index: $z-stream-blocks;
+		top: 0;
+		right: 0;
+		width: 80%;
+		height: 100%;
+		display: flex;
+		background: map-get($grey, 'lighten-1');
+	}
+
 	&_first-section {
 		flex: 0 0 auto;
 	}

@@ -5,7 +5,7 @@
 	-webkit-tap-highlight-color: rgba(0,0,0,0);
  }
 
-[data-ember-action] {
+[data-ember-action], a, button, input, .link {
  cursor: pointer;
 }
 
