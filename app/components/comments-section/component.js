@@ -12,6 +12,7 @@ export default Component.extend({
   typers: [],
   sortProperties: ['createdAt', 'id'],
   sortedComments: computed.sort('comments', 'sortProperties'),
+  selectedComment: null,
 
   newMessagesTop: 0,
 

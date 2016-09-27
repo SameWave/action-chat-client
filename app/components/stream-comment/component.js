@@ -2,7 +2,8 @@ import Ember from 'ember';
 import RecognizerMixin from 'ember-gestures/mixins/recognizers';
 
 const {
-  Component
+  Component,
+  computed
 } = Ember;
 
 export default Component.extend(RecognizerMixin, {
@@ -10,7 +11,7 @@ export default Component.extend(RecognizerMixin, {
   classNameBindings: ['isEditing', 'isOpen'],
   recognizers: 'tap swipe',
   comment: null,
-  isEditing: false,
+  selectedComment: null,
   isOpen: false,
 
   init() {
@@ -19,17 +20,24 @@ export default Component.extend(RecognizerMixin, {
     this.set('elementId', `comment-${this.get('comment.id')}`);
   },
 
+  isEditing: computed('selectedComment.id', 'comment.id', function() {
+    return this.get('selectedComment.id') === this.get('comment.id');
+  }),
+
   swipeLeft() {
-    this.set('isOpen', true);
+    if (!this.get('isEditing')) {
+      this.set('isOpen', true);
+    }
   },
 
   swipeRight() {
-    this.set('isOpen', false);
+    if (!this.get('isEditing')) {
+      this.set('isOpen', false);
+    }
   },
 
   actions: {
     doEdit() {
-      this.set('isEditing', true);
       this.set('isOpen', false);
 
       if (this.get('onEdit')) {
@@ -39,11 +47,9 @@ export default Component.extend(RecognizerMixin, {
 
     doCancel() {
       this.get('comment').rollbackAttributes();
-      this.set('isEditing', false);
     },
 
     doUpdate() {
-      this.set('isEditing', false);
       if (this.get('updateComment')) {
         this.get('updateComment')(this.get('comment'));
       }

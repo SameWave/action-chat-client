@@ -34,7 +34,6 @@ export default Controller.extend({
   commentsSubscription: null,
   streamsSubscription: null,
   $inputElement: null,
-  $chatBox: null,
   isLoadingEarlier: false,
   isKeyboardOpen: false,
   isNotifierVisible: true,
@@ -43,8 +42,10 @@ export default Controller.extend({
   isMentionListVisible: false,
   typingTimer: null,
   lastCharacterTyped: '',
-  currentComment: '',
+  chatBoxValue: '',
   loadingTimer: null,
+  isEditingComment: false,
+  selectedComment: null,
 
   didRender() {
     this.$commentsElement = $('.js-comments-section');
@@ -277,7 +278,7 @@ export default Controller.extend({
       let currentCharacter = String.fromCharCode(currentKeyCode);
       let spaceKeycode = 32;
 
-      if (this.get('lastCharacterTyped') === spaceKeycode && currentCharacter === '@' || this.get('currentComment') === '' && currentCharacter === '@') {
+      if (this.get('lastCharacterTyped') === spaceKeycode && currentCharacter === '@' || this.get('chatBoxValue') === '' && currentCharacter === '@') {
         this.send('showMentionList');
       } else {
         this.send('hideMentionList');
@@ -287,11 +288,6 @@ export default Controller.extend({
       this.typingTimer = run.throttle(this, () => {
         this.send('doTyping');
       }, 500);
-    },
-
-    editComment(comment) {
-      console.log(`comment: ${this.get('comment')}`);
-      this.set('currentComment', comment.get('body'));
     },
 
     showMentionList() {
@@ -305,7 +301,7 @@ export default Controller.extend({
     pickMentionMember(person) {
       this.set('isMentionListVisible', false);
 
-      this.set('currentComment', `${this.get('currentComment')}${person.get('name')} `);
+      this.set('chatBoxValue', `${this.get('chatBoxValue')}${person.get('name')} `);
       this.$inputElement.focus();
     },
 
@@ -323,6 +319,7 @@ export default Controller.extend({
 
     createComment(body) {
       debug('createComment');
+
       let comment = this.store.createRecord('comment', {
         body,
         person: this.get('sessionMember.person'),
@@ -336,6 +333,28 @@ export default Controller.extend({
 
       comment.save().then(() => {
         debug('comment created');
+      });
+    },
+
+    editComment(comment) {
+      this.set('selectedComment', comment);
+      this.set('isChatModalVisible', true);
+      this.set('chatBoxValue', comment.get('body'));
+    },
+
+    doCancelUpdateComment() {
+      this.set('selectedComment', null);
+      this.set('chatBoxValue', '');
+      this.set('isChatModalVisible', false);
+    },
+
+    doUpdateComment() {
+      this.set('selectedComment.body', this.get('chatBoxValue'));
+      this.get('selectedComment').save().then(() => {
+        this.set('selectedComment', null);
+        this.set('chatBoxValue', '');
+        this.set('isChatModalVisible', false);
+        debug('comment updated');
       });
     },
 
