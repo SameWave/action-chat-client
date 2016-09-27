@@ -1,18 +1,75 @@
-<div class="c-stream-comment_author">
-  <p><b>{{comment.person.name}}</b>:</p>
+<div class="l-stream-comment_front">
+  <div class="c-stream-message">
+    <section class="c-stream-message_first-section">
+      <div class="c-stream-message_avatar">
+        
+      </div>
+    </section>
+
+    <section class="c-stream-message_last-section">
+      <div class="c-stream-message_header">
+        <p class="c-stream-message_author">{{comment.person.name}}</p>
+
+        <p class="c-stream-message_time">{{friendly-date date=comment.createdAt isLocal=true}}</p>
+      </div>
+
+      <div class="c-stream-message_body">
+        <p>{{comment.body}}</p>
+      </div>
+    </section>
+  </div>
 </div>
 
-{{#if isEditing}}
-	<div class="c-stream-comment_body">{{{input value=comment.body}}}</div>
+<div class="l-stream-comment_back">
+  <div class="c-options">
+    <section class="c-option-block">
+      {{inline-svg 'images/icons/icon-reply' class="c-option-block_icon"}}
+      <p class="c-option-block_title">reply</p>
+    </section>
 
-  <div class="red || c-stream-comment_option" {{action (action "doCancel")}}>cancel</div>
-  <div class="green || c-stream-comment_option" {{action (action "doUpdate")}}>save</div>
-{{else}}
-  <div class="c-stream-comment_body">
-    <p class="c-stream-comment_text">{{comment.body}}</p>
-    <p class="c-stream-comment_time-stamp">{{friendly-date date=comment.createdAt isLocal=true}}</p>
+    <section class="c-option-block">
+        {{inline-svg 'images/icons/icon-reply' class="c-option-block_icon"}}
+        <p class="c-option-block_title">pin</p>
+    </section>
+
+    <section class="c-option-block" {{action (action "doEdit")}}>
+      {{inline-svg 'images/icons/icon-reply' class="c-option-block_icon"}}
+      <p class="c-option-block_title">edit</p>
+    </section>
+
+    <section class="c-option-block--red">
+      {{inline-svg 'images/icons/icon-reply' class="c-option-block_icon"}}
+      <p class="c-option-block_title">delete</p>
+    </section>
   </div>
+</div>
 
-  <div class="amber || c-stream-comment_option" {{action (action "doEdit")}}>edit</div>
-  <div class="red || c-stream-comment_option" {{action (action "doDelete")}}>delete</div>
-{{/if}}
+
+
+
+
+
+
+
+
+
+
+
+
+
+{{!-- {{#if isEditing}}
+        <div class="c-comment-body_caption">{{{input value=comment.body}}}</div>
+
+        <div class="red || c-comment-body_option" {{action (action "doCancel")}}>cancel</div>
+        <div class="green || c-comment-body_option" {{action (action "doUpdate")}}>save</div>
+      {{else}}
+        <div class="c-comment-body_caption">
+          <p class="c-comment-body_text">{{comment.body}}</p>
+          <p class="c-comment-body_time-stamp">{{friendly-date date=comment.createdAt isLocal=true}}</p>
+        </div>  
+        <div class="amber || c-comment-body_option" {{action (action "doEdit")}}>edit</div>
+        <div class="red || c-comment-body_option" {{action (action "doDelete")}}>delete</div>
+      {{/if}} --}}
+
+
+
