@@ -13,10 +13,10 @@ export default Component.extend(InViewportMixin, {
 
   // @mo TODO: add CSS for the has-fade-out class (or similar)
 
-  classNameBindings: [':c-message-marker', 'hasFadeOut'],
+  classNameBindings: [':c-message-marker', 'isViewed:has-fade-out'],
   attributeBindings: ['style'],
 
-  hasFadeOut: false,
+  isViewed: false,
 
   viewportOptionsOverride: on('didInsertElement', function() {
     setProperties(this, {
@@ -35,7 +35,12 @@ export default Component.extend(InViewportMixin, {
   }),
 
   didEnterViewport() {
-    this.set('hasFadeOut', true);
+    if (!this.get('isViewed')) {
+      this.set('isViewed', true);
+      if (this.get('onView')) {
+        this.get('onView')();
+      }
+    }
   }
 
 });

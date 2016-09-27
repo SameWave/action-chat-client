@@ -18,5 +18,7 @@
 {{/if}}
 
 {{#if isFirstUnread}}
-  {{message-marker}}
+  {{message-marker
+    onView=(action onNewMarkerView)
+  }}
 {{/if}}
