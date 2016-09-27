@@ -1,19 +1,46 @@
 import Ember from 'ember';
+import InViewportMixin from 'ember-in-viewport';
 
 const {
-  Component
+  Component,
+  setProperties,
+  on
 } = Ember;
 
-export default Component.extend({
+export default Component.extend(InViewportMixin, {
+
   classNames: ['c-stream-comment'],
   comment: null,
   isEditing: false,
 
   init() {
     this._super(...arguments);
-
     this.set('elementId', `comment-${this.get('comment.id')}`);
   },
+
+  viewportOptionsOverride: on('didInsertElement', function() {
+    setProperties(this, {
+      viewportEnabled: true,
+      viewportUseRAF: true,
+      viewportSpy: false,
+      viewportScrollSensitivity: 1,
+      viewportRefreshRate: 150,
+      viewportTolerance: {
+        top: -(65 + 34), // height of header + tab menu
+        bottom: 0,
+        left: 0,
+        right: 0
+      }
+    });
+  }),
+
+  didEnterViewport() {
+    if (this.get('doReadComment')) {
+      this.get('doReadComment')();
+    }
+  },
+
+  didExitViewport() {},
 
   actions: {
     doEdit() {

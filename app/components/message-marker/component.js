@@ -1,16 +1,46 @@
 import Ember from 'ember';
+import InViewportMixin from 'ember-in-viewport';
 
 const {
-  Component
+  Component,
+  computed,
+  isEmpty,
+  on,
+  setProperties
 } = Ember;
 
-export default Component.extend({
-  classNames: ['c-message-marker'],
+export default Component.extend(InViewportMixin, {
+
+  // @mo TODO: add CSS for the has-fade-out class (or similar)
+
+  classNameBindings: [':c-message-marker', 'hasFadeOut'],
   attributeBindings: ['style'],
 
-  top: -100,
+  top: 0,
+  hasFadeOut: false,
 
-  style: function() {
+  style: computed('top', function() {
     return (`top: ${this.get('top')}px`).htmlSafe();
-  }.property('top')
+  }),
+
+  viewportOptionsOverride: on('didInsertElement', function() {
+    setProperties(this, {
+      viewportEnabled: true,
+      viewportUseRAF: true,
+      viewportSpy: false,
+      viewportScrollSensitivity: 1,
+      viewportRefreshRate: 150,
+      viewportTolerance: {
+        top: -(65 + 34), // height of header + tab menu
+        bottom: 0,
+        left: 0,
+        right: 0
+      }
+    });
+  }),
+
+  didEnterViewport() {
+    this.set('hasFadeOut', true);
+  }
+
 });

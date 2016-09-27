@@ -15,6 +15,7 @@ const {
 export default SessionService.extend({
 
   store: service(),
+  push: service(),
   person: null,
 
   token: alias('data.authenticated.token'),
@@ -25,6 +26,7 @@ export default SessionService.extend({
         let personId = JSON.parse(atob(this.get('data.authenticated.token').split('.')[1])).sub;
         return this.get('store').findRecord('person', personId).then((person) => {
           this.set('person', person);
+          this.get('push').setup(person.get('id'));
           resolve();
         }, reject);
       } else {

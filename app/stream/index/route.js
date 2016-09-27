@@ -27,13 +27,5 @@ export default Route.extend(AuthenticatedRouteMixin, {
         stream_id: params.stream_id
       })
     });
-  },
-
-  actions: {
-    willTransition(transition) {
-      if (!['stream.index.chat', 'stream.index.scoreboard'].contains(transition.targetName)) {
-        this.store.unloadAll('comment');
-      }
-    }
   }
 });
