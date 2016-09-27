@@ -5,6 +5,7 @@
 	height: auto;
 	min-height: 32px;
 	margin-bottom: 10px;
+	position: relative;
 
 	// Elements
 	&_author {
@@ -22,7 +23,7 @@
 		margin: 5px 5px 5px 0;
 
 	}
-	
+
 	&_text {
 		line-height: 1.2rem;
 		word-break: break-word;

@@ -75,8 +75,6 @@ export default Controller.extend({
 
     this.scrollToBottom(0); // scroll to bottom with 0 delay
 
-    this.set('unreadTop', this.getUnreadTop());
-
     if (window.Keyboard) {
       // window.Keyboard.shrinkView(true);
     }
@@ -85,17 +83,11 @@ export default Controller.extend({
     }
   },
 
-  getUnreadTop() {
-    let unreadComment = this.get('sortedComments').filter((comment) => {
+  firstUnread: computed('sortedComments.@each.createdAt', 'sessionMember.lastReadAt', function() {
+    return this.get('sortedComments').find((comment) => {
       return comment.get('createdAt') > this.get('sessionMember.lastReadAt');
-    }).get('firstObject');
-    if (!isEmpty(unreadComment)) {
-      let $unreadComment = this.$comments.find("#comment-" + unreadComment.get('id'));
-      return $unreadComment.position().top + this.$comments.scrollTop();
-    } else {
-      return 0;
-    }
-  },
+    });
+  }),
 
   onCommentsScroll() {
     if (!this.get('isShowingAllComments')) {
@@ -258,7 +250,7 @@ export default Controller.extend({
 
     scrollToLastRead() {
       this.$comments.animate({
-        scrollTop: this.get('unreadTop')
+        scrollTop: this.get('unreadTop') - 15
       }, 500, () => {
         this.setLastReadAt();
       });

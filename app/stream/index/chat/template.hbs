@@ -1,23 +1,21 @@
-{{#if false}}
-  {{#liquid-if
-    hasUnreadOffScreenComments
-    use="toUp"
-    class="l-app-body_top-anchor"}}
+{{#liquid-if
+  hasUnreadOffScreenComments
+  use="toUp"
+  class="l-app-body_top-anchor"}}
 
-    {{unread-notifier
-      unreadOffScreenCount=unreadOffScreenCount
-      lastReadAt=sessionMember.lastReadAt
-      onTapArrowUp=(action "scrollToLastRead")
-      onTapBody=(action "scrollToLastRead")
-      onTapClose=(action "setAllMessagesAsRead")
-    }}
-  {{/liquid-if}}
-{{/if}}
+  {{unread-notifier
+    unreadCount=unreadOffScreenCount
+    lastReadAt=sessionMember.lastReadAt
+    onTapArrowUp=(action "scrollToLastRead")
+    onTapBody=(action "scrollToLastRead")
+    onTapClose=(action "setAllMessagesAsRead")
+  }}
+{{/liquid-if}}
 
 {{comments-section
   classNames="js-comments-section"
   comments=sortedComments
-  unreadTop=unreadTop
+  firstUnread=firstUnread
   typers=typers
   sessionMember=sessionMember
   isShowingAllComments=isShowingAllComments

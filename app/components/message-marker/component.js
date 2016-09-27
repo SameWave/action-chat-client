@@ -16,12 +16,7 @@ export default Component.extend(InViewportMixin, {
   classNameBindings: [':c-message-marker', 'hasFadeOut'],
   attributeBindings: ['style'],
 
-  top: 0,
   hasFadeOut: false,
-
-  style: computed('top', function() {
-    return (`top: ${this.get('top')}px`).htmlSafe();
-  }),
 
   viewportOptionsOverride: on('didInsertElement', function() {
     setProperties(this, {

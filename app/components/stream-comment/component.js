@@ -4,19 +4,25 @@ import InViewportMixin from 'ember-in-viewport';
 const {
   Component,
   setProperties,
-  on
+  on,
+  computed
 } = Ember;
 
 export default Component.extend(InViewportMixin, {
 
   classNames: ['c-stream-comment'],
   comment: null,
+  firstUnread: null,
   isEditing: false,
 
   init() {
     this._super(...arguments);
     this.set('elementId', `comment-${this.get('comment.id')}`);
   },
+
+  isFirstUnread: computed('firstUnread.id', 'comment.id', function() {
+    return this.get('firstUnread.id') === this.get('comment.id');
+  }),
 
   viewportOptionsOverride: on('didInsertElement', function() {
     setProperties(this, {
