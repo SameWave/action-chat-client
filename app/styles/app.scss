@@ -5,7 +5,6 @@
 @import 'vendors/materialize/normalize';
 @import 'vendors/materialize/global';
 @import 'vendors/materialize/typography';
-@import 'vendors/materialize/buttons';
 @import 'vendors/materialize/chips';
 @import 'vendors/materialize/forms/forms';
 @import 'vendors/liquid-fire/main';
@@ -47,6 +46,7 @@
 @import 'components/keyboard-push';
 @import 'components/mention-list';
 @import 'components/option-block';
+@import 'components/confirmation-card';
 
 // layout
 @import 'layout/navigation';
