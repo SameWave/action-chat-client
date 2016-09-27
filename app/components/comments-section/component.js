@@ -1,20 +1,15 @@
 import Ember from 'ember';
 
 const {
-  Component,
-  computed,
-  $
+  Component
 } = Ember;
 
 export default Component.extend({
   classNames: ['c-comments-section'],
+  sessionMember: null,
   comments: [],
   typers: [],
-  sortProperties: ['createdAt', 'id'],
-  sortedComments: computed.sort('comments', 'sortProperties'),
   selectedComment: null,
-
-  newMessagesTop: 0,
 
   actions: {
     doTap() {

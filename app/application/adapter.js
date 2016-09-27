@@ -47,17 +47,17 @@ export default JSONAPIAdapter.extend(DataAdapterMixin, {
   },
 
   createRecord(store, type, snapshot) {
-    debug('createRecord');
+    // debug('createRecord');
     return this._send('create', snapshot);
   },
 
   updateRecord(store, type, snapshot) {
-    debug('updateRecord');
+    // debug('updateRecord');
     return this._send('update', snapshot);
   },
 
   deleteRecord(store, type, snapshot) {
-    debug('deleteRecord');
+    // debug('deleteRecord');
     return this._send('destroy', snapshot);
   },
 
@@ -108,7 +108,7 @@ export default JSONAPIAdapter.extend(DataAdapterMixin, {
       received: (message) => {
         debug(`received in ${channel}`);
 
-        if (['created', 'updated'].contains(message.action)) {
+        if (['created', 'updated'].includes(message.action)) {
           this.store.pushPayload(message.data);
         } else if (message.action === 'destroyed') {
           // Record was destroyed by another client so we need to unload it from the store

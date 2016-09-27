@@ -19,6 +19,7 @@ You will need the following things properly installed on your computer.
 * change into the new directory
 * `npm install`
 * `bower install`
+* `ember cdv:prepare`
 
 ## Running / Development
 
@@ -42,8 +43,13 @@ host: 'http://10.99.220.237:8080',
 socket: 'ws://10.99.220.237:8080/cable'
 ```
 
-On rails
-* rails s -b 0.0.0.0 -p 8080
+NB: Make sure postgres is running
+
+On Server
+```
+$ rails db:migrate:reset && rails db:seed
+$ rails s -b 0.0.0.0 -p 8080
+```
 
 On Node
 *ember cdv:s
@@ -128,6 +134,10 @@ https://www.sitepoint.com/atomic-oobemitscss/
 
 https://www.smashingmagazine.com/2013/08/other-interface-atomic-design-sass/
 
+We use atomic ...
+
+TODO: [ ] add_ember_gestures and touchZone
+
 #### Style guide
 
 We use a living style guide provided by [Ember Freestyle](http://ember-freestyle.com/). To view the style guide go to the freestyle route
@@ -187,3 +197,7 @@ sass/
 |
 `– app.scss              # Imports all scss files
 ```
+
+## Touch
+
+Using [Ember-gestures](https://github.com/runspired/ember-gestures) powered by [hammer.js](http://hammerjs.github.io/api/) to provide api for working on mobile touch gestures.

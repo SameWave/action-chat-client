@@ -40,14 +40,11 @@ export default Route.extend(AuthenticatedRouteMixin, {
       members
     } = model;
 
-    let sessionMember = members.findBy('person.id', this.get('sessionPerson.id'));
-
     controller.setProperties({
       totalCommentCount: stream.get('commentCount'),
-      comments: comments,
-      stream,
+      comments,
       members,
-      sessionMember
+      stream
     });
 
     this.store.subscribe({
@@ -62,10 +59,15 @@ export default Route.extend(AuthenticatedRouteMixin, {
   },
 
   actions: {
+
     didTransition() {
-      run.schedule('afterRender', this, function() {
+      run.schedule('afterRender', this, () => {
         this.get('controller').didRender();
       });
+    },
+
+    willTransition(transition) {
+      this.get('controller').setLastReadAt();
     }
   }
 

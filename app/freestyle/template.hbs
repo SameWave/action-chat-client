@@ -4,7 +4,6 @@
   }}
 
   {{#freestyle-section name="UI Elements"}}
-
     {{#freestyle-usage "chat-box" title="Chat box"}}
       {{chat-box classNames="chat-box"}}
     {{/freestyle-usage}}
@@ -15,12 +14,15 @@
       }}
     {{/freestyle-usage}}
 
+    {{#freestyle-usage "unread-notifier" title="unread notifier"}}
+      {{unread-notifier
+        lastReadAt=date
+      }}
+    {{/freestyle-usage}}
   {{/freestyle-section}}
 
   {{#freestyle-section name='Visual Style' as |section|}}
-
     {{#freestyle-subsection name='Typography' section=section}}
-
       {{#freestyle-usage 'typography-times' title='Times New Roman'}}
         {{freestyle-typeface fontFamily='Times New Roman'}}
       {{/freestyle-usage}}
@@ -28,11 +30,9 @@
       {{#freestyle-usage 'typography-helvetica' title='Helvetica'}}
         {{freestyle-typeface fontFamily='Helvetica'}}
       {{/freestyle-usage}}
-
     {{/freestyle-subsection}}
 
     {{#freestyle-subsection name='Color' section=section}}
-
       {{#freestyle-usage 'fp' title='Samewave Palette' usageTitle='Usage'}}
         {{freestyle-palette
         colorPalette=colorPalette
@@ -40,9 +40,6 @@
         description='This component displays the color palette specified in freestyle/palette.json'
         }}
       {{/freestyle-usage}}
-
     {{/freestyle-subsection}}
-
   {{/freestyle-section}}
-
 {{/freestyle-guide}}

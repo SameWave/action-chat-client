@@ -1,12 +1,15 @@
 import Ember from 'ember';
 import RecognizerMixin from 'ember-gestures/mixins/recognizers';
+import InViewportMixin from 'ember-in-viewport';
 
 const {
   Component,
-  computed
+  computed,
+  setProperties,
+  on
 } = Ember;
 
-export default Component.extend(RecognizerMixin, {
+export default Component.extend(RecognizerMixin, InViewportMixin, {
   classNames: ['js-stream-comment', 'l-stream-comment', 'l-stream-comment--message'],
   classNameBindings: ['isEditing', 'isOpen'],
   recognizers: 'tap swipe',
@@ -16,7 +19,6 @@ export default Component.extend(RecognizerMixin, {
 
   init() {
     this._super(...arguments);
-
     this.set('elementId', `comment-${this.get('comment.id')}`);
   },
 
@@ -35,6 +37,30 @@ export default Component.extend(RecognizerMixin, {
       this.set('isOpen', false);
     }
   },
+
+  viewportOptionsOverride: on('didInsertElement', function() {
+    setProperties(this, {
+      viewportEnabled: true,
+      viewportUseRAF: true,
+      viewportSpy: false,
+      viewportScrollSensitivity: 1,
+      viewportRefreshRate: 150,
+      viewportTolerance: {
+        top: -(65 + 34), // height of header + tab menu
+        bottom: 0,
+        left: 0,
+        right: 0
+      }
+    });
+  }),
+
+  didEnterViewport() {
+    if (this.get('doReadComment')) {
+      this.get('doReadComment')();
+    }
+  },
+
+  didExitViewport() {},
 
   actions: {
     doEdit() {
