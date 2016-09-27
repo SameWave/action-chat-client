@@ -16,3 +16,11 @@ $button-line-height: 1.5rem;
 	margin: 0 auto $margin-large;
 	z-index: $z-comment-floats;
 }
+
+.button {
+	display: flex;
+	justify-conten: center;
+	align-items: center;
+	text-align: center;
+	touch-action: none;
+}

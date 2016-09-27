@@ -1,16 +1,15 @@
 import Ember from 'ember';
 
 const {
-  Component,
-  computed,
-  $,
-  run
+  Component
 } = Ember;
 
 export default Component.extend({
   classNames: ['c-comments-section'],
   sessionMember: null,
   comments: [],
+  typers: [],
+  selectedComment: null,
 
   actions: {
     doTap() {

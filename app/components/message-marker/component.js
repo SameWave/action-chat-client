@@ -10,10 +10,8 @@ const {
 } = Ember;
 
 export default Component.extend(InViewportMixin, {
-
   // @mo TODO: add CSS for the has-fade-out class (or similar)
-
-  classNameBindings: [':c-message-marker', 'hasFadeOut'],
+  classNameBindings: [':c-message-marker', 'hasFadeOut:a-fade-out'],
   attributeBindings: ['style'],
 
   top: 0,

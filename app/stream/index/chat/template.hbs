@@ -1,52 +1,73 @@
-{{#if false}}
-  {{#liquid-if
-    hasUnreadOffScreenComments
-    use="toUp"
-    class="l-app-body_top-anchor"}}
+<div class="temp-liquid-fix">
+  {{#if false}}
+    {{#liquid-if
+      hasUnreadOffScreenComments
+      use="toUp"
+      class="l-app-body_top-anchor"}}
 
-    {{unread-notifier
-      unreadOffScreenCount=unreadOffScreenCount
-      lastReadAt=sessionMember.lastReadAt
-      onTapArrowUp=(action "scrollToLastRead")
-      onTapBody=(action "scrollToLastRead")
-      onTapClose=(action "setAllMessagesAsRead")
-    }}
-  {{/liquid-if}}
-{{/if}}
+      {{unread-notifier
+        unreadOffScreenCount=unreadOffScreenCount
+        lastReadAt=sessionMember.lastReadAt
+        onTapArrowUp=(action "scrollToLastRead")
+        onTapBody=(action "scrollToLastRead")
+        onTapClose=(action "setAllMessagesAsRead")
+      }}
+    {{/liquid-if}}
+  {{/if}}
 
-{{comments-section
-  classNames="js-comments-section"
-  comments=sortedComments
-  unreadTop=unreadTop
-  typers=typers
-  sessionMember=sessionMember
-  isShowingAllComments=isShowingAllComments
-  isLoadingEarlier=isLoadingEarlier
-  updateComment=(action "updateComment")
-  deleteComment=(action "deleteComment")
-  doReadComment=(action "doReadComment")
-  loadEarlier=(action "loadEarlier")
-  click=(action "hideMentionList")
-}}
+  {{comments-section
+    classNames="js-comments-section"
+    comments=sortedComments
+    unreadTop=unreadTop
+    typers=typers
+    sessionMember=sessionMember
+    isShowingAllComments=isShowingAllComments
+    isLoadingEarlier=isLoadingEarlier
+    selectedComment=selectedComment
+    updateComment=(action "updateComment")
+    deleteComment=(action "deleteComment")
+    doReadComment=(action "doReadComment")
+    loadEarlier=(action "loadEarlier")
+    click=(action "hideMentionList")
+    editComment=(action "editComment")
+  }}
 
-{{#if sessionMember}}
-  <div class="c-footer js-chat-box">
-    <section class="u-position-relative">
-      {{#if isMentionListVisible}}
-        {{mention-list
-          classNames="c-mention-list--chat-box"
-          items=streamMembers
-          onSelectItem=(action "pickMentionMember")
-        }}
-      {{/if}}
-    </section>
+  {{#if sessionMember}}
+    <div class="c-footer js-chat-box">
+      <section class="u-position-relative">
+        {{#if isMentionListVisible}}
+          {{mention-list
+            classNames="c-mention-list--chat-box"
+            items=streamMembers
+            onSelectItem=(action "pickMentionMember")
+          }}
+        {{/if}}
 
-    {{chat-box
-      isKeyboardOpen=isKeyboardOpen
-      comment=currentComment
-      onTapInput=(action "tappedInput")
-      doComment=(action "createComment")
-      onKeyDown=(action "chatBoxTapEvent")
-    }}
-  </div>
-{{/if}}
+        {{#if isChatModalVisible}}
+          <div class="c-confirmation-card">
+            {{#touch-button
+              classNames="mute"
+              tap=(action "doCancelUpdateComment")}}
+              Cancel
+            {{/touch-button}}
+
+            <h2 class="c-confirmation-card_title">Editing Comment</h2>
+
+            {{#touch-button
+              tap=(action "doUpdateComment")}}
+              Save
+            {{/touch-button}}
+          </div>
+        {{/if}}
+      </section>
+
+      {{chat-box
+        isKeyboardOpen=isKeyboardOpen
+        value=chatBoxValue
+        onTapInput=(action "tappedInput")
+        onComment=(action "createComment")
+        onKeyDown=(action "chatBoxTapEvent")
+      }}
+    </div>
+  {{/if}}
+</div>
