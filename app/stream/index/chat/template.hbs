@@ -1,30 +1,30 @@
-<section class="l-app-body_top-anchor">
-  {{#if false}}
-    {{#liquid-if isNotifierVisible}}
-      {{unread-notifier
-        lastReadAt=sessionMember.lastReadAt
-        click=(action "toggleNotifierVisibility")}}
-    {{/liquid-if}}
-  {{/if}}
+{{#if false}}
+  {{#liquid-if
+    hasUnreadOffScreenComments
+    use="toUp"
+    class="l-app-body_top-anchor"}}
 
-  {{#unless isShowingAllComments}}
-    {{#if isLoadingEarlier}}
-        <div class="c-chat-notifier">
-          <h2 class="c-chat-notifier_title">Loading earlier comments</h2>
-        </div>
-    {{/if}}
-  {{/unless}}
-</section>
+    {{unread-notifier
+      unreadOffScreenCount=unreadOffScreenCount
+      lastReadAt=sessionMember.lastReadAt
+      onTapArrowUp=(action "scrollToLastRead")
+      onTapBody=(action "scrollToLastRead")
+      onTapClose=(action "setAllMessagesAsRead")
+    }}
+  {{/liquid-if}}
+{{/if}}
 
 {{comments-section
   classNames="js-comments-section"
-  comments=streamComments
+  comments=sortedComments
+  unreadTop=unreadTop
   typers=typers
   sessionMember=sessionMember
   isShowingAllComments=isShowingAllComments
   isLoadingEarlier=isLoadingEarlier
   updateComment=(action "updateComment")
   deleteComment=(action "deleteComment")
+  doReadComment=(action "doReadComment")
   loadEarlier=(action "loadEarlier")
   click=(action "hideMentionList")
 }}
@@ -50,4 +50,3 @@
     }}
   </div>
 {{/if}}
-

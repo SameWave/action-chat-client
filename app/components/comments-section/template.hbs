@@ -1,14 +1,17 @@
 <div {{action (action 'doTap')}}>
-  {{#each sortedComments as |comment|}}
+  {{#each comments as |comment|}}
     {{stream-comment
       comment=comment
       updateComment=(action updateComment comment)
       deleteComment=(action deleteComment comment)
+      doReadComment=(action doReadComment comment)
     }}
   {{/each}}
 </div>
 
-{{#if unreadComments}}
-  {{message-marker top=newMessagesTop}}
+{{!-- TODO: Rename this new-message-marker --}}
+{{#if false}}
+  {{message-marker
+    top=unreadTop
+  }}
 {{/if}}
-
