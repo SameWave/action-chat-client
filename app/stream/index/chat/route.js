@@ -46,6 +46,7 @@ export default Route.extend(AuthenticatedRouteMixin, {
     controller.setProperties({
       totalCommentCount: stream.get('commentCount'),
       previousLastReadAt: sessionMember.get('lastReadAt'),
+      previousUnreadCount: sessionMember.get('unreadCount'),
       comments,
       members,
       stream

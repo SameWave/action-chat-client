@@ -38,6 +38,7 @@ export default Controller.extend({
   readComments: [],
   previousCommentCount: 0,
   previousLastReadAt: null,
+  previousUnreadCount: 0,
 
   streamMembers: computed('members.[]', 'stream.id', function() {
     return this.get('members').filterBy('stream.id', this.get('stream.id'));
@@ -251,8 +252,10 @@ export default Controller.extend({
     this.set('totalCommentCount', this.get('totalCommentCount') + 1);
   },
 
-  unreadOffScreenCount: computed('sessionMember.unreadCount', 'readComments.length', function() {
-    return this.get('sessionMember.unreadCount') - this.get('readComments.length');
+  unreadOffScreenCount: computed('previousUnreadCount', 'readComments.length', function() {
+    console.log('unread count: ', this.get('previousUnreadCount'));
+    console.log('read count: ', this.get('readComments.length'));
+    return this.get('previousUnreadCount') - this.get('readComments.length');
   }),
 
   hasUnreadOffScreenComments: computed.gt('unreadOffScreenCount', 0),
@@ -260,6 +263,7 @@ export default Controller.extend({
   actions: {
 
     doReadComment(comment) {
+      console.log('doReadComment: ', comment.get('body'));
       this.get('readComments').pushObject(comment);
     },
 
@@ -272,6 +276,12 @@ export default Controller.extend({
     },
 
     setAllMessagesAsRead() {
+      this.setLastReadAt();
+      this.set('previousLastReadAt', this.get('sessionMember.lastReadAt'));
+      this.set('previousUnreadCount', 0);
+    },
+
+    doNewMarkerViewed() {
       this.setLastReadAt();
     },
 
