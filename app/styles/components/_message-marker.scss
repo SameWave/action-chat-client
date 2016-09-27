@@ -1,7 +1,7 @@
 .c-message-marker {
 	position: absolute;
 	// NOTE: Initial value overwritten by component
-	top: -100px;
+	top: 0px;
 	left: 0;
 	width: 100%;
 	z-index: $z-body-float;

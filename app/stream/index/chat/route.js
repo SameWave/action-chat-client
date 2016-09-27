@@ -40,8 +40,12 @@ export default Route.extend(AuthenticatedRouteMixin, {
       members
     } = model;
 
+    let streamMembers = members.filterBy('stream.id', stream.get('id'));
+    let sessionMember = streamMembers.findBy('person.id', this.get('sessionPerson.id'));
+
     controller.setProperties({
       totalCommentCount: stream.get('commentCount'),
+      previousLastReadAt: sessionMember.get('lastReadAt'),
       comments,
       members,
       stream
@@ -64,10 +68,6 @@ export default Route.extend(AuthenticatedRouteMixin, {
       run.schedule('afterRender', this, () => {
         this.get('controller').didRender();
       });
-    },
-
-    willTransition(transition) {
-      this.get('controller').setLastReadAt();
     }
   }
 

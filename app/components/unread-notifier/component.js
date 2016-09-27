@@ -7,7 +7,7 @@ const {
 export default Component.extend({
   classNameBindings: [':c-chat-notifier'],
   lastReadAt: null,
-  unreadOffScreenCount: 0,
+  unreadCount: 0,
 
   actions: {
     tapArrowUp() {

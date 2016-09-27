@@ -16,3 +16,9 @@
   <div class="amber || c-stream-comment_option" {{action (action "doEdit")}}>edit</div>
   <div class="red || c-stream-comment_option" {{action (action "doDelete")}}>delete</div>
 {{/if}}
+
+{{#if isFirstUnread}}
+  {{message-marker
+    onView=(action onNewMarkerView)
+  }}
+{{/if}}

@@ -1,5 +1,4 @@
 import Ember from 'ember';
-import moment from 'moment';
 import {
   animate
 } from 'liquid-fire';
@@ -14,7 +13,11 @@ const {
   computed,
   isEmpty,
   inject,
-  testing
+  testing,
+  computed: {
+    alias
+  },
+  on
 } = Ember;
 
 const NUDGE_OFFSET_PX = 60; // Pixels for determining nudge vs scroll for new comment
@@ -33,6 +36,8 @@ export default Controller.extend({
   members: [],
   comments: [],
   readComments: [],
+  previousCommentCount: 0,
+  previousLastReadAt: null,
 
   streamMembers: computed('members.[]', 'stream.id', function() {
     return this.get('members').filterBy('stream.id', this.get('stream.id'));
@@ -70,12 +75,10 @@ export default Controller.extend({
     this.$chatBox = $('.js-chat-box');
     this.$input = $('#chat-area');
 
-    this.$comments.on('touchmove', run.bind(this, this.onCommentsScroll));
-    this.$comments.on('scroll', run.bind(this, this.onCommentsScroll));
-
     this.scrollToBottom(0); // scroll to bottom with 0 delay
 
-    this.set('unreadTop', this.getUnreadTop());
+    this.$comments.on('touchmove', run.bind(this, this.onCommentsScroll));
+    this.$comments.on('scroll', run.bind(this, this.onCommentsScroll));
 
     if (window.Keyboard) {
       // window.Keyboard.shrinkView(true);
@@ -85,26 +88,49 @@ export default Controller.extend({
     }
   },
 
-  getUnreadTop() {
-    let unreadComment = this.get('sortedComments').filter((comment) => {
-      return comment.get('createdAt') > this.get('sessionMember.lastReadAt');
-    }).get('firstObject');
-    if (!isEmpty(unreadComment)) {
-      let $unreadComment = this.$comments.find("#comment-" + unreadComment.get('id'));
-      return $unreadComment.position().top + this.$comments.scrollTop();
-    } else {
-      return 0;
+  commentCount: alias('streamComments.length'),
+
+  commentCountObserver: observer('commentCount', function() {
+
+    if (!this.get('isLoadingEarlier') && this.get('previousCommentCount') < this.get('commentCount')) {
+      let newComment = this.get('streamComments.lastObject');
+      let bottomOffset = this.bottomOffset();
+      this.commentCountPlusPlus();
+      run.next(this, this.nudgeOrScrollBottom, bottomOffset);
+      run.next(this, this.vibrate);
     }
+    this.set('previousCommentCount', this.get('commentCount'));
+  }),
+
+  firstUnread: computed('sortedComments.@each.createdAt', 'previousLastReadAt', function() {
+    return this.get('sortedComments').find((comment) => {
+      return comment.get('createdAt') > this.get('previousLastReadAt');
+    });
+  }),
+
+  isNearTop() {
+    return this.$comments.scrollTop() < 10;
   },
 
   onCommentsScroll() {
-    if (!this.get('isShowingAllComments')) {
-      this.loadingTimer = run.debounce(this, () => {
-        if (this.$comments.scrollTop() < 10) {
-          this.send('loadEarlier');
-        }
-      }, 20000, true);
+    if (!this.get('isShowingAllComments') && this.isNearTop()) {
+      this.loadingTimer = run.debounce(this, this.loadEarlier, 2000, true);
     }
+  },
+
+  loadEarlier() {
+    this.setProperties({
+      isLoadingEarlier: true,
+      previousTop: this.$comments.get(0).scrollHeight + this.$comments.scrollTop()
+    });
+
+    this.store.query('comment', {
+      limit: COMMENT_LOAD_SIZE,
+      offset: this.get('streamComments.length'),
+      stream_id: this.get('stream.id')
+    }).then(() => {
+      this.send('doneLoadingEarlier');
+    });
   },
 
   keyboardPusherOptions: {
@@ -122,29 +148,6 @@ export default Controller.extend({
   isShowingAllComments: computed('totalCommentCount', 'streamComments.length', function() {
     return this.get('streamComments.length') >= this.get('totalCommentCount');
   }),
-
-  // TODO: Hook into new comments and trigger scroll/nudge here
-  // receivedCommentsData(data) {
-  //   let comment = this.store.peekRecord('comment', data.comment.id);
-  //   if (isEmpty(comment)) {
-  //     if (data.action === 'created') {
-
-  //       let bottomOffset = this.bottomOffset();
-
-  //       this.pushComment(data.comment);
-  //       this.commentCountPlusPlus();
-
-  //       run.next(this, this.nudgeOrScrollBottom, bottomOffset);
-  //       run.next(this, this.vibrate);
-  //     }
-  //   } else {
-  //     if (data.action === 'destroyed') {
-  //       this.unloadComment(comment);
-  //     } else {
-  //       this.updateComment(comment, data.comment);
-  //     }
-  //   }
-  // },
 
   setupKeyboardEvents() {
     let _this = this;
@@ -216,6 +219,10 @@ export default Controller.extend({
   },
 
   bottomOffset() {
+    if (!this.$comments) {
+      return 0;
+    }
+
     let sectionHeight = this.$comments.height() + 20; // TODO: 20 for margin?
     let {
       scrollHeight
@@ -258,7 +265,7 @@ export default Controller.extend({
 
     scrollToLastRead() {
       this.$comments.animate({
-        scrollTop: this.get('unreadTop')
+        scrollTop: this.get('unreadTop') - 15
       }, 500, () => {
         this.setLastReadAt();
       });
@@ -313,17 +320,11 @@ export default Controller.extend({
     },
 
     createComment(body) {
-      debug('createComment');
       let comment = this.store.createRecord('comment', {
         body,
         person: this.get('sessionMember.person'),
         stream: this.get('stream')
       });
-
-      this.commentCountPlusPlus();
-
-      // Scroll to bottom so that new comment is visible
-      run.next(this, this.scrollToBottom);
 
       comment.save().then(() => {
         debug('comment created');
@@ -342,19 +343,8 @@ export default Controller.extend({
       });
     },
 
-    loadEarlier() {
-      this.setProperties({
-        isLoadingEarlier: true,
-        previousTop: this.$comments.get(0).scrollHeight + this.$comments.scrollTop()
-      });
-
-      this.store.query('comment', {
-        limit: COMMENT_LOAD_SIZE,
-        offset: this.get('streamComments.length'),
-        stream_id: this.get('stream.id')
-      }).then(() => {
-        this.send('doneLoadingEarlier');
-      });
+    doLoadEarlier() {
+      this.loadEarlier();
     },
 
     doneLoadingEarlier() {
@@ -366,7 +356,6 @@ export default Controller.extend({
     },
 
     doTyping() {
-      debug('controller doTyping');
       run.debounce(this, function() {
         let typingAt = new Date();
         this.set('sessionMember.typingAt', typingAt);
