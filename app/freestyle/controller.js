@@ -1,7 +1,6 @@
 import Ember from 'ember';
 import moment from 'moment';
 import FreestyleController from 'ember-freestyle/controllers/freestyle';
-import moment from 'moment';
 
 const { inject, computed } = Ember;
 

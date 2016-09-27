@@ -33,7 +33,7 @@
     transition: transform $speed-fast;
     background-color: map-get($grey, 'lighten-4');
 
-    .liquid-child {
+    .liquid-child, .temp-liquid-fix {
       display: flex;
       flex-direction: column;
       justify-content: space-between;
