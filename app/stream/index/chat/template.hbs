@@ -1,16 +1,18 @@
-{{#liquid-if
-  hasUnreadOffScreenComments
-  use="toUp"
-  class="l-app-body_top-anchor"}}
+{{#if false}}
+  {{#liquid-if
+    hasUnreadOffScreenComments
+    use="toUp"
+    class="l-app-body_top-anchor"}}
 
-  {{unread-notifier
-    unreadOffScreenCount=unreadOffScreenCount
-    lastReadAt=sessionMember.lastReadAt
-    onTapArrowUp=(action "scrollToLastRead")
-    onTapBody=(action "scrollToLastRead")
-    onTapClose=(action "setAllMessagesAsRead")
-  }}
-{{/liquid-if}}
+    {{unread-notifier
+      unreadOffScreenCount=unreadOffScreenCount
+      lastReadAt=sessionMember.lastReadAt
+      onTapArrowUp=(action "scrollToLastRead")
+      onTapBody=(action "scrollToLastRead")
+      onTapClose=(action "setAllMessagesAsRead")
+    }}
+  {{/liquid-if}}
+{{/if}}
 
 {{comments-section
   classNames="js-comments-section"
