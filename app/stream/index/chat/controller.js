@@ -40,6 +40,7 @@ export default Controller.extend({
   previousLastReadAt: null,
   previousUnreadCount: 0,
   unreadOffScreenCount: 0,
+  isObserving: false,
 
   streamMembers: computed('members.[]', 'stream.id', function() {
     return this.get('members').filterBy('stream.id', this.get('stream.id'));
@@ -99,7 +100,9 @@ export default Controller.extend({
   commentCount: alias('streamComments.length'),
 
   commentCountObserver: observer('commentCount', function() {
-
+    if (!this.get('isObserving')) {
+      return;
+    }
     if (!this.get('isLoadingEarlier') && this.get('previousCommentCount') < this.get('commentCount')) {
       this.newCommentAdded(this.get('streamComments.lastObject'));
     }
