@@ -1,3 +1,22 @@
-<section class="l-app-body">
-	<h2 class="u-text-center">Scoreboard coming soon...</h2>
-</section>
+<div class="temp-liquid-fix">
+	<div class="u-pullLeft u-marginLeft">
+	  <h3>Order of objects is:</h3>
+	  <ul>
+	  	{{#each goals as |goal|}}
+	  		<li>id: {{goal.id}} | title: {{goal.title}}</li>
+	  	{{/each}}
+	  </ul>
+	</div>
+	
+	<hr>
+
+	{{#ember-dragula config=dragulaconfig}}
+	  {{#ember-dragula-container}}
+	    {{#each goals as |goal|}}
+	    	{{media-block/goal
+	    		title=goal.title
+	    		date=goal.date}}
+	    {{/each}}
+	  {{/ember-dragula-container}}
+	{{/ember-dragula}}
+</div>

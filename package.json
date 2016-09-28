@@ -42,6 +42,7 @@
     "ember-cordova": "0.2.10",
     "ember-cordova-keyboard": "0.0.1",
     "ember-data": "^2.8.0",
+    "ember-dragula": "1.9.3",
     "ember-export-application-global": "^1.0.5",
     "ember-freestyle": "0.2.13",
     "ember-gestures": "0.4.2",

@@ -29,7 +29,7 @@
     display: flex;
     flex-direction: column;
     height: 100%;
-    overflow-y: hidden;
+    overflow-y: scroll;
     transition: transform $speed-fast;
     background-color: map-get($grey, 'lighten-4');
 

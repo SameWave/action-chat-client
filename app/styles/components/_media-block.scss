@@ -9,6 +9,12 @@
 		@extend .c-media-block;
 	}
 
+	&--goal {
+		@extend .c-media-block;
+		max-height: 65px;
+		border-bottom: 1px solid red;
+	}
+
 	&--mention-list {
 		@extend .c-media-block;
 		padding: 1px;
