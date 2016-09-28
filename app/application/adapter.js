@@ -66,9 +66,6 @@ export default JSONAPIAdapter.extend(DataAdapterMixin, {
   initSubscriptions() {
     if (isEmpty(this._consumer)) {
       this._consumer = this.get('cable').createConsumer(ENV.socket);
-      this.subscribe({
-        channel: 'StreamsChannel'
-      });
     }
   },
 
@@ -107,7 +104,7 @@ export default JSONAPIAdapter.extend(DataAdapterMixin, {
 
       received: (message) => {
         debug(`received in ${channel}`);
-        // console.log(message);
+        // console.log(message.data);
 
         if (['created', 'updated'].includes(message.action)) {
           this.store.pushPayload(message.data);
