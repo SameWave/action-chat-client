@@ -361,14 +361,6 @@ export default Controller.extend({
       this.$input.focus();
     },
 
-    tappedInput() {
-      function refocus() {
-        this.$chatBox.find('.c-auto-resize-textarea').blur().focus();
-      }
-
-      run.later(this, refocus, 300);
-    },
-
     toggleNotifierVisibility() {
       this.set('isNotifierVisible', false);
     },
