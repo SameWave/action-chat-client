@@ -39,18 +39,15 @@
 
       {{#if isChatModalVisible}}
         <div class="c-confirmation-card">
-          {{#touch-button
-            classNames="mute"
-            tap=(action "doCancelUpdateComment")}}
+          <button class="mute" {{action (action "doCancelUpdateComment")}}>
             Cancel
-          {{/touch-button}}
+          <button>
 
           <h2 class="c-confirmation-card_title">Editing Comment</h2>
 
-          {{#touch-button
-            tap=(action "doUpdateComment")}}
+          <button {{action (action "doUpdateComment")}}>
             Save
-          {{/touch-button}}
+          </button>
         </div>
       {{/if}}
     </section>
