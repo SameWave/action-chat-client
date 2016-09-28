@@ -263,13 +263,16 @@ export default Controller.extend({
     this.set('unreadOffScreenCount', 0);
   },
 
-  scrollToLastRead() {
-    let $firstUnread = $(`#comment-${this.get('firstUnread.id')}`);
-    $firstUnread.position().top;
-
+  scrollToComment(commentId) {
+    let $comment = $(`#comment-${commentId}`);
+    let extra = 15; // How much should we allow?
     this.$comments.animate({
-      scrollTop: $firstUnread.position().top + this.$comments.scrollTop() - 15
+      scrollTop: $comment.position().top + this.$comments.scrollTop() - extra
     }, 500);
+  },
+
+  scrollToLastRead() {
+    this.scrollToComment(this.get('firstUnread.id'));
   },
 
   actions: {
