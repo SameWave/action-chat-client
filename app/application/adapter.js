@@ -98,15 +98,16 @@ export default JSONAPIAdapter.extend(DataAdapterMixin, {
     this._subscriptions[channel] = this._consumer.subscriptions.create(options, {
 
       connected() {
-        // debug(`connected to ${channel}`);
+        debug(`connected to ${channel}`);
       },
 
       disconnected() {
-        // debug(`disconnected from ${channel}`);
+        debug(`disconnected from ${channel}`);
       },
 
       received: (message) => {
-        // debug(`received in ${channel}`);
+        debug(`received in ${channel}`);
+        // console.log(message);
 
         if (['created', 'updated'].includes(message.action)) {
           this.store.pushPayload(message.data);

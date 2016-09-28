@@ -81,6 +81,12 @@ export default Controller.extend({
     this.$comments.on('touchmove', run.bind(this, this.onCommentsScroll));
     this.$comments.on('scroll', run.bind(this, this.onCommentsScroll));
 
+    if (this.get('previousUnreadCount')) {
+      this.setFirstUnread();
+    } else {
+      this.setLastReadAt();
+    }
+
     if (window.Keyboard) {
       // window.Keyboard.shrinkView(true);
     }
@@ -103,11 +109,12 @@ export default Controller.extend({
     this.set('previousCommentCount', this.get('commentCount'));
   }),
 
-  firstUnread: computed('sortedComments.@each.createdAt', 'previousLastReadAt', function() {
-    return this.get('sortedComments').find((comment) => {
+  setFirstUnread() {
+    let firstUnread = this.get('sortedComments').find((comment) => {
       return comment.get('createdAt') > this.get('previousLastReadAt');
     });
-  }),
+    this.set('firstUnread', firstUnread);
+  },
 
   isNearTop() {
     return this.$comments.scrollTop() < 10;
@@ -119,31 +126,27 @@ export default Controller.extend({
     }
   },
 
-  loadEarlier() {
+  loadEarlier(count = COMMENT_LOAD_SIZE, callback) {
     this.setProperties({
       isLoadingEarlier: true,
       previousTop: this.$comments.get(0).scrollHeight + this.$comments.scrollTop()
     });
 
     this.store.query('comment', {
-      limit: COMMENT_LOAD_SIZE,
+      limit: count,
       offset: this.get('streamComments.length'),
       stream_id: this.get('stream.id')
     }).then(() => {
       this.send('doneLoadingEarlier');
+      if (callback) {
+        callback();
+      }
     });
   },
 
   keyboardPusherOptions: {
     duration: 100,
     easing: 'ease'
-  },
-
-  setLastReadAt() {
-    let lastReadAt = new Date();
-    debug('setLastReadAt', lastReadAt);
-    this.set('sessionMember.lastReadAt', lastReadAt);
-    this.get('sessionMember').save();
   },
 
   isShowingAllComments: computed('totalCommentCount', 'streamComments.length', function() {
@@ -252,33 +255,50 @@ export default Controller.extend({
     this.set('totalCommentCount', this.get('totalCommentCount') + 1);
   },
 
-  unreadOffScreenCount: computed('previousUnreadCount', 'readComments.length', function() {
-    console.log('unread count: ', this.get('previousUnreadCount'));
-    console.log('read count: ', this.get('readComments.length'));
-    return this.get('previousUnreadCount') - this.get('readComments.length');
-  }),
+  setLastReadAt() {
+    let lastReadAt = new Date();
+    debug('setLastReadAt', lastReadAt);
+    this.set('sessionMember.lastReadAt', lastReadAt);
+    this.get('sessionMember').save();
+    this.set('unreadOffScreenCount', 0);
+  },
 
-  hasUnreadOffScreenComments: computed.gt('unreadOffScreenCount', 0),
+  scrollToLastRead() {
+    let $firstUnread = $(`#comment-${this.get('firstUnread.id')}`);
+    $firstUnread.position().top;
+
+    this.$comments.animate({
+      scrollTop: $firstUnread.position().top + this.$comments.scrollTop() - 15
+    }, 500);
+  },
 
   actions: {
 
     doReadComment(comment) {
-      console.log('doReadComment: ', comment.get('body'));
       this.get('readComments').pushObject(comment);
     },
 
-    scrollToLastRead() {
-      this.$comments.animate({
-        scrollTop: this.get('unreadTop') - 15
-      }, 500, () => {
-        this.setLastReadAt();
-      });
+    doReadComments(comment) {
+      if (this.get('previousUnreadCount')) {
+        this.set('unreadOffScreenCount', this.get('previousUnreadCount') - this.get('readComments.length'));
+      }
+    },
+
+    doNotifierJump() {
+      let unfetchedCount = this.get('previousUnreadCount') - this.get('streamComments.length');
+      if (unfetchedCount > 0) {
+        this.loadEarlier(unfetchedCount, () => {
+          this.setFirstUnread();
+          run.next(this, this.scrollToLastRead);
+        });
+      } else {
+        this.scrollToLastRead();
+      }
     },
 
     setAllMessagesAsRead() {
       this.setLastReadAt();
       this.set('previousLastReadAt', this.get('sessionMember.lastReadAt'));
-      this.set('previousUnreadCount', 0);
     },
 
     doNewMarkerViewed() {
