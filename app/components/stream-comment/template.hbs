@@ -37,9 +37,15 @@
       <p class="c-option-block_title">edit</p>
     </section>
 
-    <section class="c-option-block--red">
+    <section class="c-option-block--red" {{action (action "doDelete")}}>
       {{inline-svg 'images/icons/icon-reply' class="c-option-block_icon"}}
       <p class="c-option-block_title">delete</p>
     </section>
   </div>
 </div>
+
+{{#if isFirstUnread}}
+  {{message-marker
+    onView=(action onNewMarkerView)
+  }}
+{{/if}}

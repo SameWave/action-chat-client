@@ -8,8 +8,8 @@ export default Component.extend({
   classNames: ['c-comments-section'],
   sessionMember: null,
   comments: [],
-  typers: [],
   selectedComment: null,
+  firstUnread: null,
 
   actions: {
     doTap() {

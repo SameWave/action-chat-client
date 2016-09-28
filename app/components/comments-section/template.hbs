@@ -4,16 +4,12 @@
       comment=comment
       selectedComment=selectedComment
       onEdit=(action editComment)
+      firstUnread=firstUnread
+      lastComment=comments.lastObject
+      onNewMarkerView=(action onNewMarkerView)
       updateComment=(action updateComment comment)
       deleteComment=(action deleteComment comment)
       doReadComment=(action doReadComment comment)
     }}
   {{/each}}
 </div>
-
-{{!-- TODO: Rename this new-message-marker --}}
-{{#if false}}
-  {{message-marker
-    top=unreadTop
-  }}
-{{/if}}

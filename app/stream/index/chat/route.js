@@ -40,21 +40,16 @@ export default Route.extend(AuthenticatedRouteMixin, {
       members
     } = model;
 
+    let streamMembers = members.filterBy('stream.id', stream.get('id'));
+    let sessionMember = streamMembers.findBy('person.id', this.get('sessionPerson.id'));
+
     controller.setProperties({
       totalCommentCount: stream.get('commentCount'),
+      previousLastReadAt: sessionMember.get('lastReadAt'),
+      previousUnreadCount: sessionMember.get('unreadCount'),
       comments,
       members,
       stream
-    });
-
-    this.store.subscribe({
-      channel: 'CommentsChannel',
-      stream_id: stream.get('id')
-    });
-
-    this.store.subscribe({
-      channel: 'MembersChannel',
-      stream_id: stream.get('id')
     });
   },
 
@@ -64,10 +59,6 @@ export default Route.extend(AuthenticatedRouteMixin, {
       run.schedule('afterRender', this, () => {
         this.get('controller').didRender();
       });
-    },
-
-    willTransition(transition) {
-      this.get('controller').setLastReadAt();
     }
   }
 

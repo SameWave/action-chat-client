@@ -1,25 +1,18 @@
-<div class="temp-liquid-fix">
-  {{#if false}}
-    {{#liquid-if
-      hasUnreadOffScreenComments
-      use="toUp"
-      class="l-app-body_top-anchor"}}
 
-      {{unread-notifier
-        unreadOffScreenCount=unreadOffScreenCount
-        lastReadAt=sessionMember.lastReadAt
-        onTapArrowUp=(action "scrollToLastRead")
-        onTapBody=(action "scrollToLastRead")
-        onTapClose=(action "setAllMessagesAsRead")
-      }}
-    {{/liquid-if}}
+  {{#if hasUnreadOffScreenComments class="l-app-body_top-anchor"}}
+    {{unread-notifier
+      unreadCount=unreadOffScreenCount
+      lastReadAt=sessionMember.lastReadAt
+      onTapArrowUp=(action "doNotifierJump")
+      onTapBody=(action "doNotifierJump")
+      onTapClose=(action "setAllMessagesAsRead")
+    }}
   {{/if}}
 
   {{comments-section
     classNames="js-comments-section"
     comments=sortedComments
-    unreadTop=unreadTop
-    typers=typers
+    firstUnread=firstUnread
     sessionMember=sessionMember
     isShowingAllComments=isShowingAllComments
     isLoadingEarlier=isLoadingEarlier
@@ -27,7 +20,7 @@
     updateComment=(action "updateComment")
     deleteComment=(action "deleteComment")
     doReadComment=(action "doReadComment")
-    loadEarlier=(action "loadEarlier")
+    onNewMarkerView=(action "doNewMarkerViewed")
     click=(action "hideMentionList")
     editComment=(action "editComment")
   }}
@@ -45,18 +38,15 @@
 
         {{#if isChatModalVisible}}
           <div class="c-confirmation-card">
-            {{#touch-button
-              classNames="mute"
-              tap=(action "doCancelUpdateComment")}}
+            <button classNames="mute" {{action (action "doCancelUpdateComment")}}>
               Cancel
-            {{/touch-button}}
+            </button>
 
             <h2 class="c-confirmation-card_title">Editing Comment</h2>
 
-            {{#touch-button
-              tap=(action "doUpdateComment")}}
+            <button {{action (action "doUpdateComment")}}>
               Save
-            {{/touch-button}}
+            </button>
           </div>
         {{/if}}
       </section>
@@ -70,4 +60,3 @@
       }}
     </div>
   {{/if}}
-</div>

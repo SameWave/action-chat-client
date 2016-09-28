@@ -6,7 +6,8 @@ const {
   Component,
   computed,
   setProperties,
-  on
+  on,
+  computed
 } = Ember;
 
 export default Component.extend(RecognizerMixin, InViewportMixin, {
@@ -16,6 +17,8 @@ export default Component.extend(RecognizerMixin, InViewportMixin, {
   comment: null,
   selectedComment: null,
   isOpen: false,
+  firstUnread: null,
+  lastComment: null,
 
   init() {
     this._super(...arguments);
@@ -38,6 +41,14 @@ export default Component.extend(RecognizerMixin, InViewportMixin, {
     }
   },
 
+  isFirstUnread: computed('firstUnread.id', 'comment.id', function() {
+    return this.get('firstUnread.id') === this.get('comment.id');
+  }),
+
+  isLastComment: computed('lastComment.id', 'comment.id', function() {
+    return this.get('lastComment.id') === this.get('comment.id');
+  }),
+
   viewportOptionsOverride: on('didInsertElement', function() {
     setProperties(this, {
       viewportEnabled: true,
@@ -57,6 +68,9 @@ export default Component.extend(RecognizerMixin, InViewportMixin, {
   didEnterViewport() {
     if (this.get('doReadComment')) {
       this.get('doReadComment')();
+    }
+    if (this.get('isLastComment') && this.get('doReadComments')) {
+      this.get('doReadComments')();
     }
   },
 
