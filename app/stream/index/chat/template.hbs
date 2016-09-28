@@ -1,6 +1,4 @@
-{{#liquid-if
-  unreadOffScreenCount
-  use="toUp"
+{{#if
   class="l-app-body_top-anchor"}}
 
   {{unread-notifier
@@ -10,7 +8,7 @@
     onTapBody=(action "doNotifierJump")
     onTapClose=(action "setAllMessagesAsRead")
   }}
-{{/liquid-if}}
+{{/if}}
 
 {{comments-section
   classNames="js-comments-section"
