@@ -21,11 +21,9 @@ export default Component.extend(RecognizerMixin, {
     this.element.classList.remove('is-open');
   },
 
-  actions: {
-    tapFront() {
-      if (this.get('onTapFront')) {
-        this.get('onTapFront')();
-      }
+  tap() {
+    if (this.get('onTap')) {
+      this.get('onTap')();
     }
   }
 });
