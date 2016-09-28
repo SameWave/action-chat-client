@@ -55,7 +55,7 @@
     "ember-simple-auth": "1.1.0",
     "ember-welcome-page": "^1.0.1",
     "eslint-plugin-ember-suave": "^0.1.2",
-    "liquid-fire": "0.25.0",
+    "liquid-fire": "0.26.1",
     "loader.js": "^4.0.1"
   }
 }
