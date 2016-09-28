@@ -1,5 +1,6 @@
 import Ember from 'ember';
 import InViewportMixin from 'ember-in-viewport';
+import RecognizerMixin from 'ember-gestures/mixins/recognizers';
 
 const {
   Component,
@@ -8,13 +9,17 @@ const {
   computed
 } = Ember;
 
-export default Component.extend(InViewportMixin, {
+export default Component.extend(InViewportMixin, RecognizerMixin, {
 
-  classNames: ['c-stream-comment'],
+  classNames: ['js-stream-comment', 'l-stream-comment', 'l-stream-comment--message'],
+  classNameBindings: ['isEditing', 'isOpen'],
+  recognizers: 'tap swipe',
+
   comment: null,
   firstUnread: null,
   lastComment: null,
-  isEditing: false,
+  selectedComment: null,
+  isOpen: false,
 
   init() {
     this._super(...arguments);
@@ -28,6 +33,22 @@ export default Component.extend(InViewportMixin, {
   isLastComment: computed('lastComment.id', 'comment.id', function() {
     return this.get('lastComment.id') === this.get('comment.id');
   }),
+
+  isEditing: computed('selectedComment.id', 'comment.id', function() {
+    return this.get('selectedComment.id') === this.get('comment.id');
+  }),
+
+  swipeLeft() {
+    if (!this.get('isEditing')) {
+      this.set('isOpen', true);
+    }
+  },
+
+  swipeRight() {
+    if (!this.get('isEditing')) {
+      this.set('isOpen', false);
+    }
+  },
 
   viewportOptionsOverride: on('didInsertElement', function() {
     setProperties(this, {
@@ -58,16 +79,17 @@ export default Component.extend(InViewportMixin, {
 
   actions: {
     doEdit() {
-      this.set('isEditing', true);
+      this.set('isOpen', false);
+      if (this.get('onEdit')) {
+        this.get('onEdit')(this.get('comment'));
+      }
     },
 
     doCancel() {
       this.get('comment').rollbackAttributes();
-      this.set('isEditing', false);
     },
 
     doUpdate() {
-      this.set('isEditing', false);
       if (this.get('updateComment')) {
         this.get('updateComment')(this.get('comment'));
       }

@@ -4,16 +4,23 @@
   }}
 
   {{#freestyle-section name="UI Elements"}}
-      {{#freestyle-usage "chat-box" title="Chat box"}}
-        {{chat-box classNames="chat-box"}}
-      {{/freestyle-usage}}
+    {{#freestyle-usage "chat-box" title="Chat box"}}
+      {{chat-box classNames="chat-box"}}
+    {{/freestyle-usage}}
 
-      {{#freestyle-usage "unread-notifier" title="unread notifier"}}
-        {{unread-notifier
-          lastReadAt=date
-        }}
-      {{/freestyle-usage}}
+    {{#freestyle-usage "stream-comment" title="Stream comment"}}
+      {{stream-comment
+        comment=comment
+      }}
+    {{/freestyle-usage}}
+
+    {{#freestyle-usage "unread-notifier" title="unread notifier"}}
+      {{unread-notifier
+        lastReadAt=date
+      }}
+    {{/freestyle-usage}}
   {{/freestyle-section}}
+
 
   {{#freestyle-section name='Visual Style' as |section|}}
     {{#freestyle-subsection name='Typography' section=section}}
