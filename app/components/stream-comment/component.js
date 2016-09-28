@@ -13,6 +13,7 @@ export default Component.extend(InViewportMixin, {
   classNames: ['c-stream-comment'],
   comment: null,
   firstUnread: null,
+  lastComment: null,
   isEditing: false,
 
   init() {
@@ -22,6 +23,10 @@ export default Component.extend(InViewportMixin, {
 
   isFirstUnread: computed('firstUnread.id', 'comment.id', function() {
     return this.get('firstUnread.id') === this.get('comment.id');
+  }),
+
+  isLastComment: computed('lastComment.id', 'comment.id', function() {
+    return this.get('lastComment.id') === this.get('comment.id');
   }),
 
   viewportOptionsOverride: on('didInsertElement', function() {
@@ -43,6 +48,9 @@ export default Component.extend(InViewportMixin, {
   didEnterViewport() {
     if (this.get('doReadComment')) {
       this.get('doReadComment')();
+    }
+    if (this.get('isLastComment') && this.get('doReadComments')) {
+      this.get('doReadComments')();
     }
   },
 

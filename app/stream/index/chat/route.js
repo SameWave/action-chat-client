@@ -46,6 +46,7 @@ export default Route.extend(AuthenticatedRouteMixin, {
     controller.setProperties({
       totalCommentCount: stream.get('commentCount'),
       previousLastReadAt: sessionMember.get('lastReadAt'),
+      previousUnreadCount: sessionMember.get('unreadCount'),
       comments,
       members,
       stream
@@ -55,7 +56,6 @@ export default Route.extend(AuthenticatedRouteMixin, {
       channel: 'CommentsChannel',
       stream_id: stream.get('id')
     });
-
     this.store.subscribe({
       channel: 'MembersChannel',
       stream_id: stream.get('id')

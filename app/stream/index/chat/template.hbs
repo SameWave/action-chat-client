@@ -1,13 +1,13 @@
 {{#liquid-if
-  hasUnreadOffScreenComments
+  unreadOffScreenCount
   use="toUp"
   class="l-app-body_top-anchor"}}
 
   {{unread-notifier
     unreadCount=unreadOffScreenCount
     lastReadAt=sessionMember.lastReadAt
-    onTapArrowUp=(action "scrollToLastRead")
-    onTapBody=(action "scrollToLastRead")
+    onTapArrowUp=(action "doNotifierJump")
+    onTapBody=(action "doNotifierJump")
     onTapClose=(action "setAllMessagesAsRead")
   }}
 {{/liquid-if}}
@@ -23,7 +23,8 @@
   updateComment=(action "updateComment")
   deleteComment=(action "deleteComment")
   doReadComment=(action "doReadComment")
-  onNewMarkerView=(action "setAllMessagesAsRead")
+  doReadComments=(action "doReadComments")
+  onNewMarkerView=(action "doNewMarkerViewed")
   click=(action "hideMentionList")
 }}
 
