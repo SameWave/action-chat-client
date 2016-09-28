@@ -11,26 +11,26 @@ export default Component.extend({
   classNames: ['c-chat-box'],
 
   value: '',
-  inputElement: null,
+  $input: null,
   typingTimer: null,
   isKeyboardOpen: false,
 
   didRender() {
     this._super(...arguments);
-    this.inputElement = this.$('#chat-area');
+    this.$input = this.$('#chat-area');
   },
 
   willDestroyElement() {
     this._super(...arguments);
-    this.inputElement = null;
+    this.$input = null;
     run.cancel(this.typingTimer);
   },
 
   actions: {
     tapInput() {
-      if (this.get('onTapInput')) {
-        this.get('onTapInput')();
-      }
+      run.later(this, () => {
+        this.$input.blur().focus();
+      }, 350);
     },
 
     doFocusIn() {
@@ -58,7 +58,7 @@ export default Component.extend({
         return;
       }
 
-      this.inputElement.focus();
+      this.$input.focus();
 
       if (this.get('onComment')) {
         this.get('onComment')(this.get('value'));
