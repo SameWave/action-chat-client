@@ -33,25 +33,11 @@ export default Component.extend({
       }, 350);
     },
 
-    doFocusIn() {
-      if (ENV.environment === 'development') {
-        this.set('isKeyboardOpen', true);
-      }
-    },
-
-    doFocusOut() {
-      if (ENV.environment === 'development') {
-        this.set('isKeyboardOpen', false);
-      }
-    },
-
     doKeyDown(e) {
       if (this.get('onKeyDown')) {
         this.get('onKeyDown')(e);
       }
     },
-
-    doKeyUp() {},
 
     doComment() {
 
