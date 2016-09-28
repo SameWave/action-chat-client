@@ -334,23 +334,29 @@ export default Controller.extend({
     },
 
     editComment(comment) {
-      this.set('selectedComment', comment);
-      this.set('isChatModalVisible', true);
-      this.set('chatBoxValue', comment.get('body'));
+      this.setProperties({
+        'selectedComment': comment,
+        'isChatModalVisible': true,
+        'chatBoxValue': comment.get('body')
+      });
     },
 
     doCancelUpdateComment() {
-      this.set('selectedComment', null);
-      this.set('chatBoxValue', '');
-      this.set('isChatModalVisible', false);
+      this.setProperties({
+        'selectedComment': null,
+        'chatBoxValue': '',
+        'isChatModalVisible': false
+      });
     },
 
     doUpdateComment() {
       this.set('selectedComment.body', this.get('chatBoxValue'));
       this.get('selectedComment').save().then(() => {
-        this.set('selectedComment', null);
-        this.set('chatBoxValue', '');
-        this.set('isChatModalVisible', false);
+        this.setProperties({
+          'selectedComment': null,
+          'chatBoxValue': '',
+          'isChatModalVisible': false
+        });
         debug('comment updated');
       });
     },
