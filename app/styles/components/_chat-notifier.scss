@@ -1,4 +1,7 @@
 .c-chat-notifier {
+	position: absolute;
+	top: 0;
+	left: 0;
 	display: flex;
 	justify-content: space-between;
 	align-items: center;
@@ -8,7 +11,6 @@
 	background-color: map-get($purple, 'darken-1');
 	color: map-get($shades, 'white');
 	fill: map-get($shades, 'white');
-	position: relative;
 	z-index: $z-body-float;
 
 	&:hover {
