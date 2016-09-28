@@ -15,7 +15,6 @@
 	}}
 </section>
 
-{{#touch-button
-	classNames="c-chat-box_btn-send"
-	type=text
-	tap=(action "doComment")}}Send{{/touch-button}}
+<button classNames="c-chat-box_btn-send" type=text {{action (action "doComment")}}>
+ Send
+</button>
