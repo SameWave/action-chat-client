@@ -68,6 +68,7 @@ export default Controller.extend({
   loadingTimer: null,
   isEditingComment: false,
   selectedComment: null,
+  firstUnread: null,
 
   $comments: null,
   $chatBox: null,

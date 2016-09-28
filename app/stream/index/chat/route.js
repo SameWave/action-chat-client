@@ -42,12 +42,10 @@ export default Route.extend(AuthenticatedRouteMixin, {
 
     let streamMembers = members.filterBy('stream.id', stream.get('id'));
     let sessionMember = streamMembers.findBy('person.id', this.get('sessionPerson.id'));
-
     controller.setProperties({
       totalCommentCount: stream.get('commentCount'),
       previousLastReadAt: sessionMember.get('lastReadAt'),
       previousUnreadCount: sessionMember.get('unreadCount'),
-      isObserving: true,
       comments,
       members,
       stream
@@ -63,7 +61,24 @@ export default Route.extend(AuthenticatedRouteMixin, {
     },
 
     willTransition() {
-      this.set('controller.isObserving', false);
+      this.get('controller').setProperties({
+        isObserving: false,
+        unreadOffScreenCount: 0,
+        isLoadingEarlier: false,
+        isKeyboardOpen: false,
+        totalCommentCount: 0,
+        isMentionListVisible: false,
+        typingTimer: null,
+        lastCharacterTyped: '',
+        chatBoxValue: '',
+        loadingTimer: null,
+        isEditingComment: false,
+        selectedComment: null,
+        firstUnread: null,
+        $comments: null,
+        $chatBox: null,
+        $input: null
+      })
     }
   }
 });
