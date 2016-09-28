@@ -1,49 +1,62 @@
-{{#if
-  class="l-app-body_top-anchor"}}
 
-  {{unread-notifier
-    unreadCount=unreadOffScreenCount
-    lastReadAt=sessionMember.lastReadAt
-    onTapArrowUp=(action "doNotifierJump")
-    onTapBody=(action "doNotifierJump")
-    onTapClose=(action "setAllMessagesAsRead")
-  }}
-{{/if}}
-
-{{comments-section
-  classNames="js-comments-section"
-  comments=sortedComments
-  firstUnread=firstUnread
-  typers=typers
-  sessionMember=sessionMember
-  isShowingAllComments=isShowingAllComments
-  isLoadingEarlier=isLoadingEarlier
-  updateComment=(action "updateComment")
-  deleteComment=(action "deleteComment")
-  doReadComment=(action "doReadComment")
-  doReadComments=(action "doReadComments")
-  onNewMarkerView=(action "doNewMarkerViewed")
-  click=(action "hideMentionList")
-}}
-
-{{#if sessionMember}}
-  <div class="c-footer js-chat-box">
-    <section class="u-position-relative">
-      {{#if isMentionListVisible}}
-        {{mention-list
-          classNames="c-mention-list--chat-box"
-          items=streamMembers
-          onSelectItem=(action "pickMentionMember")
-        }}
-      {{/if}}
-    </section>
-
-    {{chat-box
-      isKeyboardOpen=isKeyboardOpen
-      comment=currentComment
-      onTapInput=(action "tappedInput")
-      doComment=(action "createComment")
-      onKeyDown=(action "chatBoxTapEvent")
+  {{#if hasUnreadOffScreenComments class="l-app-body_top-anchor"}}
+    {{unread-notifier
+      unreadCount=unreadOffScreenCount
+      lastReadAt=sessionMember.lastReadAt
+      onTapArrowUp=(action "doNotifierJump")
+      onTapBody=(action "doNotifierJump")
+      onTapClose=(action "setAllMessagesAsRead")
     }}
-  </div>
-{{/if}}
+  {{/if}}
+
+  {{comments-section
+    classNames="js-comments-section"
+    comments=sortedComments
+    firstUnread=firstUnread
+    sessionMember=sessionMember
+    isShowingAllComments=isShowingAllComments
+    isLoadingEarlier=isLoadingEarlier
+    selectedComment=selectedComment
+    updateComment=(action "updateComment")
+    deleteComment=(action "deleteComment")
+    doReadComment=(action "doReadComment")
+    onNewMarkerView=(action "doNewMarkerViewed")
+    click=(action "hideMentionList")
+    editComment=(action "editComment")
+  }}
+
+  {{#if sessionMember}}
+    <div class="c-footer js-chat-box">
+      <section class="u-position-relative">
+        {{#if isMentionListVisible}}
+          {{mention-list
+            classNames="c-mention-list--chat-box"
+            items=streamMembers
+            onSelectItem=(action "pickMentionMember")
+          }}
+        {{/if}}
+
+        {{#if isChatModalVisible}}
+          <div class="c-confirmation-card">
+            <button classNames="mute" {{action (action "doCancelUpdateComment")}}>
+              Cancel
+            </button>
+
+            <h2 class="c-confirmation-card_title">Editing Comment</h2>
+
+            <button {{action (action "doUpdateComment")}}>
+              Save
+            </button>
+          </div>
+        {{/if}}
+      </section>
+
+      {{chat-box
+        isKeyboardOpen=isKeyboardOpen
+        value=chatBoxValue
+        onTapInput=(action "tappedInput")
+        onComment=(action "createComment")
+        onKeyDown=(action "chatBoxTapEvent")
+      }}
+    </div>
+  {{/if}}

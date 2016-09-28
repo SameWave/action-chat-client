@@ -130,7 +130,13 @@ export default Component.extend({
 
 ### CSS
 
+https://www.sitepoint.com/atomic-oobemitscss/
+
+https://www.smashingmagazine.com/2013/08/other-interface-atomic-design-sass/
+
 We use atomic ...
+
+TODO: [ ] add_ember_gestures and touchZone
 
 #### Style guide
 

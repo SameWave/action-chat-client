@@ -22,7 +22,7 @@
       body=stream.lastComment.body
       date=stream.lastCommentedAt
       lastCommentedAt=stream.lastComment
-      onTap=(action 'gotoStreamChat' stream)
+      click=(action 'gotoStreamChat' stream)
     }}
       {{#if stream.lastComment}}
        {{stream.lastComment.body}}
