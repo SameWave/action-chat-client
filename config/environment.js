@@ -30,6 +30,19 @@ module.exports = function(environment) {
     APP: {
       // Here you can pass flags/options to your application instance
       // when it is created
+      customEvents: {
+        tap: 'click', // Maps taps to click so that we don't have to handle explicit taps
+        touchstart: null,
+        touchmove: null,
+        touchend: null,
+        touchcancel: null,
+        mousedown: null,
+        mouseup: null,
+        dblclick: null,
+        mousemove: null,
+        mouseenter: null,
+        mouseleave: null
+      }
     },
 
     host: 'http://localhost:3000',

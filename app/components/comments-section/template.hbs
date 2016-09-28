@@ -2,18 +2,15 @@
   {{#each comments as |comment|}}
     {{stream-comment
       comment=comment
+      firstUnread=firstUnread
+      lastComment=comments.lastObject
       selectedComment=selectedComment
-      onEdit=(action editComment)
+      onEdit=editComment
+      onNewMarkerView=(action onNewMarkerView)
       updateComment=(action updateComment comment)
       deleteComment=(action deleteComment comment)
       doReadComment=(action doReadComment comment)
+      doReadComments=(action doReadComments comment)
     }}
   {{/each}}
 </div>
-
-{{!-- TODO: Rename this new-message-marker --}}
-{{#if false}}
-  {{message-marker
-    top=unreadTop
-  }}
-{{/if}}

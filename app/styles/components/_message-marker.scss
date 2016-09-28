@@ -1,11 +1,16 @@
 .c-message-marker {
+	$delay: 1500ms;
+
 	position: absolute;
 	// NOTE: Initial value overwritten by component
-	top: -100px;
+	top: 0px;
 	left: 0;
 	width: 100%;
 	z-index: $z-body-float;
-	margin-top: -7px;
+	margin-top: -5px;
+
+	// States
+	// &.has-fade-out
 
 	// Elements
 	&_line {
@@ -14,20 +19,37 @@
 		width: 100%;
 		height: 1px;
 		background-color: map-get($red, 'base');
+		transition: background $speed-slow $delay;
+
+		@at-root .c-message-marker.has-fade-out .c-message-marker_line {
+			background-color: map-get($grey, 'base');
+		}
 	}
 
 	&_label {
 		position: relative;
-		top: -9px;
+		top: -8px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
 		margin: auto;
-		width: 120px;
-		height: auto;
+		width: 110px;
+		height: 15px;
 		border-radius: 3px;
 		z-index: $z-body-float + 10;
 		background: map-get($deep-orange, 'darken-2');
 		color: map-get($shades, 'white');
+		transition: background $speed-slow $delay;
+
+		@at-root .c-message-marker.has-fade-out .c-message-marker_label {
+			background-color: map-get($grey, 'base');
+		}
+	}
+
+	&_text {
+		font-size: 9px;
 		text-align: center;
-		font-size: 10px;
+		line-height: 1em;
 	}
 }
 

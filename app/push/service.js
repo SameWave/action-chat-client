@@ -60,7 +60,7 @@ export default Service.extend({
 
     if (this.get('personId')) {
       this.createPushToken(this.get('personId'), this.get('token'), this.get('network')).then((response) => {
-        Ember.debug('Push token created: ', response);
+        // Ember.debug('Push token created: ', response);
       });
     }
   },
@@ -73,7 +73,7 @@ export default Service.extend({
     // data.image,
     // data.additionalData
 
-    Ember.debug('Push onNotification');
+    // Ember.debug('Push onNotification');
 
     // Don't redirect if the app is already in the foreground
     // if (ENV.state === 'ready') {
@@ -89,7 +89,7 @@ export default Service.extend({
   },
 
   onError(e) {
-    Ember.debug('Push onError: ', e.message);
+    // Ember.debug('Push onError: ', e.message);
   },
 
   createPushToken(personId, token, network) {

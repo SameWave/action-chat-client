@@ -9,11 +9,14 @@ const {
   on
 } = Ember;
 
-export default Component.extend(RecognizerMixin, InViewportMixin, {
+export default Component.extend(InViewportMixin, RecognizerMixin, {
+
   classNames: ['js-stream-comment', 'l-stream-comment', 'l-stream-comment--message'],
   classNameBindings: ['isEditing', 'isOpen'],
   recognizers: 'tap swipe',
   comment: null,
+  firstUnread: null,
+  lastComment: null,
   selectedComment: null,
   isOpen: false,
 
@@ -21,6 +24,14 @@ export default Component.extend(RecognizerMixin, InViewportMixin, {
     this._super(...arguments);
     this.set('elementId', `comment-${this.get('comment.id')}`);
   },
+
+  isFirstUnread: computed('firstUnread.id', 'comment.id', function() {
+    return this.get('firstUnread.id') === this.get('comment.id');
+  }),
+
+  isLastComment: computed('lastComment.id', 'comment.id', function() {
+    return this.get('lastComment.id') === this.get('comment.id');
+  }),
 
   isEditing: computed('selectedComment.id', 'comment.id', function() {
     return this.get('selectedComment.id') === this.get('comment.id');
@@ -57,6 +68,9 @@ export default Component.extend(RecognizerMixin, InViewportMixin, {
   didEnterViewport() {
     if (this.get('doReadComment')) {
       this.get('doReadComment')();
+    }
+    if (this.get('isLastComment') && this.get('doReadComments')) {
+      this.get('doReadComments')();
     }
   },
 

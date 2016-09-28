@@ -8,6 +8,7 @@ export default Component.extend({
   classNames: ['c-comments-section'],
   sessionMember: null,
   comments: [],
+  firstUnread: null,
   typers: [],
   selectedComment: null,
 

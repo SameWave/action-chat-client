@@ -2,7 +2,10 @@ import Ember from 'ember';
 import moment from 'moment';
 import FreestyleController from 'ember-freestyle/controllers/freestyle';
 
-const { inject, computed } = Ember;
+const {
+  inject,
+  computed
+} = Ember;
 
 export default FreestyleController.extend({
   emberFreestyle: inject.service(),

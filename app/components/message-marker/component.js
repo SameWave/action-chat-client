@@ -3,23 +3,16 @@ import InViewportMixin from 'ember-in-viewport';
 
 const {
   Component,
-  computed,
-  isEmpty,
   on,
   setProperties
 } = Ember;
 
 export default Component.extend(InViewportMixin, {
   // @mo TODO: add CSS for the has-fade-out class (or similar)
-  classNameBindings: [':c-message-marker', 'hasFadeOut:a-fade-out'],
+  classNameBindings: [':c-message-marker', 'isViewed:has-fade-out'],
   attributeBindings: ['style'],
 
-  top: 0,
-  hasFadeOut: false,
-
-  style: computed('top', function() {
-    return (`top: ${this.get('top')}px`).htmlSafe();
-  }),
+  isViewed: false,
 
   viewportOptionsOverride: on('didInsertElement', function() {
     setProperties(this, {
@@ -38,7 +31,12 @@ export default Component.extend(InViewportMixin, {
   }),
 
   didEnterViewport() {
-    this.set('hasFadeOut', true);
+    if (!this.get('isViewed')) {
+      this.set('isViewed', true);
+      if (this.get('onView')) {
+        this.get('onView')();
+      }
+    }
   }
 
 });

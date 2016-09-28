@@ -2,7 +2,6 @@
   <div class="c-stream-message">
     <section class="c-stream-message_first-section">
       <div class="c-stream-message_avatar">
-        
       </div>
     </section>
 
@@ -44,32 +43,8 @@
   </div>
 </div>
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-{{!-- {{#if isEditing}}
-        <div class="c-comment-body_caption">{{{input value=comment.body}}}</div>
-
-        <div class="red || c-comment-body_option" {{action (action "doCancel")}}>cancel</div>
-        <div class="green || c-comment-body_option" {{action (action "doUpdate")}}>save</div>
-      {{else}}
-        <div class="c-comment-body_caption">
-          <p class="c-comment-body_text">{{comment.body}}</p>
-          <p class="c-comment-body_time-stamp">{{friendly-date date=comment.createdAt isLocal=true}}</p>
-        </div>  
-        <div class="amber || c-comment-body_option" {{action (action "doEdit")}}>edit</div>
-        <div class="red || c-comment-body_option" {{action (action "doDelete")}}>delete</div>
-      {{/if}} --}}
-
-
-
+{{#if isFirstUnread}}
+  {{message-marker
+    onView=(action onNewMarkerView)
+  }}
+{{/if}}

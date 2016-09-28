@@ -38,11 +38,9 @@ export default Component.extend(RecognizerMixin, {
     console.log(`panStar: ${gesture}`);
   },
 
-  actions: {
-    tapFront() {
-      if (this.get('onTapFront')) {
-        this.get('onTapFront')();
-      }
+  tap() {
+    if (this.get('onTap')) {
+      this.get('onTap')();
     }
   }
 });
