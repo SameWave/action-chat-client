@@ -1,0 +1,41 @@
+.c-stream-message {
+  display: flex;
+  padding: 10px;
+
+  // Layout
+  &_first-section {
+    flex: 0 0 35px;
+  }
+
+  &_last-section {
+    flex: 1 1 auto;
+    margin-left: 5px;
+    display: flex;
+    flex-direction: column;
+  }
+
+  // Elements
+  &_header {
+    flex: 0 0 10px;
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 5px;
+    font-size: 10px;
+    line-height: 1em;
+  }
+
+  &_body {
+    flex: 1 0 auto;
+  }
+
+  &_author {
+    flex: 1 1 auto;
+    white-space: nowrap;
+    overflow: hidden;
+  }
+
+  &_time {
+    flex: 1 0 auto;
+    text-align: right;
+  }
+}

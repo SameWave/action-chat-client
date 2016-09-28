@@ -1,6 +1,4 @@
-{{#if
-  class="l-app-body_top-anchor"}}
-
+{{#if unreadOffScreenCount}}
   {{unread-notifier
     unreadCount=unreadOffScreenCount
     lastReadAt=sessionMember.lastReadAt
@@ -18,12 +16,14 @@
   sessionMember=sessionMember
   isShowingAllComments=isShowingAllComments
   isLoadingEarlier=isLoadingEarlier
+  selectedComment=selectedComment
   updateComment=(action "updateComment")
   deleteComment=(action "deleteComment")
   doReadComment=(action "doReadComment")
   doReadComments=(action "doReadComments")
   onNewMarkerView=(action "doNewMarkerViewed")
   click=(action "hideMentionList")
+  editComment=(action "editComment")
 }}
 
 {{#if sessionMember}}
@@ -36,11 +36,25 @@
           onSelectItem=(action "pickMentionMember")
         }}
       {{/if}}
+
+      {{#if isChatModalVisible}}
+        <div class="c-confirmation-card">
+          <button class="mute" {{action (action "doCancelUpdateComment")}}>
+            Cancel
+          </button>
+
+          <h2 class="c-confirmation-card_title">Editing Comment</h2>
+
+          <button {{action (action "doUpdateComment")}}>
+            Save
+          </button>
+        </div>
+      {{/if}}
     </section>
 
     {{chat-box
       isKeyboardOpen=isKeyboardOpen
-      comment=currentComment
+      comment=chatBoxValue
       onTapInput=(action "tappedInput")
       doComment=(action "createComment")
       onKeyDown=(action "chatBoxTapEvent")

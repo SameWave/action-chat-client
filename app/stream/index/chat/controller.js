@@ -64,8 +64,10 @@ export default Controller.extend({
   isMentionListVisible: false,
   typingTimer: null,
   lastCharacterTyped: '',
-  currentComment: '',
+  chatBoxValue: '',
   loadingTimer: null,
+  isEditingComment: false,
+  selectedComment: null,
 
   $comments: null,
   $chatBox: null,
@@ -331,7 +333,7 @@ export default Controller.extend({
       let currentCharacter = String.fromCharCode(currentKeyCode);
       let spaceKeycode = 32;
 
-      if (this.get('lastCharacterTyped') === spaceKeycode && currentCharacter === '@' || this.get('currentComment') === '' && currentCharacter === '@') {
+      if (this.get('lastCharacterTyped') === spaceKeycode && currentCharacter === '@' || this.get('chatBoxValue') === '' && currentCharacter === '@') {
         this.send('showMentionList');
       } else {
         this.send('hideMentionList');
@@ -354,7 +356,7 @@ export default Controller.extend({
     pickMentionMember(person) {
       this.set('isMentionListVisible', false);
 
-      this.set('currentComment', `${this.get('currentComment')}${person.get('name')} `);
+      this.set('chatBoxValue', `${this.get('chatBoxValue')}${person.get('name')} `);
       this.$input.focus();
     },
 
@@ -378,6 +380,33 @@ export default Controller.extend({
       });
       comment.save().then(() => {
         debug('comment created');
+      });
+    },
+
+    editComment(comment) {
+      this.setProperties({
+        selectedComment: comment,
+        isChatModalVisible: true,
+        chatBoxValue: comment.get('body')
+      });
+    },
+
+    doCancelUpdateComment() {
+      this.setProperties({
+        selectedComment: null,
+        chatBoxValue: '',
+        isChatModalVisible: false
+      });
+    },
+
+    doUpdateComment() {
+      this.set('selectedComment.body', this.get('chatBoxValue'));
+      this.get('selectedComment').save().then(() => {
+        this.setProperties({
+          selectedComment: null,
+          chatBoxValue: '',
+          isChatModalVisible: false
+        });
       });
     },
 

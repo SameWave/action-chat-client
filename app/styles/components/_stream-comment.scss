@@ -1,53 +1,47 @@
-.c-stream-comment {
-	@extend .chip;
-	display: flex;
-	align-content: center;
+$component-name: l-stream-comment;
+
+.l-stream-comment {
+	position: relative;
+	width: 100%;
 	height: auto;
 	min-height: 32px;
-	margin-bottom: 10px;
-	position: relative;
+	margin-bottom: 20px;
+
+	// States
+	// .is-open
+	// .is-editing
+
+	// Modifiers
+	&--message {
+
+	}
 
 	// Elements
-	&_author {
-		flex: 0 0 auto;
-		align-self: flex-start;
-		margin: 5px 5px 0 0;
-		p {
-			line-height: 1.2rem;
+	&_front {
+		position: relative;
+		z-index: $z-stream-blocks + 10;
+		width: 100%;
+		border-radius: 3px 3px 3px 13px;
+		background: map-get($shades, 'white');
+		transform: translateX(0);
+		transition: transform $speed-fast, background $speed-fast;
+
+		@at-root .#{$component-name}.is-open .#{$component-name}_front {
+			transform: translateX(-80%);
+		}
+
+		@at-root .#{$component-name}.is-editing .#{$component-name}_front {
+			background: map-get($yellow, 'base');
 		}
 	}
 
-	&_body {
-		flex: 1 1 32px;
-    align-self: flex-start;
-		margin: 5px 5px 5px 0;
-
-	}
-
-	&_text {
-		line-height: 1.2rem;
-		word-break: break-word;
-    white-space: pre-wrap;
-    hyphens: auto;
-	}
-
-	&_option {
-		flex: 0 0 44px;
-    align-self: flex-start;
-		margin: 5px 5px 5px 0px;
-		border-radius: 2px;
-		text-align: center;
-		color: map-get($shades, 'white');
-
-		&:last-child {
-			margin-right: 0;
-		}
-	}
-
-	&_time-stamp {
-		float: right;
-		font-size: 10px;
-		line-height: 1em;
-		color: map-get($grey, 'lighten-1');
+	&_back {
+		position: absolute;
+		z-index: $z-stream-blocks;
+		top: 0;
+		right: 0;
+		width: 80%;
+		height: 100%;
 	}
 }
+// l-stream-comment

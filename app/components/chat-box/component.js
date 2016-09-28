@@ -10,7 +10,7 @@ const {
 export default Component.extend({
   classNames: ['c-chat-box'],
 
-  comment: '',
+  value: '',
   inputElement: null,
   typingTimer: null,
   isKeyboardOpen: false,
@@ -55,16 +55,16 @@ export default Component.extend({
 
     doComment() {
 
-      if (isEmpty(this.get('comment'))) {
+      if (isEmpty(this.get('value'))) {
         return;
       }
 
       this.inputElement.focus();
 
-      if (this.get('doComment')) {
-        this.get('doComment')(this.get('comment'));
+      if (this.get('onComment')) {
+        this.get('onComment')(this.get('value'));
       }
-      this.set('comment', '');
+      this.set('value', '');
     }
   }
 });
