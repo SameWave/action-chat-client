@@ -22,14 +22,15 @@ $button-line-height: 1.5rem;
   justify-content: center;
   align-items: center;
   text-align: center;
-}
 
-.button--login {
-	@extend .button;
-	width: 35vw;
-	min-width: 41px;
-	padding: 10px 15px;
-	margin: 15px auto 0;
-	color: map-get($shades, 'white');
-	background-color: map-get($blue, 'base');
+	&--login {
+		@extend .button;
+		width: 35vw;
+		min-width: 41px;
+		padding: 10px 15px;
+		margin: 15px auto 0;
+		color: map-get($shades, 'white');
+		background-color: map-get($blue, 'base');
+		text-transform: uppercase;
+	}
 }
