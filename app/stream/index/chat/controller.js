@@ -39,6 +39,7 @@ export default Controller.extend({
   previousCommentCount: 0,
   previousLastReadAt: null,
   previousUnreadCount: 0,
+  unreadOffScreenCount: 0,
 
   streamMembers: computed('members.[]', 'stream.id', function() {
     return this.get('members').filterBy('stream.id', this.get('stream.id'));
@@ -100,14 +101,25 @@ export default Controller.extend({
   commentCountObserver: observer('commentCount', function() {
 
     if (!this.get('isLoadingEarlier') && this.get('previousCommentCount') < this.get('commentCount')) {
-      let newComment = this.get('streamComments.lastObject');
-      let bottomOffset = this.bottomOffset();
-      this.commentCountPlusPlus();
-      run.next(this, this.nudgeOrScrollBottom, bottomOffset);
-      run.next(this, this.vibrate);
+      this.newCommentAdded(this.get('streamComments.lastObject'));
     }
     this.set('previousCommentCount', this.get('commentCount'));
   }),
+
+  newCommentAdded(comment) {
+    let bottomOffset = this.bottomOffset();
+    this.commentCountPlusPlus();
+    if (comment.get('person.id') === this.get('session.person.id')) {
+      run.next(this, this.scrollToBottom, bottomOffset);
+    } else {
+      run.next(this, this.nudgeOrScrollBottom, bottomOffset);
+    }
+    run.next(this, this.vibrate);
+
+    if (!this.get('unreadOffScreenCount')) {
+      this.setLastReadAt();
+    }
+  },
 
   setFirstUnread() {
     let firstUnread = this.get('sortedComments').find((comment) => {
@@ -239,9 +251,9 @@ export default Controller.extend({
 
   nudgeOrScrollBottom(bottomOffset) {
     if (bottomOffset > NUDGE_OFFSET_PX) {
-      this.nudgeBottom(100);
+      this.nudgeBottom();
     } else {
-      this.scrollToBottom(100);
+      this.scrollToBottom();
     }
   },
 
@@ -282,8 +294,11 @@ export default Controller.extend({
     },
 
     doReadComments(comment) {
-      if (this.get('previousUnreadCount')) {
-        this.set('unreadOffScreenCount', this.get('previousUnreadCount') - this.get('readComments.length'));
+      if (this.get('previousUnreadCount') && this.get('unreadOffScreenCount') === 0) {
+        let count = this.get('previousUnreadCount') - this.get('readComments.length');
+        if (count > 0) {
+          this.set('unreadOffScreenCount', count);
+        }
       }
     },
 
@@ -358,7 +373,6 @@ export default Controller.extend({
         person: this.get('sessionMember.person'),
         stream: this.get('stream')
       });
-
       comment.save().then(() => {
         debug('comment created');
       });

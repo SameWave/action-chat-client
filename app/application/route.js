@@ -19,9 +19,18 @@ export default Route.extend(ApplicationRouteMixin, {
     }
   },
 
+  setupController(controller, model) {
+    controller.set('model', null);
+
+    if (!isEmpty(model)) {
+      this.setupSubscriptions(model);
+    }
+  },
+
   sessionAuthenticated() {
     this._loadSessionPerson().then(() => {
-      this._findAll().then(() => {
+      this._findAll().then((model) => {
+        this.setupSubscriptions(model);
         this.transitionTo('streams');
       });
     }).catch(() => this.get('session').send('logout'));
@@ -40,5 +49,25 @@ export default Route.extend(ApplicationRouteMixin, {
       people: this.store.findAll('person'),
       streams: this.store.findAll('stream')
     });
-  }
+  },
+
+  setupSubscriptions(model) {
+    this.store.subscribe({
+      channel: 'StreamsChannel'
+    });
+
+    model.streams.forEach((stream) => {
+      this.store.subscribe({
+        channel: 'MembersChannel',
+        stream_id: stream.get('id')
+      });
+
+      this.store.subscribe({
+        channel: 'CommentsChannel',
+        stream_id: stream.get('id')
+      });
+    });
+
+  },
+
 });

@@ -51,15 +51,6 @@ export default Route.extend(AuthenticatedRouteMixin, {
       members,
       stream
     });
-
-    this.store.subscribe({
-      channel: 'CommentsChannel',
-      stream_id: stream.get('id')
-    });
-    this.store.subscribe({
-      channel: 'MembersChannel',
-      stream_id: stream.get('id')
-    });
   },
 
   actions: {
