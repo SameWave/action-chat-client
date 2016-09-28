@@ -58,7 +58,6 @@ export default Controller.extend({
   sortedComments: computed.sort('streamComments', 'commentSortProperties'),
 
   isLoadingEarlier: false,
-  isKeyboardOpen: false,
   totalCommentCount: 0,
 
   isMentionListVisible: false,
@@ -175,7 +174,7 @@ export default Controller.extend({
     let _this = this;
 
     window.addEventListener('native.keyboardshow', function(e) {
-      _this.showKeyboard(e.keyboardHeight);
+      // _this.showKeyboard(e.keyboardHeight);
     });
 
     window.addEventListener('native.keyboardhide', function(e) {
@@ -215,16 +214,6 @@ export default Controller.extend({
       transform: 'translateY(0)'
     });
   },
-
-  // NOTE: For development only
-  // isKeyboardDidChange: observer('isKeyboardOpen', function() {
-  //   if (this.get('isKeyboardOpen')) {
-  //     let height = 216; // iPhone 5 keyboard height
-  //     this.showKeyboard(height);
-  //   } else {
-  //     this.hideKeyboard();
-  //   }
-  // }),
 
   doScroll(top, delay) {
     this.$comments.animate({

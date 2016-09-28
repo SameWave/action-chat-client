@@ -28,24 +28,6 @@ export default TextArea.extend({
     if (this.get('onKeyDown')) {
       this.get('onKeyDown')(e);
     }
-  },
-
-  keyUp() {
-    if (this.get('onKeyUp')) {
-      this.get('onKeyUp')();
-    }
-  },
-
-  focusIn() {
-    if (this.get('onFocusIn')) {
-      this.get('onFocusIn')();
-    }
-  },
-
-  focusOut() {
-    if (this.get('onFocusOut')) {
-      this.get('onFocusOut')();
-    }
   }
 
 });
