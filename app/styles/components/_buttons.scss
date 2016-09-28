@@ -19,7 +19,18 @@ $button-line-height: 1.5rem;
 
 .button {
   display: flex;
-  justify-conten: center;
+  justify-content: center;
   align-items: center;
   text-align: center;
+
+	&--login {
+		@extend .button;
+		width: 35vw;
+		min-width: 41px;
+		padding: 10px 15px;
+		margin: 15px auto 0;
+		color: map-get($shades, 'white');
+		background-color: map-get($blue, 'base');
+		text-transform: uppercase;
+	}
 }
