@@ -161,11 +161,6 @@ export default Controller.extend({
     });
   },
 
-  keyboardPusherOptions: {
-    duration: 100,
-    easing: 'ease'
-  },
-
   isShowingAllComments: computed('totalCommentCount', 'streamComments.length', function() {
     return this.get('streamComments.length') >= this.get('totalCommentCount');
   }),
@@ -174,7 +169,7 @@ export default Controller.extend({
     let _this = this;
 
     window.addEventListener('native.keyboardshow', function(e) {
-      // _this.showKeyboard(e.keyboardHeight);
+      _this.showKeyboard(e.keyboardHeight);
     });
 
     window.addEventListener('native.keyboardhide', function(e) {
@@ -318,7 +313,7 @@ export default Controller.extend({
       this.setLastReadAt();
     },
 
-    chatBoxTapEvent(e) {
+    doChatBoxKeyPress(e) {
       let currentKeyCode = e.which;
       let currentCharacter = String.fromCharCode(currentKeyCode);
       let spaceKeycode = 32;

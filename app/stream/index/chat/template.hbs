@@ -55,7 +55,7 @@
     {{chat-box
       value=chatBoxValue
       onComment=(action "createComment")
-      onKeyDown=(action "chatBoxTapEvent")
+      onKeyPress=(action "doChatBoxKeyPress")
     }}
   </div>
 {{/if}}

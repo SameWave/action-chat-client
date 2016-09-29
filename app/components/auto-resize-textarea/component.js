@@ -22,12 +22,5 @@ export default TextArea.extend({
       textArea.style.cssText = 'height:auto; padding:0';
       textArea.style.cssText = `height:${textArea.scrollHeight}px`;
     }, 50);
-  },
-
-  keyPress(e) {
-    if (this.get('onKeyDown')) {
-      this.get('onKeyDown')(e);
-    }
   }
-
 });
