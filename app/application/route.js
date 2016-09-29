@@ -52,6 +52,9 @@ export default Route.extend(ApplicationRouteMixin, {
   },
 
   setupSubscriptions(model) {
+
+    this.store.initSubscriptions();
+
     this.store.subscribe({
       channel: 'StreamsChannel'
     });
