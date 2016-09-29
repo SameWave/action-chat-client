@@ -8,6 +8,12 @@
   }}
 {{/if}}
 
+{{#if isLoadingEarlier}}
+  <div class="c-chat-notifier">
+    <h2 class="c-chat-notifier_title">Loading earlier comments</h2>
+  </div>
+{{/if}}
+
 {{comments-section
   classNames="js-comments-section"
   comments=sortedComments

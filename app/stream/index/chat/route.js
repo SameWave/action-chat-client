@@ -1,12 +1,9 @@
 import Ember from 'ember';
 import AuthenticatedRouteMixin from 'ember-simple-auth/mixins/authenticated-route-mixin';
-import ENV from 'action-chat-client/config/environment';
 
 const {
   Route,
   RSVP,
-  debug,
-  inspect,
   inject: {
     service
   },
@@ -76,7 +73,7 @@ export default Route.extend(AuthenticatedRouteMixin, {
         $comments: null,
         $chatBox: null,
         $input: null
-      })
+      });
     }
   }
 });
