@@ -11,8 +11,8 @@
 	<hr>
 
 	{{#ember-dragula config=dragulaconfig}}
-	  {{#ember-dragula-container}}
 		  <h2>Group A</h2>
+	  {{#ember-dragula-container}}
 	    {{#each goals as |goal|}}
 	    	{{media-block/goal
 	    		title=goal.title
@@ -20,8 +20,8 @@
 	    {{/each}}
 	  {{/ember-dragula-container}}
 
-	  {{#ember-dragula-container}}
 		  <h2>Group B</h2>
+	  {{#ember-dragula-container}}
 	    {{#each goals as |goal|}}
 	    	{{media-block/goal
 	    		title=goal.title

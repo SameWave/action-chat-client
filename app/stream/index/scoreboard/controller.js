@@ -69,6 +69,7 @@ export default Controller.extend({
       copy: false,
       revertOnSpill: false,
       removeOnSpill: false
+
         // Other options from the dragula source page.
     },
     enabledEvents: ['drag', 'drop']

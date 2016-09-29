@@ -10,8 +10,6 @@ export default Component.extend(RecognizerMixin, {
   classNameBindings: ['isOpen'],
   recognizers: 'tap swipe pan',
   isOpen: false,
-  attributeBindings: ['draggable'],
-  drag: true,
 
   title: '',
   date: '',
