@@ -14,7 +14,7 @@ export default Component.extend({
 
   actions: {
     doTap() {
-      if (isEmpty(selectedComment)) {
+      if (isEmpty(this.get('selectedComment'))) {
         $('#chat-area').blur();
       }
     }
