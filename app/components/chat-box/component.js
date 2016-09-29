@@ -27,7 +27,7 @@ export default Component.extend({
       // Trigger blur then focus after delay so that cursor appears inside input
       run.later(this, () => {
         this.$input.blur().focus();
-      }, 400);
+      }, 420);
     },
 
     doKeyPress(e) {

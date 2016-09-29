@@ -46,7 +46,6 @@ export default Route.extend(AuthenticatedRouteMixin, {
       totalCommentCount: stream.get('commentCount'),
       previousLastReadAt: sessionMember.get('lastReadAt'),
       previousUnreadCount: sessionMember.get('unreadCount'),
-      isObserving: true,
       comments,
       members,
       stream
@@ -66,7 +65,6 @@ export default Route.extend(AuthenticatedRouteMixin, {
         isObserving: false,
         unreadOffScreenCount: 0,
         isLoadingEarlier: false,
-        isKeyboardOpen: false,
         totalCommentCount: 0,
         isMentionListVisible: false,
         typingTimer: null,

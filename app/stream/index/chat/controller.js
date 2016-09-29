@@ -76,6 +76,8 @@ export default Controller.extend({
   didRender() {
     this._super(...arguments);
 
+    this.set('isObserving', true);
+
     this.$comments = $('.js-comments-section');
     this.$chatBox = $('.js-chat-box');
     this.$input = $('#chat-area');
