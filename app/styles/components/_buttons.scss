@@ -33,4 +33,9 @@ $button-line-height: 1.5rem;
 		background-color: map-get($blue, 'base');
 		text-transform: uppercase;
 	}
+
+	&_title {
+		flex: 1 0 auto;
+		text-align: center;
+	}
 }
