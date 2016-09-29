@@ -3,16 +3,12 @@ import InViewportMixin from 'ember-in-viewport';
 
 const {
   Component,
-  computed,
-  isEmpty,
   on,
   setProperties
 } = Ember;
 
 export default Component.extend(InViewportMixin, {
-
   // @mo TODO: add CSS for the has-fade-out class (or similar)
-
   classNameBindings: [':c-message-marker', 'isViewed:has-fade-out'],
   attributeBindings: ['style'],
 
