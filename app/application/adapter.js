@@ -26,6 +26,7 @@ const channels = {
 export default JSONAPIAdapter.extend(DataAdapterMixin, {
 
   cable: service(),
+  session: service(),
 
   host: ENV.host,
   authorizer: 'authorizer:custom',
@@ -65,7 +66,9 @@ export default JSONAPIAdapter.extend(DataAdapterMixin, {
 
   initSubscriptions() {
     if (isEmpty(this._consumer)) {
-      this._consumer = this.get('cable').createConsumer(ENV.socket);
+      // TODO: Ensure that we use secure wss in production
+      let ws = `${ENV.socket}?token=${this.get('session.data.authenticated.token')}`;
+      this._consumer = this.get('cable').createConsumer(ws);
     }
   },
 
