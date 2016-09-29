@@ -12,7 +12,6 @@
   classNames="js-comments-section"
   comments=sortedComments
   firstUnread=firstUnread
-  typers=typers
   sessionMember=sessionMember
   isShowingAllComments=isShowingAllComments
   isLoadingEarlier=isLoadingEarlier
@@ -23,7 +22,7 @@
   doReadComments=(action "doReadComments")
   onNewMarkerView=(action "doNewMarkerViewed")
   click=(action "hideMentionList")
-  editComment=(action "editComment")
+  doEditComment=(action "doEditComment")
 }}
 
 {{#if sessionMember}}

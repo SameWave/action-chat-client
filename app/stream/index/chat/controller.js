@@ -65,7 +65,6 @@ export default Controller.extend({
   lastCharacterTyped: '',
   chatBoxValue: '',
   loadingTimer: null,
-  isEditingComment: false,
   selectedComment: null,
   firstUnread: null,
 
@@ -362,12 +361,13 @@ export default Controller.extend({
       });
     },
 
-    editComment(comment) {
+    doEditComment(comment) {
       this.setProperties({
         selectedComment: comment,
         isChatModalVisible: true,
         chatBoxValue: comment.get('body')
       });
+      this.$input.focus();
     },
 
     doCancelUpdateComment() {
@@ -376,6 +376,7 @@ export default Controller.extend({
         chatBoxValue: '',
         isChatModalVisible: false
       });
+      this.$input.blur();
     },
 
     doUpdateComment() {

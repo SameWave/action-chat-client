@@ -71,7 +71,6 @@ export default Route.extend(AuthenticatedRouteMixin, {
         lastCharacterTyped: '',
         chatBoxValue: '',
         loadingTimer: null,
-        isEditingComment: false,
         selectedComment: null,
         firstUnread: null,
         $comments: null,
