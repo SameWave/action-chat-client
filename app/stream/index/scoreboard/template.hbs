@@ -1,5 +1,5 @@
-<div class="temp-liquid-fix">
-	<div class="u-pullLeft u-marginLeft">
+
+	<div>
 	  <h3>Order of objects is:</h3>
 	  <ul>
 	  	{{#each goals as |goal|}}
@@ -10,23 +10,18 @@
 	
 	<hr>
 
-	{{#ember-dragula config=dragulaconfig}}
+	{{#ember-dragula
+		config=dragulaconfig
+			drag="onDrag"
+			dragend="onDragEnd"
+			cloned="onCloned"}}
 		  <h2>Group A</h2>
 	  {{#ember-dragula-container}}
 	    {{#each goals as |goal|}}
 	    	{{media-block/goal
-	    		title=goal.title
-	    		date=goal.date}}
-	    {{/each}}
-	  {{/ember-dragula-container}}
-
-		  <h2>Group B</h2>
-	  {{#ember-dragula-container}}
-	    {{#each goals as |goal|}}
-	    	{{media-block/goal
+	    		classNames="in-edit"
 	    		title=goal.title
 	    		date=goal.date}}
 	    {{/each}}
 	  {{/ember-dragula-container}}
 	{{/ember-dragula}}
-</div>

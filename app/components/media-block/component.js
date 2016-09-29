@@ -15,26 +15,12 @@ export default Component.extend(RecognizerMixin, {
   date: '',
   body: '',
 
-  didInsertElement() {
-    console.log(`title: ${this.get('title')}`);
-  },
-
   swipeLeft() {
     this.set('isOpen', true);
   },
 
   swipeRight() {
     this.set('isOpen', false);
-  },
-
-  panUp(e) {
-    let gesture = e.originalEvent.gesture;
-    console.log(`e: ${gesture}`);
-  },
-
-  panStart(e) {
-    let gesture = e.originalEvent.gesture;
-    console.log(`panStar: ${gesture}`);
   },
 
   tap() {

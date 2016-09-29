@@ -21,6 +21,7 @@
 	}
 
 	// states
+	// &.in-edit
 
 	// layout
 	&_front {
@@ -61,14 +62,27 @@
 	&_last-section {
 		flex: 0 0 auto;
 		margin-left: 10px;
+
+		@at-root .c-media-block.in-edit .c-media-block_last-section {
+			display: flex;
+			justify-content: flex-end;
+			align-items: center;
+			min-width: 45px;
+		}
 	}
 
 	// Elements
 	&_title {
 		font-size: 14px;
 	}
+
 	&_meta {
 		font-size: 10px;
 		color: map-get($grey, 'base');
+	}
+
+	&_drag-icon {
+		width: 20px;
+		height: 20px;
 	}
 }

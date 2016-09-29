@@ -4,14 +4,17 @@ const {
   Controller,
   inject: {
     service
-  }
+  },
+  $,
+  run,
+  A
 } = Ember;
 
 export default Controller.extend({
   session: service(),
 
   sortFinishText: null,
-  goals: Ember.A([
+  goals: A([
     {
       id: '1',
       title: 'FLUMBO',
@@ -68,25 +71,44 @@ export default Controller.extend({
     options: {
       copy: false,
       revertOnSpill: false,
-      removeOnSpill: false
-
-        // Other options from the dragula source page.
+      removeOnSpill: false,
+      moves(el, source, handle, sibling) {
+        // this._super(...arguments);
+        return true;
+      },
+      invalid(el, handle) {
+        // TODO: improve this as it is very brittle
+        if (handle.parentElement.parentElement.dataset.drag === 'handle' || handle.dataset.drag === 'handle' || handle.parentElement.dataset.drag === 'handle') {
+          return false;
+        } else {
+          return true;
+        }
+      }
     },
-    enabledEvents: ['drag', 'drop']
+    enabledEvents: ['drag', 'drop', 'cloned']
+  },
+
+  isDragging: false,
+  cloneElement: null,
+
+  onCloneDrag() {
+    console.log('dragging clone');
   },
 
   actions: {
-    dragStart(o) {
-      console.log(`Drag start: ${o}`);
+    onDrag() {
+      this.set('isDragging', true);
     },
 
-    sortEndAction(e) {
-      console.log('sortEndAction', this.get('goals'));
+    onDragEnd() {
+      this.set('isDragging', false);
+      this.set('cloneElement', null);
     },
 
-    setStatus(post, ops) {
-      console.log(`post: ${post}
-        ops: ${ops}`);
+    onCloned(clone) {
+      this.cloneElement = $(clone);
+      this.cloneElement.on('ondrag', run.bind(this, this.onCloneDrag));
+      return false;
     }
   }
 });
