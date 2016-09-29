@@ -34,7 +34,8 @@ export default Component.extend(RecognizerMixin, {
     console.log(`e: ${gesture}`);
   },
 
-  panStart() {
+  panStart(e) {
+    let gesture = e.originalEvent.gesture;
     console.log(`panStar: ${gesture}`);
   },
 
