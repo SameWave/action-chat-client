@@ -12,10 +12,7 @@ const {
 
 export default Store.extend({
 
-  init() {
-    this._super(...arguments);
-
-    // TODO: Is there a better place to trigger this?
+  initSubscriptions() {
     let adapter = this.adapterFor('application');
     adapter.initSubscriptions();
   },
