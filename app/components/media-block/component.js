@@ -6,19 +6,35 @@ const {
 } = Ember;
 
 export default Component.extend(RecognizerMixin, {
-  classNames: ['c-media-block--stream'],
-  recognizers: 'tap swipe',
+  classNames: ['c-media-block'],
+  classNameBindings: ['isOpen'],
+  recognizers: 'tap swipe pan',
+  isOpen: false,
 
   title: '',
   date: '',
   body: '',
 
+  didInsertElement() {
+    console.log(`title: ${this.get('title')}`);
+  },
+
   swipeLeft() {
-    this.element.classList.add('is-open');
+    this.set('isOpen', true);
   },
 
   swipeRight() {
-    this.element.classList.remove('is-open');
+    this.set('isOpen', false);
+  },
+
+  panUp(e) {
+    let gesture = e.originalEvent.gesture;
+    console.log(`e: ${gesture}`);
+  },
+
+  panStart(e) {
+    let gesture = e.originalEvent.gesture;
+    console.log(`panStar: ${gesture}`);
   },
 
   tap() {
