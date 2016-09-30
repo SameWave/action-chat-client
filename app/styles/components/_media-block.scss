@@ -12,7 +12,7 @@
 	&--goal {
 		@extend .c-media-block;
 		max-height: 65px;
-		border-bottom: 1px solid red;
+		transition: all $speed-fast;
 	}
 
 	&--mention-list {
@@ -21,7 +21,14 @@
 	}
 
 	// states
+	// &.is-open
 	// &.in-edit
+	&.gu-mirror {
+		transform: scale(1.1);
+		opacity: .75;
+		box-shadow: 0 0 10px 3px rgba(0, 0, 0, .4);
+		animation: media-block-drag-mirror $speed-fast;
+	}
 
 	// layout
 	&_front {
@@ -33,9 +40,14 @@
 		transition: transform $speed-fast;
 		transform: translateX(0);
 		background: map-get($grey, 'lighten-3');
+		transition: transform $speed-fast, background $speed-fast;
 
 		@at-root .c-media-block.is-open .c-media-block_front {
 			transform: translateX(-80%);
+		}
+
+		@at-root .c-media-block.gu-mirror .c-media-block_front {
+			background: map-get($grey, 'lighten-5');
 		}
 	}
 

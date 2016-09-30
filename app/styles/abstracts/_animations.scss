@@ -40,3 +40,15 @@
 .a-fade-out {
   animation: fade-out $speed-normal forwards;
 }
+
+@keyframes media-block-drag-mirror {
+	0% {
+		opacity: 1;
+		transform: scale(1);
+	}
+
+	100% {
+		opacity: .75;
+		transform: scale(1.1);
+	}	
+}

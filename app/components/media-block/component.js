@@ -8,7 +8,7 @@ const {
 export default Component.extend(RecognizerMixin, {
   classNames: ['c-media-block'],
   classNameBindings: ['isOpen'],
-  recognizers: 'tap swipe pan',
+  recognizers: 'tap swipe',
   isOpen: false,
 
   title: '',
