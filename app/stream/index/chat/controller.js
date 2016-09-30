@@ -35,11 +35,9 @@ export default Controller.extend({
   stream: null,
   members: [],
   comments: [],
-  readComments: [],
   previousCommentCount: 0,
   previousLastReadAt: null,
-  previousUnreadCount: 0,
-  unreadOffScreenCount: 0,
+  unreadCount: 0,
   isObserving: false,
 
   streamMembers: computed('members.[]', 'stream.id', function() {
@@ -86,7 +84,7 @@ export default Controller.extend({
     this.$comments.on('touchmove', run.bind(this, this.onCommentsScroll));
     this.$comments.on('scroll', run.bind(this, this.onCommentsScroll));
 
-    if (this.get('previousUnreadCount')) {
+    if (this.get('unreadCount')) {
       this.setFirstUnread();
     } else {
       this.setLastReadAt();
@@ -122,7 +120,7 @@ export default Controller.extend({
       run.next(this, this.vibrate);
     }
 
-    if (!this.get('unreadOffScreenCount')) {
+    if (!this.get('unreadCount')) {
       this.setLastReadAt();
     }
   },
@@ -263,7 +261,7 @@ export default Controller.extend({
     debug('setLastReadAt', lastReadAt);
     this.set('sessionMember.lastReadAt', lastReadAt);
     this.get('sessionMember').save();
-    this.set('unreadOffScreenCount', 0);
+    this.set('unreadCount', 0);
   },
 
   scrollUpToComment(commentId) {
@@ -298,21 +296,8 @@ export default Controller.extend({
 
   actions: {
 
-    doReadComment(comment) {
-      this.get('readComments').pushObject(comment);
-    },
-
-    doReadComments(comment) {
-      if (this.get('previousUnreadCount') && this.get('unreadOffScreenCount') === 0) {
-        let count = this.get('previousUnreadCount') - this.get('readComments.length');
-        if (count > 0) {
-          this.set('unreadOffScreenCount', count);
-        }
-      }
-    },
-
     doNotifierJump() {
-      let unfetchedCount = this.get('previousUnreadCount') - this.get('streamComments.length');
+      let unfetchedCount = this.get('unreadCount') - this.get('streamComments.length');
       if (unfetchedCount > 0) {
         this.loadEarlier(unfetchedCount, () => {
           this.setFirstUnread();

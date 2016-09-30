@@ -10,9 +10,17 @@ export default Controller.extend({
 
   actions: {
 
-    doDevLogin() {
+    doGraemeLogin() {
       this.setProperties({
         identification: 'graeme@samewave.com',
+        password: 'password'
+      });
+      this.send('doLogin');
+    },
+
+    doMondeLogin() {
+      this.setProperties({
+        identification: 'monde@samewave.com',
         password: 'password'
       });
       this.send('doLogin');
