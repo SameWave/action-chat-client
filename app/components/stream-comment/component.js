@@ -1,5 +1,4 @@
 import Ember from 'ember';
-import RecognizerMixin from 'ember-gestures/mixins/recognizers';
 import InViewportMixin from 'ember-in-viewport';
 
 const {
@@ -9,20 +8,25 @@ const {
   on
 } = Ember;
 
-export default Component.extend(InViewportMixin, RecognizerMixin, {
+export default Component.extend(InViewportMixin, {
 
-  classNames: ['js-stream-comment', 'l-stream-comment', 'l-stream-comment--message'],
+  classNames: ['js-stream-comment', 'js-list-item', 'l-stream-comment', 'l-stream-comment--message'],
   classNameBindings: ['isEditing', 'isOpen'],
-  recognizers: 'tap swipe',
   comment: null,
   firstUnread: null,
   lastComment: null,
   selectedComment: null,
+  registerInList: null,
   isOpen: false,
 
   init() {
     this._super(...arguments);
     this.set('elementId', `comment-${this.get('comment.id')}`);
+
+    // TODO: Move this into a swipable-item mixin that works alongside the swipable-list mixin
+    if (this.get('registerInList')) {
+      this.get('registerInList')(this);
+    }
   },
 
   isFirstUnread: computed('firstUnread.id', 'comment.id', function() {
@@ -37,13 +41,13 @@ export default Component.extend(InViewportMixin, RecognizerMixin, {
     return this.get('selectedComment.id') === this.get('comment.id');
   }),
 
-  swipeLeft() {
+  doSwipeLeft() {
     if (!this.get('isEditing')) {
       this.set('isOpen', true);
     }
   },
 
-  swipeRight() {
+  doSwipeRight() {
     if (!this.get('isEditing')) {
       this.set('isOpen', false);
     }
