@@ -5,13 +5,12 @@ export default Ember.Mixin.create({
   classNameBindings: ['isOpen'],
 
   isOpen: false,
-  registerInList: null,
 
   init() {
     this._super(...arguments);
 
-    if (this.get('registerInList')) {
-      this.get('registerInList')(this);
+    if (this.get('doListRegister')) {
+      this.get('doListRegister')(this);
     }
   },
 

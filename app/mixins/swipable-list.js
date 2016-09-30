@@ -31,7 +31,7 @@ export default Ember.Mixin.create(RecognizerMixin, {
   },
 
   actions: {
-    registerItem(item) {
+    doItemRegister(item) {
       if (item) {
         this.get('items')[item.get('elementId')] = item;
       }
