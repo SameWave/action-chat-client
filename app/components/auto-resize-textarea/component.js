@@ -22,30 +22,5 @@ export default TextArea.extend({
       textArea.style.cssText = 'height:auto; padding:0';
       textArea.style.cssText = `height:${textArea.scrollHeight}px`;
     }, 50);
-  },
-
-  keyPress(e) {
-    if (this.get('onKeyDown')) {
-      this.get('onKeyDown')(e);
-    }
-  },
-
-  keyUp() {
-    if (this.get('onKeyUp')) {
-      this.get('onKeyUp')();
-    }
-  },
-
-  focusIn() {
-    if (this.get('onFocusIn')) {
-      this.get('onFocusIn')();
-    }
-  },
-
-  focusOut() {
-    if (this.get('onFocusOut')) {
-      this.get('onFocusOut')();
-    }
   }
-
 });

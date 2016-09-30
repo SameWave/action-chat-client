@@ -1,12 +1,9 @@
 import Ember from 'ember';
 import AuthenticatedRouteMixin from 'ember-simple-auth/mixins/authenticated-route-mixin';
-import ENV from 'action-chat-client/config/environment';
 
 const {
   Route,
   RSVP,
-  debug,
-  inspect,
   inject: {
     service
   },
@@ -46,7 +43,6 @@ export default Route.extend(AuthenticatedRouteMixin, {
       totalCommentCount: stream.get('commentCount'),
       previousLastReadAt: sessionMember.get('lastReadAt'),
       previousUnreadCount: sessionMember.get('unreadCount'),
-      isObserving: true,
       comments,
       members,
       stream
@@ -66,20 +62,19 @@ export default Route.extend(AuthenticatedRouteMixin, {
         isObserving: false,
         unreadOffScreenCount: 0,
         isLoadingEarlier: false,
-        isKeyboardOpen: false,
         totalCommentCount: 0,
         isMentionListVisible: false,
+        isChatModalVisible: false,
         typingTimer: null,
         lastCharacterTyped: '',
         chatBoxValue: '',
         loadingTimer: null,
-        isEditingComment: false,
         selectedComment: null,
         firstUnread: null,
         $comments: null,
         $chatBox: null,
         $input: null
-      })
+      });
     }
   }
 });

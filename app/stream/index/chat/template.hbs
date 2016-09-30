@@ -18,7 +18,6 @@
   classNames="js-comments-section"
   comments=sortedComments
   firstUnread=firstUnread
-  typers=typers
   sessionMember=sessionMember
   isShowingAllComments=isShowingAllComments
   isLoadingEarlier=isLoadingEarlier
@@ -29,7 +28,7 @@
   doReadComments=(action "doReadComments")
   onNewMarkerView=(action "doNewMarkerViewed")
   click=(action "hideMentionList")
-  editComment=(action "editComment")
+  doEditComment=(action "doEditComment")
 }}
 
 {{#if sessionMember}}
@@ -59,10 +58,9 @@
     </section>
 
     {{chat-box
-      isKeyboardOpen=isKeyboardOpen
       value=chatBoxValue
       onComment=(action "createComment")
-      onKeyDown=(action "chatBoxTapEvent")
+      onKeyPress=(action "doChatBoxKeyPress")
     }}
   </div>
 {{/if}}

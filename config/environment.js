@@ -45,6 +45,9 @@ module.exports = function(environment) {
       }
     },
 
+    // host: 'http://10.99.220.230:8080',
+    // socket: 'ws://10.99.220.230:8080/cable'
+
     host: 'http://localhost:3000',
     socket: 'ws://localhost:3000/cable'
   };

@@ -58,7 +58,6 @@ export default Controller.extend({
   sortedComments: computed.sort('streamComments', 'commentSortProperties'),
 
   isLoadingEarlier: false,
-  isKeyboardOpen: false,
   totalCommentCount: 0,
 
   isMentionListVisible: false,
@@ -66,7 +65,6 @@ export default Controller.extend({
   lastCharacterTyped: '',
   chatBoxValue: '',
   loadingTimer: null,
-  isEditingComment: false,
   selectedComment: null,
   firstUnread: null,
 
@@ -76,6 +74,8 @@ export default Controller.extend({
 
   didRender() {
     this._super(...arguments);
+
+    this.set('isObserving', true);
 
     this.$comments = $('.js-comments-section');
     this.$chatBox = $('.js-chat-box');
@@ -162,11 +162,6 @@ export default Controller.extend({
     });
   },
 
-  keyboardPusherOptions: {
-    duration: 100,
-    easing: 'ease'
-  },
-
   isShowingAllComments: computed('totalCommentCount', 'streamComments.length', function() {
     return this.get('streamComments.length') >= this.get('totalCommentCount');
   }),
@@ -215,16 +210,6 @@ export default Controller.extend({
       transform: 'translateY(0)'
     });
   },
-
-  // NOTE: For development only
-  // isKeyboardDidChange: observer('isKeyboardOpen', function() {
-  //   if (this.get('isKeyboardOpen')) {
-  //     let height = 216; // iPhone 5 keyboard height
-  //     this.showKeyboard(height);
-  //   } else {
-  //     this.hideKeyboard();
-  //   }
-  // }),
 
   doScroll(top, delay) {
     this.$comments.animate({
@@ -281,7 +266,7 @@ export default Controller.extend({
     this.set('unreadOffScreenCount', 0);
   },
 
-  scrollToComment(commentId) {
+  scrollUpToComment(commentId) {
     let $comment = $(`#comment-${commentId}`);
     let extra = 15; // How much should we allow?
     this.$comments.animate({
@@ -289,8 +274,26 @@ export default Controller.extend({
     }, 500);
   },
 
-  scrollToLastRead() {
-    this.scrollToComment(this.get('firstUnread.id'));
+  scrollUpToLastRead() {
+    this.scrollUpToComment(this.get('firstUnread.id'));
+  },
+
+  scrollToComment(commentId) {
+
+    let offset = 30;
+    let $comment = this.$comments.find(`#comment-${commentId}`)
+    let newTop = 0;
+
+    newTop += this.$comments.scrollTop();
+    newTop += $comment.position().top;
+    newTop -= this.$comments[0].clientHeight;
+    newTop += $comment[0].clientHeight;
+    newTop += offset;
+
+    this.$comments.animate({
+      scrollTop: newTop
+    }, 500);
+
   },
 
   actions: {
@@ -329,7 +332,7 @@ export default Controller.extend({
       this.setLastReadAt();
     },
 
-    chatBoxTapEvent(e) {
+    doChatBoxKeyPress(e) {
       let currentKeyCode = e.which;
       let currentCharacter = String.fromCharCode(currentKeyCode);
       let spaceKeycode = 32;
@@ -376,12 +379,15 @@ export default Controller.extend({
       });
     },
 
-    editComment(comment) {
+    doEditComment(comment) {
       this.setProperties({
         selectedComment: comment,
         isChatModalVisible: true,
         chatBoxValue: comment.get('body')
       });
+      this.$input.focus();
+      this.scrollToComment(comment.get('id'));
+
     },
 
     doCancelUpdateComment() {
@@ -390,6 +396,7 @@ export default Controller.extend({
         chatBoxValue: '',
         isChatModalVisible: false
       });
+      this.$input.blur();
     },
 
     doUpdateComment() {

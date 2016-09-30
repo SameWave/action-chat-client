@@ -1,5 +1,4 @@
 import Ember from 'ember';
-import ENV from 'action-chat-client/config/environment';
 
 const {
   Component,
@@ -12,8 +11,6 @@ export default Component.extend({
 
   value: '',
   $input: null,
-  typingTimer: null,
-  isKeyboardOpen: false,
 
   didRender() {
     this._super(...arguments);
@@ -23,35 +20,15 @@ export default Component.extend({
   willDestroyElement() {
     this._super(...arguments);
     this.$input = null;
-    run.cancel(this.typingTimer);
   },
 
   actions: {
-    tapInput() {
+    onTap() {
+      // Trigger blur then focus after delay so that cursor appears inside input
       run.later(this, () => {
         this.$input.blur().focus();
-      }, 350);
+      }, 420);
     },
-
-    doFocusIn() {
-      if (ENV.environment === 'development') {
-        this.set('isKeyboardOpen', true);
-      }
-    },
-
-    doFocusOut() {
-      if (ENV.environment === 'development') {
-        this.set('isKeyboardOpen', false);
-      }
-    },
-
-    doKeyDown(e) {
-      if (this.get('onKeyDown')) {
-        this.get('onKeyDown')(e);
-      }
-    },
-
-    doKeyUp() {},
 
     doComment() {
       if (isEmpty(this.get('value'))) {
