@@ -10,7 +10,11 @@ export default Ember.Mixin.create({
 
   init() {
     this._super(...arguments);
-    this.get('parentView').registerItem(this);
+
+    // Check that registerItem function exists on parentView
+    if (this.get('parentView').registerItem) {
+      this.get('parentView').registerItem(this);
+    }
   },
 
   doSwipeLeft() {
