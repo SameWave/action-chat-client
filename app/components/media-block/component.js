@@ -1,31 +1,14 @@
 import Ember from 'ember';
-import RecognizerMixin from 'ember-gestures/mixins/recognizers';
+import SwipableListItemMixin from 'action-chat-client/mixins/swipable-list-item';
 
 const {
   Component
 } = Ember;
 
-export default Component.extend(RecognizerMixin, {
+export default Component.extend(SwipableListItemMixin, {
   classNames: ['c-media-block'],
-  classNameBindings: ['isOpen'],
-  recognizers: 'tap swipe',
-  isOpen: false,
 
   title: '',
   date: '',
-  body: '',
-
-  swipeLeft() {
-    this.set('isOpen', true);
-  },
-
-  swipeRight() {
-    this.set('isOpen', false);
-  },
-
-  tap() {
-    if (this.get('onTap')) {
-      this.get('onTap')();
-    }
-  }
+  body: ''
 });

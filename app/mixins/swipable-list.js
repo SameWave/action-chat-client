@@ -3,7 +3,7 @@ import RecognizerMixin from 'ember-gestures/mixins/recognizers';
 
 export default Ember.Mixin.create(RecognizerMixin, {
 
-  recognizers: 'swipe',
+  recognizers: 'tap swipe',
 
   items: {},
   currentItem: null,
@@ -30,11 +30,9 @@ export default Ember.Mixin.create(RecognizerMixin, {
     }
   },
 
-  actions: {
-    doItemRegister(item) {
-      if (item) {
-        this.get('items')[item.get('elementId')] = item;
-      }
+  registerItem(item) {
+    if (item) {
+      this.get('items')[item.get('elementId')] = item;
     }
   }
 

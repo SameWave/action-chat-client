@@ -1,6 +1,6 @@
 import Ember from 'ember';
-import mediaBlock from '../component';
+import MediaBlockComponent from '../component';
 
-export default mediaBlock.extend({
+export default MediaBlockComponent.extend({
   classNames: ['c-media-block--goal']
 });

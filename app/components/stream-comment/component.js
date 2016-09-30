@@ -14,7 +14,7 @@ const {
 
 export default Component.extend(InViewportMixin, SwipableListItemMixin, {
 
-  classNames: ['js-stream-comment', 'js-list-item', 'l-stream-comment', 'l-stream-comment--message'],
+  classNames: ['js-stream-comment', 'l-stream-comment', 'l-stream-comment--message'],
   classNameBindings: ['isEditing'],
   comment: null,
   firstUnread: null,
