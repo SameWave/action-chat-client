@@ -1,4 +1,5 @@
 import Ember from 'ember';
+import SwipableListItemMixin from 'action-chat-client/mixins/swipable-list-item'
 import InViewportMixin from 'ember-in-viewport';
 
 const {
@@ -8,25 +9,19 @@ const {
   on
 } = Ember;
 
-export default Component.extend(InViewportMixin, {
+export default Component.extend(InViewportMixin, SwipableListItemMixin, {
 
   classNames: ['js-stream-comment', 'js-list-item', 'l-stream-comment', 'l-stream-comment--message'],
-  classNameBindings: ['isEditing', 'isOpen'],
+  classNameBindings: ['isEditing'],
   comment: null,
   firstUnread: null,
   lastComment: null,
   selectedComment: null,
-  registerInList: null,
-  isOpen: false,
 
   init() {
-    this._super(...arguments);
+    // set elementId first as it's needed in super
     this.set('elementId', `comment-${this.get('comment.id')}`);
-
-    // TODO: Move this into a swipable-item mixin that works alongside the swipable-list mixin
-    if (this.get('registerInList')) {
-      this.get('registerInList')(this);
-    }
+    this._super(...arguments);
   },
 
   isFirstUnread: computed('firstUnread.id', 'comment.id', function() {
@@ -40,18 +35,6 @@ export default Component.extend(InViewportMixin, {
   isEditing: computed('selectedComment.id', 'comment.id', function() {
     return this.get('selectedComment.id') === this.get('comment.id');
   }),
-
-  doSwipeLeft() {
-    if (!this.get('isEditing')) {
-      this.set('isOpen', true);
-    }
-  },
-
-  doSwipeRight() {
-    if (!this.get('isEditing')) {
-      this.set('isOpen', false);
-    }
-  },
 
   viewportOptionsOverride: on('didInsertElement', function() {
     setProperties(this, {
