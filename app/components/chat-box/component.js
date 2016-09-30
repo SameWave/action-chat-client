@@ -31,7 +31,6 @@ export default Component.extend({
     },
 
     doComment() {
-
       if (isEmpty(this.get('value'))) {
         return;
       }

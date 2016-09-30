@@ -6,19 +6,21 @@ const {
 } = Ember;
 
 export default Component.extend(RecognizerMixin, {
-  classNames: ['c-media-block--stream'],
+  classNames: ['c-media-block'],
+  classNameBindings: ['isOpen'],
   recognizers: 'tap swipe',
+  isOpen: false,
 
   title: '',
   date: '',
   body: '',
 
   swipeLeft() {
-    this.element.classList.add('is-open');
+    this.set('isOpen', true);
   },
 
   swipeRight() {
-    this.element.classList.remove('is-open');
+    this.set('isOpen', false);
   },
 
   tap() {
