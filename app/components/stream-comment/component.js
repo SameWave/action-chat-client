@@ -5,6 +5,9 @@ import InViewportMixin from 'ember-in-viewport';
 const {
   Component,
   computed,
+  computed: {
+    not
+  },
   setProperties,
   on
 } = Ember;
@@ -17,6 +20,8 @@ export default Component.extend(InViewportMixin, SwipableListItemMixin, {
   firstUnread: null,
   lastComment: null,
   selectedComment: null,
+
+  isSwipable: not('isEditing'),
 
   init() {
     // set elementId first as it's needed in super

@@ -5,6 +5,7 @@ export default Ember.Mixin.create({
   classNameBindings: ['isOpen'],
 
   isOpen: false,
+  isSwipable: true,
 
   init() {
     this._super(...arguments);
@@ -15,13 +16,13 @@ export default Ember.Mixin.create({
   },
 
   doSwipeLeft() {
-    if (!this.get('isEditing')) {
+    if (this.get('isSwipable')) {
       this.set('isOpen', true);
     }
   },
 
   doSwipeRight() {
-    if (!this.get('isEditing')) {
+    if (this.get('isSwipable')) {
       this.set('isOpen', false);
     }
   },
