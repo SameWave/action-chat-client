@@ -119,8 +119,8 @@ export default Controller.extend({
       run.next(this, this.scrollToBottom, bottomOffset);
     } else {
       run.next(this, this.nudgeOrScrollBottom, bottomOffset);
+      run.next(this, this.vibrate);
     }
-    run.next(this, this.vibrate);
 
     if (!this.get('unreadOffScreenCount')) {
       this.setLastReadAt();
