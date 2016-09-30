@@ -1,7 +1,7 @@
 /* jshint node: true */
 
 module.exports = function(environment) {
-  let ENV = {
+  var ENV = {
     modulePrefix: 'action-chat-client',
     environment,
     rootURL: '',
@@ -45,8 +45,8 @@ module.exports = function(environment) {
       }
     },
 
-    host: 'http://0.0.0.0:8080',
-    socket: 'ws://0.0.0.0:8080/cable'
+    host: 'http://localhost:3000',
+    socket: 'ws://localhost:3000/cable'
   };
 
   ENV['ember-simple-auth'] = {
