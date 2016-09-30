@@ -266,7 +266,7 @@ export default Controller.extend({
     this.set('unreadOffScreenCount', 0);
   },
 
-  scrollToComment(commentId) {
+  scrollUpToComment(commentId) {
     let $comment = $(`#comment-${commentId}`);
     let extra = 15; // How much should we allow?
     this.$comments.animate({
@@ -274,8 +274,26 @@ export default Controller.extend({
     }, 500);
   },
 
-  scrollToLastRead() {
-    this.scrollToComment(this.get('firstUnread.id'));
+  scrollUpToLastRead() {
+    this.scrollUpToComment(this.get('firstUnread.id'));
+  },
+
+  scrollToComment(commentId) {
+
+    let offset = 30;
+    let $comment = this.$comments.find(`#comment-${commentId}`)
+    let newTop = 0;
+
+    newTop += this.$comments.scrollTop();
+    newTop += $comment.position().top;
+    newTop -= this.$comments[0].clientHeight;
+    newTop += $comment[0].clientHeight;
+    newTop += offset;
+
+    this.$comments.animate({
+      scrollTop: newTop
+    }, 500);
+
   },
 
   actions: {
@@ -368,6 +386,8 @@ export default Controller.extend({
         chatBoxValue: comment.get('body')
       });
       this.$input.focus();
+      this.scrollToComment(comment.get('id'));
+
     },
 
     doCancelUpdateComment() {
