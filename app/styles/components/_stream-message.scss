@@ -26,7 +26,8 @@
 
   &_body {
     flex: 1 0 auto;
-    
+    white-space: pre-line;
+    word-wrap: break-word;
   }
 
   &_author {
