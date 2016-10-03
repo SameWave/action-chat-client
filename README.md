@@ -1,10 +1,8 @@
 # Action-chat-client
-
 This README outlines the details of collaborating on this Ember application.
 A short introduction of this app could easily go here.
 
 ## Prerequisites
-
 You will need the following things properly installed on your computer.
 
 * [Git](http://git-scm.com/)
@@ -12,9 +10,9 @@ You will need the following things properly installed on your computer.
 * [Bower](http://bower.io/)
 * [Ember CLI](http://ember-cli.com/)
 * [PhantomJS](http://phantomjs.org/)
+* [Cordova](http://)
 
 ## Installation
-
 * `git clone <repository-url>` this repository
 * change into the new directory
 * `npm install`
@@ -24,12 +22,10 @@ You will need the following things properly installed on your computer.
 ## Running / Development
 
 ### On local pc
-
 * `ember serve`
 * Visit your app at [http://localhost:4200](http://localhost:4200).
 
 ### On device against production data
-
 * ember cdv run ios
 * ember cdv:s --env=production
 
@@ -71,20 +67,14 @@ Make use of the many generators for code, try `ember help generate` for more det
 ### Deploying
 
 #### Android
-
 Run $ ember cordova:build --environment=production --platform=android.
 Upload apk found in ./ember-cordova/cordova/platforms/android/build/outputs/apk/android-debug.apk to hockeyapp
 
-## Further Reading / Useful Links
+## Javascript style guide
 
-* [ember.js](http://emberjs.com/)
-* [ember-cli](http://ember-cli.com/)
-* Development Browser Extensions
-  * [ember inspector for chrome](https://chrome.google.com/webstore/detail/ember-inspector/bmdblncegkenkacieihfhpjfppoconhi)
-  * [ember inspector for firefox](https://addons.mozilla.org/en-US/firefox/addon/ember-inspector/)
-
-
-### SW JS style guide
+### General
+Always use closure actions.
+Remember data Down actions Up
 
 #### Organizing your modules
 ```
@@ -128,15 +118,36 @@ export default Component.extend({
 });
 ```
 
-### CSS
-
-https://www.sitepoint.com/atomic-oobemitscss/
-
-https://www.smashingmagazine.com/2013/08/other-interface-atomic-design-sass/
-
-We use atomic ...
+## CSS
 
 TODO: [ ] add_ember_gestures and touchZone
+
+####1. General principles
+
+*"Part of being a good steward to a successful project is realizing that writing code for yourself is a Bad Idea™. If thousands of people are using your code, then write your code for maximum clarity, not your personal preference of how to get clever within the spec." - Idan Gazit*
+
+Don't try to prematurely optimize your code; keep it readable and understandable.
+All code in any code-base should look like a single person typed it, even when many people are contributing to it.
+Strictly enforce the agreed-upon style.
+If in doubt when deciding upon a style use existing, common patterns.
+
+
+Our methodology is BEM with the use of SUIT prefixes
+
+#### Reading list
+[atomic-oobemitscss](https://www.sitepoint.com/atomic-oobemitscss/)
+[Atomic design sass](https://www.smashingmagazine.com/2013/08/other-interface-atomic-design-sass/)
+
+### Linters
+
+We use [styleLint](http://stylelint.io/) for enforcing css styleguide.
+We follow [Idiomatic css](https://github.com/necolas/idiomatic-css) as a base for our css style guide rules.
+
+To configure the rules use the .stylelintrc file
+
+#### IDE plugins
+
+To get highlighting in sublime install [SublimeLinter Stylelint](https://github.com/kungfusheep/SublimeLinter-contrib-stylelint).
 
 #### Style guide
 
@@ -201,3 +212,17 @@ sass/
 ## Touch
 
 Using [Ember-gestures](https://github.com/runspired/ember-gestures) powered by [hammer.js](http://hammerjs.github.io/api/) to provide api for working on mobile touch gestures.
+
+
+## Documentation
+[SASSDOC](http://sassdoc.com/)
+YUIDOC
+
+
+## Further Reading / Useful Links
+
+* [ember.js](http://emberjs.com/)
+* [ember-cli](http://ember-cli.com/)
+* Development Browser Extensions
+  * [ember inspector for chrome](https://chrome.google.com/webstore/detail/ember-inspector/bmdblncegkenkacieihfhpjfppoconhi)
+  * [ember inspector for firefox](https://addons.mozilla.org/en-US/firefox/addon/ember-inspector/)

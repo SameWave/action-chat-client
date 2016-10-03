@@ -8,16 +8,16 @@
   }
 
   &_last-section {
-    flex: 1 1 auto;
-    margin-left: 5px;
     display: flex;
+    flex: 1 1 auto;
     flex-direction: column;
+    margin-left: 5px;
   }
 
   // Elements
   &_header {
-    flex: 0 0 10px;
     display: flex;
+    flex: 0 0 10px;
     justify-content: space-between;
     margin-bottom: 5px;
     font-size: 10px;
@@ -26,6 +26,7 @@
 
   &_body {
     flex: 1 0 auto;
+    
   }
 
   &_author {
