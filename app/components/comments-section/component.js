@@ -13,11 +13,17 @@ export default Component.extend(SwipableListMixin, {
   comments: [],
   firstUnread: null,
   selectedComment: null,
+  $scrollContainer: null,
+
+  didRender() {
+    console.log('comment section didRender');
+    this.$scrollContainer = $('.js-comments-section');
+    this._super(...arguments);
+  },
 
   tap() {
     if (isEmpty(this.get('selectedComment'))) {
       $('#chat-area').blur();
     }
   }
-
 });
