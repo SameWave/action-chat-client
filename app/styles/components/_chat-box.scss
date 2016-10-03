@@ -41,12 +41,14 @@
 
 	&_btn-send {
     @extend .button;
-		flex: 0 0 52px;
+		flex: 0 0 auto;
+		max-width: 52px;
 		margin: 0;
 		padding: 0;
 		font-size: 16px;
 		color: map-get($blue, 'base');
 		text-transform: uppercase;
+		animation: grow-in--horizontal $speed-slow;
 	}
 }
 
