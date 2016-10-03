@@ -1,11 +1,11 @@
 .app-background {
   position: fixed;
+  z-index: $z-ground-floor;
   top: 0;
   left: 0;
-  z-index: $z-ground-floor;
-  background: map-get($colours, 'pink');
   width: 100vw;
   height: 100vh;
+  background: map-get($colours, 'pink');
 }
 
 // Objects
