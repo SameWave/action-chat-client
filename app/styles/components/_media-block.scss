@@ -1,100 +1,100 @@
 .c-media-block {
-	flex: 1 1 100%;
-	align-items: center;
-	border-bottom: 1px solid map-get($shades, 'white');
-	position: relative;
+  position: relative;
+  align-items: center;
+  flex: 1 1 100%;
+  border-bottom: 1px solid map-get($shades, 'white');
 
-	// Modifiers
-	&--stream {
-		@extend .c-media-block;
-	}
+  // Modifiers
+  &--stream {
+    @extend .c-media-block;
+  }
 
-	&--goal {
-		@extend .c-media-block;
-		max-height: 65px;
-		transition: all $speed-fast;
-	}
+  &--goal {
+    @extend .c-media-block;
+    max-height: 65px;
+    transition: all $speed-fast;
+  }
 
-	&--mention-list {
-		@extend .c-media-block;
-		padding: 1px;
-	}
+  &--mention-list {
+    @extend .c-media-block;
+    padding: 1px;
+  }
 
-	// states
-	// &.is-open
-	// &.in-edit
-	&.gu-mirror {
-		transform: scale(1.1);
-		opacity: .75;
-		box-shadow: 0 0 10px 3px rgba(0, 0, 0, .4);
-		// animation: media-block-drag-mirror $speed-fast;
-	}
+  // states
+  // &.is-open
+  // &.in-edit
+  &.gu-mirror {
+    transform: scale(1.1);
+    opacity: 0.75;
+    box-shadow: 0 0 10px 3px rgba(0, 0, 0, 0.4);
+    // animation: media-block-drag-mirror $speed-fast;
+  }
 
-	// layout
-	&_front {
-		position: relative;
-		z-index: $z-stream-blocks + 10;
-		width: 100%;
-		display: flex;
-		padding: 10px;
-		transition: transform $speed-fast;
-		transform: translateX(0);
-		background: map-get($grey, 'lighten-3');
-		transition: transform $speed-fast, background $speed-fast;
+  // layout
+  &_front {
+    position: relative;
+    z-index: $z-stream-blocks + 10;
+    display: flex;
+    width: 100%;
+    padding: 10px;
+    transition: transform $speed-fast;
+    transform: translateX(0);
+    background: map-get($grey, 'lighten-3');
+    transition: transform $speed-fast, background $speed-fast;
 
-		@at-root .c-media-block.is-open .c-media-block_front {
-			transform: translateX(-80%);
-		}
+    @at-root .c-media-block.is-open .c-media-block_front {
+      transform: translateX(-80%);
+    }
 
-		@at-root .c-media-block.gu-mirror .c-media-block_front {
-			background: map-get($grey, 'lighten-5');
-		}
-	}
+    @at-root .c-media-block.gu-mirror .c-media-block_front {
+      background: map-get($grey, 'lighten-5');
+    }
+  }
 
-	&_back {
-		position: absolute;
-		z-index: $z-stream-blocks;
-		top: 0;
-		right: 0;
-		width: 80%;
-		height: 100%;
-		display: flex;
-		background: map-get($grey, 'lighten-1');
-	}
+  &_back {
+    position: absolute;
+    z-index: $z-stream-blocks;
+    top: 0;
+    right: 0;
+    display: flex;
+    width: 80%;
+    height: 100%;
+    background: map-get($grey, 'lighten-1');
+  }
 
-	&_first-section {
-		flex: 0 0 auto;
-	}
+  &_first-section {
+    flex: 0 0 auto;
+  }
 
-	&_second-section {
-		flex: 1 1 auto;
-		margin-left: 10px;
-	}
+  &_second-section {
+    flex: 1 1 auto;
+    margin-left: 10px;
+  }
 
-	&_last-section {
-		flex: 0 0 auto;
-		margin-left: 10px;
+  &_last-section {
+    flex: 0 0 auto;
+    margin-left: 10px;
 
-		@at-root .c-media-block.in-edit .c-media-block_last-section {
-			display: flex;
-			justify-content: flex-end;
-			align-items: center;
-			min-width: 45px;
-		}
-	}
+    @at-root .c-media-block.in-edit .c-media-block_last-section {
+      display: flex;
+      align-items: center;
+      justify-content: flex-end;
+      min-width: 45px;
+    }
+  }
 
-	// Elements
-	&_title {
-		font-size: 14px;
-	}
+  // Elements
+  &_title {
+    font-size: 14px;
+  }
 
-	&_meta {
-		font-size: 10px;
-		color: map-get($grey, 'base');
-	}
+  &_meta {
+    font-size: 10px;
+    color: map-get($grey, 'base');
+  }
 
-	&_drag-icon {
-		width: 20px;
-		height: 20px;
-	}
+  &_drag-icon {
+    width: 20px;
+    height: 20px;
+  }
 }
