@@ -1,7 +1,11 @@
 import Ember from 'ember';
 import RecognizerMixin from 'ember-gestures/mixins/recognizers';
 
-export default Ember.Mixin.create(RecognizerMixin, {
+const {
+  Mixin
+} = Ember;
+
+export default Mixin.create(RecognizerMixin, {
 
   recognizers: 'tap swipe',
 

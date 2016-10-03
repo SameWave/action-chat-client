@@ -1,6 +1,5 @@
 import Ember from 'ember';
 import SwipableListItemMixin from 'action-chat-client/mixins/swipable-list-item'
-import InViewportMixin from 'ember-in-viewport';
 
 const {
   Component,
@@ -12,7 +11,7 @@ const {
   on
 } = Ember;
 
-export default Component.extend(InViewportMixin, SwipableListItemMixin, {
+export default Component.extend(SwipableListItemMixin, {
 
   classNames: ['js-stream-comment', 'l-stream-comment', 'l-stream-comment--message'],
   classNameBindings: ['isEditing'],
@@ -40,33 +39,6 @@ export default Component.extend(InViewportMixin, SwipableListItemMixin, {
   isEditing: computed('selectedComment.id', 'comment.id', function() {
     return this.get('selectedComment.id') === this.get('comment.id');
   }),
-
-  viewportOptionsOverride: on('didInsertElement', function() {
-    setProperties(this, {
-      viewportEnabled: true,
-      viewportUseRAF: true,
-      viewportSpy: false,
-      viewportScrollSensitivity: 1,
-      viewportRefreshRate: 150,
-      viewportTolerance: {
-        top: -(65 + 34), // height of header + tab menu
-        bottom: 0,
-        left: 0,
-        right: 0
-      }
-    });
-  }),
-
-  didEnterViewport() {
-    if (this.get('doReadComment')) {
-      this.get('doReadComment')();
-    }
-    if (this.get('isLastComment') && this.get('doReadComments')) {
-      this.get('doReadComments')();
-    }
-  },
-
-  didExitViewport() {},
 
   actions: {
     doEdit() {

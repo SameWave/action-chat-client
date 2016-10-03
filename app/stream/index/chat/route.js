@@ -42,7 +42,7 @@ export default Route.extend(AuthenticatedRouteMixin, {
     controller.setProperties({
       totalCommentCount: stream.get('commentCount'),
       previousLastReadAt: sessionMember.get('lastReadAt'),
-      previousUnreadCount: sessionMember.get('unreadCount'),
+      unreadCount: sessionMember.get('unreadCount'),
       comments,
       members,
       stream
@@ -60,7 +60,7 @@ export default Route.extend(AuthenticatedRouteMixin, {
     willTransition() {
       this.get('controller').setProperties({
         isObserving: false,
-        unreadOffScreenCount: 0,
+        unreadCount: 0,
         isLoadingEarlier: false,
         totalCommentCount: 0,
         isMentionListVisible: false,
