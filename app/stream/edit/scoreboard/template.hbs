@@ -1,0 +1,15 @@
+{{#ember-dragula
+	config=dragulaconfig
+		drag="onDrag"
+		dragend="onDragEnd"
+		cloned="onCloned"}}
+	  {{!-- <h2>Group A</h2> --}}
+  {{#ember-dragula-container}}
+    {{#each goals as |goal|}}
+    	{{media-block/goal
+    		classNames="in-edit"
+    		title=goal.title
+    		date=goal.date}}
+    {{/each}}
+  {{/ember-dragula-container}}
+{{/ember-dragula}}

@@ -25,6 +25,12 @@ AppRouter.map(function() {
       this.route('scoreboard');
       this.route('loading');
     });
+
+    this.route('edit', {
+      path: ':stream_id/edit'
+    }, function() {
+      this.route('scoreboard');
+    });
   });
 
   this.route('loading');
