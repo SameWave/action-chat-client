@@ -39,8 +39,7 @@ export default Controller.extend({
   previousLastReadAt: null,
   unreadCount: 0,
   isObserving: false,
-  isSendButtonVisible: false,
-  isEditingComment: false,
+  isSendButtonVisible: true,
 
   streamMembers: computed('members.[]', 'stream.id', function() {
     return this.get('members').filterBy('stream.id', this.get('stream.id'));
@@ -324,19 +323,16 @@ export default Controller.extend({
       let currentCharacter = String.fromCharCode(currentKeyCode);
       let spaceKeycode = 32;
 
-      if (this.set('isEditingComment')) {
-        this.set('isSendButtonVisible', false);
-      } else {
-        this.set('isSendButtonVisible', true);
-      }
-
       if (this.get('lastCharacterTyped') === spaceKeycode && currentCharacter === '@' || this.get('chatBoxValue') === '' && currentCharacter === '@') {
         this.send('showMentionList');
       } else {
         this.send('hideMentionList');
       }
 
-      this.set('lastCharacterTyped', currentKeyCode);
+      this.setProperties({
+        lastCharacterTyped: currentKeyCode
+      });
+
       this.typingTimer = run.throttle(this, () => {
         this.send('doTyping');
       }, 500);
@@ -369,7 +365,6 @@ export default Controller.extend({
       });
       comment.save().then(() => {
         debug('comment created');
-        this.set('isSendButtonVisible', false);
       });
     },
 
@@ -377,7 +372,8 @@ export default Controller.extend({
       this.setProperties({
         selectedComment: comment,
         isChatModalVisible: true,
-        chatBoxValue: comment.get('body')
+        chatBoxValue: comment.get('body'),
+        isSendButtonVisible: false
       });
       this.$input.focus();
       this.scrollToComment(comment.get('id'));
@@ -400,8 +396,7 @@ export default Controller.extend({
           selectedComment: null,
           chatBoxValue: '',
           isChatModalVisible: false,
-          isSendButtonVisible: false,
-          isEditingComment: false
+          isSendButtonVisible: true
         });
       });
     },
