@@ -19,6 +19,10 @@ export default Controller.extend({
   actions: {
     gotoStreamChat(stream) {
       this.transitionToRoute('stream.index.chat', stream.get('id'));
+    },
+
+    gotoStyleGuide() {
+      this.transitionToRoute('freestyle');
     }
   }
 });
