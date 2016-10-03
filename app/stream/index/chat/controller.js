@@ -395,7 +395,6 @@ export default Controller.extend({
 
     doUpdateComment() {
       this.set('selectedComment.body', this.get('chatBoxValue'));
-      this.set('isSendButtonVisible', false);
       this.get('selectedComment').save().then(() => {
         this.setProperties({
           selectedComment: null,
