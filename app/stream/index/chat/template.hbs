@@ -1,6 +1,6 @@
-{{#if unreadOffScreenCount}}
+{{#if unreadCount}}
   {{unread-notifier
-    unreadCount=unreadOffScreenCount
+    unreadCount=unreadCount
     lastReadAt=sessionMember.lastReadAt
     onTapArrowUp=(action "doNotifierJump")
     onTapBody=(action "doNotifierJump")
@@ -24,8 +24,6 @@
   selectedComment=selectedComment
   updateComment=(action "updateComment")
   deleteComment=(action "deleteComment")
-  doReadComment=(action "doReadComment")
-  doReadComments=(action "doReadComments")
   onNewMarkerView=(action "doNewMarkerViewed")
   click=(action "hideMentionList")
   doEditComment=(action "doEditComment")

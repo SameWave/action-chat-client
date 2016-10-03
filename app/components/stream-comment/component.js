@@ -1,28 +1,31 @@
 import Ember from 'ember';
-import RecognizerMixin from 'ember-gestures/mixins/recognizers';
-import InViewportMixin from 'ember-in-viewport';
+import SwipableListItemMixin from 'action-chat-client/mixins/swipable-list-item'
 
 const {
   Component,
   computed,
+  computed: {
+    not
+  },
   setProperties,
   on
 } = Ember;
 
-export default Component.extend(InViewportMixin, RecognizerMixin, {
+export default Component.extend(SwipableListItemMixin, {
 
   classNames: ['js-stream-comment', 'l-stream-comment', 'l-stream-comment--message'],
-  classNameBindings: ['isEditing', 'isOpen'],
-  recognizers: 'tap swipe',
+  classNameBindings: ['isEditing'],
   comment: null,
   firstUnread: null,
   lastComment: null,
   selectedComment: null,
-  isOpen: false,
+
+  isSwipable: not('isEditing'),
 
   init() {
-    this._super(...arguments);
+    // set elementId first as it's needed in super
     this.set('elementId', `comment-${this.get('comment.id')}`);
+    this._super(...arguments);
   },
 
   isFirstUnread: computed('firstUnread.id', 'comment.id', function() {
@@ -36,45 +39,6 @@ export default Component.extend(InViewportMixin, RecognizerMixin, {
   isEditing: computed('selectedComment.id', 'comment.id', function() {
     return this.get('selectedComment.id') === this.get('comment.id');
   }),
-
-  swipeLeft() {
-    if (!this.get('isEditing')) {
-      this.set('isOpen', true);
-    }
-  },
-
-  swipeRight() {
-    if (!this.get('isEditing')) {
-      this.set('isOpen', false);
-    }
-  },
-
-  viewportOptionsOverride: on('didInsertElement', function() {
-    setProperties(this, {
-      viewportEnabled: true,
-      viewportUseRAF: true,
-      viewportSpy: false,
-      viewportScrollSensitivity: 1,
-      viewportRefreshRate: 150,
-      viewportTolerance: {
-        top: -(65 + 34), // height of header + tab menu
-        bottom: 0,
-        left: 0,
-        right: 0
-      }
-    });
-  }),
-
-  didEnterViewport() {
-    if (this.get('doReadComment')) {
-      this.get('doReadComment')();
-    }
-    if (this.get('isLastComment') && this.get('doReadComments')) {
-      this.get('doReadComments')();
-    }
-  },
-
-  didExitViewport() {},
 
   actions: {
     doEdit() {
