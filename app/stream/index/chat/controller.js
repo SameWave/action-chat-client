@@ -39,6 +39,8 @@ export default Controller.extend({
   previousLastReadAt: null,
   unreadCount: 0,
   isObserving: false,
+  isSendButtonVisible: false,
+  isEditingComment: false,
 
   streamMembers: computed('members.[]', 'stream.id', function() {
     return this.get('members').filterBy('stream.id', this.get('stream.id'));
@@ -279,7 +281,7 @@ export default Controller.extend({
   scrollToComment(commentId) {
 
     let offset = 30;
-    let $comment = this.$comments.find(`#comment-${commentId}`)
+    let $comment = this.$comments.find(`#comment-${commentId}`);
     let newTop = 0;
 
     newTop += this.$comments.scrollTop();
@@ -322,6 +324,12 @@ export default Controller.extend({
       let currentCharacter = String.fromCharCode(currentKeyCode);
       let spaceKeycode = 32;
 
+      if (this.set('isEditingComment')) {
+        this.set('isSendButtonVisible', false);
+      } else {
+        this.set('isSendButtonVisible', true);
+      }
+
       if (this.get('lastCharacterTyped') === spaceKeycode && currentCharacter === '@' || this.get('chatBoxValue') === '' && currentCharacter === '@') {
         this.send('showMentionList');
       } else {
@@ -361,6 +369,7 @@ export default Controller.extend({
       });
       comment.save().then(() => {
         debug('comment created');
+        this.set('isSendButtonVisible', false);
       });
     },
 
@@ -386,15 +395,19 @@ export default Controller.extend({
 
     doUpdateComment() {
       this.set('selectedComment.body', this.get('chatBoxValue'));
+      this.set('isSendButtonVisible', false);
       this.get('selectedComment').save().then(() => {
         this.setProperties({
           selectedComment: null,
           chatBoxValue: '',
-          isChatModalVisible: false
+          isChatModalVisible: false,
+          isSendButtonVisible: false,
+          isEditingComment: false
         });
       });
     },
 
+    // TODO: Review this as it looks like a duplicate
     updateComment(comment) {
       comment.save().then(() => {
         debug('comment updated');
