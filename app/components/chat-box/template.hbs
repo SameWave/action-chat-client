@@ -12,6 +12,8 @@
 	}}
 </section>
 
-<button class="c-chat-box_btn-send" {{action (action "doComment")}}>
- Send
-</button>
+{{#if isSendButtonVisible}}
+	<button class="c-chat-box_btn-send" {{action (action "doComment")}}>
+	 Send
+	</button>
+{{/if}}

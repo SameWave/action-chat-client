@@ -10,6 +10,7 @@ export default Component.extend({
   classNames: ['c-chat-box'],
 
   value: '',
+  isSendButtonVisible: false,
   $input: null,
 
   didRender() {

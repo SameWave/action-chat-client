@@ -9,12 +9,12 @@
 }
 
 .a-rotate {
-	animation: rotate $speed-normal infinite;
+  animation: rotate $speed-normal infinite;
 }
 
 @keyframes fade-in {
-  from {opacity: 0;}
-  to {opacity: 1;}
+  0% { opacity: 0; }
+  100% { opacity: 1; }
 }
 
 .a-fade-in {
@@ -22,19 +22,19 @@
 }
 
 @keyframes fade-out {
-	0% {
-		opacity: 1;
-	}
+  0% {
+    opacity: 1;
+  }
 
-	99% {
-		opacity: 0;
-	}
+  99% {
+    opacity: 0;
+  }
 
-	100% {
-		opacity: 0;
-		visibility: hidden;
-		display: none;
-	}
+  100% {
+    opacity: 0;
+    visibility: hidden;
+    display: none;
+  }
 }
 
 .a-fade-out {
@@ -42,13 +42,18 @@
 }
 
 @keyframes media-block-drag-mirror {
-	0% {
-		opacity: 1;
-		transform: scale(1);
-	}
+  0% {
+    opacity: 1;
+    transform: scale(1);
+  }
 
-	100% {
-		opacity: .75;
-		transform: scale(1.1);
-	}	
+  100% {
+    opacity: 0.75;
+    transform: scale(1.1);
+  }
+}
+
+@keyframes grow-in--horizontal {
+  0% { width: 0; }
+  100% { width: 100%; }
 }

@@ -39,6 +39,7 @@ export default Controller.extend({
   previousLastReadAt: null,
   unreadCount: 0,
   isObserving: false,
+  isSendButtonVisible: true,
 
   streamMembers: computed('members.[]', 'stream.id', function() {
     return this.get('members').filterBy('stream.id', this.get('stream.id'));
@@ -279,7 +280,7 @@ export default Controller.extend({
   scrollToComment(commentId) {
 
     let offset = 30;
-    let $comment = this.$comments.find(`#comment-${commentId}`)
+    let $comment = this.$comments.find(`#comment-${commentId}`);
     let newTop = 0;
 
     newTop += this.$comments.scrollTop();
@@ -328,7 +329,10 @@ export default Controller.extend({
         this.send('hideMentionList');
       }
 
-      this.set('lastCharacterTyped', currentKeyCode);
+      this.setProperties({
+        lastCharacterTyped: currentKeyCode
+      });
+
       this.typingTimer = run.throttle(this, () => {
         this.send('doTyping');
       }, 500);
@@ -368,7 +372,8 @@ export default Controller.extend({
       this.setProperties({
         selectedComment: comment,
         isChatModalVisible: true,
-        chatBoxValue: comment.get('body')
+        chatBoxValue: comment.get('body'),
+        isSendButtonVisible: false
       });
       this.$input.focus();
       this.scrollToComment(comment.get('id'));
@@ -390,11 +395,13 @@ export default Controller.extend({
         this.setProperties({
           selectedComment: null,
           chatBoxValue: '',
-          isChatModalVisible: false
+          isChatModalVisible: false,
+          isSendButtonVisible: true
         });
       });
     },
 
+    // TODO: Review this as it looks like a duplicate
     updateComment(comment) {
       comment.save().then(() => {
         debug('comment updated');
