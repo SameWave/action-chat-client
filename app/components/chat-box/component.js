@@ -26,9 +26,9 @@ export default Component.extend({
   actions: {
     onTap() {
       // Trigger blur then focus after delay so that cursor appears inside input
-      run.later(this, () => {
-        this.$input.blur().focus();
-      }, 420);
+      // run.later(this, () => {
+      //   this.$input.blur().focus();
+      // }, 420);
     },
 
     doComment() {

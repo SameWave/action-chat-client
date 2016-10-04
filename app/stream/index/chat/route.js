@@ -78,7 +78,6 @@ export default Route.extend(AuthenticatedRouteMixin, {
         isMentionListVisible: false,
         isChatModalVisible: false,
         typingTimer: null,
-        lastCharacterTyped: '',
         chatBoxValue: '',
         loadingTimer: null,
         selectedComment: null,

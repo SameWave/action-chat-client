@@ -11,8 +11,12 @@ export default TextArea.extend({
 
   value: '',
 
-  resetSize: observer('value', function() {
+  valueObserver: observer('value', function() {
     this._resize();
+
+    if (this.get('onChange')) {
+      this.get('onChange')(this.get('value'));
+    }
   }),
 
   _resize() {

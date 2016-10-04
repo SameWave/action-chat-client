@@ -22,7 +22,7 @@ const {
 
 const NUDGE_OFFSET_PX = 60; // Pixels for determining nudge vs scroll for new comment
 const NUDGE_PX = 24; // Pixels for distance to nudge
-const COMMENT_LOAD_SIZE = 10;
+const COMMENT_LOAD_SIZE = 50;
 
 export {
   COMMENT_LOAD_SIZE
@@ -61,7 +61,6 @@ export default Controller.extend({
 
   isMentionListVisible: false,
   typingTimer: null,
-  lastCharacterTyped: '',
   chatBoxValue: '',
   loadingTimer: null,
   selectedComment: null,
@@ -138,8 +137,8 @@ export default Controller.extend({
   },
 
   onCommentsScroll() {
-    if (!this.get('isShowingAllComments') && this.isNearTop()) {
-      this.loadingTimer = run.debounce(this, this.loadEarlier, 2000, true);
+    if (!this.get('isShowingAllComments') && this.isNearTop() && !this.get('isLoadingEarlier')) {
+      this.loadingTimer = run.debounce(this, this.loadEarlier, 1000, true);
     }
   },
 
@@ -169,11 +168,11 @@ export default Controller.extend({
     let _this = this;
 
     window.addEventListener('native.keyboardshow', function(e) {
-      _this.showKeyboard(e.keyboardHeight);
+      // _this.showKeyboard(e.keyboardHeight);
     });
 
     window.addEventListener('native.keyboardhide', function(e) {
-      _this.hideKeyboard(e.keyboardHeight);
+      // _this.hideKeyboard(e.keyboardHeight);
     });
   },
 
@@ -318,28 +317,16 @@ export default Controller.extend({
       this.setLastReadAt();
     },
 
-    doChatBoxKeyPress(e) {
-      let currentKeyCode = e.which;
-      let currentCharacter = String.fromCharCode(currentKeyCode);
-      let spaceKeycode = 32;
-
-      if (this.get('lastCharacterTyped') === spaceKeycode && currentCharacter === '@' || this.get('chatBoxValue') === '' && currentCharacter === '@') {
-        this.send('showMentionList');
+    doValueChange(value) {
+      if (value && value[value.length - 1] === '@') {
+        this.set('isMentionListVisible', true);
+      } else if (value) {
+        this.typingTimer = run.throttle(this, () => {
+          this.send('doTyping');
+        }, 500);
       } else {
-        this.send('hideMentionList');
+        this.set('isMentionListVisible', false);
       }
-
-      this.setProperties({
-        lastCharacterTyped: currentKeyCode
-      });
-
-      this.typingTimer = run.throttle(this, () => {
-        this.send('doTyping');
-      }, 500);
-    },
-
-    showMentionList() {
-      this.set('isMentionListVisible', true);
     },
 
     hideMentionList() {
