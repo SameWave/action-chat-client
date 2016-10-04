@@ -117,7 +117,7 @@ export default Controller.extend(SwipableListMixin, {
       console.log('Goto stream edit scoreboard');
     },
 
-    deletGoal(goal) {
+    deleteGoal(goal) {
       console.log('goal.destroyRecord()');
     }
   }
