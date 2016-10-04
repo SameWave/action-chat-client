@@ -28,26 +28,27 @@
   click=(action "hideMentionList")
   doEditComment=(action "doEditComment")
 }} --}}
-
-{{#vertical-collection
-  debug=false
-  scrollPosition=9999
-  tagName='vertical-collection'
-  itemTagName='vertical-item'
-  content=sortedComments
-  alwaysUseDefaultHeight=false
-  lastReached="loadBelow"
-  as |comment index|
-  }}
-
-    {{stream-comment
-      comment=comment
-      item=comment
-      itemTagName='vertical-item'
+<div class="l-comment-list-container">
+  {{#vertical-collection
+    debug=false
+    scrollPosition=9999
+    tagName='vertical-collection'
+    itemTagName='vertical-item'
+    content=sortedComments
+    alwaysUseDefaultHeight=false
+    lastReached="loadBelow"
+    as |comment index|
     }}
-{{/vertical-collection}}
 
-{{!-- {{#if sessionMember}}
+      {{stream-comment
+        comment=comment
+        item=comment
+        itemTagName='vertical-item'
+      }}
+  {{/vertical-collection}}
+</div>
+
+{{#if sessionMember}}
   <div class="c-footer js-chat-box">
     <section class="u-position-relative">
       {{#if isMentionListVisible}}
@@ -71,13 +72,12 @@
           </button>
         </div>
       {{/if}}
+      {{chat-box
+        value=chatBoxValue
+        isSendButtonVisible=isSendButtonVisible
+        onComment=(action "createComment")
+        onKeyPress=(action "doChatBoxKeyPress")
+      }}
     </section>
-
-    {{chat-box
-      value=chatBoxValue
-      isSendButtonVisible=isSendButtonVisible
-      onComment=(action "createComment")
-      onKeyPress=(action "doChatBoxKeyPress")
-    }}
   </div>
-{{/if}} --}}
+{{/if}}
