@@ -59,6 +59,7 @@
     "eslint-plugin-ember-suave": "^0.1.2",
     "liquid-fire": "0.26.1",
     "loader.js": "^4.0.1",
+    "smoke-and-mirrors": "0.6.0",
     "stylelint-config-idiomatic-order": "^2.0.0",
     "stylelint-config-standard": "^13.0.2",
     "stylelint-selector-bem-pattern": "^1.0.0"
