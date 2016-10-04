@@ -14,7 +14,7 @@
   </div>
 {{/if}}
 
-{{comments-section
+{{!-- {{comments-section
   classNames="js-comments-section"
   comments=sortedComments
   firstUnread=firstUnread
@@ -27,9 +27,27 @@
   onNewMarkerView=(action "doNewMarkerViewed")
   click=(action "hideMentionList")
   doEditComment=(action "doEditComment")
-}}
+}} --}}
 
-{{#if sessionMember}}
+{{#vertical-collection
+  debug=false
+  scrollPosition=9999
+  tagName='vertical-collection'
+  itemTagName='vertical-item'
+  content=sortedComments
+  alwaysUseDefaultHeight=false
+  lastReached="loadBelow"
+  as |comment index|
+  }}
+
+    {{stream-comment
+      comment=comment
+      item=comment
+      itemTagName='vertical-item'
+    }}
+{{/vertical-collection}}
+
+{{!-- {{#if sessionMember}}
   <div class="c-footer js-chat-box">
     <section class="u-position-relative">
       {{#if isMentionListVisible}}
@@ -62,4 +80,4 @@
       onKeyPress=(action "doChatBoxKeyPress")
     }}
   </div>
-{{/if}}
+{{/if}} --}}
