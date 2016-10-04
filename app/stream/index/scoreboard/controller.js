@@ -114,7 +114,7 @@ export default Controller.extend(SwipableListMixin, {
     },
 
     goToStreamEditScoreboard() {
-      this.transitionToRoute('stream.edit.scoreboard', this.model.stream.id);
+      console.log('Goto stream edit scoreboard');
     },
 
     deletGoal(goal) {
