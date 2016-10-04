@@ -1,5 +1,6 @@
 .c-avatar-image {
   display: flex;
+  position: relative;
   width: 42px;
   height: 42px;
   align-items: center;
@@ -7,9 +8,21 @@
   border: 1px solid map-get($grey, 'base');
   border-radius: 100%;
   background: map-get($grey, 'darken-1');
+  box-shadow: inset 0 0 0 1px rgba(map-get($shades, 'white'), 1);
 
   // Modifiers
   &--small {
+    @extend .c-avatar-image;
+    width: 20px;
+    height: 20px;
+    border-width: 1px;
+  }
+
+  &--medium {
+    border-width: 3px;
+  }
+
+  &--large {
     @extend .c-avatar-image;
     width: 20px;
     height: 20px;
