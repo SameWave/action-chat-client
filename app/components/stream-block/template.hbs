@@ -1,0 +1,49 @@
+<div class="c-media-block_front">
+  <section class="c-media-block_first-section">
+    {{avatar-image}}
+  </section>
+
+  <section class="c-media-block_second-section">
+    <div class="c-media-block_main-content">
+       <p class="c-media-block_title">{{title}}</p>
+    </div>
+
+    <div class="c-media-block_meta-content">
+      <p class="c-media-block_meta">{{members}}</p>
+    </div>
+
+    <div class="c-media-block_body-content">
+      {{#if stream.lastComment}}
+        <p class="c-media-block_body-text">{{body}}</p>
+      {{/if}}
+    </div>
+  </section>
+
+  <section class="c-media-block_last-section">
+    <p class="c-media-block_meta">
+       {{friendly-date date=date isLocal=true}}
+    </p>
+  </section>
+</div>
+
+<div class="c-media-block_back">
+  <section class="c-option-block">
+    {{inline-svg 'images/icons/icon-reply' class="c-option-block_icon"}}
+    <p class="c-option-block_title">reply</p>
+  </section>
+
+  <section class="c-option-block">
+      {{inline-svg 'images/icons/icon-reply' class="c-option-block_icon"}}
+      <p class="c-option-block_title">scores</p>
+  </section>
+
+  <section class="c-option-block">
+    {{inline-svg 'images/icons/icon-reply' class="c-option-block_icon"}}
+    <p class="c-option-block_title">Files</p>
+  </section>
+
+  <section class="c-option-block">
+    {{inline-svg 'images/icons/icon-reply' class="c-option-block_icon"}}
+    <p class="c-option-block_title">Settings</p>
+  </section>
+</div>
