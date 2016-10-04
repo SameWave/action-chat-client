@@ -1,0 +1,35 @@
+.c-tool-bar {
+  display: flex;
+  height: 36px;
+  align-items: center;
+  justify-content: space-between;
+  background: map-get($grey, 'base');
+  fill: map-get($blue, 'base');
+  color: map-get($blue, 'base');
+
+  %section {
+    flex: 1 1 auto;
+  }
+
+  &_first-section {
+    @extend %section;
+    padding-left: 10px;
+  }
+
+  &_second-section {
+    @extend %section;
+    text-align: center;
+  }
+
+  &_last-section {
+    @extend %section;
+    text-align: right;
+    padding-right: 10px;
+  }
+
+  // Elements
+  &_icon {
+    width: 15px;
+    height: 15px;
+  }
+}

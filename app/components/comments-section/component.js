@@ -1,5 +1,5 @@
 import Ember from 'ember';
-import SwipableListMixin from 'action-chat-client/mixins/swipable-list'
+import SwipableListMixin from 'action-chat-client/mixins/swipable-list';
 
 const {
   Component,

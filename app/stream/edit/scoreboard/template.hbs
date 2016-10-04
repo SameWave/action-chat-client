@@ -1,3 +1,5 @@
+{{tool-bar}}
+
 {{#ember-dragula
 	config=dragulaconfig
 		drag="onDrag"
@@ -7,7 +9,7 @@
   {{#ember-dragula-container}}
     {{#each goals as |goal|}}
     	{{media-block/goal
-    		classNames="in-edit"
+    		classNames="in-edit js-list-item"
     		title=goal.title
     		date=goal.date}}
     {{/each}}

@@ -1,4 +1,5 @@
 import Ember from 'ember';
+import SwipableListMixin from 'action-chat-client/mixins/swipable-list';
 
 const {
   Controller,
@@ -10,7 +11,7 @@ const {
   A
 } = Ember;
 
-export default Controller.extend({
+export default Controller.extend(SwipableListMixin, {
   session: service(),
 
   sortFinishText: null,
@@ -109,6 +110,10 @@ export default Controller.extend({
       this.cloneElement = $(clone);
       this.cloneElement.on('ondrag', run.bind(this, this.onCloneDrag));
       return false;
+    },
+
+    goToStreamEditScoreboard() {
+      this.transitionToRoute('stream.edit.scoreboard', this.model.stream.id);
     }
   }
 });
