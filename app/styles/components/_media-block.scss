@@ -46,6 +46,10 @@
       transform: translateX(-80%);
     }
 
+    @at-root .c-media-block.is-open--one .c-media-block_front {
+      transform: translateX(-20%);
+    }
+
     @at-root .c-media-block.gu-mirror .c-media-block_front {
       background: map-get($grey, 'lighten-5');
     }

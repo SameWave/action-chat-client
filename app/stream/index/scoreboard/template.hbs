@@ -1,14 +1,17 @@
+{{tool-bar
+  onEdit=(action "goToStreamEditScoreboard")}}
+
 {{#ember-dragula
 	config=dragulaconfig
 		drag="onDrag"
 		dragend="onDragEnd"
 		cloned="onCloned"}}
 	  {{!-- <h2>Group A</h2> --}}
-  {{#ember-dragula-container}}
+  {{#sw-ember-dragula}}
     {{#each goals as |goal|}}
     	{{goal-block
     		goal=goal
     	}}
     {{/each}}
-  {{/ember-dragula-container}}
+  {{/sw-ember-dragula}}
 {{/ember-dragula}}
