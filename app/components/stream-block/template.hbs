@@ -1,0 +1,50 @@
+<div class="c-media-block_front">
+  <section class="c-media-block_first-section">
+    {{avatar-image
+      isMedium=true}}
+  </section>
+
+  <section class="c-media-block_second-section">
+    <div class="c-media-block_main-content">
+       <p class="c-media-block_title">{{stream.title}} {{unreadCount}}</p>
+    </div>
+
+    <div class="c-media-block_meta-content">
+      <p class="c-media-block_meta">{{memberNames}}</p>
+    </div>
+
+    <div class="c-media-block_body-content">
+      {{#if stream.lastComment}}
+        <p class="c-media-block_body-text">{{stream.lastComment.body}}</p>
+      {{/if}}
+    </div>
+  </section>
+
+  <section class="c-media-block_last-section">
+    <p class="c-media-block_meta">
+       {{friendly-date date=stream.lastCommentedAt isLocal=true}}
+    </p>
+  </section>
+</div>
+
+<div class="c-media-block_back">
+  <section class="c-option-block">
+    {{inline-svg 'images/icons/icon-reply' class="c-option-block_icon"}}
+    <p class="c-option-block_title">reply</p>
+  </section>
+
+  <section class="c-option-block">
+      {{inline-svg 'images/icons/icon-reply' class="c-option-block_icon"}}
+      <p class="c-option-block_title">scores</p>
+  </section>
+
+  <section class="c-option-block">
+    {{inline-svg 'images/icons/icon-reply' class="c-option-block_icon"}}
+    <p class="c-option-block_title">Files</p>
+  </section>
+
+  <section class="c-option-block">
+    {{inline-svg 'images/icons/icon-reply' class="c-option-block_icon"}}
+    <p class="c-option-block_title">Settings</p>
+  </section>
+</div>

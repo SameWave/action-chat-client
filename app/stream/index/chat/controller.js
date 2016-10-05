@@ -61,10 +61,9 @@ export default Controller.extend({
 
   isMentionListVisible: false,
   typingTimer: null,
-  lastCharacterTyped: '',
   chatBoxValue: '',
   loadingTimer: null,
-  selectedComment: null,
+  editingComment: null,
   firstUnread: null,
 
   $comments: null,
@@ -91,9 +90,6 @@ export default Controller.extend({
       this.setLastReadAt();
     }
 
-    if (window.Keyboard) {
-      // window.Keyboard.shrinkView(true);
-    }
     if (window.cordova && window.cordova.plugins.Keyboard) {
       this.setupKeyboardEvents();
     }
@@ -138,13 +134,13 @@ export default Controller.extend({
   },
 
   onCommentsScroll() {
-    console.log('onCommentsScroll');
-    if (!this.get('isShowingAllComments') && this.isNearTop()) {
-      this.loadingTimer = run.debounce(this, this.loadEarlier, 2000, true);
+    if (!this.get('isShowingAllComments') && this.isNearTop() && !this.get('isLoadingEarlier')) {
+      this.loadingTimer = run.debounce(this, this.loadEarlier, 1000, true);
     }
   },
 
   loadEarlier(count = COMMENT_LOAD_SIZE, callback) {
+
     this.setProperties({
       isLoadingEarlier: true,
       previousTop: this.$comments.get(0).scrollHeight + this.$comments.scrollTop()
@@ -319,28 +315,16 @@ export default Controller.extend({
       this.setLastReadAt();
     },
 
-    doChatBoxKeyPress(e) {
-      let currentKeyCode = e.which;
-      let currentCharacter = String.fromCharCode(currentKeyCode);
-      let spaceKeycode = 32;
-
-      if (this.get('lastCharacterTyped') === spaceKeycode && currentCharacter === '@' || this.get('chatBoxValue') === '' && currentCharacter === '@') {
-        this.send('showMentionList');
+    doValueChange(value) {
+      if (value && value[value.length - 1] === '@') {
+        this.set('isMentionListVisible', true);
+      } else if (value) {
+        this.typingTimer = run.throttle(this, () => {
+          this.send('doTyping');
+        }, 500);
       } else {
-        this.send('hideMentionList');
+        this.set('isMentionListVisible', false);
       }
-
-      this.setProperties({
-        lastCharacterTyped: currentKeyCode
-      });
-
-      this.typingTimer = run.throttle(this, () => {
-        this.send('doTyping');
-      }, 500);
-    },
-
-    showMentionList() {
-      this.set('isMentionListVisible', true);
     },
 
     hideMentionList() {
@@ -371,7 +355,7 @@ export default Controller.extend({
 
     doEditComment(comment) {
       this.setProperties({
-        selectedComment: comment,
+        editingComment: comment,
         isChatModalVisible: true,
         chatBoxValue: comment.get('body'),
         isSendButtonVisible: false
@@ -383,7 +367,7 @@ export default Controller.extend({
 
     doCancelUpdateComment() {
       this.setProperties({
-        selectedComment: null,
+        editingComment: null,
         chatBoxValue: '',
         isChatModalVisible: false
       });
@@ -391,10 +375,10 @@ export default Controller.extend({
     },
 
     doUpdateComment() {
-      this.set('selectedComment.body', this.get('chatBoxValue'));
-      this.get('selectedComment').save().then(() => {
+      this.set('editingComment.body', this.get('chatBoxValue'));
+      this.get('editingComment').save().then(() => {
         this.setProperties({
-          selectedComment: null,
+          editingComment: null,
           chatBoxValue: '',
           isChatModalVisible: false,
           isSendButtonVisible: true

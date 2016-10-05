@@ -47,7 +47,7 @@
         {{#freestyle-variant collection=collection key="standard"}}
           {{#freestyle-usage "media-block-base" title="Base media block"}}
             <div class="freestyle-container">
-              {{media-block
+              {{stream-block
                 title="Media block title"
                 date=date
               }}
@@ -62,7 +62,7 @@
         {{#freestyle-variant collection=collection key="open"}}
           {{#freestyle-usage "media-block-base--open" title="When Open"}}
             <div class="freestyle-container">
-              {{media-block
+              {{stream-block
                 title="Media block title"
                 date=date
                 classNames="is-open"
@@ -79,7 +79,7 @@
       {{/freestyle-collection}}
 
       {{#freestyle-usage "media-block-goal" title="Goal media block"}}
-        {{media-block/goal
+        {{goal-block
           title="Media block title"
         }}
       {{/freestyle-usage}}

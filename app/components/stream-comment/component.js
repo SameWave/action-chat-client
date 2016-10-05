@@ -1,14 +1,12 @@
 import Ember from 'ember';
-import SwipableListItemMixin from 'action-chat-client/mixins/swipable-list-item'
+import SwipableListItemMixin from 'action-chat-client/mixins/swipable-list-item';
 
 const {
   Component,
   computed,
   computed: {
     not
-  },
-  setProperties,
-  on
+  }
 } = Ember;
 
 export default Component.extend(SwipableListItemMixin, {
@@ -18,7 +16,7 @@ export default Component.extend(SwipableListItemMixin, {
   comment: null,
   firstUnread: null,
   lastComment: null,
-  selectedComment: null,
+  editingComment: null,
 
   isSwipable: not('isEditing'),
 
@@ -36,8 +34,8 @@ export default Component.extend(SwipableListItemMixin, {
     return this.get('lastComment.id') === this.get('comment.id');
   }),
 
-  isEditing: computed('selectedComment.id', 'comment.id', function() {
-    return this.get('selectedComment.id') === this.get('comment.id');
+  isEditing: computed('editingComment.id', 'comment.id', function() {
+    return this.get('editingComment.id') === this.get('comment.id');
   }),
 
   actions: {
@@ -51,18 +49,6 @@ export default Component.extend(SwipableListItemMixin, {
 
     doCancel() {
       this.get('comment').rollbackAttributes();
-    },
-
-    doUpdate() {
-      if (this.get('updateComment')) {
-        this.get('updateComment')(this.get('comment'));
-      }
-    },
-
-    doDelete() {
-      if (this.get('deleteComment')) {
-        this.get('deleteComment')(this.get('comment'));
-      }
     }
   }
 });
