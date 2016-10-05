@@ -10,6 +10,7 @@ export default Mixin.create(RecognizerMixin, {
   recognizers: 'tap swipe',
 
   items: {},
+  previousItem: null,
   currentItem: null,
 
   _getItemFromEvent(event) {
@@ -18,8 +19,12 @@ export default Mixin.create(RecognizerMixin, {
   },
 
   swipeLeft(event) {
-
+    this.previousItem = this.currentItem;
     this.currentItem = this._getItemFromEvent(event);
+
+    if (this.previousItem) {
+      this.previousItem.doSwipeRight(event);
+    }
 
     if (this.currentItem) {
       this.currentItem.doSwipeLeft(event);

@@ -3,7 +3,8 @@ import SwipableListMixin from 'action-chat-client/mixins/swipable-list';
 
 const {
   Component,
-  isEmpty
+  isEmpty,
+  $
 } = Ember;
 
 export default Component.extend(SwipableListMixin, {
