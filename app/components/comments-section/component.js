@@ -9,10 +9,10 @@ const {
 
 export default Component.extend(SwipableListMixin, {
   classNames: ['js-comments-section', 'c-comments-section'],
-  selectedComment: null,
+  editingComment: null,
 
   tap() {
-    if (isEmpty(this.get('selectedComment'))) {
+    if (isEmpty(this.get('editingComment'))) {
       $('#chat-area').blur();
     }
   }

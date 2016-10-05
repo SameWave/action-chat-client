@@ -8,19 +8,17 @@ const {
 } = Ember;
 
 export default Component.extend(InViewportMixin, {
-  // @mo TODO: add CSS for the has-fade-out class (or similar)
   classNameBindings: [':c-message-marker', 'isViewed:has-fade-out'],
-  attributeBindings: ['style'],
 
   isViewed: false,
 
-  viewportOptionsOverride: on('didInsertElement', function() {
-    setProperties(this, {
+  didInsertElement() {
+    this.setProperties({
       viewportEnabled: true,
       viewportUseRAF: true,
       viewportSpy: false,
       viewportScrollSensitivity: 1,
-      viewportRefreshRate: 150,
+      viewportRefreshRate: 100,
       viewportTolerance: {
         top: -(65 + 34), // height of header + tab menu
         bottom: 0,
@@ -28,7 +26,7 @@ export default Component.extend(InViewportMixin, {
         right: 0
       }
     });
-  }),
+  },
 
   didEnterViewport() {
     if (!this.get('isViewed')) {

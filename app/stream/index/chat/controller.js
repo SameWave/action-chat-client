@@ -63,7 +63,7 @@ export default Controller.extend({
   typingTimer: null,
   chatBoxValue: '',
   loadingTimer: null,
-  selectedComment: null,
+  editingComment: null,
   firstUnread: null,
 
   $comments: null,
@@ -90,9 +90,6 @@ export default Controller.extend({
       this.setLastReadAt();
     }
 
-    if (window.Keyboard) {
-      // window.Keyboard.shrinkView(true);
-    }
     if (window.cordova && window.cordova.plugins.Keyboard) {
       this.setupKeyboardEvents();
     }
@@ -143,6 +140,7 @@ export default Controller.extend({
   },
 
   loadEarlier(count = COMMENT_LOAD_SIZE, callback) {
+
     this.setProperties({
       isLoadingEarlier: true,
       previousTop: this.$comments.get(0).scrollHeight + this.$comments.scrollTop()
@@ -357,7 +355,7 @@ export default Controller.extend({
 
     doEditComment(comment) {
       this.setProperties({
-        selectedComment: comment,
+        editingComment: comment,
         isChatModalVisible: true,
         chatBoxValue: comment.get('body'),
         isSendButtonVisible: false
@@ -369,7 +367,7 @@ export default Controller.extend({
 
     doCancelUpdateComment() {
       this.setProperties({
-        selectedComment: null,
+        editingComment: null,
         chatBoxValue: '',
         isChatModalVisible: false
       });
@@ -377,10 +375,10 @@ export default Controller.extend({
     },
 
     doUpdateComment() {
-      this.set('selectedComment.body', this.get('chatBoxValue'));
-      this.get('selectedComment').save().then(() => {
+      this.set('editingComment.body', this.get('chatBoxValue'));
+      this.get('editingComment').save().then(() => {
         this.setProperties({
-          selectedComment: null,
+          editingComment: null,
           chatBoxValue: '',
           isChatModalVisible: false,
           isSendButtonVisible: true

@@ -15,7 +15,7 @@
 {{/if}}
 
 {{#comments-section
-  selectedComment=selectedComment
+  editingComment=editingComment
   click=(action "hideMentionList")
 }}
   {{#each sortedComments as |comment|}}
@@ -23,7 +23,7 @@
       comment=comment
       firstUnread=firstUnread
       lastComment=sortedComments.lastObject
-      selectedComment=selectedComment
+      editingComment=editingComment
       onEdit=(action "doEditComment")
       onNewMarkerView=(action "doNewMarkerViewed")
       updateComment=(action "updateComment" comment)

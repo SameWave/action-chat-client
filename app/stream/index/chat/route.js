@@ -80,7 +80,7 @@ export default Route.extend(AuthenticatedRouteMixin, {
         typingTimer: null,
         chatBoxValue: '',
         loadingTimer: null,
-        selectedComment: null,
+        editingComment: null,
         firstUnread: null,
         $comments: null,
         $chatBox: null,
