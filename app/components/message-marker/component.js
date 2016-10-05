@@ -13,6 +13,7 @@ export default Component.extend(InViewportMixin, {
   isViewed: false,
 
   didInsertElement() {
+    this._super(...arguments);
     this.setProperties({
       viewportEnabled: true,
       viewportUseRAF: true,
