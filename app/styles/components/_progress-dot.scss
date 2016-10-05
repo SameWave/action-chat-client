@@ -1,0 +1,6 @@
+.c-progress-dot {
+  width: 10px;
+  height: 10px;
+  background: map-get($grey, 'base');
+  border-radius: 100%;
+}

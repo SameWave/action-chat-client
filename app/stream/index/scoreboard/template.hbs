@@ -6,10 +6,9 @@
 	  {{!-- <h2>Group A</h2> --}}
   {{#ember-dragula-container}}
     {{#each goals as |goal|}}
-    	{{media-block/goal
-    		classNames="in-edit"
-    		title=goal.title
-    		date=goal.date}}
+    	{{goal-block
+    		goal=goal
+    	}}
     {{/each}}
   {{/ember-dragula-container}}
 {{/ember-dragula}}
