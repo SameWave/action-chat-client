@@ -17,7 +17,6 @@ const {
 export default Route.extend(AuthenticatedRouteMixin, {
 
   session: service(),
-  cable: service(),
   sessionPerson: alias('session.person'),
 
   model() {
