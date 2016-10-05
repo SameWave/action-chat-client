@@ -51,18 +51,6 @@ export default Component.extend(SwipableListItemMixin, {
 
     doCancel() {
       this.get('comment').rollbackAttributes();
-    },
-
-    doUpdate() {
-      if (this.get('updateComment')) {
-        this.get('updateComment')(this.get('comment'));
-      }
-    },
-
-    doDelete() {
-      if (this.get('deleteComment')) {
-        this.get('deleteComment')(this.get('comment'));
-      }
     }
   }
 });

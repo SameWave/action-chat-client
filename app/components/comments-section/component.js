@@ -8,10 +8,7 @@ const {
 } = Ember;
 
 export default Component.extend(SwipableListMixin, {
-  classNames: ['c-comments-section'],
-  sessionMember: null,
-  comments: [],
-  firstUnread: null,
+  classNames: ['js-comments-section', 'c-comments-section'],
   selectedComment: null,
 
   tap() {
