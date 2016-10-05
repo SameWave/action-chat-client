@@ -168,11 +168,11 @@ export default Controller.extend({
     let _this = this;
 
     window.addEventListener('native.keyboardshow', function(e) {
-      // _this.showKeyboard(e.keyboardHeight);
+      _this.showKeyboard(e.keyboardHeight);
     });
 
     window.addEventListener('native.keyboardhide', function(e) {
-      // _this.hideKeyboard(e.keyboardHeight);
+      _this.hideKeyboard(e.keyboardHeight);
     });
   },
 
