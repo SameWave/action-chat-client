@@ -14,6 +14,23 @@
   fill: map-get($blue, 'base');
   color: map-get($blue, 'base');
 
+  &--one {
+    flex: 0 0 calc(100%);
+  }
+
+  // Modifier
+  &--red {
+    @extend .c-option-block;
+    text: map-get($red, 'base');
+    fill: map-get($red, 'base');
+  }
+
+  // Elements
+  &_icon {
+    width: 20px;
+    height: 20px;
+  }
+
   // Modifier
   &--red {
     @extend .c-option-block;
