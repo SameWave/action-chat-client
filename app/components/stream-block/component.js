@@ -4,9 +4,6 @@ import SwipableListItemMixin from 'action-chat-client/mixins/swipable-list-item'
 const {
   Component,
   computed,
-  computed: {
-    alias
-  },
   inject: {
     service
   }
