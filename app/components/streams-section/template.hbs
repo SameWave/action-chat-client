@@ -1,13 +1,6 @@
 {{#each streams as |stream|}}
-  {{#media-block
-    title=stream.title
-    body=stream.lastComment.body
-    date=stream.lastCommentedAt
-    lastCommentedAt=stream.lastComment
+  {{stream-block
+    stream=stream
     tap=(action onItemTap stream)
   }}
-    {{#if stream.lastComment}}
-     {{stream.lastComment.body}}
-   {{/if}}
-  {{/media-block}}
 {{/each}}

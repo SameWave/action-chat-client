@@ -10,7 +10,8 @@ const {
   run,
   computed: {
     alias
-  }
+  },
+  isEmpty
 } = Ember;
 
 export default Route.extend(AuthenticatedRouteMixin, {
@@ -39,10 +40,21 @@ export default Route.extend(AuthenticatedRouteMixin, {
 
     let streamMembers = members.filterBy('stream.id', stream.get('id'));
     let sessionMember = streamMembers.findBy('person.id', this.get('sessionPerson.id'));
+
+    let previousLastReadAt, unreadCount;
+
+    if (isEmpty(sessionMember)) {
+      previousLastReadAt = Date();
+      unreadCount = 0;
+    } else {
+      previousLastReadAt = sessionMember.get('lastReadAt');
+      unreadCount = sessionMember.get('unreadCount');
+    }
+
     controller.setProperties({
       totalCommentCount: stream.get('commentCount'),
-      previousLastReadAt: sessionMember.get('lastReadAt'),
-      unreadCount: sessionMember.get('unreadCount'),
+      previousLastReadAt: previousLastReadAt,
+      unreadCount: unreadCount,
       comments,
       members,
       stream
@@ -66,7 +78,6 @@ export default Route.extend(AuthenticatedRouteMixin, {
         isMentionListVisible: false,
         isChatModalVisible: false,
         typingTimer: null,
-        lastCharacterTyped: '',
         chatBoxValue: '',
         loadingTimer: null,
         selectedComment: null,

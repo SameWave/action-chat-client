@@ -2,13 +2,14 @@ import Ember from 'ember';
 import SwipableListItemMixin from 'action-chat-client/mixins/swipable-list-item';
 
 const {
-  Component
+	Component
 } = Ember;
 
 export default Component.extend(SwipableListItemMixin, {
-  classNames: ['c-media-block'],
+  classNames: ['c-media-block--goal'],
 
-  title: '',
-  date: '',
-  body: ''
+  goal: null,
+  value: 0,
+  goalTotal: 100,
+  colour: 'green'
 });

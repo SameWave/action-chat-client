@@ -1,0 +1,33 @@
+<div class="c-media-block_front">
+	<section class="c-media-block_second-section">
+		<div class="c-media-block_main-content">
+			{{avatar-image
+				colour=colour
+				isSmall=true
+				isGreen=true}}
+
+			 <p class="c-media-block_title">{{goal.title}}</p>
+		</div>
+
+		<div class="c-media-block_meta-content">
+			<div class="c-progress-dot c-media-block_dot"></div>
+
+			<p class="c-media-block_info">
+				<span class="c-media-block_goal-number--{{colour}}">{{value}}</span> of <span class="c-media-block_goal-number--{{colour}}">{{goalTotal}}</span>
+			</p>
+		</div>
+	</section>
+
+	<section class="c-media-block_last-section" data-drag="handle">
+		<p class="c-media-block_meta" data-drag="handle">
+	  	{{inline-svg "images/icons/icon-drag" class="c-media-block_drag-icon"}}
+  	</p>
+	</section>
+</div>
+
+<div class="c-media-block_back">
+	<section class="c-option-block--red c-option-block--one">
+		{{inline-svg "images/icons/icon-minus-circle" class="c-option-block_icon"}}
+		<p class="c-option-block_title">Delete</p>
+	</section>
+</div>
