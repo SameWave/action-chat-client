@@ -5,6 +5,9 @@ const {
   run,
   isEmpty,
   computed,
+  computed: {
+    alias
+  },
   observer
 } = Ember;
 
@@ -51,5 +54,8 @@ export default Model.extend({
 
   clearTypingAt() {
     this.set('isTyping', false);
-  }
+  },
+
+  personId: alias('person.id'),
+  personName: alias('person.name')
 });

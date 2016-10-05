@@ -2,16 +2,29 @@ import Ember from 'ember';
 import SwipableListItemMixin from 'action-chat-client/mixins/swipable-list-item';
 
 const {
-	Component,
-	computed
+  Component,
+  computed,
+  computed: {
+    alias
+  },
+  inject: {
+    service
+  }
 } = Ember;
 
 export default Component.extend(SwipableListItemMixin, {
   classNames: ['c-media-block--stream'],
 
+  session: service(),
+
   stream: null,
-  title: computed.alias('stream.title'),
-  body: computed.alias('stream.lastComment.body'),
-  members: 'double dragon',
-  date: computed.alias('stream.lastCommentedAt')
+
+  memberNames: computed('stream.members.@each.personName', function() {
+    return this.get('stream.members').mapBy('person.name').compact().join(', ');
+  }),
+
+  unreadCount: computed('session.person.id', 'stream.members.@each.personId', function() {
+    let sessionMember = this.get('stream.members').findBy('personId', this.get('session.person.id'));
+    return sessionMember.get('unreadCount') || 0;
+  })
 });
