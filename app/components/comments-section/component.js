@@ -8,14 +8,11 @@ const {
 } = Ember;
 
 export default Component.extend(SwipableListMixin, {
-  classNames: ['c-comments-section'],
-  sessionMember: null,
-  comments: [],
-  firstUnread: null,
-  selectedComment: null,
+  classNames: ['js-comments-section', 'c-comments-section'],
+  editingComment: null,
 
   tap() {
-    if (isEmpty(this.get('selectedComment'))) {
+    if (isEmpty(this.get('editingComment'))) {
       $('#chat-area').blur();
     }
   }
