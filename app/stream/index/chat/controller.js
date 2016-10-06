@@ -78,6 +78,7 @@ export default Controller.extend({
     this.$comments = $('.js-comments-section');
     this.$chatBox = $('.js-chat-box');
     this.$input = $('#chat-area');
+    this.$commentItems = $('.js-list-item');
 
     this.scrollToBottom(0); // scroll to bottom with 0 delay
 
@@ -190,6 +191,10 @@ export default Controller.extend({
       transform: `translateY(-${height}px)`
     });
 
+    if (this.get('streamComments.length') < 5) {
+      this.$commentItems.css('transform', `translateY(${height}px)`);
+    }
+
     // TODO: Scroll to last comment
     // run.later(this, () => {
     //   this.$comments.animate({
@@ -199,6 +204,8 @@ export default Controller.extend({
   },
 
   hideKeyboard() {
+    this.$commentItems.css('transform', 'translateY(0)');
+
     this.$chatBox.css({
       transform: 'translateY(0)'
     });
