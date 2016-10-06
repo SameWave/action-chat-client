@@ -67,7 +67,7 @@ export default Controller.extend({
   firstUnread: null,
 
   $comments: null,
-  $chatBox: null,
+  $footer: null,
   $input: null,
 
   didRender() {
@@ -76,7 +76,7 @@ export default Controller.extend({
     this.set('isObserving', true);
 
     this.$comments = $('.js-comments-section');
-    this.$chatBox = $('.js-chat-box');
+    this.$footer = $('.js-footer');
     this.$input = $('#chat-area');
 
     this.scrollToBottom(0); // scroll to bottom with 0 delay
@@ -183,7 +183,7 @@ export default Controller.extend({
       scrollHeight
     } = this.$comments.get(0);
 
-    this.$chatBox.css({
+    this.$footer.css({
       transform: `translateY(-${height}px)`
     });
     this.$comments.css({
@@ -199,7 +199,7 @@ export default Controller.extend({
   },
 
   hideKeyboard() {
-    this.$chatBox.css({
+    this.$footer.css({
       transform: 'translateY(0)'
     });
     this.$comments.css({
@@ -293,6 +293,13 @@ export default Controller.extend({
   },
 
   actions: {
+
+    doCommentSectionTap() {
+      if (isEmpty(this.get('editingComment'))) {
+        this.$input.blur();
+        this.hideMentionList();
+      }
+    },
 
     doNotifierJump() {
       let unfetchedCount = this.get('unreadCount') - this.get('streamComments.length');

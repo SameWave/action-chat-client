@@ -16,7 +16,7 @@
 
 {{#comments-section
   editingComment=editingComment
-  click=(action "hideMentionList")
+  tap=(action "doCommentSectionTap")
 }}
   {{#each sortedComments as |comment|}}
     {{stream-comment
@@ -33,7 +33,7 @@
 {{/comments-section}}
 
 {{#if sessionMember}}
-  <div class="c-footer js-chat-box">
+  <div class="c-footer js-footer">
     <section class="u-position-relative">
       {{#if isMentionListVisible}}
         {{mention-list
