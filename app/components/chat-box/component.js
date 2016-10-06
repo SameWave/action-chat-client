@@ -8,9 +8,10 @@ const {
 
 export default Component.extend({
   classNames: ['c-chat-box'],
-
+  classNameBindings: ['isChatCarrotVisible'],
   value: '',
   isSendButtonVisible: false,
+  isChatCarrotVisible: false,
   $input: null,
 
   didRender() {
@@ -25,10 +26,6 @@ export default Component.extend({
 
   actions: {
     onTap() {
-      // Trigger blur then focus after delay so that cursor appears inside input
-      run.later(this, () => {
-        this.$input.blur().focus();
-      }, 420);
     },
 
     doComment() {

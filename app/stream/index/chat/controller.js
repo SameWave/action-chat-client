@@ -40,6 +40,7 @@ export default Controller.extend({
   unreadCount: 0,
   isObserving: false,
   isSendButtonVisible: true,
+  isChatCarrotVisible: false,
 
   streamMembers: computed('members.[]', 'stream.id', function() {
     return this.get('members').filterBy('stream.id', this.get('stream.id'));
@@ -83,6 +84,7 @@ export default Controller.extend({
 
     this.$comments.on('touchmove', run.bind(this, this.onCommentsScroll));
     this.$comments.on('scroll', run.bind(this, this.onCommentsScroll));
+    this.$footer.on('transitionend', run.bind(this, this.footerAnimationEnd));
 
     if (this.get('unreadCount')) {
       this.setFirstUnread();
@@ -93,6 +95,10 @@ export default Controller.extend({
     if (window.cordova && window.cordova.plugins.Keyboard) {
       this.setupKeyboardEvents();
     }
+  },
+
+  footerAnimationEnd() {
+    this.set('isChatCarrotVisible', true);
   },
 
   commentCount: alias('streamComments.length'),
@@ -205,6 +211,8 @@ export default Controller.extend({
     this.$comments.css({
       transform: 'translateY(0)'
     });
+
+    this.set('isChatCarrotVisible', false);
   },
 
   doScroll(top, delay) {
