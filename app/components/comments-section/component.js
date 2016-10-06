@@ -13,10 +13,20 @@ export default Component.extend(SwipableListMixin, {
   editingComment: null,
   $scrollContainer: null,
 
-  didRender() {
-    console.log('comment section didRender');
-    this.$scrollContainer = $('.js-comments-section');
+  didInsertElement() {
+    this.$scrollContainer = this.$();
     this._super(...arguments);
+
+    // this.get('scroll').setProperties({
+    //   startedCallback: this.scrollStarted.bind(this),
+    //   endedCallback: this.scrollEnded.bind(this),
+    // });
+
+  },
+
+  willDestroyElement() {
+    this._super(...arguments);
+    this.$scrollContainer = null;
   },
 
   tap() {

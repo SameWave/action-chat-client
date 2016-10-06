@@ -256,7 +256,6 @@ export default Controller.extend({
 
   setLastReadAt() {
     let lastReadAt = new Date();
-    debug('setLastReadAt', lastReadAt);
     this.set('sessionMember.lastReadAt', lastReadAt);
     this.get('sessionMember').save();
     this.set('unreadCount', 0);
@@ -349,7 +348,7 @@ export default Controller.extend({
         stream: this.get('stream')
       });
       comment.save().then(() => {
-        debug('comment created');
+        // debug('comment created');
       });
     },
 
@@ -389,13 +388,13 @@ export default Controller.extend({
     // TODO: Review this as it looks like a duplicate
     updateComment(comment) {
       comment.save().then(() => {
-        debug('comment updated');
+        // debug('comment updated');
       });
     },
 
     deleteComment(comment) {
       comment.destroyRecord().then(() => {
-        debug('comment destroyed');
+        // debug('comment destroyed');
       });
     },
 
