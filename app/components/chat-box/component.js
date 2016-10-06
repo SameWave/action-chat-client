@@ -26,9 +26,22 @@ export default Component.extend({
   actions: {
     onTap() {
       // Trigger blur then focus after delay so that cursor appears inside input
-      run.later(this, () => {
-        this.$input.blur().focus();
-      }, 420);
+      // run.later(this, () => {
+      //   this.$input.blur().focus();
+
+      // let focusedElement = this.$input[0];
+      // let selStart = focusedElement.selectionStart,
+      //   selEnd = focusedElement.selectionEnd;
+
+      // focusedElement.selectionStart = 0;
+      // focusedElement.selectionEnd = 0;
+
+      // run.later(this, () => {
+      //   focusedElement.selectionStart = selStart;
+      //   focusedElement.selectionEnd = selEnd;
+      // }, 33);
+
+      // }, 420);
     },
 
     doComment() {

@@ -22,7 +22,7 @@ const {
 
 const NUDGE_OFFSET_PX = 60; // Pixels for determining nudge vs scroll for new comment
 const NUDGE_PX = 24; // Pixels for distance to nudge
-const COMMENT_LOAD_SIZE = 10;
+const COMMENT_LOAD_SIZE = 100;
 
 export {
   COMMENT_LOAD_SIZE
@@ -31,6 +31,7 @@ export {
 export default Controller.extend({
 
   session: inject.service(),
+  keyboard: inject.service('cordova/keyboard'),
 
   stream: null,
   members: [],
@@ -79,6 +80,8 @@ export default Controller.extend({
     this.$footer = $('.js-footer');
     this.$input = $('#chat-area');
 
+    console.log(this.$footer);
+
     this.scrollToBottom(0); // scroll to bottom with 0 delay
 
     this.$comments.on('touchmove', run.bind(this, this.onCommentsScroll));
@@ -90,7 +93,7 @@ export default Controller.extend({
       this.setLastReadAt();
     }
 
-    if (window.cordova && window.cordova.plugins.Keyboard) {
+    if (this.get('keyboard')) {
       this.setupKeyboardEvents();
     }
   },
@@ -165,40 +168,63 @@ export default Controller.extend({
   setupKeyboardEvents() {
     let _this = this;
 
-    window.addEventListener('native.keyboardshow', function(e) {
-      _this.showKeyboard(e.keyboardHeight);
-    });
-
-    window.addEventListener('native.keyboardhide', function(e) {
-      _this.hideKeyboard(e.keyboardHeight);
-    });
+    this.get('keyboard').on('keyboardDidShow', Ember.run.bind(this, this.keyboardDidShow));
+    // this.get('keyboard').on('keyboardDidHide', Ember.run.bind(this, this.keyboardDidHide));
   },
 
-  showKeyboard(height) {
+  // willDestroyElement() {
+  //   this.get('keyboard').off('keyboardDidShow', this.keyboardDidShow);
+  //   this.get('keyboard').off('keyboardDidHide', this.keyboardDidHide);
+
+  //   this._super();
+  // },
+
+  isKeyboardOpening: false,
+
+  keyboardDidShow() {
+    console.log('keyboardDidShow');
+    console.log(this.get('isKeyboardOpening'));
+    if (this.get('isKeyboardOpening')) {
+      return;
+    }
+
+    this.set('isKeyboardOpening', true);
+
     if (window.cordova && window.cordova.platformId === 'android') {
       return;
     }
 
-    let {
-      scrollHeight
-    } = this.$comments.get(0);
+    this.get('keyboard').off('keyboardDidShow');
+    this.get('keyboard').off('keyboardDidHide');
+
+    Ember.run.later(this, () => {
+      this.set('isKeyboardOpening', false);
+      this.get('keyboard').on('keyboardDidShow', Ember.run.bind(this, this.keyboardDidShow));
+      this.get('keyboard').on('keyboardDidHide', Ember.run.bind(this, this.keyboardDidHide));
+    }, 300);
+
+    let height = 216;
+
+    this.$footer.on('transitionend', () => {
+
+      this.$input.blur().focus();
+    });
 
     this.$footer.css({
       transform: `translateY(-${height}px)`
     });
+
     this.$comments.css({
       transform: `translateY(-${height}px)`
     });
 
-    // TODO: Scroll to last comment
-    // run.later(this, () => {
-    //   this.$comments.animate({
-    //     scrollTop: scrollHeight + height
-    //   }, 200);
-    // }, 300);
   },
 
-  hideKeyboard() {
+
+
+  keyboardDidHide() {
+    console.log('keyboardDidHide');
+
     this.$footer.css({
       transform: 'translateY(0)'
     });
@@ -297,7 +323,7 @@ export default Controller.extend({
     doCommentSectionTap() {
       if (isEmpty(this.get('editingComment'))) {
         this.$input.blur();
-        this.hideMentionList();
+        this.set('isMentionListVisible', false);
       }
     },
 
@@ -332,10 +358,6 @@ export default Controller.extend({
       } else {
         this.set('isMentionListVisible', false);
       }
-    },
-
-    hideMentionList() {
-      this.set('isMentionListVisible', false);
     },
 
     pickMentionMember(person) {
