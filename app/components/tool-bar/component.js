@@ -5,6 +5,8 @@ const {
 } = Ember;
 
 export default Component.extend({
+  classNames: ['c-tool-bar'],
+
   actions: {
     doEdit() {
       if (this.get('onEdit')) {

@@ -72,7 +72,7 @@ export default Controller.extend(SwipableListMixin, {
   dragulaconfig: {
     options: {
       copy: false,
-      revertOnSpill: false,
+      revertOnSpill: true,
       removeOnSpill: false,
       moves(el, source, handle, sibling) {
         // this._super(...arguments);
@@ -87,18 +87,69 @@ export default Controller.extend(SwipableListMixin, {
         }
       }
     },
-    enabledEvents: ['drag', 'drop', 'cloned']
+    enabledEvents: ['drag', 'drop', 'cloned', 'over']
   },
 
   isDragging: false,
   cloneElement: null,
+  $scoreboardTopArea: null,
+  $scoreboardCenterArea: null,
+  $scoreboardBottomArea: null,
 
   onCloneDrag() {
     console.log('dragging clone');
   },
 
+  timer: null,
+
   actions: {
-    onDrag() {
+    onOver(container) {
+      let top = 'js-scoreboard-top-area';
+      let center = 'js-scoreboard-main-area';
+      let bottom = 'js-scoreboard-bottom-area';
+
+      console.log(`container.id: ${container.id}`);
+      switch (container.id) {
+        case top:
+          console.log('top');
+
+          run.cancel(this.timer);
+          this.timer = run.throttle(this, this.scrollUp, 150);
+        case center:
+          console.log('center');
+
+          run.cancel(this.timer);
+        case bottom:
+          console.log('bottom');
+
+          run.cancel(this.timer);
+          this.timer = run.throttle(this, this.scrollDown, 150);
+      }
+    },
+
+    scrollUp() {
+      console.log('scrollUP');
+
+      let $scoreboard = $('#js-scoreboard-main-area');
+      let pos = $scoreboard.scrollTop();
+
+      $scoreboard.scrollTop(pos - 200);
+
+      this.send('scrollUp');
+    },
+
+    scrollDown() {
+      console.log('scrollDown');
+
+      let $scoreboard = $('#js-scoreboard-main-area');
+      let pos = $scoreboard.scrollTop();
+
+      $scoreboard.scrollTop(pos + 200);
+
+      this.send('scrollDown');
+    },
+
+    onDrag(e) {
       this.set('isDragging', true);
     },
 
