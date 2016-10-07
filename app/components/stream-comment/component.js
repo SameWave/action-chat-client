@@ -45,8 +45,8 @@ export default Component.extend(SwipableListItemMixin, InViewportMixin, {
       viewportScrollSensitivity: 1,
       viewportRefreshRate: 60,
       viewportTolerance: {
-        top: 500,
-        bottom: 500,
+        top: 200,
+        bottom: 200,
         left: 0,
         right: 0
       }

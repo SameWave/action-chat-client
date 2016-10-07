@@ -80,7 +80,9 @@ export default Controller.extend({
     this.$footer = $('.js-footer');
     this.$input = $('#chat-area');
 
-    console.log(this.$footer);
+    this.$footer.on('transitionend', () => {
+      this.keyboardDidShow();
+    });
 
     this.scrollToBottom(0); // scroll to bottom with 0 delay
 
@@ -94,7 +96,7 @@ export default Controller.extend({
     }
 
     if (this.get('keyboard')) {
-      this.setupKeyboardEvents();
+      this.enableKeyboardEvents();
     }
   },
 
@@ -165,65 +167,57 @@ export default Controller.extend({
     return this.get('streamComments.length') >= this.get('totalCommentCount');
   }),
 
-  setupKeyboardEvents() {
-    let _this = this;
-
-    this.get('keyboard').on('keyboardDidShow', Ember.run.bind(this, this.keyboardDidShow));
-    // this.get('keyboard').on('keyboardDidHide', Ember.run.bind(this, this.keyboardDidHide));
-  },
-
-  // willDestroyElement() {
-  //   this.get('keyboard').off('keyboardDidShow', this.keyboardDidShow);
-  //   this.get('keyboard').off('keyboardDidHide', this.keyboardDidHide);
-
-  //   this._super();
-  // },
-
   isKeyboardOpening: false,
 
-  keyboardDidShow() {
-    console.log('keyboardDidShow');
-    console.log(this.get('isKeyboardOpening'));
-    if (this.get('isKeyboardOpening')) {
-      return;
-    }
 
-    this.set('isKeyboardOpening', true);
+  enableKeyboardEvents() {
+    console.log('enableKeyboardEvents');
+    this.get('keyboard').on('keyboardDidShow', (e) => {
+      this.set('isKeyboardShowing', true);
+      if (!this.get('isKeyboardOpening')) {
+        this.disableKeyboardEvents();
+        Ember.run.debounce(this, this.keyboardShow, e, 500, true);
+      }
+    });
+    this.get('keyboard').on('keyboardDidHide', Ember.run.bind(this, this.keyboardHide));
+  },
+
+  disableKeyboardEvents() {
+    console.log('disableKeyboardEvents');
+    this.get('keyboard').off('keyboardDidShow');
+    this.get('keyboard').off('keyboardDidHide');
+  },
+
+  keyboardShow(e) {
+    console.log('keyboardShow');
 
     if (window.cordova && window.cordova.platformId === 'android') {
       return;
     }
 
-    this.get('keyboard').off('keyboardDidShow');
-    this.get('keyboard').off('keyboardDidHide');
-
-    Ember.run.later(this, () => {
-      this.set('isKeyboardOpening', false);
-      this.get('keyboard').on('keyboardDidShow', Ember.run.bind(this, this.keyboardDidShow));
-      this.get('keyboard').on('keyboardDidHide', Ember.run.bind(this, this.keyboardDidHide));
-    }, 300);
-
-    let height = 216;
-
-    this.$footer.on('transitionend', () => {
-
-      this.$input.blur().focus();
-    });
-
     this.$footer.css({
-      transform: `translateY(-${height}px)`
+      transform: `translateY(-${e.keyboardHeight}px)`
     });
 
     this.$comments.css({
-      transform: `translateY(-${height}px)`
+      transform: `translateY(-${e.keyboardHeight}px)`
     });
-
   },
 
+  keyboardDidShow() {
+    console.log('keyboardDidShow');
+    Ember.run.later(this, () => {
+      this.$input.blur().focus();
 
+      Ember.run.later(this, () => {
+        this.enableKeyboardEvents();
+        this.set('isKeyboardOpening', false);
+      }, 200);
+    }, 0);
+  },
 
-  keyboardDidHide() {
-    console.log('keyboardDidHide');
+  keyboardHide() {
+    console.log('keyboardHide');
 
     this.$footer.css({
       transform: 'translateY(0)'
