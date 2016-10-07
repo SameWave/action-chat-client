@@ -30,6 +30,13 @@
     // animation: media-block-drag-mirror $speed-fast;
   }
 
+  &.is-touched {
+    transform: scale(1.1);
+    opacity: 0.75;
+    box-shadow: 0 0 10px 3px rgba(0, 0, 0, 0.4);
+    // animation: media-block-drag-mirror $speed-fast;
+  }
+
   // layout
   &_front {
     position: relative;
