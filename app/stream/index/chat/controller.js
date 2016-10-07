@@ -301,7 +301,7 @@ export default Controller.extend({
     doCommentSectionTap() {
       if (isEmpty(this.get('editingComment'))) {
         this.$input.blur();
-        this.hideMentionList();
+        this.set('isMentionListVisible', false);
       }
     },
 
@@ -335,10 +335,6 @@ export default Controller.extend({
       } else {
         this.set('isMentionListVisible', false);
       }
-    },
-
-    hideMentionList() {
-      this.set('isMentionListVisible', false);
     },
 
     pickMentionMember(person) {
