@@ -3,14 +3,17 @@ import Ember from 'ember';
 const {
   Component,
   run,
+  computed,
   isEmpty
 } = Ember;
 
 export default Component.extend({
   classNames: ['c-chat-box'],
-
+  classNameBindings: ['isCaretInvisible'],
   value: '',
   isSendButtonVisible: false,
+  isChatCaretVisible: false,
+  isCaretInvisible: computed.not('isChatCaretVisible'),
   $input: null,
 
   didRender() {
@@ -24,11 +27,10 @@ export default Component.extend({
   },
 
   actions: {
-    onTap() {
-      // Trigger blur then focus after delay so that cursor appears inside input
+    doTap() {
       run.later(this, () => {
         this.$input.blur().focus();
-      }, 420);
+      }, 600);
     },
 
     doComment() {

@@ -22,7 +22,7 @@ const {
 
 const NUDGE_OFFSET_PX = 60; // Pixels for determining nudge vs scroll for new comment
 const NUDGE_PX = 24; // Pixels for distance to nudge
-const COMMENT_LOAD_SIZE = 10;
+const COMMENT_LOAD_SIZE = 100;
 
 export {
   COMMENT_LOAD_SIZE
@@ -40,6 +40,7 @@ export default Controller.extend({
   unreadCount: 0,
   isObserving: false,
   isSendButtonVisible: true,
+  isChatCaretVisible: true,
 
   streamMembers: computed('members.[]', 'stream.id', function() {
     return this.get('members').filterBy('stream.id', this.get('stream.id'));
@@ -83,6 +84,7 @@ export default Controller.extend({
 
     this.$comments.on('touchmove', run.bind(this, this.onCommentsScroll));
     this.$comments.on('scroll', run.bind(this, this.onCommentsScroll));
+    this.$footer.on('transitionend', run.bind(this, this.footerAnimationEnd));
 
     if (this.get('unreadCount')) {
       this.setFirstUnread();
@@ -93,6 +95,10 @@ export default Controller.extend({
     if (window.cordova && window.cordova.plugins.Keyboard) {
       this.setupKeyboardEvents();
     }
+  },
+
+  footerAnimationEnd() {
+    this.set('isChatCaretVisible', true);
   },
 
   commentCount: alias('streamComments.length'),
@@ -183,6 +189,8 @@ export default Controller.extend({
       scrollHeight
     } = this.$comments.get(0);
 
+    this.set('isChatCaretVisible', false);
+
     this.$footer.css({
       transform: `translateY(-${height}px)`
     });
@@ -205,6 +213,8 @@ export default Controller.extend({
     this.$comments.css({
       transform: 'translateY(0)'
     });
+
+    this.set('isChatCaretVisible', true);
   },
 
   doScroll(top, delay) {
