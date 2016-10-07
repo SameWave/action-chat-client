@@ -7,7 +7,6 @@ $component-name: l-stream-comment;
 	margin-bottom: 20px;
 
 	// States
-	// .is-open
 	// .is-editing
 
 	// Modifiers
@@ -24,10 +23,6 @@ $component-name: l-stream-comment;
 		background: map-get($shades, 'white');
 		transform: translateX(0);
 		transition: transform $speed-fast, background $speed-fast;
-
-		@at-root .#{$component-name}.is-open .#{$component-name}_front {
-			transform: translateX(-80%);
-		}
 
 		@at-root .#{$component-name}.is-editing .#{$component-name}_front {
 			background: map-get($yellow, 'base');

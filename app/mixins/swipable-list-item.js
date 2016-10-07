@@ -26,38 +26,29 @@ export default Mixin.create({
 
   didInsertElement() {
     this._super(...arguments);
-    this.$element = this.$()[0];
+    this.$front = this.$('.l-stream-comment_front')[0];
   },
 
   willDestroyElement() {
     this._super(...arguments);
-    this.$element = null;
-  },
-
-  doSwipeLeft() {
-    if (this.get('isSwipable')) {
-      this.set('isOpen', true);
-    }
+    this.$front = null;
   },
 
   doSwipeRight() {
     if (this.get('isSwipable')) {
-      this.set('isOpen', false);
+      // this.set('isOpen', false);
+      this.set('isPanOpen', false);
     }
   },
 
   doPanStart() {
-    // if (this.get('disablePanSwipe')) {
-    //   return;
-    // }
 
-    // if (!this.$element) {
-    //   return;
-    // }
-
+    if (!this.$front) {
+      return;
+    }
     // this.get('ui').own(this.get('elementId'), this.close.bind(this));
 
-    var style = window.getComputedStyle(this.$element);
+    var style = window.getComputedStyle(this.$front);
     var matrix = new WebKitCSSMatrix(style.webkitTransform);
 
     this.startX = matrix.m41;
@@ -78,6 +69,7 @@ export default Mixin.create({
   },
 
   doPanMove(event) {
+
     let newX = Math.round(this.startX + event.originalEvent.gesture.deltaX);
     let width = 284;
     newX = Math.min(Math.max(newX, -1 * width), 0);
@@ -88,15 +80,11 @@ export default Mixin.create({
     this.lastX = newX;
 
     if (!this.rafPanId) {
-      this.rafPanId = window.requestAnimationFrame(this.animateHorizontalPan.bind(this));
+      this.rafPanId = window.requestAnimationFrame(this.animatePan.bind(this));
     }
   },
 
   doPanEnd() {
-    // if (this.get('disablePanSwipe')) {
-    //   return;
-    // }
-
     this.startX = null;
 
     let width = 284;
@@ -117,11 +105,11 @@ export default Mixin.create({
     }
 
     if (!this.rafSlideId) {
-      this.rafSlideId = window.requestAnimationFrame(this.animateHorizontalSlide.bind(this));
+      this.rafSlideId = window.requestAnimationFrame(this.animateSlide.bind(this));
     }
   },
 
-  animateHorizontalPan() {
+  animatePan() {
     this.rafPanId = null;
 
     var newX = this.lastX,
@@ -139,11 +127,11 @@ export default Mixin.create({
     style += '-o-transform: translate3d(' + newX + 'px,' + this.startY + 'px,' + this.startZ + 'px); ';
     style += 'transform: translate3d(' + newX + 'px,' + this.startY + 'px,' + this.startZ + 'px); ';
 
-    this.$element.style.cssText = style;
+    this.$front.style.cssText = style;
   },
 
-  animateHorizontalSlide: function() {
-    if (!this.$element) {
+  animateSlide() {
+    if (!this.$front) {
       return;
     }
 
@@ -154,6 +142,7 @@ export default Mixin.create({
       relativeDuration,
       animation = 'linear';
 
+    console.log(this.get('isPanOpen'));
     newX = (this.get('isPanOpen')) ? -1 * width : 0;
 
     // calculate the remaining duration (time) needed to complete the action
@@ -176,7 +165,8 @@ export default Mixin.create({
     style += '-o-transform: translate3d(' + newX + 'px,' + this.startY + 'px,' + this.startZ + 'px); ';
     style += 'transform: translate3d(' + newX + 'px,' + this.startY + 'px,' + this.startZ + 'px); ';
 
-    this.$element.style.cssText = style;
+
+    this.$front.style.cssText = style;
 
     if (newX === 0) {
 
@@ -184,12 +174,12 @@ export default Mixin.create({
         if (this.get('isDestroying') || this.get('isDestroyed')) {
           return;
         }
-        this.$element.style.cssText = "";
+        this.$front.style.cssText = "";
       }, relativeDuration);
     }
   },
 
-  _enqueHorizontalSlide: function() {
+  _enqueSlide: function() {
 
     if (this.get('isDestroying') || this.get('isDestroyed')) {
       return;
@@ -201,7 +191,7 @@ export default Mixin.create({
     }
 
     if (!this.rafSlideId) {
-      this.rafSlideId = window.requestAnimationFrame(this.animateHorizontalSlide.bind(this));
+      this.rafSlideId = window.requestAnimationFrame(this.animateSlide.bind(this));
     }
   }.observes('isPanOpen'),
 

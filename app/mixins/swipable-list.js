@@ -12,7 +12,7 @@ export default Mixin.create(RecognizerMixin, {
 
   scroll: service(),
 
-  recognizers: 'tap swipe pan',
+  recognizers: 'tap pan',
 
   items: {},
   previousItem: null,
@@ -21,16 +21,14 @@ export default Mixin.create(RecognizerMixin, {
   $scrollContainer: null,
 
   didInsertElement() {
-    console.log('swipe didInsertElement');
     this._super(...arguments);
-
-    if (this.$scrollContainer) {
-      this._enableScroll();
-    }
+    this._enableScroll();
   },
 
   _enableScroll() {
-    this.get('scroll').enable(this.$scrollContainer, this.onScrollCallback);
+    if (this.$scrollContainer) {
+      this.get('scroll').enable(this.$scrollContainer, this.onScrollCallback);
+    }
   },
 
   _getItemFromEvent(event) {
@@ -44,16 +42,14 @@ export default Mixin.create(RecognizerMixin, {
     }
   },
 
-  swipeLeft(event) {
-    console.log('swipeLeft');
-
+  panStart(event) {
+    console.log(this.get('scroll.active'));
     if (this.get('scroll.active')) {
       return;
     }
 
     this.get('scroll').disable();
 
-    this.previousItem = this.currentItem;
     this.currentItem = this._getItemFromEvent(event);
 
     if (this.previousItem) {
@@ -61,74 +57,34 @@ export default Mixin.create(RecognizerMixin, {
     }
 
     if (this.currentItem) {
-      this.currentItem.doSwipeLeft(event);
-    }
-
-    if (this.$scrollContainer) {
-      this._enableScroll();
-    }
-  },
-
-  swipeRight(event) {
-    console.log('swipeRight');
-
-    if (this.get('scroll.active')) {
-      return;
-    }
-
-    this.get('scroll').disable();
-
-    this.currentItem = this._getItemFromEvent(event);
-
-    if (this.currentItem) {
-      this.currentItem.doSwipeRight(event);
-    }
-
-    if (this.$scrollContainer) {
-      this._enableScroll();
-    }
-  },
-
-  panStart(event) {
-    console.log('panStart');
-
-    if (this.get('scroll.active')) {
-      return;
-    }
-
-    // this.previousItem = this.currentItem;
-    this.currentItem = this._getItemFromEvent(event);
-
-    // if (this.previousItem) {
-    //   this.previousItem.doSwipeRight(event);
-    // }
-
-    if (this.currentItem) {
       this.currentItem.doPanStart(event);
     }
-
-    // if (this.$scrollContainer) {
-    //   this._enableScroll();
-    // }
   },
 
   panMove(event) {
-    console.log('panMove');
+
+    if (this.get('scroll.active')) {
+      return;
+    }
+
     if (this.currentItem) {
       this.currentItem.doPanMove(event);
     }
   },
 
   panEnd(event) {
-    console.log('panEnd');
     if (this.get('scroll.active')) {
       return;
     }
+
+    this.previousItem = this.currentItem;
+
     if (this.currentItem) {
       this.currentItem.doPanEnd(event);
+      // this.currentItem = null;
     }
 
-    // this.get('scroll').enable();
+    this._enableScroll();
   }
 
 });
