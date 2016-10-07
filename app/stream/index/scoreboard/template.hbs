@@ -16,10 +16,9 @@
     {{#sw-ember-dragula
       id="js-scoreboard-main-area"}}
       {{#each goals as |item|}}
-        {{media-block/goal
+        {{goal-block
+          goal=item
           classNames="in-edit js-list-item"
-          title=item.title
-          date=item.date
           onDeleteGoal=(action "deleteGoal")}}
       {{/each}}
     {{/sw-ember-dragula}}
