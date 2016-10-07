@@ -10,7 +10,6 @@ const {
 export default Component.extend(SwipableListMixin, {
 
   classNames: ['js-comments-section', 'c-comments-section'],
-  editingComment: null,
   $scrollContainer: null,
 
   didInsertElement() {
@@ -27,11 +26,6 @@ export default Component.extend(SwipableListMixin, {
   willDestroyElement() {
     this._super(...arguments);
     this.$scrollContainer = null;
-  },
-
-  tap() {
-    if (isEmpty(this.get('editingComment'))) {
-      $('#chat-area').blur();
-    }
   }
+
 });

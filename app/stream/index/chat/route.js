@@ -82,7 +82,7 @@ export default Route.extend(AuthenticatedRouteMixin, {
         editingComment: null,
         firstUnread: null,
         $comments: null,
-        $chatBox: null,
+        $footer: null,
         $input: null
       });
     }
