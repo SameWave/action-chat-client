@@ -5,7 +5,7 @@
   margin: 10px;
 
   // States
-  // .is-carrot-visible
+  // .is-carrot-invisible
 
   // Layouts
   &_first-section {
@@ -33,7 +33,7 @@
 
   // Elements
   &_input {
-    visibility: hidden;
+    visibility: visible;
     display: block;
     width: 100%;
     // NOTE: Initial height before js takes over
@@ -44,8 +44,8 @@
     margin: auto;
     background-color: inherit;
 
-    @at-root .c-chat-box.is-carrot-visible .c-chat-box_input {
-      visibility: visible;
+    @at-root .c-chat-box.is-carrot-invisible .c-chat-box_input {
+      visibility: hidden;
     }
   }
 

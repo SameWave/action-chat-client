@@ -3,15 +3,17 @@ import Ember from 'ember';
 const {
   Component,
   run,
+  computed,
   isEmpty
 } = Ember;
 
 export default Component.extend({
   classNames: ['c-chat-box'],
-  classNameBindings: ['isChatCarrotVisible'],
+  classNameBindings: ['isChatCarrotInvisible'],
   value: '',
   isSendButtonVisible: false,
   isChatCarrotVisible: false,
+  isChatCarrotInvisible: computed.not('isChatCarrotVisible'),
   $input: null,
 
   didRender() {
@@ -25,7 +27,11 @@ export default Component.extend({
   },
 
   actions: {
-    onTap() {
+    doTap() {
+      run.later(this, () => {
+        this.$input.blur().focus();
+        console.log('tap');
+      }, 420);
     },
 
     doComment() {
