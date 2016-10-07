@@ -7,6 +7,9 @@ const {
 } = Ember;
 
 export default Component.extend({
+
+  keyboard: Ember.inject.service('cordova/keyboard'),
+
   classNames: ['c-chat-box'],
 
   value: '',
@@ -24,13 +27,6 @@ export default Component.extend({
   },
 
   actions: {
-    onTap() {
-      // Trigger blur then focus after delay so that cursor appears inside input
-      run.later(this, () => {
-        this.$input.blur().focus();
-      }, 420);
-    },
-
     doComment() {
       if (isEmpty(this.get('value'))) {
         return;
