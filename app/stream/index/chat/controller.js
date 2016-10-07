@@ -123,10 +123,12 @@ export default Controller.extend({
   },
 
   setFirstUnread() {
-    let firstUnread = this.get('sortedComments').find((comment) => {
-      return comment.get('createdAt') > this.get('previousLastReadAt');
-    });
-    this.set('firstUnread', firstUnread);
+    if (this.get('unreadCount') <= this.get('commentCount')) {
+      let firstUnread = this.get('sortedComments').find((comment) => {
+        return comment.get('createdAt') > this.get('previousLastReadAt');
+      });
+      this.set('firstUnread', firstUnread);
+    }
   },
 
   isNearTop() {
@@ -151,6 +153,7 @@ export default Controller.extend({
       offset: this.get('streamComments.length'),
       stream_id: this.get('stream.id')
     }).then(() => {
+      this.setFirstUnread();
       this.send('doneLoadingEarlier');
       if (callback) {
         callback();
@@ -305,7 +308,6 @@ export default Controller.extend({
       let unfetchedCount = this.get('unreadCount') - this.get('streamComments.length');
       if (unfetchedCount > 0) {
         this.loadEarlier(unfetchedCount, () => {
-          this.setFirstUnread();
           run.next(this, this.scrollToLastRead);
         });
       } else {
