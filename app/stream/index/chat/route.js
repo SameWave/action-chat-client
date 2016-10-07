@@ -17,7 +17,6 @@ const {
 export default Route.extend(AuthenticatedRouteMixin, {
 
   session: service(),
-  cable: service(),
   sessionPerson: alias('session.person'),
 
   model() {
@@ -78,13 +77,12 @@ export default Route.extend(AuthenticatedRouteMixin, {
         isMentionListVisible: false,
         isChatModalVisible: false,
         typingTimer: null,
-        lastCharacterTyped: '',
         chatBoxValue: '',
         loadingTimer: null,
-        selectedComment: null,
+        editingComment: null,
         firstUnread: null,
         $comments: null,
-        $chatBox: null,
+        $footer: null,
         $input: null
       });
     }

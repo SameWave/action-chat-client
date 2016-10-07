@@ -15,9 +15,13 @@
   </div>
 </header>
 
-{{streams-section
-  streams=sortedStreams
-  onItemTap=(action "gotoStreamChat")
-}}
+{{#streams-section}}
+  {{#each sortedStreams as |stream|}}
+    {{stream-block
+      stream=stream
+      tap=(action "gotoStreamChat" stream)
+    }}
+  {{/each}}
+{{/streams-section}}
 
 <div class="c-fab"></div>

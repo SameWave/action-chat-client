@@ -1,7 +1,7 @@
 import { moduleForComponent, test } from 'ember-qunit';
 import hbs from 'htmlbars-inline-precompile';
 
-moduleForComponent('media-block/goal', 'Integration | Component | media block/goal', {
+moduleForComponent('goal-block', 'Integration | Component | goal block', {
   integration: true
 });
 
@@ -9,15 +9,15 @@ test('it renders', function(assert) {
   // Set any properties with this.set('myProperty', 'value');
   // Handle any actions with this.on('myAction', function(val) { ... });
 
-  this.render(hbs`{{media-block/goal}}`);
+  this.render(hbs`{{goal-block}}`);
 
   assert.equal(this.$().text().trim(), '');
 
   // Template block usage:
   this.render(hbs`
-    {{#media-block/goal}}
+    {{#goal-block}}
       template block text
-    {{/media-block/goal}}
+    {{/goal-block}}
   `);
 
   assert.equal(this.$().text().trim(), 'template block text');

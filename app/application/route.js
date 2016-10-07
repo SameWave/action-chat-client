@@ -4,10 +4,19 @@ import ApplicationRouteMixin from 'ember-simple-auth/mixins/application-route-mi
 const {
   Route,
   RSVP,
-  isEmpty
+  isEmpty,
+  inject: {
+    service
+  }
 } = Ember;
 
 export default Route.extend(ApplicationRouteMixin, {
+
+  cordova: service(),
+
+  activate: function() {
+    this.get('cordova').on('resume', this, 'refresh');
+  },
 
   beforeModel() {
     return this._loadSessionPerson();
@@ -71,6 +80,6 @@ export default Route.extend(ApplicationRouteMixin, {
       });
     });
 
-  },
+  }
 
 });

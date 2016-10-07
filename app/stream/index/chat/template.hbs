@@ -14,23 +14,26 @@
   </div>
 {{/if}}
 
-{{comments-section
-  classNames="js-comments-section"
-  comments=sortedComments
-  firstUnread=firstUnread
-  sessionMember=sessionMember
-  isShowingAllComments=isShowingAllComments
-  isLoadingEarlier=isLoadingEarlier
-  selectedComment=selectedComment
-  updateComment=(action "updateComment")
-  deleteComment=(action "deleteComment")
-  onNewMarkerView=(action "doNewMarkerViewed")
-  click=(action "hideMentionList")
-  doEditComment=(action "doEditComment")
+{{#comments-section
+  editingComment=editingComment
+  tap=(action "doCommentSectionTap")
 }}
+  {{#each sortedComments as |comment|}}
+    {{stream-comment
+      comment=comment
+      firstUnread=firstUnread
+      lastComment=sortedComments.lastObject
+      editingComment=editingComment
+      onEdit=(action "doEditComment")
+      onNewMarkerView=(action "doNewMarkerViewed")
+      updateComment=(action "updateComment" comment)
+      deleteComment=(action "deleteComment" comment)
+    }}
+  {{/each}}
+{{/comments-section}}
 
 {{#if sessionMember}}
-  <div class="c-footer js-chat-box">
+  <div class="c-footer js-footer">
     <section class="u-position-relative">
       {{#if isMentionListVisible}}
         {{mention-list
@@ -59,7 +62,7 @@
       value=chatBoxValue
       isSendButtonVisible=isSendButtonVisible
       onComment=(action "createComment")
-      onKeyPress=(action "doChatBoxKeyPress")
+      onValueChange=(action "doValueChange")
     }}
   </div>
 {{/if}}

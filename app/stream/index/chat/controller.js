@@ -61,29 +61,30 @@ export default Controller.extend({
 
   isMentionListVisible: false,
   typingTimer: null,
-  lastCharacterTyped: '',
   chatBoxValue: '',
   loadingTimer: null,
-  selectedComment: null,
+  editingComment: null,
   firstUnread: null,
 
   $comments: null,
-  $chatBox: null,
+  $footer: null,
   $input: null,
 
   didRender() {
+    // console.log('controller didRender');
     this._super(...arguments);
 
     this.set('isObserving', true);
 
     this.$comments = $('.js-comments-section');
-    this.$chatBox = $('.js-chat-box');
+    this.$footer = $('.js-footer');
     this.$input = $('#chat-area');
 
     this.scrollToBottom(0); // scroll to bottom with 0 delay
 
-    this.$comments.on('touchmove', run.bind(this, this.onCommentsScroll));
+    // this.get('scroll').enable(this.$comments, this.onCommentsScroll);
     this.$comments.on('scroll', run.bind(this, this.onCommentsScroll));
+    this.$comments.on('touchmove', run.bind(this, this.onCommentsScroll));
 
     if (this.get('unreadCount')) {
       this.setFirstUnread();
@@ -91,9 +92,6 @@ export default Controller.extend({
       this.setLastReadAt();
     }
 
-    if (window.Keyboard) {
-      // window.Keyboard.shrinkView(true);
-    }
     if (window.cordova && window.cordova.plugins.Keyboard) {
       this.setupKeyboardEvents();
     }
@@ -127,10 +125,12 @@ export default Controller.extend({
   },
 
   setFirstUnread() {
-    let firstUnread = this.get('sortedComments').find((comment) => {
-      return comment.get('createdAt') > this.get('previousLastReadAt');
-    });
-    this.set('firstUnread', firstUnread);
+    if (this.get('unreadCount') <= this.get('commentCount')) {
+      let firstUnread = this.get('sortedComments').find((comment) => {
+        return comment.get('createdAt') > this.get('previousLastReadAt');
+      });
+      this.set('firstUnread', firstUnread);
+    }
   },
 
   isNearTop() {
@@ -138,12 +138,13 @@ export default Controller.extend({
   },
 
   onCommentsScroll() {
-    if (!this.get('isShowingAllComments') && this.isNearTop()) {
-      this.loadingTimer = run.debounce(this, this.loadEarlier, 2000, true);
+    if (!this.get('isShowingAllComments') && this.isNearTop() && !this.get('isLoadingEarlier')) {
+      this.set('loadingTimer', run.debounce(this, this.loadEarlier, 1000, true));
     }
   },
 
   loadEarlier(count = COMMENT_LOAD_SIZE, callback) {
+
     this.setProperties({
       isLoadingEarlier: true,
       previousTop: this.$comments.get(0).scrollHeight + this.$comments.scrollTop()
@@ -154,6 +155,7 @@ export default Controller.extend({
       offset: this.get('streamComments.length'),
       stream_id: this.get('stream.id')
     }).then(() => {
+      this.setFirstUnread();
       this.send('doneLoadingEarlier');
       if (callback) {
         callback();
@@ -186,7 +188,7 @@ export default Controller.extend({
       scrollHeight
     } = this.$comments.get(0);
 
-    this.$chatBox.css({
+    this.$footer.css({
       transform: `translateY(-${height}px)`
     });
     this.$comments.css({
@@ -202,7 +204,7 @@ export default Controller.extend({
   },
 
   hideKeyboard() {
-    this.$chatBox.css({
+    this.$footer.css({
       transform: 'translateY(0)'
     });
     this.$comments.css({
@@ -259,7 +261,6 @@ export default Controller.extend({
 
   setLastReadAt() {
     let lastReadAt = new Date();
-    debug('setLastReadAt', lastReadAt);
     this.set('sessionMember.lastReadAt', lastReadAt);
     this.get('sessionMember').save();
     this.set('unreadCount', 0);
@@ -297,11 +298,17 @@ export default Controller.extend({
 
   actions: {
 
+    doCommentSectionTap() {
+      if (isEmpty(this.get('editingComment'))) {
+        this.$input.blur();
+        this.hideMentionList();
+      }
+    },
+
     doNotifierJump() {
       let unfetchedCount = this.get('unreadCount') - this.get('streamComments.length');
       if (unfetchedCount > 0) {
         this.loadEarlier(unfetchedCount, () => {
-          this.setFirstUnread();
           run.next(this, this.scrollToLastRead);
         });
       } else {
@@ -318,28 +325,16 @@ export default Controller.extend({
       this.setLastReadAt();
     },
 
-    doChatBoxKeyPress(e) {
-      let currentKeyCode = e.which;
-      let currentCharacter = String.fromCharCode(currentKeyCode);
-      let spaceKeycode = 32;
-
-      if (this.get('lastCharacterTyped') === spaceKeycode && currentCharacter === '@' || this.get('chatBoxValue') === '' && currentCharacter === '@') {
-        this.send('showMentionList');
+    doValueChange(value) {
+      if (value && value[value.length - 1] === '@') {
+        this.set('isMentionListVisible', true);
+      } else if (value) {
+        this.typingTimer = run.throttle(this, () => {
+          this.send('doTyping');
+        }, 500);
       } else {
-        this.send('hideMentionList');
+        this.set('isMentionListVisible', false);
       }
-
-      this.setProperties({
-        lastCharacterTyped: currentKeyCode
-      });
-
-      this.typingTimer = run.throttle(this, () => {
-        this.send('doTyping');
-      }, 500);
-    },
-
-    showMentionList() {
-      this.set('isMentionListVisible', true);
     },
 
     hideMentionList() {
@@ -364,13 +359,13 @@ export default Controller.extend({
         stream: this.get('stream')
       });
       comment.save().then(() => {
-        debug('comment created');
+        // debug('comment created');
       });
     },
 
     doEditComment(comment) {
       this.setProperties({
-        selectedComment: comment,
+        editingComment: comment,
         isChatModalVisible: true,
         chatBoxValue: comment.get('body'),
         isSendButtonVisible: false
@@ -382,7 +377,7 @@ export default Controller.extend({
 
     doCancelUpdateComment() {
       this.setProperties({
-        selectedComment: null,
+        editingComment: null,
         chatBoxValue: '',
         isChatModalVisible: false
       });
@@ -390,10 +385,10 @@ export default Controller.extend({
     },
 
     doUpdateComment() {
-      this.set('selectedComment.body', this.get('chatBoxValue'));
-      this.get('selectedComment').save().then(() => {
+      this.set('editingComment.body', this.get('chatBoxValue'));
+      this.get('editingComment').save().then(() => {
         this.setProperties({
-          selectedComment: null,
+          editingComment: null,
           chatBoxValue: '',
           isChatModalVisible: false,
           isSendButtonVisible: true
@@ -404,13 +399,13 @@ export default Controller.extend({
     // TODO: Review this as it looks like a duplicate
     updateComment(comment) {
       comment.save().then(() => {
-        debug('comment updated');
+        // debug('comment updated');
       });
     },
 
     deleteComment(comment) {
       comment.destroyRecord().then(() => {
-        debug('comment destroyed');
+        // debug('comment destroyed');
       });
     },
 

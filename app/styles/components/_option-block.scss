@@ -31,6 +31,19 @@
     height: 20px;
   }
 
+  // Modifier
+  &--red {
+    @extend .c-option-block;
+    fill: map-get($red, 'base');
+    color: map-get($red, 'base');
+  }
+
+  // Elements
+  &_icon {
+    width: 20px;
+    height: 20px;
+  }
+
   &_title {
     font-size: 12px;
     line-height: 1em;

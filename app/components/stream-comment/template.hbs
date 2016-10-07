@@ -1,48 +1,50 @@
-<div class="l-stream-comment_front">
-  <div class="c-stream-message">
-    <section class="c-stream-message_first-section">
-      <div class="c-stream-message_avatar">
-      </div>
-    </section>
+{{!-- {{#if isViewable}} --}}
+  <div class="l-stream-comment_front">
+    <div class="c-stream-message">
+      <section class="c-stream-message_first-section">
+        <div class="c-stream-message_avatar">
+        </div>
+      </section>
 
-    <section class="c-stream-message_last-section">
-      <div class="c-stream-message_header">
-        <p class="c-stream-message_author">{{comment.person.name}}</p>
+      <section class="c-stream-message_last-section">
+        <div class="c-stream-message_header">
+          <p class="c-stream-message_author">{{comment.person.name}}</p>
 
-        <p class="c-stream-message_time">{{friendly-date date=comment.createdAt isLocal=true}}</p>
-      </div>
+          <p class="c-stream-message_time">{{friendly-date date=comment.createdAt isLocal=true}}</p>
+        </div>
 
-      <p class="c-stream-message_body">{{comment.body}}</p>
-    </section>
+        <p class="c-stream-message_body">{{comment.body}}</p>
+      </section>
+    </div>
   </div>
-</div>
 
-<div class="l-stream-comment_back">
-  <div class="c-options">
-    <section class="c-option-block">
-      {{inline-svg 'images/icons/icon-reply' class="c-option-block_icon"}}
-      <p class="c-option-block_title">reply</p>
-    </section>
-
-    <section class="c-option-block">
+  <div class="l-stream-comment_back">
+    <div class="c-options">
+      <section class="c-option-block">
         {{inline-svg 'images/icons/icon-reply' class="c-option-block_icon"}}
-        <p class="c-option-block_title">pin</p>
-    </section>
+        <p class="c-option-block_title">reply</p>
+      </section>
 
-    <section class="c-option-block" {{action (action "doEdit")}}>
-      {{inline-svg 'images/icons/icon-reply' class="c-option-block_icon"}}
-      <p class="c-option-block_title">edit</p>
-    </section>
+      <section class="c-option-block">
+          {{inline-svg 'images/icons/icon-reply' class="c-option-block_icon"}}
+          <p class="c-option-block_title">pin</p>
+      </section>
 
-    <section class="c-option-block--red">
-      {{inline-svg 'images/icons/icon-reply' class="c-option-block_icon"}}
-      <p class="c-option-block_title">delete</p>
-    </section>
+      <section class="c-option-block" {{action (action "doEdit")}}>
+        {{inline-svg 'images/icons/icon-reply' class="c-option-block_icon"}}
+        <p class="c-option-block_title">edit</p>
+      </section>
+
+      <section class="c-option-block--red">
+        {{inline-svg 'images/icons/icon-reply' class="c-option-block_icon"}}
+        <p class="c-option-block_title">delete</p>
+      </section>
+    </div>
   </div>
-</div>
 
-{{#if isFirstUnread}}
-  {{message-marker
-    onView=(action onNewMarkerView)
-  }}
-{{/if}}
+  {{#if isFirstUnread}}
+    {{message-marker
+      onView=(action onNewMarkerView)
+    }}
+  {{/if}}
+{{!-- {{/if}} --}}
