@@ -13,6 +13,7 @@ export default Mixin.create(RecognizerMixin, {
   scroll: service(),
 
   // recognizers: 'tap pan',
+  recognizers: 'tap',
 
   items: {},
   previousItem: null,
