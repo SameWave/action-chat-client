@@ -13,7 +13,7 @@ export default Component.extend(SwipableListMixin, {
   $scrollContainer: null,
 
   didInsertElement() {
-    this.$scrollContainer = this.$();
+    // this.$scrollContainer = this.$();
     this._super(...arguments);
 
     // this.get('scroll').setProperties({

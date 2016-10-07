@@ -12,7 +12,7 @@ export default Mixin.create(RecognizerMixin, {
 
   scroll: service(),
 
-  recognizers: 'tap pan',
+  // recognizers: 'tap pan',
 
   items: {},
   previousItem: null,
@@ -42,49 +42,49 @@ export default Mixin.create(RecognizerMixin, {
     }
   },
 
-  panStart(event) {
-    console.log(this.get('scroll.active'));
-    if (this.get('scroll.active')) {
-      return;
-    }
+  // panStart(event) {
+  //   console.log(this.get('scroll.active'));
+  //   if (this.get('scroll.active')) {
+  //     return;
+  //   }
 
-    this.get('scroll').disable();
+  //   this.get('scroll').disable();
 
-    this.currentItem = this._getItemFromEvent(event);
+  //   this.currentItem = this._getItemFromEvent(event);
 
-    if (this.previousItem) {
-      this.previousItem.doSwipeRight(event);
-    }
+  //   if (this.previousItem) {
+  //     this.previousItem.doSwipeRight(event);
+  //   }
 
-    if (this.currentItem) {
-      this.currentItem.doPanStart(event);
-    }
-  },
+  //   if (this.currentItem) {
+  //     this.currentItem.doPanStart(event);
+  //   }
+  // },
 
-  panMove(event) {
+  // panMove(event) {
 
-    if (this.get('scroll.active')) {
-      return;
-    }
+  //   if (this.get('scroll.active')) {
+  //     return;
+  //   }
 
-    if (this.currentItem) {
-      this.currentItem.doPanMove(event);
-    }
-  },
+  //   if (this.currentItem) {
+  //     this.currentItem.doPanMove(event);
+  //   }
+  // },
 
-  panEnd(event) {
-    if (this.get('scroll.active')) {
-      return;
-    }
+  // panEnd(event) {
+  //   if (this.get('scroll.active')) {
+  //     return;
+  //   }
 
-    this.previousItem = this.currentItem;
+  //   this.previousItem = this.currentItem;
 
-    if (this.currentItem) {
-      this.currentItem.doPanEnd(event);
-      // this.currentItem = null;
-    }
+  //   if (this.currentItem) {
+  //     this.currentItem.doPanEnd(event);
+  //     // this.currentItem = null;
+  //   }
 
-    this._enableScroll();
-  }
+  //   this._enableScroll();
+  // }
 
 });

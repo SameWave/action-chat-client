@@ -71,7 +71,7 @@ export default Controller.extend({
   $input: null,
 
   didRender() {
-    console.log('controller didRender');
+    // console.log('controller didRender');
     this._super(...arguments);
 
     this.set('isObserving', true);
@@ -83,6 +83,8 @@ export default Controller.extend({
     this.scrollToBottom(0); // scroll to bottom with 0 delay
 
     // this.get('scroll').enable(this.$comments, this.onCommentsScroll);
+    this.$comments.on('scroll', run.bind(this, this.onCommentsScroll));
+    this.$comments.on('touchmove', run.bind(this, this.onCommentsScroll));
 
     if (this.get('unreadCount')) {
       this.setFirstUnread();
