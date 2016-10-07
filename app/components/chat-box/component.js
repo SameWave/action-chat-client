@@ -13,7 +13,7 @@ export default Component.extend({
   isSendButtonVisible: false,
   $input: null,
 
-  didRender() {
+  didInsertElement() {
     this._super(...arguments);
     this.$input = this.$('#chat-area');
   },

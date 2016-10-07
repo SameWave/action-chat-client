@@ -71,6 +71,7 @@ export default Controller.extend({
   $input: null,
 
   didRender() {
+    console.log('controller didRender');
     this._super(...arguments);
 
     this.set('isObserving', true);
@@ -81,8 +82,7 @@ export default Controller.extend({
 
     this.scrollToBottom(0); // scroll to bottom with 0 delay
 
-    this.$comments.on('touchmove', run.bind(this, this.onCommentsScroll));
-    this.$comments.on('scroll', run.bind(this, this.onCommentsScroll));
+    // this.get('scroll').enable(this.$comments, this.onCommentsScroll);
 
     if (this.get('unreadCount')) {
       this.setFirstUnread();
@@ -259,7 +259,6 @@ export default Controller.extend({
 
   setLastReadAt() {
     let lastReadAt = new Date();
-    debug('setLastReadAt', lastReadAt);
     this.set('sessionMember.lastReadAt', lastReadAt);
     this.get('sessionMember').save();
     this.set('unreadCount', 0);
@@ -358,7 +357,7 @@ export default Controller.extend({
         stream: this.get('stream')
       });
       comment.save().then(() => {
-        debug('comment created');
+        // debug('comment created');
       });
     },
 
@@ -398,13 +397,13 @@ export default Controller.extend({
     // TODO: Review this as it looks like a duplicate
     updateComment(comment) {
       comment.save().then(() => {
-        debug('comment updated');
+        // debug('comment updated');
       });
     },
 
     deleteComment(comment) {
       comment.destroyRecord().then(() => {
-        debug('comment destroyed');
+        // debug('comment destroyed');
       });
     },
 

@@ -2,24 +2,54 @@ import Ember from 'ember';
 import RecognizerMixin from 'ember-gestures/mixins/recognizers';
 
 const {
-  Mixin
+  Mixin,
+  inject: {
+    service
+  }
 } = Ember;
 
 export default Mixin.create(RecognizerMixin, {
 
-  recognizers: 'tap swipe',
+  scroll: service(),
+
+  recognizers: 'tap pan',
 
   items: {},
   previousItem: null,
   currentItem: null,
+  onScrollCallback: null,
+  $scrollContainer: null,
+
+  didInsertElement() {
+    this._super(...arguments);
+    this._enableScroll();
+  },
+
+  _enableScroll() {
+    if (this.$scrollContainer) {
+      this.get('scroll').enable(this.$scrollContainer, this.onScrollCallback);
+    }
+  },
 
   _getItemFromEvent(event) {
     let itemId = this.$(event.target).closest('.js-list-item').attr('id');
     return this.get('items')[itemId];
   },
 
-  swipeLeft(event) {
-    this.previousItem = this.currentItem;
+  registerItem(item) {
+    if (item) {
+      this.get('items')[item.get('elementId')] = item;
+    }
+  },
+
+  panStart(event) {
+    console.log(this.get('scroll.active'));
+    if (this.get('scroll.active')) {
+      return;
+    }
+
+    this.get('scroll').disable();
+
     this.currentItem = this._getItemFromEvent(event);
 
     if (this.previousItem) {
@@ -27,22 +57,34 @@ export default Mixin.create(RecognizerMixin, {
     }
 
     if (this.currentItem) {
-      this.currentItem.doSwipeLeft(event);
+      this.currentItem.doPanStart(event);
     }
   },
 
-  swipeRight(event) {
-    this.currentItem = this._getItemFromEvent(event);
+  panMove(event) {
+
+    if (this.get('scroll.active')) {
+      return;
+    }
 
     if (this.currentItem) {
-      this.currentItem.doSwipeRight(event);
+      this.currentItem.doPanMove(event);
     }
   },
 
-  registerItem(item) {
-    if (item) {
-      this.get('items')[item.get('elementId')] = item;
+  panEnd(event) {
+    if (this.get('scroll.active')) {
+      return;
     }
+
+    this.previousItem = this.currentItem;
+
+    if (this.currentItem) {
+      this.currentItem.doPanEnd(event);
+      // this.currentItem = null;
+    }
+
+    this._enableScroll();
   }
 
 });
