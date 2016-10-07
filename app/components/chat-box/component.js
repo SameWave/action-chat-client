@@ -9,11 +9,11 @@ const {
 
 export default Component.extend({
   classNames: ['c-chat-box'],
-  classNameBindings: ['isChatCarrotInvisible'],
+  classNameBindings: ['isChatCaretInvisible'],
   value: '',
   isSendButtonVisible: false,
-  isChatCarrotVisible: false,
-  isChatCarrotInvisible: computed.not('isChatCarrotVisible'),
+  isChatCaretVisible: false,
+  isChatCaretInvisible: computed.not('isChatCaretVisible'),
   $input: null,
 
   didRender() {
@@ -30,7 +30,6 @@ export default Component.extend({
     doTap() {
       run.later(this, () => {
         this.$input.blur().focus();
-        console.log('tap');
       }, 420);
     },
 

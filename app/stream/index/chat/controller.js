@@ -40,7 +40,7 @@ export default Controller.extend({
   unreadCount: 0,
   isObserving: false,
   isSendButtonVisible: true,
-  isChatCarrotVisible: true,
+  isChatCaretVisible: true,
 
   streamMembers: computed('members.[]', 'stream.id', function() {
     return this.get('members').filterBy('stream.id', this.get('stream.id'));
@@ -98,7 +98,7 @@ export default Controller.extend({
   },
 
   footerAnimationEnd() {
-    this.set('isChatCarrotVisible', true);
+    this.set('isChatCaretVisible', true);
   },
 
   commentCount: alias('streamComments.length'),
@@ -189,7 +189,7 @@ export default Controller.extend({
       scrollHeight
     } = this.$comments.get(0);
 
-    this.set('isChatCarrotVisible', false);
+    this.set('isChatCaretVisible', false);
 
     this.$footer.css({
       transform: `translateY(-${height}px)`
@@ -214,7 +214,7 @@ export default Controller.extend({
       transform: 'translateY(0)'
     });
 
-    this.set('isChatCarrotVisible', true);
+    this.set('isChatCaretVisible', true);
   },
 
   doScroll(top, delay) {

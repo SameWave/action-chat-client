@@ -5,7 +5,7 @@
   margin: 10px;
 
   // States
-  // .is-carrot-invisible
+  // .is-caret-invisible
 
   // Layouts
   &_first-section {
@@ -44,7 +44,7 @@
     margin: auto;
     background-color: inherit;
 
-    @at-root .c-chat-box.is-carrot-invisible .c-chat-box_input {
+    @at-root .c-chat-box.is-caret-invisible .c-chat-box_input {
       visibility: hidden;
     }
   }
