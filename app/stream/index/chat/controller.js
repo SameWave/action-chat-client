@@ -135,7 +135,7 @@ export default Controller.extend({
 
   onCommentsScroll() {
     if (!this.get('isShowingAllComments') && this.isNearTop() && !this.get('isLoadingEarlier')) {
-      this.loadingTimer = run.debounce(this, this.loadEarlier, 1000, true);
+      this.set('loadingTimer') = run.debounce(this, this.loadEarlier, 1000, true);
     }
   },
 
