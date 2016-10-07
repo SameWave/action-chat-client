@@ -22,6 +22,8 @@ export default Component.extend(SwipableListItemMixin, {
 
   unreadCount: computed('session.person.id', 'stream.members.@each.personId', function() {
     let sessionMember = this.get('stream.members').findBy('personId', this.get('session.person.id'));
-    return sessionMember.get('unreadCount') || 0;
+    if (sessionMember) {
+      return sessionMember.get('unreadCount');
+    }
   })
 });
