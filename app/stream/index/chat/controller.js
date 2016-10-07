@@ -22,7 +22,7 @@ const {
 
 const NUDGE_OFFSET_PX = 60; // Pixels for determining nudge vs scroll for new comment
 const NUDGE_PX = 24; // Pixels for distance to nudge
-const COMMENT_LOAD_SIZE = 10;
+const COMMENT_LOAD_SIZE = 100;
 
 export {
   COMMENT_LOAD_SIZE
