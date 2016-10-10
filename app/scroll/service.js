@@ -7,7 +7,8 @@ const {
     cancel,
     later
   },
-  testing
+  testing,
+  $
 } = Ember;
 
 const momentumDelay = testing ? 0 : 10;
@@ -30,7 +31,7 @@ export default Service.extend({
   enable($container, callback) {
     // console.log('enable');
     // NOTE: set on contoller
-    // this.$container = $container;
+    // this.$container = $('.js-scrollable-container');
 
     // if (callback) {
     //   this.callback = callback;
@@ -51,7 +52,6 @@ export default Service.extend({
     this.$container.css({
       'overflow-y': 'hidden'
     });
-
   },
 
   onScroll() {
@@ -67,7 +67,7 @@ export default Service.extend({
   },
 
   start() {
-    console.log('started scrolling');
+
     this.setProperties({
       started: true,
       active: true,
@@ -86,7 +86,7 @@ export default Service.extend({
   },
 
   end() {
-    // console.log('ended scrolling');
+
     this.setProperties({
       started: false,
       ended: true
@@ -107,5 +107,4 @@ export default Service.extend({
     // }
 
   }
-
 });

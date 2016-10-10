@@ -51,6 +51,7 @@ export default Mixin.create({
     // this.get('ui').own(this.get('elementId'), this.close.bind(this));
 
     let style = window.getComputedStyle(this.$front);
+    // TODO: What is this?
     let matrix = new WebKitCSSMatrix(style.webkitTransform);
 
     this.startX = matrix.m41;
@@ -118,7 +119,6 @@ export default Mixin.create({
     let newX = this.lastX;
     let style = '';
 
-    style += 'transition: none; ';
     style += `transform: translateX(${ newX }px); `;
 
     this.$front.style.cssText = style;

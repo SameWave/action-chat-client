@@ -36,8 +36,16 @@ export default Mixin.create(RecognizerMixin, {
     }
   },
 
+  /**
+  * Event fired when user initiates dragging.
+  This event disables scrolling on the container.
+  This event closes the previous opened item.
+  *
+  * @event panStart
+  * @requires ember-gestures
+  * @param {object} returned touch event
+  */
   panStart(event) {
-    console.log(this.get('scroll.active'));
     if (this.get('scroll.active')) {
       return;
     }
@@ -47,7 +55,7 @@ export default Mixin.create(RecognizerMixin, {
     this.currentItem = this._getItemFromEvent(event);
 
     if (this.previousItem) {
-      this.previousItem.doSwipeRight(event);
+      this.previousItem.closeItem();
     }
 
     if (this.currentItem) {
@@ -56,7 +64,6 @@ export default Mixin.create(RecognizerMixin, {
   },
 
   panMove(event) {
-
     if (this.get('scroll.active')) {
       return;
     }
@@ -71,7 +78,9 @@ export default Mixin.create(RecognizerMixin, {
       return;
     }
 
-    this.previousItem = this.currentItem;
+    if (this.previousItem !== this.currentItem) {
+      this.previousItem = this.currentItem;
+    }
 
     if (this.currentItem) {
       this.currentItem.doPanEnd(event);
