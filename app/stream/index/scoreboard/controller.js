@@ -66,10 +66,30 @@ export default Controller.extend(SwipableListMixin, {
       id: '10',
       title: 'BEDLAM',
       date: 'Sun Jan 10 1982 02:42:46 GMT+0000 (UTC)'
+    }),
+    Object.create({
+      id: '11',
+      title: 'BEDLAM X',
+      date: 'Sun Jan 10 1982 02:42:46 GMT+0000 (UTC)'
+    }),
+    Object.create({
+      id: '12',
+      title: 'BEDLAM XX',
+      date: 'Sun Jan 10 1982 02:42:46 GMT+0000 (UTC)'
+    }),
+    Object.create({
+      id: '13',
+      title: 'BEDLAM XXX',
+      date: 'Sun Jan 10 1982 02:42:46 GMT+0000 (UTC)'
+    }),
+    Object.create({
+      id: '14',
+      title: 'BEDLAM XXXX',
+      date: 'Sun Jan 10 1982 02:42:46 GMT+0000 (UTC)'
     })
   ]),
 
-  dragulaconfig: {
+  dragulaConfig: {
     options: {
       copy: false,
       revertOnSpill: true,
@@ -87,82 +107,12 @@ export default Controller.extend(SwipableListMixin, {
         }
       }
     },
-    enabledEvents: ['drag', 'drop', 'cloned', 'over']
-  },
-
-  isDragging: false,
-  cloneElement: null,
-  $scoreboardTopArea: null,
-  $scoreboardCenterArea: null,
-  $scoreboardBottomArea: null,
-
-  onCloneDrag() {
-    console.log('dragging clone');
+    enabledEvents: []
   },
 
   timer: null,
 
   actions: {
-    onOver(container) {
-      let top = 'js-scoreboard-top-area';
-      let center = 'js-scoreboard-main-area';
-      let bottom = 'js-scoreboard-bottom-area';
-
-      console.log(`container.id: ${container.id}`);
-      switch (container.id) {
-        case top:
-          console.log('top');
-
-          run.cancel(this.timer);
-          this.timer = run.throttle(this, this.scrollUp, 150);
-        case center:
-          console.log('center');
-
-          run.cancel(this.timer);
-        case bottom:
-          console.log('bottom');
-
-          run.cancel(this.timer);
-          this.timer = run.throttle(this, this.scrollDown, 150);
-      }
-    },
-
-    scrollUp() {
-      console.log('scrollUP');
-
-      let $scoreboard = $('#js-scoreboard-main-area');
-      let pos = $scoreboard.scrollTop();
-
-      $scoreboard.scrollTop(pos - 200);
-
-      this.send('scrollUp');
-    },
-
-    scrollDown() {
-      console.log('scrollDown');
-
-      let $scoreboard = $('#js-scoreboard-main-area');
-      let pos = $scoreboard.scrollTop();
-
-      $scoreboard.scrollTop(pos + 200);
-
-      this.send('scrollDown');
-    },
-
-    onDrag(e) {
-      this.set('isDragging', true);
-    },
-
-    onDragEnd() {
-      this.set('isDragging', false);
-      this.set('cloneElement', null);
-    },
-
-    onCloned(clone) {
-      this.cloneElement = $(clone);
-      this.cloneElement.on('ondrag', run.bind(this, this.onCloneDrag));
-      return false;
-    },
 
     goToStreamEditScoreboard() {
       console.log('Goto stream edit scoreboard');

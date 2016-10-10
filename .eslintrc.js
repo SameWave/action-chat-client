@@ -18,6 +18,8 @@ module.exports = {
     'qunit': true
   },
   rules: {
-    'object-shorthand': ["error", "always",  { "ignoreConstructors": true }]
+    'object-shorthand': ["error", "always", {
+      "ignoreConstructors": true
+    }]
   }
 };
