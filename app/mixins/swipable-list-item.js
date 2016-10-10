@@ -2,7 +2,8 @@ import Ember from 'ember';
 
 const {
   Mixin,
-  run
+  run,
+  testing
 } = Ember;
 
 export default Mixin.create({
@@ -48,14 +49,14 @@ export default Mixin.create({
     }
     // this.get('ui').own(this.get('elementId'), this.close.bind(this));
 
-    var style = window.getComputedStyle(this.$front);
-    var matrix = new WebKitCSSMatrix(style.webkitTransform);
+    let style = window.getComputedStyle(this.$front);
+    let matrix = new WebKitCSSMatrix(style.webkitTransform);
 
     this.startX = matrix.m41;
     this.startY = matrix.m42;
     this.startZ = matrix.m43;
 
-    if (!Ember.testing) {
+    if (!testing) {
       this.lastX = this.startX;
     }
 
@@ -112,8 +113,8 @@ export default Mixin.create({
   animatePan() {
     this.rafPanId = null;
 
-    var newX = this.lastX,
-      style = '';
+    let newX = this.lastX;
+    let style = '';
 
     style += '-webkit-transition: none; ';
     style += '-moz-transition: none; ';
@@ -121,11 +122,11 @@ export default Mixin.create({
     style += '-o-transition: none; ';
     style += 'transition: none; ';
 
-    style += '-webkit-transform: translate3d(' + newX + 'px,' + this.startY + 'px,' + this.startZ + 'px) scale3d(1,1,1); ';
-    style += '-moz-transform: translate3d(' + newX + 'px,' + this.startY + 'px,' + this.startZ + 'px); ';
-    style += '-ms-transform: translate3d(' + newX + 'px,' + this.startY + 'px,' + this.startZ + 'px); ';
-    style += '-o-transform: translate3d(' + newX + 'px,' + this.startY + 'px,' + this.startZ + 'px); ';
-    style += 'transform: translate3d(' + newX + 'px,' + this.startY + 'px,' + this.startZ + 'px); ';
+    style += `-webkit-transform: translate3d(${  newX  }px,${  this.startY  }px,${  this.startZ  }px) scale3d(1,1,1); `;
+    style += `-moz-transform: translate3d(${  newX  }px,${  this.startY  }px,${  this.startZ  }px); `;
+    style += `-ms-transform: translate3d(${  newX  }px,${  this.startY  }px,${  this.startZ  }px); `;
+    style += `-o-transform: translate3d(${  newX  }px,${  this.startY  }px,${  this.startZ  }px); `;
+    style += `transform: translate3d(${  newX  }px,${  this.startY  }px,${  this.startZ  }px); `;
 
     this.$front.style.cssText = style;
   },
@@ -138,9 +139,9 @@ export default Mixin.create({
     this.rafSlideId = null;
 
     let width = 284;
-    var newX,
-      relativeDuration,
-      animation = 'linear';
+    let newX;
+    let relativeDuration;
+    let animation = 'linear';
 
     console.log(this.get('isPanOpen'));
     newX = (this.get('isPanOpen')) ? -1 * width : 0;
@@ -151,20 +152,19 @@ export default Mixin.create({
     // relativeDuration = this.get('duration');
     relativeDuration = 120;
 
-    var style = '';
+    let style = '';
 
-    style += '-webkit-transition: -webkit-transform ' + relativeDuration + 'ms ' + animation + '; ';
-    style += '-moz-transition: -moz-transform ' + relativeDuration + 'ms ' + animation + '; ';
-    style += '-ms-transition: -ms-transform ' + relativeDuration + 'ms ' + animation + '; ';
-    style += '-o-transition: -o-transform ' + relativeDuration + 'ms ' + animation + '; ';
-    style += 'transition: transform ' + relativeDuration + 'ms ' + animation + '; ';
+    style += `-webkit-transition: -webkit-transform ${  relativeDuration  }ms ${  animation  }; `;
+    style += `-moz-transition: -moz-transform ${  relativeDuration  }ms ${  animation  }; `;
+    style += `-ms-transition: -ms-transform ${  relativeDuration  }ms ${  animation  }; `;
+    style += `-o-transition: -o-transform ${  relativeDuration  }ms ${  animation  }; `;
+    style += `transition: transform ${  relativeDuration  }ms ${  animation  }; `;
 
-    style += '-webkit-transform: translate3d(' + newX + 'px,' + this.startY + 'px,' + this.startZ + 'px) scale3d(1,1,1); ';
-    style += '-moz-transform: translate3d(' + newX + 'px,' + this.startY + 'px,' + this.startZ + 'px); ';
-    style += '-ms-transform: translate3d(' + newX + 'px,' + this.startY + 'px,' + this.startZ + 'px); ';
-    style += '-o-transform: translate3d(' + newX + 'px,' + this.startY + 'px,' + this.startZ + 'px); ';
-    style += 'transform: translate3d(' + newX + 'px,' + this.startY + 'px,' + this.startZ + 'px); ';
-
+    style += `-webkit-transform: translate3d(${  newX  }px,${  this.startY  }px,${  this.startZ  }px) scale3d(1,1,1); `;
+    style += `-moz-transform: translate3d(${  newX  }px,${  this.startY  }px,${  this.startZ  }px); `;
+    style += `-ms-transform: translate3d(${  newX  }px,${  this.startY  }px,${  this.startZ  }px); `;
+    style += `-o-transform: translate3d(${  newX  }px,${  this.startY  }px,${  this.startZ  }px); `;
+    style += `transform: translate3d(${  newX  }px,${  this.startY  }px,${  this.startZ  }px); `;
 
     this.$front.style.cssText = style;
 
@@ -174,7 +174,7 @@ export default Mixin.create({
         if (this.get('isDestroying') || this.get('isDestroyed')) {
           return;
         }
-        this.$front.style.cssText = "";
+        this.$front.style.cssText = '';
       }, relativeDuration);
     }
   },
@@ -193,6 +193,6 @@ export default Mixin.create({
     if (!this.rafSlideId) {
       this.rafSlideId = window.requestAnimationFrame(this.animateSlide.bind(this));
     }
-  }.observes('isPanOpen'),
+  }.observes('isPanOpen')
 
 });
