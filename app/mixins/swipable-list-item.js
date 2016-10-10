@@ -35,11 +35,12 @@ export default Mixin.create({
     this.$front = null;
   },
 
-  doSwipeRight() {
-    if (this.get('isSwipable')) {
-      // this.set('isOpen', false);
-      this.set('isPanOpen', false);
-    }
+  closeItem() {
+    let style = '';
+
+    style += 'transform: translateX(0); ';
+
+    this.$front.style.cssText = style;
   },
 
   doPanStart() {
@@ -110,6 +111,7 @@ export default Mixin.create({
     }
   },
 
+  // Note: Called every pixel the element is dragged
   animatePan() {
     this.rafPanId = null;
 
@@ -117,11 +119,12 @@ export default Mixin.create({
     let style = '';
 
     style += 'transition: none; ';
-    style += `transform: translate3d(${  newX  }px,${  this.startY  }px,${  this.startZ  }px); `;
+    style += `transform: translateX(${ newX }px); `;
 
     this.$front.style.cssText = style;
   },
 
+  // Note: Called at the end of a drag. Used to autoclose or open when dragging is stopped midway
   animateSlide() {
     if (!this.$front) {
       return;
@@ -132,21 +135,17 @@ export default Mixin.create({
     let newX,
       relativeDuration;
     let width = 284;
-    let animation = 'linear';
 
-    console.log(this.get('isPanOpen'));
     newX = (this.get('isPanOpen')) ? -1 * width : 0;
 
     // calculate the remaining duration (time) needed to complete the action
     // relativeDuration = Math.abs(newX - this.lastX) / (this.get('clip') / this.get('duration'));
 
     // relativeDuration = this.get('duration');
-    relativeDuration = 120;
 
     let style = '';
 
-    style += `transition: transform ${  relativeDuration  }ms ${  animation  }; `;
-    style += `transform: translate3d(${  newX  }px,${  this.startY  }px,${  this.startZ  }px); `;
+    style += `transform: translateX(${ newX }px); `;
 
     this.$front.style.cssText = style;
 
@@ -159,6 +158,8 @@ export default Mixin.create({
         this.$front.style.cssText = '';
       }, relativeDuration);
     }
+
+    console.log('end of pan');
   },
 
   _enqueSlide: function() {
