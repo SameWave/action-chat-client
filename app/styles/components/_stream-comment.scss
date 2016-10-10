@@ -21,8 +21,8 @@ $component-name: l-stream-comment;
 		width: 100%;
 		border-radius: 3px 3px 3px 13px;
 		background: map-get($shades, 'white');
-		transform: translateX(0);
 		transition: transform $speed-fast, background $speed-fast;
+    touch-action: pan-x;
 
 		@at-root .#{$component-name}.is-editing .#{$component-name}_front {
 			background: map-get($yellow, 'base');
