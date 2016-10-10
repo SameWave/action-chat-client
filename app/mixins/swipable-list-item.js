@@ -116,16 +116,7 @@ export default Mixin.create({
     let newX = this.lastX;
     let style = '';
 
-    style += '-webkit-transition: none; ';
-    style += '-moz-transition: none; ';
-    style += '-ms-transition: none; ';
-    style += '-o-transition: none; ';
     style += 'transition: none; ';
-
-    style += `-webkit-transform: translate3d(${  newX  }px,${  this.startY  }px,${  this.startZ  }px) scale3d(1,1,1); `;
-    style += `-moz-transform: translate3d(${  newX  }px,${  this.startY  }px,${  this.startZ  }px); `;
-    style += `-ms-transform: translate3d(${  newX  }px,${  this.startY  }px,${  this.startZ  }px); `;
-    style += `-o-transform: translate3d(${  newX  }px,${  this.startY  }px,${  this.startZ  }px); `;
     style += `transform: translate3d(${  newX  }px,${  this.startY  }px,${  this.startZ  }px); `;
 
     this.$front.style.cssText = style;
@@ -138,9 +129,9 @@ export default Mixin.create({
 
     this.rafSlideId = null;
 
+    let newX,
+      relativeDuration;
     let width = 284;
-    let newX;
-    let relativeDuration;
     let animation = 'linear';
 
     console.log(this.get('isPanOpen'));
@@ -154,16 +145,7 @@ export default Mixin.create({
 
     let style = '';
 
-    style += `-webkit-transition: -webkit-transform ${  relativeDuration  }ms ${  animation  }; `;
-    style += `-moz-transition: -moz-transform ${  relativeDuration  }ms ${  animation  }; `;
-    style += `-ms-transition: -ms-transform ${  relativeDuration  }ms ${  animation  }; `;
-    style += `-o-transition: -o-transform ${  relativeDuration  }ms ${  animation  }; `;
     style += `transition: transform ${  relativeDuration  }ms ${  animation  }; `;
-
-    style += `-webkit-transform: translate3d(${  newX  }px,${  this.startY  }px,${  this.startZ  }px) scale3d(1,1,1); `;
-    style += `-moz-transform: translate3d(${  newX  }px,${  this.startY  }px,${  this.startZ  }px); `;
-    style += `-ms-transform: translate3d(${  newX  }px,${  this.startY  }px,${  this.startZ  }px); `;
-    style += `-o-transform: translate3d(${  newX  }px,${  this.startY  }px,${  this.startZ  }px); `;
     style += `transform: translate3d(${  newX  }px,${  this.startY  }px,${  this.startZ  }px); `;
 
     this.$front.style.cssText = style;
