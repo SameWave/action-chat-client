@@ -1,28 +1,26 @@
 {{tool-bar
-  onEdit=(action "goToStreamEditScoreboard")}}
+  onEdit=(action "goToStreamEditScoreboard")
+}}
 
+{{#ember-dragula
+  classNames="l-scoreboard-container"
+	config=dragulaConfig
 
-  {{#ember-dragula
-    classNames="l-scoreboard-container"
-  	config=dragulaconfig
-  		drag="onDrag"
-  		dragend="onDragEnd"
-  		cloned="onCloned"
-      over="onOver"}}
-  	  {{!-- <h2>Group A</h2> --}}
-    {{#ember-dragula-container id="js-scoreboard-up-area" classNames="c-scoreboard-detection--top"}}
-    {{/ember-dragula-container}}
+  as |drake|
+}}
 
-    {{#sw-ember-dragula
-      id="js-scoreboard-main-area"}}
-      {{#each goals as |item|}}
-        {{goal-block
-          goal=item
-          classNames="in-edit js-list-item"
-          onDeleteGoal=(action "deleteGoal")}}
-      {{/each}}
-    {{/sw-ember-dragula}}
+  {{#sw-dragula-container
+    id="js-scoreboard-main-area"
+    drake=drake
+  }}
 
-    {{#ember-dragula-container id="js-scoreboard-bottom-area" classNames="c-scoreboard-detection--bottom"}}
-    {{/ember-dragula-container}}
-  {{/ember-dragula}}
+    {{#each goals as |item|}}
+      {{goal-block
+        goal=item
+        classNames="in-edit js-list-item"
+        onDeleteGoal=(action "deleteGoal")}}
+    {{/each}}
+
+  {{/sw-dragula-container}}
+
+{{/ember-dragula}}

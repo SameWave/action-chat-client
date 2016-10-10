@@ -15,6 +15,8 @@ module.exports = {
     'browser': true
   },
   rules: {
-    'object-shorthand': ["error", "always",  { "ignoreConstructors": true }]
+    'object-shorthand': ["error", "always", {
+      "ignoreConstructors": true
+    }]
   }
 };
