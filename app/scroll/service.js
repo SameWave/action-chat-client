@@ -31,7 +31,7 @@ export default Service.extend({
   enable($container, callback) {
     // console.log('enable');
     // NOTE: set on contoller
-    // this.$container = $('.js-scrollable-container');
+    this.$container = $('.js-scrollable-container');
 
     // if (callback) {
     //   this.callback = callback;

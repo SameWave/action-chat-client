@@ -55,8 +55,6 @@ export default Mixin.create({
     let matrix = new WebKitCSSMatrix(style.webkitTransform);
 
     this.startX = matrix.m41;
-    this.startY = matrix.m42;
-    this.startZ = matrix.m43;
 
     if (!testing) {
       this.lastX = this.startX;
@@ -142,12 +140,9 @@ export default Mixin.create({
     // relativeDuration = Math.abs(newX - this.lastX) / (this.get('clip') / this.get('duration'));
 
     // relativeDuration = this.get('duration');
+    relativeDuration = 240;
 
-    let style = '';
-
-    style += `transform: translateX(${ newX }px); `;
-
-    this.$front.style.cssText = style;
+    this.$front.style.cssText = `transform: translateX(${ newX }px); `;
 
     if (newX === 0) {
 
@@ -158,8 +153,6 @@ export default Mixin.create({
         this.$front.style.cssText = '';
       }, relativeDuration);
     }
-
-    console.log('end of pan');
   },
 
   _enqueSlide: function() {

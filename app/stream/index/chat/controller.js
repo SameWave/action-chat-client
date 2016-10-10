@@ -83,7 +83,6 @@ export default Controller.extend({
 
     this.scrollToBottom(0); // scroll to bottom with 0 delay
 
-    this.set('scroll.$container', $('.js-comments-section'));
     this.get('scroll').enable(this.$comments, this.onCommentsScroll);
     this.$comments.on('scroll', run.bind(this, this.onCommentsScroll));
     this.$comments.on('touchmove', run.bind(this, this.onCommentsScroll));
