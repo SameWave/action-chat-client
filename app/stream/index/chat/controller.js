@@ -31,6 +31,7 @@ export {
 export default Controller.extend({
 
   session: inject.service(),
+  scroll: inject.service(),
 
   stream: null,
   members: [],
@@ -82,7 +83,8 @@ export default Controller.extend({
 
     this.scrollToBottom(0); // scroll to bottom with 0 delay
 
-    // this.get('scroll').enable(this.$comments, this.onCommentsScroll);
+    this.set('scroll.$container', $('.js-comments-section'));
+    this.get('scroll').enable(this.$comments, this.onCommentsScroll);
     this.$comments.on('scroll', run.bind(this, this.onCommentsScroll));
     this.$comments.on('touchmove', run.bind(this, this.onCommentsScroll));
 

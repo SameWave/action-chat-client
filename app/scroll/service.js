@@ -29,7 +29,8 @@ export default Service.extend({
 
   enable($container, callback) {
     // console.log('enable');
-    this.$container = $container;
+    // NOTE: set on contoller
+    // this.$container = $container;
 
     // if (callback) {
     //   this.callback = callback;
