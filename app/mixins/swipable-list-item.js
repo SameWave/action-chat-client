@@ -27,7 +27,7 @@ export default Mixin.create({
 
   didInsertElement() {
     this._super(...arguments);
-    this.$front = this.$('.l-stream-comment_front')[0];
+    this.$front = this.$('.js-block-front')[0];
   },
 
   willDestroyElement() {
