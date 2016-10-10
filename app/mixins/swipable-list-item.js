@@ -38,20 +38,19 @@ export default Mixin.create({
   closeItem() {
     let style = '';
 
-    style += 'transform: translateX(0); ';
+    style += 'transform: translateX(0); transition: transform 250ms;';
 
     this.$front.style.cssText = style;
   },
 
   doPanStart() {
-
     if (!this.$front) {
       return;
     }
     // this.get('ui').own(this.get('elementId'), this.close.bind(this));
 
     let style = window.getComputedStyle(this.$front);
-    // TODO: What is this?
+    // TODO: What is this? Use window.getComputedStyle(el).getPropertyValue("translate")
     let matrix = new WebKitCSSMatrix(style.webkitTransform);
 
     this.startX = matrix.m41;
@@ -86,6 +85,7 @@ export default Mixin.create({
   },
 
   doPanEnd() {
+
     this.startX = null;
 
     let width = 284;
@@ -112,18 +112,17 @@ export default Mixin.create({
 
   // Note: Called every pixel the element is dragged
   animatePan() {
+
     this.rafPanId = null;
 
     let newX = this.lastX;
-    let style = '';
 
-    style += `transform: translateX(${ newX }px); `;
-
-    this.$front.style.cssText = style;
+    this.$front.style.cssText = `transform: translateX(${ newX }px); `;
   },
 
   // Note: Called at the end of a drag. Used to autoclose or open when dragging is stopped midway
   animateSlide() {
+
     if (!this.$front) {
       return;
     }
@@ -134,15 +133,14 @@ export default Mixin.create({
       relativeDuration;
     let width = 284;
 
+    // Checks whether to snap open or close
     newX = (this.get('isPanOpen')) ? -1 * width : 0;
 
     // calculate the remaining duration (time) needed to complete the action
     // relativeDuration = Math.abs(newX - this.lastX) / (this.get('clip') / this.get('duration'));
+    relativeDuration = 120;
 
-    // relativeDuration = this.get('duration');
-    relativeDuration = 240;
-
-    this.$front.style.cssText = `transform: translateX(${ newX }px); `;
+    this.$front.style.cssText = `transition: transform ${ relativeDuration }ms; transform: translateX(${ newX }px); `;
 
     if (newX === 0) {
 
