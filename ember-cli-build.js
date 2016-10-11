@@ -1,4 +1,4 @@
-/*jshint node:true*/
+/* eslint-disable */
 /* global require, module */
 var EmberApp = require('ember-cli/lib/broccoli/ember-app');
 
@@ -31,6 +31,7 @@ module.exports = function(defaults) {
   // along with the exports of each module as its value.
 
   app.import('vendor/dom-autoscroller.js');
+  app.import('vendor/dragula/dragula.js');
 
   return app.toTree();
 };
