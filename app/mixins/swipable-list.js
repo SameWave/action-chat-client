@@ -12,8 +12,8 @@ export default Mixin.create(RecognizerMixin, {
 
   scroll: service(),
 
-  // recognizers: 'tap pan',
-  recognizers: 'tap',
+  recognizers: 'tap pan',
+  // recognizers: 'tap',
 
   items: {},
   previousItem: null,
@@ -23,13 +23,6 @@ export default Mixin.create(RecognizerMixin, {
 
   didInsertElement() {
     this._super(...arguments);
-    this._enableScroll();
-  },
-
-  _enableScroll() {
-    if (this.$scrollContainer) {
-      this.get('scroll').enable(this.$scrollContainer, this.onScrollCallback);
-    }
   },
 
   _getItemFromEvent(event) {
@@ -43,49 +36,58 @@ export default Mixin.create(RecognizerMixin, {
     }
   },
 
-  // panStart(event) {
-  //   console.log(this.get('scroll.active'));
-  //   if (this.get('scroll.active')) {
-  //     return;
-  //   }
+  /**
+  * Event fired when user initiates dragging.
+  This event disables scrolling on the container.
+  This event closes the previous opened item.
+  *
+  * @event panStart
+  * @requires ember-gestures
+  * @param {object} returned touch event
+  */
+  panStart(event) {
+    if (this.get('scroll.active')) {
+      return;
+    }
 
-  //   this.get('scroll').disable();
+    this.get('scroll').disable();
 
-  //   this.currentItem = this._getItemFromEvent(event);
+    this.currentItem = this._getItemFromEvent(event);
 
-  //   if (this.previousItem) {
-  //     this.previousItem.doSwipeRight(event);
-  //   }
+    if (this.previousItem) {
+      this.previousItem.closeItem();
+    }
 
-  //   if (this.currentItem) {
-  //     this.currentItem.doPanStart(event);
-  //   }
-  // },
+    if (this.currentItem) {
+      this.currentItem.doPanStart(event);
+    }
+  },
 
-  // panMove(event) {
+  panMove(event) {
+    if (this.get('scroll.active')) {
+      return;
+    }
 
-  //   if (this.get('scroll.active')) {
-  //     return;
-  //   }
+    if (this.currentItem) {
+      this.currentItem.doPanMove(event);
+    }
+  },
 
-  //   if (this.currentItem) {
-  //     this.currentItem.doPanMove(event);
-  //   }
-  // },
+  panEnd(event) {
+    if (this.get('scroll.active')) {
+      return;
+    }
 
-  // panEnd(event) {
-  //   if (this.get('scroll.active')) {
-  //     return;
-  //   }
+    if (this.previousItem !== this.currentItem) {
+      this.previousItem = this.currentItem;
+    }
 
-  //   this.previousItem = this.currentItem;
+    if (this.currentItem) {
+      this.currentItem.doPanEnd(event);
+      // this.currentItem = null;
+    }
 
-  //   if (this.currentItem) {
-  //     this.currentItem.doPanEnd(event);
-  //     // this.currentItem = null;
-  //   }
-
-  //   this._enableScroll();
-  // }
+    this.get('scroll').enable();
+  }
 
 });

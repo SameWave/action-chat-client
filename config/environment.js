@@ -1,7 +1,7 @@
 /* jshint node: true */
 
 module.exports = function(environment) {
-  var ENV = {
+  var ENV = { // eslint-disable-line no-var
     modulePrefix: 'action-chat-client',
     environment,
     rootURL: '',
@@ -45,8 +45,13 @@ module.exports = function(environment) {
       }
     },
 
+    // Greame's macbook
     // host: 'http://10.0.0.6:8080',
     // socket: 'ws://10.0.0.6:8080/cable'
+
+    // Mondes's macbook
+    // host: 'http://10.99.220.237:8080',
+    // socket: 'ws://10.99.220.237:8080/cable'
 
     host: 'http://localhost:3000',
     socket: 'ws://localhost:3000/cable'

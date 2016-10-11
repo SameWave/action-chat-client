@@ -7,7 +7,8 @@ const {
     cancel,
     later
   },
-  testing
+  testing,
+  $
 } = Ember;
 
 const momentumDelay = testing ? 0 : 10;
@@ -27,13 +28,8 @@ export default Service.extend({
     return window.cordova && window.cordova.platformId === 'ios';
   },
 
-  enable($container, callback) {
-    // console.log('enable');
-    this.$container = $container;
-
-    // if (callback) {
-    //   this.callback = callback;
-    // }
+  enable($container) {
+    this.$container = $('.js-scrollable-container');
 
     this.$container.css({
       'overflow-y': 'scroll'
@@ -50,12 +46,9 @@ export default Service.extend({
     this.$container.css({
       'overflow-y': 'hidden'
     });
-
   },
 
   onScroll() {
-    // console.log('onScroll');
-
     if (this.get('ended') && !this.get('started')) {
       debounce(this, this.start, 251, true);
     }
@@ -66,7 +59,7 @@ export default Service.extend({
   },
 
   start() {
-    console.log('started scrolling');
+
     this.setProperties({
       started: true,
       active: true,
@@ -85,7 +78,7 @@ export default Service.extend({
   },
 
   end() {
-    // console.log('ended scrolling');
+
     this.setProperties({
       started: false,
       ended: true
@@ -106,5 +99,4 @@ export default Service.extend({
     // }
 
   }
-
 });

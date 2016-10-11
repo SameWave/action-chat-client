@@ -2,7 +2,8 @@ import Ember from 'ember';
 
 const {
   Mixin,
-  run
+  run,
+  testing
 } = Ember;
 
 export default Mixin.create({
@@ -26,7 +27,7 @@ export default Mixin.create({
 
   didInsertElement() {
     this._super(...arguments);
-    this.$front = this.$('.l-stream-comment_front')[0];
+    this.$front = this.$('.js-swappable-block')[0];
   },
 
   willDestroyElement() {
@@ -34,28 +35,27 @@ export default Mixin.create({
     this.$front = null;
   },
 
-  doSwipeRight() {
-    if (this.get('isSwipable')) {
-      // this.set('isOpen', false);
-      this.set('isPanOpen', false);
-    }
+  closeItem() {
+    let style = '';
+
+    style += 'transform: translateX(0); transition: transform 250ms;';
+
+    this.$front.style.cssText = style;
   },
 
   doPanStart() {
-
     if (!this.$front) {
       return;
     }
     // this.get('ui').own(this.get('elementId'), this.close.bind(this));
 
-    var style = window.getComputedStyle(this.$front);
-    var matrix = new WebKitCSSMatrix(style.webkitTransform);
+    let style = window.getComputedStyle(this.$front);
+    // TODO: What is this? Use window.getComputedStyle(el).getPropertyValue("translate")
+    let matrix = new WebKitCSSMatrix(style.webkitTransform);
 
     this.startX = matrix.m41;
-    this.startY = matrix.m42;
-    this.startZ = matrix.m43;
 
-    if (!Ember.testing) {
+    if (!testing) {
       this.lastX = this.startX;
     }
 
@@ -85,6 +85,7 @@ export default Mixin.create({
   },
 
   doPanEnd() {
+
     this.startX = null;
 
     let width = 284;
@@ -109,64 +110,37 @@ export default Mixin.create({
     }
   },
 
+  // Note: Called every pixel the element is dragged
   animatePan() {
+
     this.rafPanId = null;
 
-    var newX = this.lastX,
-      style = '';
+    let newX = this.lastX;
 
-    style += '-webkit-transition: none; ';
-    style += '-moz-transition: none; ';
-    style += '-ms-transition: none; ';
-    style += '-o-transition: none; ';
-    style += 'transition: none; ';
-
-    style += '-webkit-transform: translate3d(' + newX + 'px,' + this.startY + 'px,' + this.startZ + 'px) scale3d(1,1,1); ';
-    style += '-moz-transform: translate3d(' + newX + 'px,' + this.startY + 'px,' + this.startZ + 'px); ';
-    style += '-ms-transform: translate3d(' + newX + 'px,' + this.startY + 'px,' + this.startZ + 'px); ';
-    style += '-o-transform: translate3d(' + newX + 'px,' + this.startY + 'px,' + this.startZ + 'px); ';
-    style += 'transform: translate3d(' + newX + 'px,' + this.startY + 'px,' + this.startZ + 'px); ';
-
-    this.$front.style.cssText = style;
+    this.$front.style.cssText = `transform: translateX(${ newX }px); `;
   },
 
+  // Note: Called at the end of a drag. Used to autoclose or open when dragging is stopped midway
   animateSlide() {
+
     if (!this.$front) {
       return;
     }
 
     this.rafSlideId = null;
 
+    let newX,
+      relativeDuration;
     let width = 284;
-    var newX,
-      relativeDuration,
-      animation = 'linear';
 
-    console.log(this.get('isPanOpen'));
+    // Checks whether to snap open or close
     newX = (this.get('isPanOpen')) ? -1 * width : 0;
 
     // calculate the remaining duration (time) needed to complete the action
     // relativeDuration = Math.abs(newX - this.lastX) / (this.get('clip') / this.get('duration'));
-
-    // relativeDuration = this.get('duration');
     relativeDuration = 120;
 
-    var style = '';
-
-    style += '-webkit-transition: -webkit-transform ' + relativeDuration + 'ms ' + animation + '; ';
-    style += '-moz-transition: -moz-transform ' + relativeDuration + 'ms ' + animation + '; ';
-    style += '-ms-transition: -ms-transform ' + relativeDuration + 'ms ' + animation + '; ';
-    style += '-o-transition: -o-transform ' + relativeDuration + 'ms ' + animation + '; ';
-    style += 'transition: transform ' + relativeDuration + 'ms ' + animation + '; ';
-
-    style += '-webkit-transform: translate3d(' + newX + 'px,' + this.startY + 'px,' + this.startZ + 'px) scale3d(1,1,1); ';
-    style += '-moz-transform: translate3d(' + newX + 'px,' + this.startY + 'px,' + this.startZ + 'px); ';
-    style += '-ms-transform: translate3d(' + newX + 'px,' + this.startY + 'px,' + this.startZ + 'px); ';
-    style += '-o-transform: translate3d(' + newX + 'px,' + this.startY + 'px,' + this.startZ + 'px); ';
-    style += 'transform: translate3d(' + newX + 'px,' + this.startY + 'px,' + this.startZ + 'px); ';
-
-
-    this.$front.style.cssText = style;
+    this.$front.style.cssText = `transition: transform ${ relativeDuration }ms; transform: translateX(${ newX }px); `;
 
     if (newX === 0) {
 
@@ -174,7 +148,7 @@ export default Mixin.create({
         if (this.get('isDestroying') || this.get('isDestroyed')) {
           return;
         }
-        this.$front.style.cssText = "";
+        this.$front.style.cssText = '';
       }, relativeDuration);
     }
   },
@@ -193,6 +167,6 @@ export default Mixin.create({
     if (!this.rafSlideId) {
       this.rafSlideId = window.requestAnimationFrame(this.animateSlide.bind(this));
     }
-  }.observes('isPanOpen'),
+  }.observes('isPanOpen')
 
 });

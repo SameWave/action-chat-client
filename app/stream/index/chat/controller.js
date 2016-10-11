@@ -22,7 +22,7 @@ const {
 
 const NUDGE_OFFSET_PX = 60; // Pixels for determining nudge vs scroll for new comment
 const NUDGE_PX = 24; // Pixels for distance to nudge
-const COMMENT_LOAD_SIZE = 10;
+const COMMENT_LOAD_SIZE = 20;
 
 export {
   COMMENT_LOAD_SIZE
@@ -31,6 +31,7 @@ export {
 export default Controller.extend({
 
   session: inject.service(),
+  scroll: inject.service(),
 
   stream: null,
   members: [],
@@ -63,8 +64,9 @@ export default Controller.extend({
   typingTimer: null,
   chatBoxValue: '',
   loadingTimer: null,
-  editingComment: null,
+  firstComment: null,
   firstUnread: null,
+  editingComment: null,
 
   $comments: null,
   $footer: null,
@@ -81,15 +83,15 @@ export default Controller.extend({
 
     this.scrollToBottom(0); // scroll to bottom with 0 delay
 
-    // this.get('scroll').enable(this.$comments, this.onCommentsScroll);
-    this.$comments.on('scroll', run.bind(this, this.onCommentsScroll));
-    this.$comments.on('touchmove', run.bind(this, this.onCommentsScroll));
+    this.get('scroll').enable();
 
     if (this.get('unreadCount')) {
       this.setFirstUnread();
     } else {
       this.setLastReadAt();
     }
+
+    this.set('firstComment', this.get('sortedComments.firstObject'));
 
     if (window.cordova && window.cordova.plugins.Keyboard) {
       this.setupKeyboardEvents();
@@ -132,16 +134,6 @@ export default Controller.extend({
     }
   },
 
-  isNearTop() {
-    return this.$comments.scrollTop() < 10;
-  },
-
-  onCommentsScroll() {
-    if (!this.get('isShowingAllComments') && this.isNearTop() && !this.get('isLoadingEarlier')) {
-      this.set('loadingTimer', run.debounce(this, this.loadEarlier, 1000, true));
-    }
-  },
-
   loadEarlier(count = COMMENT_LOAD_SIZE, callback) {
 
     this.setProperties({
@@ -154,8 +146,11 @@ export default Controller.extend({
       offset: this.get('streamComments.length'),
       stream_id: this.get('stream.id')
     }).then(() => {
+
       this.setFirstUnread();
+
       this.send('doneLoadingEarlier');
+
       if (callback) {
         callback();
       }
@@ -203,12 +198,16 @@ export default Controller.extend({
   },
 
   hideKeyboard() {
-    this.$footer.css({
-      transform: 'translateY(0)'
-    });
-    this.$comments.css({
-      transform: 'translateY(0)'
-    });
+    if (this.$footer) {
+      this.$footer.css({
+        transform: 'translateY(0)'
+      });
+    }
+    if (this.$comments) {
+      this.$comments.css({
+        transform: 'translateY(0)'
+      });
+    }
   },
 
   doScroll(top, delay) {
@@ -296,6 +295,12 @@ export default Controller.extend({
   },
 
   actions: {
+
+    doFirstCommentViewed() {
+      if (!this.get('isShowingAllComments') && !this.get('isLoadingEarlier')) {
+        this.loadEarlier();
+      }
+    },
 
     doCommentSectionTap() {
       if (isEmpty(this.get('editingComment'))) {
@@ -411,6 +416,7 @@ export default Controller.extend({
     doneLoadingEarlier() {
       run.next(this, function() {
         this.$comments.scrollTop(this.$comments.get(0).scrollHeight - this.get('previousTop'));
+        this.set('firstComment', this.get('sortedComments.firstObject'));
       });
 
       this.set('isLoadingEarlier', false);

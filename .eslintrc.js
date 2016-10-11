@@ -12,9 +12,14 @@ module.exports = {
     'ember-suave'
   ],
   env: {
-    'browser': true
+    'browser': true,
+    'node': true,
+    'es6': true,
+    'qunit': true
   },
   rules: {
-    'object-shorthand': ["error", "always",  { "ignoreConstructors": true }]
+    'object-shorthand': ["error", "always", {
+      "ignoreConstructors": true
+    }]
   }
 };
