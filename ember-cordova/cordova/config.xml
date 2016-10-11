@@ -28,14 +28,15 @@
     <preference name="DisallowOverscroll" value="true" />
     <preference name="StatusBarOverlaysWebView" value="true" />
     <preference name="BackgroundColor" value="0xFFE91E63" />
+    <preference name="BackupWebStorage" value="local" />
     <plugin name="cordova-plugin-vibration" spec="~2.1.1" />
     <engine name="android" spec="~5.2.2" />
     <plugin name="phonegap-plugin-push" spec="~1.8.2">
         <variable name="SENDER_ID" value="XXXXXXX" />
     </plugin>
     <plugin name="cordova-plugin-whitelist" spec="~1.3.0" />
-    <plugin name="cordova-plugin-wkwebview-engine" spec="~1.1.0" />
     <plugin name="ionic-plugin-keyboard" spec="~2.2.1" />
-    <engine name="ios" spec="~4.2.1" />
     <plugin name="cordova-plugin-badge" spec="~0.7.3" />
+    <engine name="ios" spec="~4.2.1" />
+    <plugin name="cordova-plugin-wkwebview-engine" spec="~1.1.0" />
 </widget>
