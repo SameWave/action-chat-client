@@ -98,8 +98,7 @@ export default Controller.extend({
         } else {
           return true;
         }
-      },
-      direction: 'vertical'
+      }
     },
     enabledEvents: []
   },
