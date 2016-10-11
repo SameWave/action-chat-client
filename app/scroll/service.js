@@ -28,14 +28,8 @@ export default Service.extend({
     return window.cordova && window.cordova.platformId === 'ios';
   },
 
-  enable($container, callback) {
-    // console.log('enable');
-    // NOTE: set on contoller
+  enable($container) {
     this.$container = $('.js-scrollable-container');
-
-    // if (callback) {
-    //   this.callback = callback;
-    // }
 
     this.$container.css({
       'overflow-y': 'scroll'
@@ -55,8 +49,6 @@ export default Service.extend({
   },
 
   onScroll() {
-    // console.log('onScroll');
-
     if (this.get('ended') && !this.get('started')) {
       debounce(this, this.start, 251, true);
     }
