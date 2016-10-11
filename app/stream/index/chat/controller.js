@@ -259,6 +259,7 @@ export default Controller.extend({
 
   setLastReadAt() {
     let lastReadAt = new Date();
+    lastReadAt.setSeconds(lastReadAt.getSeconds() + 1);
     this.set('sessionMember.lastReadAt', lastReadAt);
     this.get('sessionMember').save();
     this.set('unreadCount', 0);
