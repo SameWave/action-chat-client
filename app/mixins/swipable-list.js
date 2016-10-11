@@ -35,6 +35,10 @@ export default Mixin.create(RecognizerMixin, {
     }
   },
 
+  isPanDisabled() {
+    return this.get('scroll.active'); // Disable when scrolling by default
+  },
+
   /**
   * Event fired when user initiates dragging.
   This event disables scrolling on the container.
@@ -45,7 +49,7 @@ export default Mixin.create(RecognizerMixin, {
   * @param {object} returned touch event
   */
   panStart(event) {
-    if (this.get('scroll.active')) {
+    if (this.isPanDisabled()) {
       return;
     }
 
@@ -63,7 +67,7 @@ export default Mixin.create(RecognizerMixin, {
   },
 
   panMove(event) {
-    if (this.get('scroll.active')) {
+    if (this.isPanDisabled()) {
       return;
     }
 
@@ -73,7 +77,7 @@ export default Mixin.create(RecognizerMixin, {
   },
 
   panEnd(event) {
-    if (this.get('scroll.active')) {
+    if (this.isPanDisabled()) {
       return;
     }
 

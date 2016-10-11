@@ -29,8 +29,6 @@ export default Service.extend({
   },
 
   enable($container, callback) {
-    // console.log('enable');
-    // NOTE: set on contoller
     this.$container = $('.js-scrollable-container');
 
     // if (callback) {
@@ -47,11 +45,13 @@ export default Service.extend({
 
   disable() {
     // this.$container.off('touchmove', this.onScroll.bind(this));
-    this.$container.off('scroll', this.onScroll.bind(this));
+    if (this.$container) {
+      this.$container.off('scroll', this.onScroll.bind(this));
 
-    this.$container.css({
-      'overflow-y': 'hidden'
-    });
+      this.$container.css({
+        'overflow-y': 'hidden'
+      });
+    }
   },
 
   onScroll() {

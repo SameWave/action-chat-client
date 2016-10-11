@@ -1,18 +1,15 @@
 import Ember from 'ember';
-import SwipableListMixin from 'action-chat-client/mixins/swipable-list';
 
 const {
   Controller,
   inject: {
     service
   },
-  $,
-  run,
   A,
   Object
 } = Ember;
 
-export default Controller.extend(SwipableListMixin, {
+export default Controller.extend({
   session: service(),
 
   sortFinishText: null,
@@ -92,12 +89,8 @@ export default Controller.extend(SwipableListMixin, {
   dragulaConfig: {
     options: {
       copy: false,
-      revertOnSpill: true,
+      revertOnSpill: false,
       removeOnSpill: false,
-      moves(el, source, handle, sibling) {
-        // this._super(...arguments);
-        return true;
-      },
       invalid(el, handle) {
         // TODO: improve this as it is very brittle
         if (handle.parentElement.parentElement.dataset.drag === 'handle' || handle.dataset.drag === 'handle' || handle.parentElement.dataset.drag === 'handle') {
@@ -105,7 +98,8 @@ export default Controller.extend(SwipableListMixin, {
         } else {
           return true;
         }
-      }
+      },
+      direction: 'vertical'
     },
     enabledEvents: []
   },
@@ -113,7 +107,6 @@ export default Controller.extend(SwipableListMixin, {
   timer: null,
 
   actions: {
-
     goToStreamEditScoreboard() {
       console.log('Goto stream edit scoreboard');
     },
