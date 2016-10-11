@@ -72,7 +72,6 @@ export default Controller.extend({
   $input: null,
 
   didRender() {
-    // console.log('controller didRender');
     this._super(...arguments);
 
     this.set('isObserving', true);
@@ -310,10 +309,10 @@ export default Controller.extend({
       let unfetchedCount = this.get('unreadCount') - this.get('streamComments.length');
       if (unfetchedCount > 0) {
         this.loadEarlier(unfetchedCount, () => {
-          run.next(this, this.scrollToLastRead);
+          run.next(this, this.scrollUpToLastRead);
         });
       } else {
-        this.scrollToLastRead();
+        this.scrollUpToLastRead();
       }
     },
 
