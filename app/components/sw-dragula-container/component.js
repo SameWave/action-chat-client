@@ -1,8 +1,15 @@
+/* global autoScroll */
+import Ember from 'ember';
 import EmberDragulaContainer from 'ember-dragula/components/ember-dragula-container';
 import SwipableListMixin from 'action-chat-client/mixins/swipable-list';
 
-export default EmberDragulaContainer.extend(SwipableListMixin, {
+const {
+  inject,
+  $
+} = Ember;
 
+export default EmberDragulaContainer.extend(SwipableListMixin, {
+  scroll: inject.service(),
   drake: null,
 
   didInsertElement() {
@@ -11,7 +18,7 @@ export default EmberDragulaContainer.extend(SwipableListMixin, {
 
     let drake = this.get('drake');
 
-    let scroll = autoScroll($(".l-app-body--stream"), {
+    let scroll = autoScroll($('.l-app-body--stream'), {
       margin: 50, // TODO: Make sure this is the correct margin
       pixels: 5,
       scrollWhenOutside: true,
@@ -20,6 +27,9 @@ export default EmberDragulaContainer.extend(SwipableListMixin, {
         return this.down && drake.dragging;
       }
     });
-  }
+  },
 
+  isPanDisabled() {
+    return this.get('scroll.active') || this.get('drake.dragging');
+  }
 });
