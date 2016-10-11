@@ -33,9 +33,9 @@ module.exports = function(environment) {
       customEvents: {
         tap: 'click', // Maps taps to click so that we don't have to handle explicit taps
         // touchstart: null,
-        touchmove: null,
+        // touchmove: null,
         // touchend: null,
-        touchcancel: null,
+        // touchcancel: null,
         mousedown: null,
         mouseup: null,
         dblclick: null,

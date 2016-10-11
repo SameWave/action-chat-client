@@ -16,8 +16,12 @@ export default Component.extend(SwipableListItemMixin, {
 
   isActive: false,
 
-  touchStart() {
-    this.set('isActive', true);
+  touchStart(event) {
+    let target = event.target.closest('[data-drag="handle"]');
+
+    if (target) {
+      this.set('isActive', true);
+    }
   },
 
   touchMove() {
