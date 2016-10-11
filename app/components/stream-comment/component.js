@@ -47,8 +47,8 @@ export default Component.extend(SwipableListItemMixin, InViewportMixin, {
       viewportTolerance: {
         top: 500,
         bottom: 500,
-        left: 0,
-        right: 0
+        left: 400,
+        right: 400
       }
     });
 
@@ -58,11 +58,21 @@ export default Component.extend(SwipableListItemMixin, InViewportMixin, {
 
   didEnterViewport() {
     this.set('isViewable', true);
+    if (this.get('isFirstComment') && !this.get('isViewed')) {
+      this.set('isViewed', true);
+      if (this.get('onFirstCommentView')) {
+        this.get('onFirstCommentView')();
+      }
+    }
   },
 
   didExitViewport() {
     this.set('isViewable', false);
   },
+
+  isFirstComment: computed('firstComment.id', 'comment.id', function() {
+    return this.get('firstComment.id') === this.get('comment.id');
+  }),
 
   isFirstUnread: computed('firstUnread.id', 'comment.id', function() {
     return this.get('firstUnread.id') === this.get('comment.id');
