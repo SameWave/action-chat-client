@@ -1,42 +1,49 @@
 $component-name: l-stream-comment;
 
 .l-stream-comment {
-	position: relative;
-	width: 100%;
-	min-height: 32px;
-	margin-bottom: 20px;
-	transition: transform $speed-very-fast;
+  position: relative;
+  width: 100%;
+  min-height: 32px;
+  margin-bottom: 10px;
+  transition: transform $speed-very-fast;
 
-	// States
-	// .is-editing
+  // States
+  // .is-editing
 
-	// Modifiers
-	&--message {
-
-	}
-
-	// Elements
-	&_front {
-		position: relative;
-		z-index: $z-stream-blocks + 10;
-		width: 100%;
-		border-radius: 3px 3px 3px 13px;
-		background: map-get($shades, 'white');
-		transition: background $speed-fast;
+  // Elements
+  &_front {
+    position: relative;
+    z-index: $z-stream-blocks + 10;
+    width: 100%;
+    border-radius: 3px 3px 3px 13px;
+    background: map-get($shades, 'white');
+    transition: background $speed-fast;
     touch-action: pan-x;
 
-		@at-root .#{$component-name}.is-editing .#{$component-name}_front {
-			background: map-get($yellow, 'base');
-		}
-	}
+    // NOTE: Speech box tick
+    &::after {
+      content: '';
+      position: absolute;
+      bottom: -10px;
+      left: 0;
+      display: block;
+      width: 0;
+      border-width: 18px 0 0 18px;
+      border-style: solid;
+      border-color: map-get($shades, 'white') transparent;
+    }
 
-	&_back {
-		position: absolute;
-		z-index: $z-stream-blocks;
-		top: 0;
-		right: 0;
-		width: 80%;
-		height: 100%;
-	}
+    @at-root .#{$component-name}.is-editing .#{$component-name}_front {
+      background: map-get($yellow, 'base');
+    }
+  }
+
+  &_back {
+    position: absolute;
+    z-index: $z-stream-blocks;
+    top: 0;
+    right: 0;
+    width: 80%;
+    height: calc(100% - 10px);
+  }
 }
-// l-stream-comment
