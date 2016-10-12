@@ -136,25 +136,39 @@ export default Controller.extend({
 
   loadEarlier(count = COMMENT_LOAD_SIZE, callback) {
 
-    this.setProperties({
-      isLoadingEarlier: true,
-      previousTop: this.$comments.get(0).scrollHeight + this.$comments.scrollTop()
-    });
+    this.set('isLoadingEarlier', true);
 
     this.store.query('comment', {
       limit: count,
       offset: this.get('streamComments.length'),
       stream_id: this.get('stream.id')
     }).then(() => {
-
-      this.setFirstUnread();
-
-      this.send('doneLoadingEarlier');
+      this.doneLoadingEarlier();
 
       if (callback) {
         callback();
       }
     });
+  },
+
+  doneLoadingEarlier() {
+
+    let previousHeight = this.$comments[0].scrollHeight;
+
+    run.next(this, () => {
+      this.setFirstUnread();
+
+      let scrollHeightDiff = this.$comments.get(0).scrollHeight - previousHeight;
+      let newScrollTop = this.$comments.scrollTop() + scrollHeightDiff;
+
+      this.$comments.scrollTop(newScrollTop);
+
+      this.setProperties({
+        firstComment: this.get('sortedComments.firstObject'),
+        isLoadingEarlier: false
+      })
+    });
+
   },
 
   isShowingAllComments: computed('totalCommentCount', 'streamComments.length', function() {
@@ -178,23 +192,12 @@ export default Controller.extend({
       return;
     }
 
-    let {
-      scrollHeight
-    } = this.$comments.get(0);
-
     this.$footer.css({
       transform: `translateY(-${height}px)`
     });
     this.$comments.css({
       transform: `translateY(-${height}px)`
     });
-
-    // TODO: Scroll to last comment
-    // run.later(this, () => {
-    //   this.$comments.animate({
-    //     scrollTop: scrollHeight + height
-    //   }, 200);
-    // }, 300);
   },
 
   hideKeyboard() {
@@ -412,15 +415,6 @@ export default Controller.extend({
 
     doLoadEarlier() {
       this.loadEarlier();
-    },
-
-    doneLoadingEarlier() {
-      run.next(this, function() {
-        this.$comments.scrollTop(this.$comments.get(0).scrollHeight - this.get('previousTop'));
-        this.set('firstComment', this.get('sortedComments.firstObject'));
-      });
-
-      this.set('isLoadingEarlier', false);
     },
 
     doTyping() {
