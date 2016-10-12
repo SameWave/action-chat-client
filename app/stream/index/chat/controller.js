@@ -66,6 +66,7 @@ export default Controller.extend({
   loadingTimer: null,
   firstComment: null,
   firstUnread: null,
+  lastComment: null,
   editingComment: null,
 
   $comments: null,
@@ -93,6 +94,7 @@ export default Controller.extend({
     }
 
     this.set('firstComment', this.get('sortedComments.firstObject'));
+    this.set('lastComment', this.get('sortedComments.lastObject'));
 
     if (window.cordova && window.cordova.plugins.Keyboard) {
       this.setupKeyboardEvents();
@@ -124,6 +126,8 @@ export default Controller.extend({
     if (!this.get('unreadCount')) {
       this.setLastReadAt();
     }
+
+    this.set('lastComment', comment);
   },
 
   setFirstUnread() {
@@ -174,50 +178,36 @@ export default Controller.extend({
     });
   },
 
-  showKeyboard(height) {
+  /**
+  * Fired when keyboard is opened.
+  * Use this event to move the chatbox up when keyboard opens
+  * Moves the stream comments up when there are too many comments that would be covered by the keyboard
+  * @event showKeyboard
+  * @param {keyboardHeight} Height of the device keyboard
+  */
+  showKeyboard(keyboardHeight) {
     if (window.cordova && window.cordova.platformId === 'android') {
       return;
     }
 
-    let {
-      scrollHeight
-    } = this.$comments.get(0);
+    let chatBoxHeight = 33;
+    let $comment = $(`#comment-${this.get('lastComment.id')}`);
+    let diffHeight = this.$comments.height() - ($comment.position().top + $comment.height());
 
-    this.$footer.css({
-      transform: `translateY(-${height}px)`
-    });
+    let combinedFooterHeight = keyboardHeight + chatBoxHeight; // 33 is for chat box
+    let translateHeight = diffHeight < combinedFooterHeight ? combinedFooterHeight - diffHeight : keyboardHeight;
 
-    this.$comments.css({
-      transform: `translateY(-${height}px)`
-    });
-
-    if (this.get('streamComments.length') < 5) {
-      this.$commentItems.css('transform', `translateY(${height}px)`);
-    }
-
-    // TODO: Scroll to last comment
-    // run.later(this, () => {
-    //   this.$comments.animate({
-    //     scrollTop: scrollHeight + height
-    //   }, 200);
-    // }, 300);
+    this.$footer.css('transform', `translateY(-${keyboardHeight}px)`);
+    this.$comments.css('transform', `translateY(-${translateHeight}px)`);
   },
 
   hideKeyboard() {
     if (this.$footer) {
-      this.$footer.css({
-        transform: 'translateY(0)'
-      });
+      this.$footer.css('transform', 'translateY(0)');
     }
 
     if (this.$comments) {
-      this.$comments.css({
-        transform: 'translateY(0)'
-      });
-    }
-
-    if (this.get('streamComments.length') < 5) {
-      this.$commentItems.css('transform', 'translateY(0)');
+      this.$comments.css('transform', 'translateY(0)');
     }
   },
 
