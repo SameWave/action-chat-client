@@ -1,54 +1,55 @@
 .c-chat-box {
-	display: flex;
-	flex-direction: row;
+  display: flex;
   align-items: flex-end;
+  flex-direction: row;
   margin: 10px;
 
   &_first-section {
-  	flex: 0 0 auto;
-  	display: flex;
+    display: flex;
+    flex: 0 0 auto;
   }
 
   &_upload-icon {
-  	width: 25px;
-  	height: 25px;
-  	fill: map-get($blue, 'base');
+    width: 25px;
+    height: 25px;
+    fill: map-get($blue, 'base');
   }
 
   &_second-section {
-  	// TODO: Add box-shadow
-  	position: relative;
-		flex: 1 0 20px;
-		z-index: $z-chat-box;
-		margin: 0 10px;
-		padding: 5px;
-		background-color: map-get($shades, 'white');
-		border: 1px solid map-get($grey, 'lighten-1');
-		border-radius: 3px;
+    // TODO: Add box-shadow
+    position: relative;
+    z-index: $z-chat-box;
+    flex: 1 0 20px;
+    padding: 5px;
+    border: 1px solid map-get($grey, 'lighten-1');
+    border-radius: 3px;
+    margin: 0 10px;
+    background-color: map-get($shades, 'white');
   }
 
   &_input {
-  	display: block;
-  	width: 100%;
-  	// NOTE: Initial height before js takes over
-		height: 21px;
-		max-height: 103px;
-		margin: auto;
-		padding: 0;
-		border: 0 solid transparent;
-		background-color: inherit;
+    display: block;
+    width: 100%;
+    // NOTE: Initial height before js takes over
+    height: 21px;
+    max-height: 103px;
+    padding: 0;
+    border: 0 solid transparent;
+    margin: auto;
+    background-color: inherit;
   }
 
-	&_btn-send {
+  &_btn-send {
     @extend .button;
-		flex: 0 0 auto;
-		max-width: 52px;
-		margin: 0;
-		padding: 0;
-		font-size: 16px;
-		color: map-get($blue, 'base');
-		text-transform: uppercase;
-		animation: grow-in--horizontal $speed-slow;
-	}
+    width: 100%;
+    flex: 0 0 auto;
+    max-width: 52px;
+    padding: 0;
+    margin: 0;
+    font-size: 16px;
+    color: map-get($blue, 'base');
+    text-transform: uppercase;
+    animation: grow-in--horizontal $speed-slow;
+  }
 }
 
