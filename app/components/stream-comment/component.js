@@ -95,6 +95,14 @@ export default Component.extend(SwipableListItemMixin, InViewportMixin, {
       }
     },
 
+    doDelete() {
+      this.set('isOpen', false);
+
+      if (this.get('onDelete')) {
+        this.get('onDelete')(this.get('comment'));
+      }
+    },
+
     doCancel() {
       this.get('comment').rollbackAttributes();
     }
