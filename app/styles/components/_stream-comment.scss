@@ -5,6 +5,7 @@ $component-name: l-stream-comment;
 	width: 100%;
 	min-height: 32px;
 	margin-bottom: 20px;
+	transition: transform $speed-very-fast;
 
 	// States
 	// .is-editing

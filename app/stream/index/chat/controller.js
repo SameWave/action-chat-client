@@ -80,7 +80,7 @@ export default Controller.extend({
     this.$comments = $('.js-comments-section');
     this.$footer = $('.js-footer');
     this.$input = $('#chat-area');
-    this.$commentItems = $('.js-list-item');
+    this.$commentItems = $('.js-stream-comment');
 
     this.scrollToBottom(0); // scroll to bottom with 0 delay
 
@@ -186,6 +186,7 @@ export default Controller.extend({
     this.$footer.css({
       transform: `translateY(-${height}px)`
     });
+
     this.$comments.css({
       transform: `translateY(-${height}px)`
     });
@@ -208,10 +209,15 @@ export default Controller.extend({
         transform: 'translateY(0)'
       });
     }
+
     if (this.$comments) {
       this.$comments.css({
         transform: 'translateY(0)'
       });
+    }
+
+    if (this.get('streamComments.length') < 5) {
+      this.$commentItems.css('transform', 'translateY(0)');
     }
   },
 
