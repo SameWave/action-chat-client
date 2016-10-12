@@ -22,7 +22,7 @@ const {
 
 const NUDGE_OFFSET_PX = 60; // Pixels for determining nudge vs scroll for new comment
 const NUDGE_PX = 24; // Pixels for distance to nudge
-const COMMENT_LOAD_SIZE = 10;
+const COMMENT_LOAD_SIZE = 20;
 
 export {
   COMMENT_LOAD_SIZE
@@ -31,6 +31,7 @@ export {
 export default Controller.extend({
 
   session: inject.service(),
+  scroll: inject.service(),
 
   stream: null,
   members: [],
@@ -63,11 +64,12 @@ export default Controller.extend({
   typingTimer: null,
   chatBoxValue: '',
   loadingTimer: null,
-  editingComment: null,
+  firstComment: null,
   firstUnread: null,
+  editingComment: null,
 
   $comments: null,
-  $chatBox: null,
+  $footer: null,
   $input: null,
 
   didRender() {
@@ -76,20 +78,21 @@ export default Controller.extend({
     this.set('isObserving', true);
 
     this.$comments = $('.js-comments-section');
-    this.$chatBox = $('.js-chat-box');
+    this.$footer = $('.js-footer');
     this.$input = $('#chat-area');
     this.$commentItems = $('.js-list-item');
 
     this.scrollToBottom(0); // scroll to bottom with 0 delay
 
-    this.$comments.on('touchmove', run.bind(this, this.onCommentsScroll));
-    this.$comments.on('scroll', run.bind(this, this.onCommentsScroll));
+    this.get('scroll').enable();
 
     if (this.get('unreadCount')) {
       this.setFirstUnread();
     } else {
       this.setLastReadAt();
     }
+
+    this.set('firstComment', this.get('sortedComments.firstObject'));
 
     if (window.cordova && window.cordova.plugins.Keyboard) {
       this.setupKeyboardEvents();
@@ -124,19 +127,11 @@ export default Controller.extend({
   },
 
   setFirstUnread() {
-    let firstUnread = this.get('sortedComments').find((comment) => {
-      return comment.get('createdAt') > this.get('previousLastReadAt');
-    });
-    this.set('firstUnread', firstUnread);
-  },
-
-  isNearTop() {
-    return this.$comments.scrollTop() < 10;
-  },
-
-  onCommentsScroll() {
-    if (!this.get('isShowingAllComments') && this.isNearTop() && !this.get('isLoadingEarlier')) {
-      this.loadingTimer = run.debounce(this, this.loadEarlier, 1000, true);
+    if (this.get('unreadCount') <= this.get('commentCount')) {
+      let firstUnread = this.get('sortedComments').find((comment) => {
+        return comment.get('createdAt') > this.get('previousLastReadAt');
+      });
+      this.set('firstUnread', firstUnread);
     }
   },
 
@@ -152,7 +147,11 @@ export default Controller.extend({
       offset: this.get('streamComments.length'),
       stream_id: this.get('stream.id')
     }).then(() => {
+
+      this.setFirstUnread();
+
       this.send('doneLoadingEarlier');
+
       if (callback) {
         callback();
       }
@@ -184,7 +183,7 @@ export default Controller.extend({
       scrollHeight
     } = this.$comments.get(0);
 
-    this.$chatBox.css({
+    this.$footer.css({
       transform: `translateY(-${height}px)`
     });
     this.$comments.css({
@@ -204,14 +203,16 @@ export default Controller.extend({
   },
 
   hideKeyboard() {
-    this.$commentItems.css('transform', 'translateY(0)');
-
-    this.$chatBox.css({
-      transform: 'translateY(0)'
-    });
-    this.$comments.css({
-      transform: 'translateY(0)'
-    });
+    if (this.$footer) {
+      this.$footer.css({
+        transform: 'translateY(0)'
+      });
+    }
+    if (this.$comments) {
+      this.$comments.css({
+        transform: 'translateY(0)'
+      });
+    }
   },
 
   doScroll(top, delay) {
@@ -263,7 +264,7 @@ export default Controller.extend({
 
   setLastReadAt() {
     let lastReadAt = new Date();
-    debug('setLastReadAt', lastReadAt);
+    lastReadAt.setSeconds(lastReadAt.getSeconds() + 1);
     this.set('sessionMember.lastReadAt', lastReadAt);
     this.get('sessionMember').save();
     this.set('unreadCount', 0);
@@ -301,15 +302,27 @@ export default Controller.extend({
 
   actions: {
 
+    doFirstCommentViewed() {
+      if (!this.get('isShowingAllComments') && !this.get('isLoadingEarlier')) {
+        this.loadEarlier();
+      }
+    },
+
+    doCommentSectionTap() {
+      if (isEmpty(this.get('editingComment'))) {
+        this.$input.blur();
+        this.set('isMentionListVisible', false);
+      }
+    },
+
     doNotifierJump() {
       let unfetchedCount = this.get('unreadCount') - this.get('streamComments.length');
       if (unfetchedCount > 0) {
         this.loadEarlier(unfetchedCount, () => {
-          this.setFirstUnread();
-          run.next(this, this.scrollToLastRead);
+          run.next(this, this.scrollUpToLastRead);
         });
       } else {
-        this.scrollToLastRead();
+        this.scrollUpToLastRead();
       }
     },
 
@@ -334,10 +347,6 @@ export default Controller.extend({
       }
     },
 
-    hideMentionList() {
-      this.set('isMentionListVisible', false);
-    },
-
     pickMentionMember(person) {
       this.set('isMentionListVisible', false);
 
@@ -356,7 +365,7 @@ export default Controller.extend({
         stream: this.get('stream')
       });
       comment.save().then(() => {
-        debug('comment created');
+        // debug('comment created');
       });
     },
 
@@ -396,13 +405,13 @@ export default Controller.extend({
     // TODO: Review this as it looks like a duplicate
     updateComment(comment) {
       comment.save().then(() => {
-        debug('comment updated');
+        // debug('comment updated');
       });
     },
 
     deleteComment(comment) {
       comment.destroyRecord().then(() => {
-        debug('comment destroyed');
+        // debug('comment destroyed');
       });
     },
 
@@ -413,6 +422,7 @@ export default Controller.extend({
     doneLoadingEarlier() {
       run.next(this, function() {
         this.$comments.scrollTop(this.$comments.get(0).scrollHeight - this.get('previousTop'));
+        this.set('firstComment', this.get('sortedComments.firstObject'));
       });
 
       this.set('isLoadingEarlier', false);

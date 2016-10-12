@@ -1,6 +1,7 @@
 .c-tool-bar {
   display: flex;
   height: 36px;
+  flex: 0 0 36px;
   align-items: center;
   justify-content: space-between;
   background: map-get($grey, 'base');

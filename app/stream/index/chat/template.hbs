@@ -16,16 +16,19 @@
 
 {{#comments-section
   editingComment=editingComment
-  click=(action "hideMentionList")
+  classNames="js-scrollable-container"
+  tap=(action "doCommentSectionTap")
 }}
   {{#each sortedComments as |comment|}}
     {{stream-comment
       comment=comment
-      firstUnread=firstUnread
+      firstComment=firstComment
       lastComment=sortedComments.lastObject
+      firstUnread=firstUnread
       editingComment=editingComment
       onEdit=(action "doEditComment")
       onNewMarkerView=(action "doNewMarkerViewed")
+      onFirstCommentView=(action "doFirstCommentViewed")
       updateComment=(action "updateComment" comment)
       deleteComment=(action "deleteComment" comment)
     }}
@@ -33,7 +36,7 @@
 {{/comments-section}}
 
 {{#if sessionMember}}
-  <div class="c-footer js-chat-box">
+  <div class="c-footer js-footer">
     <section class="u-position-relative">
       {{#if isMentionListVisible}}
         {{mention-list

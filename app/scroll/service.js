@@ -1,0 +1,104 @@
+import Ember from 'ember';
+
+const {
+  Service,
+  run: {
+    debounce,
+    cancel,
+    later
+  },
+  testing,
+  $
+} = Ember;
+
+const momentumDelay = testing ? 0 : 10;
+
+export default Service.extend({
+
+  $container: null,
+  callback: null,
+
+  // states
+  active: false,
+  started: false,
+  ended: true,
+  momentumTimer: null,
+
+  isIOS() {
+    return window.cordova && window.cordova.platformId === 'ios';
+  },
+
+  enable() {
+    this.$container = $('.js-scrollable-container');
+
+    this.$container.css({
+      'overflow-y': 'scroll'
+    });
+
+    // this.$container.on('touchmove', this.onScroll.bind(this));
+    this.$container.on('scroll', this.onScroll.bind(this));
+  },
+
+  disable() {
+    // this.$container.off('touchmove', this.onScroll.bind(this));
+    if (this.$container) {
+      this.$container.off('scroll', this.onScroll.bind(this));
+
+      this.$container.css({
+        'overflow-y': 'hidden'
+      });
+    }
+  },
+
+  onScroll() {
+    if (this.get('ended') && !this.get('started')) {
+      debounce(this, this.start, 251, true);
+    }
+
+    if (this.get('started') && !this.get('ended')) {
+      debounce(this, this.end, 250);
+    }
+  },
+
+  start() {
+
+    this.setProperties({
+      started: true,
+      active: true,
+      ended: false
+    });
+
+    // once(this, this.hideKeyboard);
+
+    // if (this.get('ui.activeElementId')) {
+    //   this.get('ui').play();
+    // }
+
+    // if (this.get('startedCallback')) {
+    //   this.get('startedCallback')();
+    // }
+  },
+
+  end() {
+
+    this.setProperties({
+      started: false,
+      ended: true
+    });
+
+    // prevent inputs catching focus
+    if (this.isIOS()) {
+      cancel(this.momentumTimer);
+      this.momentumTimer = later(this, function() {
+        this.set('active', false);
+      }, momentumDelay);
+    } else {
+      this.set('active', false);
+    }
+
+    // if (this.get('endedCallback')) {
+    //   this.get('endedCallback')();
+    // }
+
+  }
+});

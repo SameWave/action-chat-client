@@ -1,7 +1,7 @@
 /* jshint node: true */
 
 module.exports = function(environment) {
-  var ENV = {
+  var ENV = { // eslint-disable-line no-var
     modulePrefix: 'action-chat-client',
     environment,
     rootURL: '',
@@ -32,10 +32,10 @@ module.exports = function(environment) {
       // when it is created
       customEvents: {
         tap: 'click', // Maps taps to click so that we don't have to handle explicit taps
-        touchstart: null,
-        touchmove: null,
-        touchend: null,
-        touchcancel: null,
+        // touchstart: null,
+        // touchmove: null,
+        // touchend: null,
+        // touchcancel: null,
         mousedown: null,
         mouseup: null,
         dblclick: null,
@@ -45,8 +45,13 @@ module.exports = function(environment) {
       }
     },
 
-    // host: 'http://10.99.220.230:8080',
-    // socket: 'ws://10.99.220.230:8080/cable'
+    // Greame's macbook
+    // host: 'http://10.0.0.6:8080',
+    // socket: 'ws://10.0.0.6:8080/cable'
+
+    // Mondes's macbook
+    // host: 'http://10.99.220.237:8080',
+    // socket: 'ws://10.99.220.237:8080/cable'
 
     host: 'http://localhost:3000',
     socket: 'ws://localhost:3000/cable'

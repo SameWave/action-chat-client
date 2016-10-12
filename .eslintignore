@@ -2,3 +2,4 @@ app/app.js
 application/adapter.js
 tests/helpers/start-app.js
 tests/helpers/destroy-app.js
+vendor/**/*.js

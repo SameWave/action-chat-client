@@ -1,18 +1,15 @@
 import Ember from 'ember';
-import SwipableListMixin from 'action-chat-client/mixins/swipable-list';
 
 const {
   Controller,
   inject: {
     service
   },
-  $,
-  run,
   A,
   Object
 } = Ember;
 
-export default Controller.extend(SwipableListMixin, {
+export default Controller.extend({
   session: service(),
 
   sortFinishText: null,
@@ -66,18 +63,34 @@ export default Controller.extend(SwipableListMixin, {
       id: '10',
       title: 'BEDLAM',
       date: 'Sun Jan 10 1982 02:42:46 GMT+0000 (UTC)'
+    }),
+    Object.create({
+      id: '11',
+      title: 'BEDLAM X',
+      date: 'Sun Jan 10 1982 02:42:46 GMT+0000 (UTC)'
+    }),
+    Object.create({
+      id: '12',
+      title: 'BEDLAM XX',
+      date: 'Sun Jan 10 1982 02:42:46 GMT+0000 (UTC)'
+    }),
+    Object.create({
+      id: '13',
+      title: 'BEDLAM XXX',
+      date: 'Sun Jan 10 1982 02:42:46 GMT+0000 (UTC)'
+    }),
+    Object.create({
+      id: '14',
+      title: 'BEDLAM XXXX',
+      date: 'Sun Jan 10 1982 02:42:46 GMT+0000 (UTC)'
     })
   ]),
 
-  dragulaconfig: {
+  dragulaConfig: {
     options: {
       copy: false,
       revertOnSpill: false,
       removeOnSpill: false,
-      moves(el, source, handle, sibling) {
-        // this._super(...arguments);
-        return true;
-      },
       invalid(el, handle) {
         // TODO: improve this as it is very brittle
         if (handle.parentElement.parentElement.dataset.drag === 'handle' || handle.dataset.drag === 'handle' || handle.parentElement.dataset.drag === 'handle') {
@@ -87,32 +100,12 @@ export default Controller.extend(SwipableListMixin, {
         }
       }
     },
-    enabledEvents: ['drag', 'drop', 'cloned']
+    enabledEvents: []
   },
 
-  isDragging: false,
-  cloneElement: null,
-
-  onCloneDrag() {
-    console.log('dragging clone');
-  },
+  timer: null,
 
   actions: {
-    onDrag() {
-      this.set('isDragging', true);
-    },
-
-    onDragEnd() {
-      this.set('isDragging', false);
-      this.set('cloneElement', null);
-    },
-
-    onCloned(clone) {
-      this.cloneElement = $(clone);
-      this.cloneElement.on('ondrag', run.bind(this, this.onCloneDrag));
-      return false;
-    },
-
     goToStreamEditScoreboard() {
       console.log('Goto stream edit scoreboard');
     },

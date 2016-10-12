@@ -24,9 +24,15 @@
   // &.is-open
   // &.in-edit
   &.gu-mirror {
-    transform: scale(1.1);
     opacity: 0.75;
     box-shadow: 0 0 10px 3px rgba(0, 0, 0, 0.4);
+    // animation: media-block-drag-mirror $speed-fast;
+  }
+
+  &.is-active {
+    opacity: 0.75;
+    box-shadow: 0 0 10px 3px rgba(0, 0, 0, 0.4);
+    z-index: $z-stream-blocks + 20;
     // animation: media-block-drag-mirror $speed-fast;
   }
 

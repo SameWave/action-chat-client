@@ -1,46 +1,41 @@
 $component-name: l-stream-comment;
 
 .l-stream-comment {
-  position: relative;
-  width: 100%;
-  height: auto;
-  min-height: 32px;
-  margin-bottom: 20px;
-  transition: transform $speed-fast ease-out;
+	position: relative;
+	width: 100%;
+	min-height: 32px;
+	margin-bottom: 20px;
 
-  // States
-  // .is-open
-  // .is-editing
+	// States
+	// .is-editing
 
-  // Modifiers
-  // &--message
+	// Modifiers
+	&--message {
 
-  // Elements
-  &_front {
-    position: relative;
-    z-index: $z-stream-blocks + 10;
-    width: 100%;
-    border-radius: 3px 3px 3px 13px;
-    background: map-get($shades, 'white');
-    transform: translateX(0);
-    transition: transform $speed-fast, background $speed-fast;
+	}
 
-    @at-root .#{$component-name}.is-open .#{$component-name}_front {
-      transform: translateX(-80%);
-    }
+	// Elements
+	&_front {
+		position: relative;
+		z-index: $z-stream-blocks + 10;
+		width: 100%;
+		border-radius: 3px 3px 3px 13px;
+		background: map-get($shades, 'white');
+		transition: background $speed-fast;
+    touch-action: pan-x;
 
-    @at-root .#{$component-name}.is-editing .#{$component-name}_front {
-      background: map-get($yellow, 'base');
-    }
-  }
+		@at-root .#{$component-name}.is-editing .#{$component-name}_front {
+			background: map-get($yellow, 'base');
+		}
+	}
 
-  &_back {
-    position: absolute;
-    z-index: $z-stream-blocks;
-    top: 0;
-    right: 0;
-    width: 80%;
-    height: 100%;
-  }
+	&_back {
+		position: absolute;
+		z-index: $z-stream-blocks;
+		top: 0;
+		right: 0;
+		width: 80%;
+		height: 100%;
+	}
 }
 // l-stream-comment

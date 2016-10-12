@@ -1,0 +1,28 @@
+.c-scoreboard-detection {
+  position: absolute;
+  left: 0;
+  width: 100%;
+  height: 20vh;
+  z-index: $z-body-float;
+  flex: 1 0 auto;
+  min-height: 50px;
+
+  &--top {
+    @extend .c-scoreboard-detection;
+    position: fixed;
+    top: 99px;
+    background: rgba(red, 0.5);
+  }
+
+  &--bottom {
+    @extend .c-scoreboard-detection;
+    position: fixed;
+    bottom: 0;
+    background: rgba(blue, 0.5);
+  }
+}
+
+.l-scoreboard-container {
+  position: relative;
+  flex: 1 0 auto;
+}
