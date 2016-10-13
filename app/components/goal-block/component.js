@@ -15,6 +15,7 @@ export default Component.extend(SwipableListItemMixin, {
   colour: 'green',
 
   isActive: false,
+  isEditing: false,
 
   touchStart(event) {
     let target = event.target.closest('[data-drag="handle"]');
