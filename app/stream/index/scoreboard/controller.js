@@ -13,6 +13,8 @@ export default Controller.extend({
   session: service(),
 
   sortFinishText: null,
+  isEditing: false,
+
   goals: A([
     Object.create({
       id: '1',
@@ -106,8 +108,8 @@ export default Controller.extend({
   timer: null,
 
   actions: {
-    goToStreamEditScoreboard() {
-      console.log('Goto stream edit scoreboard');
+    toggleIsEditing() {
+      this.toggleProperty('isEditing');
     },
 
     deleteGoal(goal) {

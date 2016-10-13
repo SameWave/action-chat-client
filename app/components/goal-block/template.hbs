@@ -18,11 +18,13 @@
 		</div>
 	</section>
 
-	<section class="c-media-block_last-section" data-drag="handle">
-		<p class="c-media-block_meta" data-drag="handle">
-	  	{{inline-svg "images/icons/icon-drag" class="c-media-block_drag-icon"}}
-  	</p>
-	</section>
+	{{#if isEditing}}
+		<section class="c-media-block_last-section" data-drag="handle">
+			<p class="c-media-block_meta" data-drag="handle">
+		  	{{inline-svg "images/icons/icon-drag" class="c-media-block_drag-icon"}}
+	  	</p>
+		</section>
+	{{/if}}
 </div>
 
 <div class="c-media-block_back">
