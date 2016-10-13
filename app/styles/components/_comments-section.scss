@@ -1,20 +1,20 @@
 .c-comments-section {
-  flex: 1 1 auto;
-  padding: 10px;
   position: relative;
   overflow-y: scroll;
-  cursor: pointer;
   -webkit-overflow-scrolling: touch;
+  flex: 1 1 auto;
+  padding: 10px;
+  cursor: pointer;
   transition: transform $speed-fast ease-out;
 
-	// NOTE: Trick to get IOS over-scroll working when there is one comment
-	&::before {
-		content: '';
-		display: block;
-		position: absolute;
-		top: -1px;
-		left: 0;
-		bottom: -1px;
-		width: 1px;
-	}
+  // NOTE: Trick to get IOS over-scroll working when there is one comment
+  &::before {
+    position: absolute;
+    content: '';
+    top: -1px;
+    bottom: -1px;
+    left: 0;
+    display: block;
+    width: 1px;
+  }
 }

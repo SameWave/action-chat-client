@@ -16,6 +16,7 @@ $z-chat-box: 250;
 
 // Transition speeds
 $speed-base: 500ms;
+$speed-very-fast: $speed-base / 3;
 $speed-fast: $speed-base / 2;
 $speed-normal: $speed-base;
 $speed-slow: $speed-base * 2;

@@ -23,14 +23,14 @@
     {{stream-comment
       comment=comment
       firstComment=firstComment
-      lastComment=sortedComments.lastObject
+      lastComment=lastComment
       firstUnread=firstUnread
       editingComment=editingComment
       onEdit=(action "doEditComment")
+      onDelete=(action "deleteComment")
       onNewMarkerView=(action "doNewMarkerViewed")
       onFirstCommentView=(action "doFirstCommentViewed")
       updateComment=(action "updateComment" comment)
-      deleteComment=(action "deleteComment" comment)
     }}
   {{/each}}
 {{/comments-section}}
