@@ -190,12 +190,12 @@ export default Controller.extend({
       return;
     }
 
-    let chatBoxHeight = 33;
+    let chatBoxHeight = 54;
     let $comment = $(`#comment-${this.get('lastComment.id')}`);
-    let diffHeight = this.$comments.height() - ($comment.position().top + $comment.height());
-
-    let combinedFooterHeight = keyboardHeight + chatBoxHeight; // 33 is for chat box
-    let translateHeight = diffHeight < combinedFooterHeight ? combinedFooterHeight - diffHeight : keyboardHeight;
+    let height = $comment.position().top + $comment.height();
+    let diffHeight = this.$comments[0].scrollHeight - ($comment.position().top + $comment.height());
+    let combinedFooterHeight = keyboardHeight + chatBoxHeight;
+    let translateHeight = height < combinedFooterHeight ? keyboardHeight - diffHeight : keyboardHeight;
 
     this.$footer.css('transform', `translateY(-${keyboardHeight}px)`);
     this.$comments.css('transform', `translateY(-${translateHeight}px)`);
