@@ -402,6 +402,18 @@ export default Controller.extend({
 
     doUpdateComment() {
       this.set('editingComment.body', this.get('chatBoxValue'));
+
+      if (this.get('chatBoxValue') === '') {
+        return this.get('editingComment').destroyRecord().then(() => {
+          this.setProperties({
+            editingComment: null,
+            chatBoxValue: '',
+            isChatModalVisible: false,
+            isSendButtonVisible: true
+          });
+        });
+      }
+
       this.get('editingComment').save().then(() => {
         this.setProperties({
           editingComment: null,
