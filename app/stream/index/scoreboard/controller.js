@@ -16,6 +16,7 @@ export default Controller.extend({
 
   sortFinishText: null,
   isEditing: false,
+  isEditingDisabled: false,
 
   goals: A([
     Object.create({

@@ -2,7 +2,8 @@ import Ember from 'ember';
 import SwipableListItemMixin from 'action-chat-client/mixins/swipable-list-item';
 
 const {
-  Component
+  Component,
+  observer
 } = Ember;
 
 export default Component.extend(SwipableListItemMixin, {
@@ -37,6 +38,19 @@ export default Component.extend(SwipableListItemMixin, {
 
   touchCancel() {
     this.set('isActive', false);
-  }
+  },
+
+  observePanOpen: observer('isPanOpen', function() {
+    if (this.get('isPanOpen')) {
+      this.setProperties({
+        isEditing: false,
+        isEditingDisabled: true
+      });
+    } else {
+      this.setProperties({
+        isEditingDisabled: false
+      });
+    }
+  })
 
 });
