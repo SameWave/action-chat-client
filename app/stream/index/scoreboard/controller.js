@@ -6,7 +6,9 @@ const {
     service
   },
   A,
-  Object
+  Object,
+  observer,
+  isEmpty
 } = Ember;
 
 export default Controller.extend({
@@ -93,19 +95,27 @@ export default Controller.extend({
       copy: false,
       revertOnSpill: false,
       removeOnSpill: false,
-      invalid(el, handle) {
-        // TODO: improve this as it is very brittle
-        if (handle.parentElement.parentElement.dataset.drag === 'handle' || handle.dataset.drag === 'handle' || handle.parentElement.dataset.drag === 'handle') {
-          return false;
-        } else {
-          return true;
-        }
+
+      moves(el, source, handle) {
+        return !isEmpty(handle.closest("[data-drag='handle']"));
+      },
+
+      invalid() {
+        // Default to invalid - this is enabled when isEditing is toggled
+        return true;
       }
     },
     enabledEvents: []
   },
 
   timer: null,
+
+  editingObserver: observer('isEditing', function() {
+    let isInvalid = !this.get('isEditing');
+    this.dragulaConfig.options.invalid = function() {
+      return isInvalid;
+    };
+  }),
 
   actions: {
     toggleIsEditing() {

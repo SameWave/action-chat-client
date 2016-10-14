@@ -70,6 +70,10 @@
     width: 80%;
     height: 100%;
     background: map-get($grey, 'lighten-1');
+
+    @at-root .c-media-block .c-media-block_back {
+      width: 20%;
+    }
   }
 
   // Layout section

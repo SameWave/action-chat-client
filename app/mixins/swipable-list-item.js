@@ -14,6 +14,7 @@ export default Mixin.create({
   isOpen: false,
   isSwipable: true,
   isPanOpen: false,
+  optionWidth: 284,
 
   init() {
     this._super(...arguments);
@@ -27,7 +28,7 @@ export default Mixin.create({
 
   didInsertElement() {
     this._super(...arguments);
-    this.$front = this.$('.js-swappable-block')[0];
+    this.$front = this.$('.js-swipeable-block')[0];
   },
 
   willDestroyElement() {
@@ -69,10 +70,10 @@ export default Mixin.create({
   },
 
   doPanMove(event) {
-
     let newX = Math.round(this.startX + event.originalEvent.gesture.deltaX);
-    let width = 284;
+    let width = this.get('optionWidth');
     newX = Math.min(Math.max(newX, -1 * width), 0);
+
     if (this.lastX === newX) {
       return;
     }
@@ -88,7 +89,7 @@ export default Mixin.create({
 
     this.startX = null;
 
-    let width = 284;
+    let width = this.get('optionWidth');
     let clip = Math.round((width / 2), 0);
 
     this.setProperties({
@@ -117,7 +118,7 @@ export default Mixin.create({
 
     let newX = this.lastX;
 
-    this.$front.style.cssText = `transform: translateX(${ newX }px); `;
+    this.$front.style.cssText = `transform: translateX(${ newX }px)`;
   },
 
   // Note: Called at the end of a drag. Used to autoclose or open when dragging is stopped midway
@@ -131,7 +132,7 @@ export default Mixin.create({
 
     let newX,
       relativeDuration;
-    let width = 284;
+    let width = this.get('optionWidth');
 
     // Checks whether to snap open or close
     newX = (this.get('isPanOpen')) ? -1 * width : 0;

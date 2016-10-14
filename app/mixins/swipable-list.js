@@ -87,10 +87,25 @@ export default Mixin.create(RecognizerMixin, {
 
     if (this.currentItem) {
       this.currentItem.doPanEnd(event);
-      // this.currentItem = null;
     }
 
     this.get('scroll').enable();
+  },
+
+  click(event) {
+    let clickedItem = this._getItemFromEvent(event);
+
+    if (this.previousItem && this.previousItem.get('isPanOpen')) {
+      // Close any other open block
+      if (clickedItem !== this.previousItem) {
+        this.previousItem.closeItem();
+      } else {
+        // Close current open block if tapping the front of the open block
+        if (this.$(event.target).closest('.js-swipeable-block').length) {
+          this.previousItem.closeItem();
+        }
+      }
+    }
   }
 
 });

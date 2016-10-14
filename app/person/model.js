@@ -1,8 +1,7 @@
 import DS from 'ember-data';
 
 const {
-  computed,
-  observer
+  computed
 } = Ember;
 
 const {
