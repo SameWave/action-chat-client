@@ -59,9 +59,8 @@ export default Component.extend(SwipableListItemMixin, InViewportMixin, {
   didEnterViewport() {
     this.set('isViewable', true);
     if (this.get('isFirstComment') && !this.get('isViewed')) {
-      this.set('isViewed', true);
       if (this.get('onFirstCommentView')) {
-        this.get('onFirstCommentView')();
+        this.get('onFirstCommentView')(this);
       }
     }
   },

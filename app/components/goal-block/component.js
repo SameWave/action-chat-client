@@ -20,20 +20,32 @@ export default Component.extend(SwipableListItemMixin, {
 
   optionWidth: 64,
 
+  didInsertElement() {
+    this._super(...arguments);
+
+    // TODO: Move these event listeners to the container and delegate to the item?
+    this.$().on('touchstart', this.touchStart.bind(this));
+    this.$().on('touchmove', this.touchCancel.bind(this));
+    this.$().on('touchend', this.touchCancel.bind(this));
+    this.$().on('touchcancel', this.touchCancel.bind(this));
+
+  },
+
+  willDestroyElement() {
+    this._super(...arguments);
+
+    this.$().off('touchstart');
+    this.$().off('touchmove');
+    this.$().off('touchend');
+    this.$().off('touchcancel');
+  },
+
   touchStart(event) {
     let target = event.target.closest('[data-drag="handle"]');
 
     if (target) {
       this.set('isActive', true);
     }
-  },
-
-  touchMove() {
-    this.set('isActive', false);
-  },
-
-  touchEnd() {
-    this.set('isActive', false);
   },
 
   touchCancel() {
