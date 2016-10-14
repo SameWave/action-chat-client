@@ -234,13 +234,19 @@ export default Controller.extend({
   },
 
   doScroll(top, delay) {
-    this.$comments.animate({
-      scrollTop: top
-    }, delay);
+    if (delay) {
+      this.$comments.animate({
+        scrollTop: top
+      }, delay);
+    } else {
+      run.next(this, () => {
+        this.$comments.scrollTop(top);
+      });
+    }
   },
 
   scrollToBottom(delay = 100) {
-    this.doScroll(this.$comments.get(0).scrollHeight, delay);
+    this.doScroll(this.$comments[0].scrollHeight, delay);
   },
 
   nudgeBottom(delay = 100) {
