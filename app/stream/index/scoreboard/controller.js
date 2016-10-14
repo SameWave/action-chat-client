@@ -109,11 +109,26 @@ export default Controller.extend({
 
   actions: {
     toggleIsEditing() {
+      if (this.get('isGoalSwipeOpen')) {
+        return;
+      }
+
       this.toggleProperty('isEditing');
     },
 
     deleteGoal(goal) {
       console.log('goal.destroyRecord()');
+    },
+
+    swipeGoalOpen() {
+      this.setProperties({
+        isEditing: false,
+        isGoalSwipeOpen: true
+      });
+    },
+
+    swipeGoalClose() {
+      this.set('isGoalSwipeOpen', false);
     }
   }
 });
