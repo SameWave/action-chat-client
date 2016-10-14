@@ -157,16 +157,24 @@ export default Controller.extend({
   },
 
   doneLoadingEarlier() {
-
     let previousHeight = this.$comments[0].scrollHeight;
 
     run.next(this, () => {
       this.setFirstUnread();
 
-      let scrollHeightDiff = this.$comments.get(0).scrollHeight - previousHeight;
-      let newScrollTop = this.$comments.scrollTop() + scrollHeightDiff;
+      let newHeight = this.$comments[0].scrollHeight;
+      let heightDiff = newHeight - previousHeight;
+      let newScrollTop = this.$comments.scrollTop() + heightDiff;
 
-      this.$comments.scrollTop(newScrollTop);
+      // TODO: Remove this debugging once we're sure it works properly
+      // console.log('previousHeight: ', previousHeight);
+      // console.log('newHeight: ', newHeight);
+      // console.log('heightDiff: ', heightDiff);
+      // console.log('newScrollTop: ', newScrollTop);
+
+      run.later(this, () => {
+        this.$comments.scrollTop(newScrollTop);
+      }, 10);
 
       this.setProperties({
         firstComment: this.get('sortedComments.firstObject'),
@@ -193,12 +201,12 @@ export default Controller.extend({
   },
 
   /**
-  * Fired when keyboard is opened.
-  * Use this event to move the chatbox up when keyboard opens
-  * Moves the stream comments up when there are too many comments that would be covered by the keyboard
-  * @event showKeyboard
-  * @param {keyboardHeight} Height of the device keyboard
-  */
+   * Fired when keyboard is opened.
+   * Use this event to move the chatbox up when keyboard opens
+   * Moves the stream comments up when there are too many comments that would be covered by the keyboard
+   * @event showKeyboard
+   * @param {keyboardHeight} Height of the device keyboard
+   */
   showKeyboard(keyboardHeight) {
     if (window.cordova && window.cordova.platformId === 'android') {
       return;
@@ -312,9 +320,10 @@ export default Controller.extend({
 
   actions: {
 
-    doFirstCommentViewed() {
+    doFirstCommentViewed(streamComment) {
       if (!this.get('isShowingAllComments') && !this.get('isLoadingEarlier')) {
         this.loadEarlier();
+        streamComment.set('isViewed', true);
       }
     },
 
