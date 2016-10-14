@@ -6,19 +6,23 @@ const {
   observer
 } = Ember;
 
+const SingleOptionWidth = 64;
+
 export default Component.extend(SwipableListItemMixin, {
   classNames: ['c-media-block--goal'],
-  classNameBindings: ['isActive'],
+  classNameBindings: ['isActive', 'hasOneOption', 'hasThreeOptions'],
 
+  // Passed In
   goal: null,
   value: 0,
   goalTotal: 100,
   colour: 'green',
-
   isActive: false,
   isEditing: false,
 
-  optionWidth: 64,
+  optionWidth: SingleOptionWidth * 3,
+  hasOneOption: false,
+  hasThreeOptions: true,
 
   touchStart(event) {
     let target = event.target.closest('[data-drag="handle"]');
@@ -39,6 +43,22 @@ export default Component.extend(SwipableListItemMixin, {
   touchCancel() {
     this.set('isActive', false);
   },
+
+  setOptionWidth: observer('isEditing', function() {
+    if (this.get('isEditing')) {
+      this.setProperties({
+        optionWidth: SingleOptionWidth,
+        hasOneOption: true,
+        hasThreeOptions: false
+      });
+    } else {
+      this.setProperties({
+        optionWidth: SingleOptionWidth * 3,
+        hasOneOption: false,
+        hasThreeOptions: true
+      });
+    }
+  }),
 
   observePanOpen: observer('isPanOpen', function() {
     if (this.get('isPanOpen')) {
