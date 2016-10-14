@@ -70,7 +70,6 @@ export default Mixin.create({
   },
 
   doPanMove(event) {
-    console.log('panMove');
     let newX = Math.round(this.startX + event.originalEvent.gesture.deltaX);
     let width = this.get('optionWidth');
     newX = Math.min(Math.max(newX, -1 * width), 0);

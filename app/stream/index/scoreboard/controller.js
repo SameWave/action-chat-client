@@ -113,7 +113,7 @@ export default Controller.extend({
     },
 
     deleteGoal(goal) {
-      console.log('goal.destroyRecord()');
+      // console.log('goal.destroyRecord()');
     }
   }
 });
