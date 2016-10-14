@@ -61,16 +61,6 @@ export default Component.extend(SwipableListItemMixin, {
   }),
 
   observePanOpen: observer('isPanOpen', function() {
-    if (this.get('isPanOpen')) {
-      this.setProperties({
-        isEditing: false,
-        isEditingDisabled: true
-      });
-    } else {
-      this.setProperties({
-        isEditingDisabled: false
-      });
-    }
+    return this.get('isPanOpen') ? this.set('isEditingDisabled', true) : this.set('isEditingDisabled', false);
   })
-
 });

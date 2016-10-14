@@ -6,7 +6,7 @@
 	{{inline-svg "images/icons/icon-search" class="c-tool-bar_icon"}}
 </section>
 
-<section class="c-tool-bar_last-section" {{action (action "doEdit")}}>
+<section class="c-tool-bar_last-section {{if isEditingDisabled 'is-disabled'}}" {{action (action "doEdit")}}>
   <p>
     {{#if isEditing}}
       Cancel
