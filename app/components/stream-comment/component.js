@@ -88,7 +88,7 @@ export default Component.extend(SwipableListItemMixin, InViewportMixin, {
 
   actions: {
     doEdit() {
-      this.set('isOpen', false);
+      this.closeItem();
 
       if (this.get('onEdit')) {
         this.get('onEdit')(this.get('comment'));
@@ -96,7 +96,7 @@ export default Component.extend(SwipableListItemMixin, InViewportMixin, {
     },
 
     doDelete() {
-      this.set('isOpen', false);
+      this.closeItem();
 
       if (this.get('onDelete')) {
         this.get('onDelete')(this.get('comment'));
