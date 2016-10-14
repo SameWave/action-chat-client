@@ -1,7 +1,7 @@
 import Ember from 'ember';
 
 const {
-	Component
+  Component
 } = Ember;
 
 export default Component.extend({
@@ -9,6 +9,9 @@ export default Component.extend({
 
   actions: {
     doEdit() {
+      if (this.get('isEditingDisabled')) {
+        return;
+      }
       if (this.get('onEdit')) {
         this.get('onEdit')();
       }
