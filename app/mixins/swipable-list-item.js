@@ -28,7 +28,7 @@ export default Mixin.create({
 
   didInsertElement() {
     this._super(...arguments);
-    this.$front = this.$('.js-swappable-block')[0];
+    this.$front = this.$('.js-swipeable-block')[0];
   },
 
   willDestroyElement() {
