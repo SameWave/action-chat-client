@@ -395,7 +395,8 @@ export default Controller.extend({
       this.setProperties({
         editingComment: null,
         chatBoxValue: '',
-        isChatModalVisible: false
+        isChatModalVisible: false,
+        isSendButtonVisible: true
       });
       this.$input.blur();
     },

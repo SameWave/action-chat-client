@@ -48,7 +48,7 @@ $component-name: l-stream-comment;
     z-index: $z-stream-blocks;
     top: 0;
     right: 0;
-    width: 80%;
+    width: $singleOptionWidth * 4;
     height: calc(100% - 10px);
   }
 }
