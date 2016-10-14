@@ -114,16 +114,31 @@ export default Controller.extend({
     let isInvalid = !this.get('isEditing');
     this.dragulaConfig.options.invalid = function() {
       return isInvalid;
-    }
+    };
   }),
 
   actions: {
     toggleIsEditing() {
+      if (this.get('isGoalSwipeOpen')) {
+        return;
+      }
+
       this.toggleProperty('isEditing');
     },
 
     deleteGoal(goal) {
-      // console.log('goal.destroyRecord()');
+      console.log('goal.destroyRecord()');
+    },
+
+    swipeGoalOpen() {
+      this.setProperties({
+        isEditing: false,
+        isGoalSwipeOpen: true
+      });
+    },
+
+    swipeGoalClose() {
+      this.set('isGoalSwipeOpen', false);
     }
   }
 });

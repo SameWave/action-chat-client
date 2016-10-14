@@ -1,4 +1,5 @@
 {{tool-bar
+  isEditing=isEditing
   onEdit=(action "toggleIsEditing")
 }}
 
@@ -19,7 +20,9 @@
         goal=item
         classNames="in-edit js-list-item"
         isEditing=isEditing
-        onDeleteGoal=(action "deleteGoal")}}
+        onDeleteGoal=(action "deleteGoal")
+        onSwipeGoalOpen=(action "swipeGoalOpen")
+        onSwipeGoalClose=(action "swipeGoalClose")}}
     {{/each}}
 
   {{/sw-dragula-container}}
