@@ -30,11 +30,12 @@ export default Mixin.create({
 
   didInsertElement() {
     this._super(...arguments);
-    this.$front = this.$('.js-swipeable-block')[0];
+    this.$item = this.$();
   },
 
   willDestroyElement() {
     this._super(...arguments);
+    this.$item = null;
     this.$front = null;
   },
 
@@ -47,11 +48,9 @@ export default Mixin.create({
   },
 
   doPanStart() {
-    if (!this.$front) {
-      return;
-    }
-    // this.get('ui').own(this.get('elementId'), this.close.bind(this));
+    this.$front = this.$item.find('.js-swipeable-block')[0];
 
+    // this.get('ui').own(this.get('elementId'), this.close.bind(this));
     let style = window.getComputedStyle(this.$front);
     // TODO: What is this? Use window.getComputedStyle(el).getPropertyValue("translate")
     let matrix = new WebKitCSSMatrix(style.webkitTransform);
@@ -75,7 +74,6 @@ export default Mixin.create({
     let newX = Math.round(this.startX + event.originalEvent.gesture.deltaX);
     let width = this.get('optionsWidth');
     newX = Math.min(Math.max(newX, -1 * width), 0);
-
     if (this.lastX === newX) {
       return;
     }
