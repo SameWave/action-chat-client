@@ -28,8 +28,25 @@
 </div>
 
 <div class="c-media-block_back">
-	<section class="c-option-block--red c-option-block--one">
-		{{inline-svg "images/icons/icon-minus-circle" class="c-option-block_icon"}}
-		<p class="c-option-block_title">Delete</p>
-	</section>
+	{{#if isEditing}}
+		<section class="c-option-block--red c-option-block--one">
+			{{inline-svg "images/icons/icon-minus-circle" class="c-option-block_icon"}}
+			<p class="c-option-block_title">Delete</p>
+		</section>
+	{{else}}
+	  <section class="c-option-block">
+	    {{inline-svg 'images/icons/icon-reply' class="c-option-block_icon"}}
+	    <p class="c-option-block_title">View</p>
+	  </section>
+
+	  <section class="c-option-block">
+	      {{inline-svg 'images/icons/icon-reply' class="c-option-block_icon"}}
+	      <p class="c-option-block_title">Settings</p>
+	  </section>
+
+	  <section class="c-option-block">
+	    {{inline-svg 'images/icons/icon-reply' class="c-option-block_icon"}}
+	    <p class="c-option-block_title">Pins</p>
+	  </section>
+	{{/if}}
 </div>
