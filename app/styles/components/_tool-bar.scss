@@ -26,6 +26,11 @@
     @extend %section;
     text-align: right;
     padding-right: 10px;
+    tranisition: color $speed-slow;
+
+    &.is-disabled {
+      color: map-get($grey, 'lighten-1');
+    }
   }
 
   // Elements

@@ -1,4 +1,6 @@
 .c-media-block {
+  $singleOptionWidth: 64px;
+  
   position: relative;
   align-items: center;
   flex: 1 1 100%;
@@ -67,12 +69,17 @@
     top: 0;
     right: 0;
     display: flex;
-    width: 80%;
+    width: $singleOptionWidth * 4;
     height: 100%;
+    justify-content: flex-end;
     background: map-get($grey, 'lighten-1');
 
-    @at-root .c-media-block .c-media-block_back {
-      width: 20%;
+    @at-root .c-media-block.has-one-option .c-media-block_back {
+      width: $singleOptionWidth;
+    }
+
+    @at-root .c-media-block.has-three-options .c-media-block_back {
+      width: $singleOptionWidth * 3;
     }
   }
 

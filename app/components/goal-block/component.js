@@ -3,22 +3,45 @@ import SwipableListItemMixin from 'action-chat-client/mixins/swipable-list-item'
 
 const {
   Component,
-  observer
+  observer,
+  computed
 } = Ember;
+
+const OPTION_WIDTH = 64;
 
 export default Component.extend(SwipableListItemMixin, {
   classNames: ['c-media-block--goal'],
-  classNameBindings: ['isActive'],
+  classNameBindings: ['isActive', 'hasOneOption', 'hasThreeOptions'],
 
+  // Passed In
   goal: null,
   value: 0,
   goalTotal: 100,
   colour: 'green',
-
   isActive: false,
   isEditing: false,
 
-  optionWidth: 64,
+  optionsCount: 3,
+
+  optionsWidth: computed('optionsCount', function() {
+    return this.get('optionsCount') * OPTION_WIDTH;
+  }),
+
+  hasOneOption: computed.equal('optionsCount', 1),
+
+  hasThreeOptions: computed.equal('optionsCount', 3),
+
+  setOptionCount: observer('isEditing', function() {
+    if (this.get('isEditing')) {
+      this.set('optionsCount', 1);
+    } else {
+      this.set('optionsCount', 3);
+    }
+  }),
+
+  observePanOpen: observer('isPanOpen', function() {
+    return this.set('isEditingDisabled', this.get('isPanOpen'));
+  }),
 
   touchStart(event) {
     let target = event.target.closest('[data-drag="handle"]');
@@ -38,19 +61,5 @@ export default Component.extend(SwipableListItemMixin, {
 
   touchCancel() {
     this.set('isActive', false);
-  },
-
-  observePanOpen: observer('isPanOpen', function() {
-    if (this.get('isPanOpen')) {
-      this.setProperties({
-        isEditing: false,
-        isEditingDisabled: true
-      });
-    } else {
-      this.setProperties({
-        isEditingDisabled: false
-      });
-    }
-  })
-
+  }
 });

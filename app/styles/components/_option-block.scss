@@ -8,15 +8,11 @@
   display: flex;
   height: 100%;
   align-items: center;
-  flex: 0 0 calc(100% / 4);
+  flex: 1 0 0;
   flex-direction: column;
   justify-content: center;
   fill: map-get($blue, 'base');
   color: map-get($blue, 'base');
-
-  &--one {
-    flex: 0 0 calc(100%);
-  }
 
   // Modifier
   &--red {

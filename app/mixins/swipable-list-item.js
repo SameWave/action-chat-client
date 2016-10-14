@@ -6,6 +6,8 @@ const {
   testing
 } = Ember;
 
+const OPTION_WIDTH = 64;
+
 export default Mixin.create({
 
   classNames: ['js-list-item'],
@@ -14,7 +16,7 @@ export default Mixin.create({
   isOpen: false,
   isSwipable: true,
   isPanOpen: false,
-  optionWidth: 284,
+  optionsWidth: OPTION_WIDTH * 4,
 
   init() {
     this._super(...arguments);
@@ -71,7 +73,7 @@ export default Mixin.create({
 
   doPanMove(event) {
     let newX = Math.round(this.startX + event.originalEvent.gesture.deltaX);
-    let width = this.get('optionWidth');
+    let width = this.get('optionsWidth');
     newX = Math.min(Math.max(newX, -1 * width), 0);
 
     if (this.lastX === newX) {
@@ -89,7 +91,7 @@ export default Mixin.create({
 
     this.startX = null;
 
-    let width = this.get('optionWidth');
+    let width = this.get('optionsWidth');
     let clip = Math.round((width / 2), 0);
 
     this.setProperties({
@@ -132,7 +134,7 @@ export default Mixin.create({
 
     let newX,
       relativeDuration;
-    let width = this.get('optionWidth');
+    let width = this.get('optionsWidth');
 
     // Checks whether to snap open or close
     newX = (this.get('isPanOpen')) ? -1 * width : 0;

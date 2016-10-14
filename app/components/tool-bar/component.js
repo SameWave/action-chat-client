@@ -7,6 +7,10 @@ const {
 export default Component.extend({
   classNames: ['c-tool-bar'],
 
+  // Passed in
+  isEditingDisabled: false,
+  isEditing: false,
+
   actions: {
     doEdit() {
       if (this.get('isEditingDisabled')) {
