@@ -17,7 +17,7 @@ $component-name: l-stream-comment;
     width: 100%;
     border-radius: 3px 3px 3px 13px;
     background: map-get($shades, 'white');
-    transition: background $speed-fast;
+    transition: background $speed-slow;
     touch-action: pan-x;
 
     // NOTE: Speech box tick
@@ -31,6 +31,11 @@ $component-name: l-stream-comment;
       border-width: 18px 0 0 18px;
       border-style: solid;
       border-color: map-get($shades, 'white') transparent;
+      transition: border-color $speed-slow;
+
+      @at-root .#{$component-name}.is-editing .#{$component-name}_front::after {
+        border-color: map-get($yellow, 'white') transparent;
+      }
     }
 
     @at-root .#{$component-name}.is-editing .#{$component-name}_front {
