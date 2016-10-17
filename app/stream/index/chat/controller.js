@@ -41,6 +41,7 @@ export default Controller.extend({
   unreadCount: 0,
   isObserving: false,
   isSendButtonVisible: true,
+  isLoadEarlierDisabled: false,
 
   streamMembers: computed('members.[]', 'stream.id', function() {
     return this.get('members').filterBy('stream.id', this.get('stream.id'));
@@ -140,6 +141,10 @@ export default Controller.extend({
   },
 
   loadEarlier(count = COMMENT_LOAD_SIZE, callback) {
+
+    if (this.get('isLoadEarlierDisabled')) {
+      return;
+    }
 
     this.set('isLoadingEarlier', true);
 
@@ -318,9 +323,13 @@ export default Controller.extend({
     newTop += $comment[0].clientHeight;
     newTop += offset;
 
+    this.set('isLoadEarlierDisabled', true);
+
     this.$comments.animate({
       scrollTop: newTop
-    }, 500);
+    }, 500, () => {
+      this.set('isLoadEarlierDisabled', false);
+    });
 
   },
 
@@ -431,11 +440,18 @@ export default Controller.extend({
       }
 
       this.get('editingComment').save().then(() => {
+        let editingCommentId = this.get('editingComment.id');
+
         this.setProperties({
           editingComment: null,
           chatBoxValue: '',
           isChatModalVisible: false,
           isSendButtonVisible: true
+        });
+
+        run.next(this, function() {
+          let editingComment = $(`#comment-${editingCommentId}`);
+          editingComment.css('min-height', editingComment.find('.js-swipeable-block').height() + 10);
         });
       });
     },
