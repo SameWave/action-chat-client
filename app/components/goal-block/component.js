@@ -20,6 +20,7 @@ export default Component.extend(SwipableListItemMixin, {
   colour: 'green',
   isActive: false,
   isEditing: false,
+  isDragEnabled: false,
 
   optionsCount: 3,
 

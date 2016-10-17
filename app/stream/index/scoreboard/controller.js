@@ -8,7 +8,8 @@ const {
   A,
   Object,
   observer,
-  isEmpty
+  isEmpty,
+  computed
 } = Ember;
 
 export default Controller.extend({
@@ -116,6 +117,10 @@ export default Controller.extend({
     this.dragulaConfig.options.invalid = function() {
       return isInvalid;
     }
+  }),
+
+  isDragEnabled: computed('isEditing', 'isItemOpen', function() {
+    return this.get('isEditing') && !this.get('isItemOpen');
   }),
 
   actions: {

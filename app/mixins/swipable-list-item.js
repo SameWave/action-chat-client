@@ -168,6 +168,9 @@ export default Mixin.create({
     if (!this.rafSlideId) {
       this.rafSlideId = window.requestAnimationFrame(this.animateSlide.bind(this));
     }
+
+    this.set('parentView.isItemOpen', this.get('isPanOpen'));
+
   }.observes('isPanOpen')
 
 });
