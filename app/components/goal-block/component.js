@@ -43,6 +43,10 @@ export default Component.extend(SwipableListItemMixin, {
     return this.set('isEditingDisabled', this.get('isPanOpen'));
   }),
 
+  isDragHandleVisible: computed('isEditing', 'isPanOpen', function() {
+    return this.get('isEditing') && !this.get('isPanOpen');
+  }),
+
   touchStart(event) {
     let target = event.target.closest('[data-drag="handle"]');
 
