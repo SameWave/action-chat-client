@@ -5,7 +5,9 @@ const {
   Mixin,
   inject: {
     service
-  }
+  },
+  computed,
+  isEmpty
 } = Ember;
 
 export default Mixin.create(RecognizerMixin, {
@@ -15,6 +17,7 @@ export default Mixin.create(RecognizerMixin, {
   recognizers: 'tap pan',
 
   items: {},
+  isItemOpen: false,
   previousItem: null,
   currentItem: null,
   onScrollCallback: null,

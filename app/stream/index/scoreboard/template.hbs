@@ -14,6 +14,7 @@
   {{#sw-dragula-container
     id="js-scoreboard-main-area"
     drake=drake
+    isItemOpen=isItemOpen
   }}
 
     {{#each goals as |item|}}
@@ -22,6 +23,7 @@
         classNames="in-edit js-list-item"
         isEditing=isEditing
         isEditingDisabled=isEditingDisabled
+        isDragEnabled=isDragEnabled
         onDeleteGoal=(action "deleteGoal")}}
     {{/each}}
 
