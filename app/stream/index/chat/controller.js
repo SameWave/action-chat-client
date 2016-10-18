@@ -85,8 +85,6 @@ export default Controller.extend({
 
     this.scrollToBottom(0); // scroll to bottom with 0 delay
 
-    this.get('scroll').enable();
-
     if (this.get('unreadCount')) {
       this.setFirstUnread();
     } else {

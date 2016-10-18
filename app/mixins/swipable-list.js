@@ -25,6 +25,9 @@ export default Mixin.create(RecognizerMixin, {
 
   didInsertElement() {
     this._super(...arguments);
+
+    this.$scrollContainer = $('.js-scrollable-container');
+    this.get('scroll').enable(this.$scrollContainer);
   },
 
   _getItemFromEvent(event) {
@@ -56,7 +59,7 @@ export default Mixin.create(RecognizerMixin, {
       return;
     }
 
-    this.get('scroll').disable();
+    this.get('scroll').disable(this.$scrollContainer);
 
     this.currentItem = this._getItemFromEvent(event);
 
@@ -92,7 +95,7 @@ export default Mixin.create(RecognizerMixin, {
       this.currentItem.doPanEnd(event);
     }
 
-    this.get('scroll').enable();
+    this.get('scroll').enable(this.$scrollContainer);
   },
 
   click(event) {
