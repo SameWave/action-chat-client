@@ -15,7 +15,6 @@ const momentumDelay = testing ? 0 : 10;
 
 export default Service.extend({
 
-  $container: null,
   callback: null,
 
   // states
@@ -28,26 +27,18 @@ export default Service.extend({
     return window.cordova && window.cordova.platformId === 'ios';
   },
 
-  enable() {
-    this.$container = $('.js-scrollable-container');
-
-    this.$container.css({
+  enable($container) {
+    $container.css({
       'overflow-y': 'scroll'
     });
-
-    // this.$container.on('touchmove', this.onScroll.bind(this));
-    this.$container.on('scroll', this.onScroll.bind(this));
+    $container.on('scroll', this.onScroll.bind(this));
   },
 
-  disable() {
-    // this.$container.off('touchmove', this.onScroll.bind(this));
-    if (this.$container) {
-      this.$container.off('scroll', this.onScroll.bind(this));
-
-      this.$container.css({
-        'overflow-y': 'hidden'
-      });
-    }
+  disable($container) {
+    $container.off('scroll');
+    $container.css({
+      'overflow-y': 'hidden'
+    });
   },
 
   onScroll() {
