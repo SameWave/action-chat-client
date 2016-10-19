@@ -3,7 +3,8 @@ import Ember from 'ember';
 const {
   Mixin,
   run,
-  testing
+  testing,
+  observer
 } = Ember;
 
 const OPTION_WIDTH = 64;
@@ -17,6 +18,9 @@ export default Mixin.create({
   isSwipable: true,
   isPanOpen: false,
   optionsWidth: OPTION_WIDTH * 4,
+
+  rafPanId: null,
+  rafSlideId: null,
 
   init() {
     this._super(...arguments);
@@ -37,6 +41,16 @@ export default Mixin.create({
     this._super(...arguments);
     this.$item = null;
     this.$front = null;
+
+    if (this.rafPanId) {
+      window.cancelAnimationFrame(this.rafPanId);
+      this.rafPanId = null;
+    }
+
+    if (this.rafSlideId) {
+      window.cancelAnimationFrame(this.rafSlideId);
+      this.rafSlideId = null;
+    }
   },
 
   closeItem() {
@@ -154,7 +168,7 @@ export default Mixin.create({
     }
   },
 
-  _enqueSlide: function() {
+  _enqueSlide: observer('isPanOpen', function() {
 
     if (this.get('isDestroying') || this.get('isDestroyed')) {
       return;
@@ -171,6 +185,6 @@ export default Mixin.create({
 
     this.set('parentView.isItemOpen', this.get('isPanOpen'));
 
-  }.observes('isPanOpen')
+  })
 
 });

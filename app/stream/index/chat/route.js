@@ -54,6 +54,7 @@ export default Route.extend(AuthenticatedRouteMixin, {
       totalCommentCount: stream.get('commentCount'),
       previousLastReadAt: previousLastReadAt,
       unreadCount: unreadCount,
+      isTriggerVisible: false,
       comments,
       members,
       stream

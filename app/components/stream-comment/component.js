@@ -53,25 +53,15 @@ export default Component.extend(SwipableListItemMixin, InViewportMixin, {
     });
 
     this.set('isViewable', false);
-
   },
 
   didEnterViewport() {
     this.set('isViewable', true);
-    if (this.get('isFirstComment') && !this.get('isViewed')) {
-      if (this.get('onFirstCommentView')) {
-        this.get('onFirstCommentView')(this);
-      }
-    }
   },
 
   didExitViewport() {
     this.set('isViewable', false);
   },
-
-  isFirstComment: computed('firstComment.id', 'comment.id', function() {
-    return this.get('firstComment.id') === this.get('comment.id');
-  }),
 
   isFirstUnread: computed('firstUnread.id', 'comment.id', function() {
     return this.get('firstUnread.id') === this.get('comment.id');

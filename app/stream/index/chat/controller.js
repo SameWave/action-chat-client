@@ -22,7 +22,7 @@ const {
 
 const NUDGE_OFFSET_PX = 60; // Pixels for determining nudge vs scroll for new comment
 const NUDGE_PX = 24; // Pixels for distance to nudge
-const COMMENT_LOAD_SIZE = 20;
+const COMMENT_LOAD_SIZE = 10;
 
 export {
   COMMENT_LOAD_SIZE
@@ -41,7 +41,6 @@ export default Controller.extend({
   unreadCount: 0,
   isObserving: false,
   isSendButtonVisible: true,
-  isLoadEarlierDisabled: false,
 
   streamMembers: computed('members.[]', 'stream.id', function() {
     return this.get('members').filterBy('stream.id', this.get('stream.id'));
@@ -65,7 +64,6 @@ export default Controller.extend({
   typingTimer: null,
   chatBoxValue: '',
   loadingTimer: null,
-  firstComment: null,
   firstUnread: null,
   lastComment: null,
   editingComment: null,
@@ -86,16 +84,17 @@ export default Controller.extend({
 
     this.scrollToBottom(0); // scroll to bottom with 0 delay
 
-    this.get('scroll').enable();
-
     if (this.get('unreadCount')) {
       this.setFirstUnread();
     } else {
       this.setLastReadAt();
     }
 
-    this.set('firstComment', this.get('sortedComments.firstObject'));
     this.set('lastComment', this.get('sortedComments.lastObject'));
+
+    run.next(this, () => {
+      this.set('isTriggerVisible', true);
+    });
 
     if (window.cordova && window.cordova.plugins.Keyboard) {
       this.setupKeyboardEvents();
@@ -141,11 +140,6 @@ export default Controller.extend({
   },
 
   loadEarlier(count = COMMENT_LOAD_SIZE, callback) {
-
-    if (this.get('isLoadEarlierDisabled')) {
-      return;
-    }
-
     this.set('isLoadingEarlier', true);
 
     this.store.query('comment', {
@@ -163,27 +157,17 @@ export default Controller.extend({
 
   doneLoadingEarlier() {
     let previousHeight = this.$comments[0].scrollHeight;
-
     run.next(this, () => {
+
+      let heightDiff = this.$comments[0].scrollHeight - previousHeight;
+      let newScrollTop = this.$comments.scrollTop() + heightDiff;
+      this.$comments.scrollTop(newScrollTop);
+
       this.setFirstUnread();
 
-      let newHeight = this.$comments[0].scrollHeight;
-      let heightDiff = newHeight - previousHeight;
-      let newScrollTop = this.$comments.scrollTop() + heightDiff;
-
-      // TODO: Remove this debugging once we're sure it works properly
-      // console.log('previousHeight: ', previousHeight);
-      // console.log('newHeight: ', newHeight);
-      // console.log('heightDiff: ', heightDiff);
-      // console.log('newScrollTop: ', newScrollTop);
-
-      run.later(this, () => {
-        this.$comments.scrollTop(newScrollTop);
-      }, 10);
-
       this.setProperties({
-        firstComment: this.get('sortedComments.firstObject'),
-        isLoadingEarlier: false
+        isLoadingEarlier: false,
+        isTriggerVisible: true
       });
     });
 
@@ -323,22 +307,18 @@ export default Controller.extend({
     newTop += $comment[0].clientHeight;
     newTop += offset;
 
-    this.set('isLoadEarlierDisabled', true);
-
     this.$comments.animate({
       scrollTop: newTop
-    }, 500, () => {
-      this.set('isLoadEarlierDisabled', false);
-    });
+    }, 500);
 
   },
 
   actions: {
 
-    doFirstCommentViewed(streamComment) {
+    doLoadTrigger() {
+      this.set('isTriggerVisible', false);
       if (!this.get('isShowingAllComments') && !this.get('isLoadingEarlier')) {
-        this.loadEarlier();
-        streamComment.set('isViewed', true);
+        run.debounce(this, this.loadEarlier, 300);
       }
     },
 
