@@ -177,7 +177,8 @@ export default Controller.extend({
 
       this.setProperties({
         firstComment: this.get('sortedComments.firstObject'),
-        isLoadingEarlier: false
+        isLoadingEarlier: false,
+        isLoadingEarlierVisible: false
       });
     });
 
@@ -454,8 +455,12 @@ export default Controller.extend({
     },
 
     doLoadEarlier() {
+
+      if (this.get('isLoadingEarlier')) {
+        return;
+      }
+
       this.loadEarlier();
-      this.set('isLoadingEarlierVisible', false);
     },
 
     doTyping() {
