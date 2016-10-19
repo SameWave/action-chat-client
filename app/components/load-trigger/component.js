@@ -9,7 +9,7 @@ export default Ember.Component.extend(InViewportMixin, {
     this.setProperties({
       viewportEnabled: true,
       viewportUseRAF: true,
-      viewportSpy: true,
+      viewportSpy: false,
       viewportScrollSensitivity: 1,
       viewportRefreshRate: 60,
       viewportTolerance: {

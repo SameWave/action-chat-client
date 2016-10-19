@@ -19,7 +19,7 @@
   classNames="js-scrollable-container"
   tap=(action "doCommentSectionTap")
 }}
-  {{#if hasRendered}}
+  {{#if isTriggerVisible}}
     {{#unless isShowingAllComments}}
       {{load-trigger
         doLoadTrigger=(action "doLoadTrigger")

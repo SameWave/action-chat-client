@@ -93,10 +93,8 @@ export default Controller.extend({
     this.set('lastComment', this.get('sortedComments.lastObject'));
 
     run.next(this, () => {
-      this.set('hasRendered', true);
+      this.set('isTriggerVisible', true);
     });
-
-
 
     if (window.cordova && window.cordova.plugins.Keyboard) {
       this.setupKeyboardEvents();
@@ -160,24 +158,16 @@ export default Controller.extend({
   doneLoadingEarlier() {
     let previousHeight = this.$comments[0].scrollHeight;
     run.next(this, () => {
+
+      let heightDiff = this.$comments[0].scrollHeight - previousHeight;
+      let newScrollTop = this.$comments.scrollTop() + heightDiff;
+      this.$comments.scrollTop(newScrollTop);
+
       this.setFirstUnread();
 
-      let newHeight = this.$comments[0].scrollHeight;
-      let heightDiff = newHeight - previousHeight;
-      let newScrollTop = this.$comments.scrollTop() + heightDiff;
-
-      // TODO: Remove this debugging once we're sure it works properly
-      // console.log('previousHeight: ', previousHeight);
-      // console.log('newHeight: ', newHeight);
-      // console.log('heightDiff: ', heightDiff);
-      // console.log('newScrollTop: ', newScrollTop);
-
-      run.next(this, () => {
-        this.$comments.scrollTop(newScrollTop);
-      });
-
       this.setProperties({
-        isLoadingEarlier: false
+        isLoadingEarlier: false,
+        isTriggerVisible: true
       });
     });
 
@@ -326,9 +316,9 @@ export default Controller.extend({
   actions: {
 
     doLoadTrigger() {
-      console.log('doLoadTrigger');
+      this.set('isTriggerVisible', false);
       if (!this.get('isShowingAllComments') && !this.get('isLoadingEarlier')) {
-        this.loadEarlier();
+        run.debounce(this, this.loadEarlier, 300);
       }
     },
 
