@@ -326,7 +326,6 @@ export default Controller.extend({
 
     doFirstCommentViewed(streamComment) {
       if (!this.get('isShowingAllComments') && !this.get('isLoadingEarlier')) {
-        this.loadEarlier();
         streamComment.set('isViewed', true);
       }
     },
