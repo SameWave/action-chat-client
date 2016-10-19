@@ -41,6 +41,7 @@ export default Controller.extend({
   unreadCount: 0,
   isObserving: false,
   isSendButtonVisible: true,
+  isLoadingEarlierVisible: false,
 
   streamMembers: computed('members.[]', 'stream.id', function() {
     return this.get('members').filterBy('stream.id', this.get('stream.id'));
@@ -325,7 +326,9 @@ export default Controller.extend({
   actions: {
 
     doFirstCommentViewed(streamComment) {
+
       if (!this.get('isShowingAllComments') && !this.get('isLoadingEarlier')) {
+        this.set('isLoadingEarlierVisible', true);
         streamComment.set('isViewed', true);
       }
     },
@@ -452,6 +455,7 @@ export default Controller.extend({
 
     doLoadEarlier() {
       this.loadEarlier();
+      this.set('isLoadingEarlierVisible', false);
     },
 
     doTyping() {
