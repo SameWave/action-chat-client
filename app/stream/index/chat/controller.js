@@ -41,6 +41,7 @@ export default Controller.extend({
   unreadCount: 0,
   isObserving: false,
   isSendButtonVisible: true,
+  isLoadingEarlierVisible: false,
 
   streamMembers: computed('members.[]', 'stream.id', function() {
     return this.get('members').filterBy('stream.id', this.get('stream.id'));
@@ -176,7 +177,8 @@ export default Controller.extend({
 
       this.setProperties({
         firstComment: this.get('sortedComments.firstObject'),
-        isLoadingEarlier: false
+        isLoadingEarlier: false,
+        isLoadingEarlierVisible: false
       });
     });
 
@@ -325,8 +327,9 @@ export default Controller.extend({
   actions: {
 
     doFirstCommentViewed(streamComment) {
+
       if (!this.get('isShowingAllComments') && !this.get('isLoadingEarlier')) {
-        this.loadEarlier();
+        this.set('isLoadingEarlierVisible', true);
         streamComment.set('isViewed', true);
       }
     },
@@ -452,6 +455,11 @@ export default Controller.extend({
     },
 
     doLoadEarlier() {
+
+      if (this.get('isLoadingEarlier')) {
+        return;
+      }
+
       this.loadEarlier();
     },
 

@@ -7,6 +7,7 @@
 	align-items: center;
 	width: 100%;
 	height: auto;
+	min-height: 30px;
 	padding: 3px 10px;
 	background-color: map-get($purple, 'darken-1');
 	color: map-get($shades, 'white');

@@ -8,9 +8,15 @@
   }}
 {{/if}}
 
-{{#if isLoadingEarlier}}
-  <div class="c-chat-notifier">
-    <h2 class="c-chat-notifier_title">Loading earlier comments</h2>
+{{#if isLoadingEarlierVisible}}
+  <div class="c-chat-notifier" {{action (action "doLoadEarlier")}}>
+    <h2 class="c-chat-notifier_title">
+      {{#if isLoadingEarlier}}
+        Loading earlier comments
+      {{else}}
+        Load earlier
+      {{/if}}
+    </h2>
   </div>
 {{/if}}
 
