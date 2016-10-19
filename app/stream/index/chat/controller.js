@@ -420,11 +420,18 @@ export default Controller.extend({
       }
 
       this.get('editingComment').save().then(() => {
+        let editingCommentId = this.get('editingComment.id');
+
         this.setProperties({
           editingComment: null,
           chatBoxValue: '',
           isChatModalVisible: false,
           isSendButtonVisible: true
+        });
+
+        run.next(this, function() {
+          let editingComment = $(`#comment-${editingCommentId}`);
+          editingComment.css('min-height', editingComment.find('.js-swipeable-block').height() + 10);
         });
       });
     },
