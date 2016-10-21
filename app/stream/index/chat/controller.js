@@ -92,10 +92,6 @@ export default Controller.extend({
 
     this.set('lastComment', this.get('sortedComments.lastObject'));
 
-    run.next(this, () => {
-      this.set('isTriggerVisible', true);
-    });
-
     if (window.cordova && window.cordova.plugins.Keyboard) {
       this.setupKeyboardEvents();
     }
@@ -166,8 +162,7 @@ export default Controller.extend({
       this.setFirstUnread();
 
       this.setProperties({
-        isLoadingEarlier: false,
-        isTriggerVisible: true
+        isLoadingEarlier: false
       });
     });
 
@@ -315,8 +310,7 @@ export default Controller.extend({
 
   actions: {
 
-    doLoadTrigger() {
-      this.set('isTriggerVisible', false);
+    doLoadEarlier() {
       if (!this.get('isShowingAllComments') && !this.get('isLoadingEarlier')) {
         run.debounce(this, this.loadEarlier, 300);
       }

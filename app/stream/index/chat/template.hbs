@@ -19,13 +19,10 @@
   classNames="js-scrollable-container"
   tap=(action "doCommentSectionTap")
 }}
-  {{#if isTriggerVisible}}
-    {{#unless isShowingAllComments}}
-      {{load-trigger
-        doLoadTrigger=(action "doLoadTrigger")
-      }}
-    {{/unless}}
-  {{/if}}
+
+  {{#unless isShowingAllComments}}
+    <button class="btn-load-earler" {{action (action "doLoadEarlier")}}>Load Earlier</button>
+  {{/unless}}
   {{#each sortedComments as |comment|}}
     {{stream-comment
       comment=comment
