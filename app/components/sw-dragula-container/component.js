@@ -31,5 +31,10 @@ export default EmberDragulaContainer.extend(SwipableListMixin, {
 
   isPanDisabled() {
     return this.get('scroll.active') || this.get('drake.dragging');
+  },
+
+  // TODO: Understand why this is needed explicitly on the scoreboard
+  tap(event) {
+    this.click(event);
   }
 });
