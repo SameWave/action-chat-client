@@ -43,7 +43,7 @@ export default Component.extend(SwipableListItemMixin, InViewportMixin, {
       viewportUseRAF: true,
       viewportSpy: true,
       viewportScrollSensitivity: 1,
-      viewportRefreshRate: 60,
+      viewportRefreshRate: 300,
       viewportTolerance: {
         top: 500,
         bottom: 500,
@@ -51,7 +51,6 @@ export default Component.extend(SwipableListItemMixin, InViewportMixin, {
         right: 400
       }
     });
-
     this.set('isViewable', false);
   },
 

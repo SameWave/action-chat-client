@@ -23,6 +23,7 @@
   {{#unless isShowingAllComments}}
     <button class="btn-load-earler" {{action (action "doLoadEarlier")}}>Load Earlier</button>
   {{/unless}}
+
   {{#each sortedComments as |comment|}}
     {{stream-comment
       comment=comment
