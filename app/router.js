@@ -28,6 +28,7 @@ AppRouter.map(function() {
   });
 
   this.route('loading');
+  this.route('infinity');
 });
 
 export default AppRouter;

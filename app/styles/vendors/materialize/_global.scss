@@ -779,3 +779,15 @@ nav ul a span.badge {
 .no-padding {
   padding: 0 !important;
 }
+
+.infinity-content {
+  overflow-y: scroll;
+  -webkit-overflow-scrolling: touch;
+
+  &.is-loading-earlier {
+    -webkit-overflow-scrolling: auto;
+  }
+}
+
+
+

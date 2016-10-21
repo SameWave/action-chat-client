@@ -81,6 +81,7 @@ export default Controller.extend({
     this.$footer = $('.js-footer');
     this.$input = $('#chat-area');
     this.$commentItems = $('.js-stream-comment');
+    this.$scrollContainer = $('.js-scrollable-container');
 
     this.scrollToBottom(0); // scroll to bottom with 0 delay
 
@@ -92,8 +93,8 @@ export default Controller.extend({
 
     this.set('lastComment', this.get('sortedComments.lastObject'));
 
-    run.next(this, () => {
-      this.set('isTriggerVisible', true);
+    this.get('scroll').setProperties({
+      triggerLoadEarlier: this.triggerLoadEarlier.bind(this),
     });
 
     if (window.cordova && window.cordova.plugins.Keyboard) {
@@ -139,8 +140,25 @@ export default Controller.extend({
     }
   },
 
+  triggerLoadEarlier() {
+    console.log('triggerLoadEarlier');
+    if (!this.get('isShowingAllComments')) {
+      run.debounce(this, () => {
+        console.log('in debounce scope: ', this.get('isLoadingEarlier'));
+        if (!this.get('isLoadingEarlier')) {
+          this.set('isLoadingEarlier', true);
+          console.log('before loadEarlier call');
+          this.loadEarlier();
+        }
+      }, 500, true);
+
+    }
+  },
+
   loadEarlier(count = COMMENT_LOAD_SIZE, callback) {
+    console.log('loadEarlier');
     this.set('isLoadingEarlier', true);
+    // this.get('scroll').disable(this.$scrollContainer);
 
     this.store.query('comment', {
       limit: count,
@@ -161,16 +179,19 @@ export default Controller.extend({
 
       let heightDiff = this.$comments[0].scrollHeight - previousHeight;
       let newScrollTop = this.$comments.scrollTop() + heightDiff;
+
       this.$comments.scrollTop(newScrollTop);
+
+      // this.get('scroll').enable(this.$scrollContainer);
 
       this.setFirstUnread();
 
-      this.setProperties({
-        isLoadingEarlier: false,
-        isTriggerVisible: true
+      run.later(this, () => {
+        this.setProperties({
+          isLoadingEarlier: false,
+        }, 200);
       });
     });
-
   },
 
   isShowingAllComments: computed('totalCommentCount', 'streamComments.length', function() {
@@ -315,13 +336,6 @@ export default Controller.extend({
 
   actions: {
 
-    doLoadTrigger() {
-      this.set('isTriggerVisible', false);
-      if (!this.get('isShowingAllComments') && !this.get('isLoadingEarlier')) {
-        run.debounce(this, this.loadEarlier, 300);
-      }
-    },
-
     doCommentSectionTap() {
       if (isEmpty(this.get('editingComment'))) {
         this.$input.blur();
@@ -447,10 +461,6 @@ export default Controller.extend({
       comment.destroyRecord().then(() => {
         // debug('comment destroyed');
       });
-    },
-
-    doLoadEarlier() {
-      this.loadEarlier();
     },
 
     doTyping() {

@@ -40,7 +40,7 @@ export default Route.extend(ApplicationRouteMixin, {
     this._loadSessionPerson().then(() => {
       this._findAll().then((model) => {
         this.setupSubscriptions(model);
-        this.transitionTo('streams');
+        this.transitionTo('infinity');
       });
     }).catch(() => this.get('session').send('logout'));
   },

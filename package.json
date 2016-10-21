@@ -50,6 +50,7 @@
     "ember-gestures": "0.4.2",
     "ember-getowner-polyfill": "1.0.1",
     "ember-in-viewport": "2.1.0",
+    "ember-infinity": "0.2.6",
     "ember-inline-svg": "0.1.6",
     "ember-load-initializers": "^0.5.1",
     "ember-moment": "7.0.0-beta.3",

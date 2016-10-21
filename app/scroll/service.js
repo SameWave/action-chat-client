@@ -22,6 +22,7 @@ export default Service.extend({
   started: false,
   ended: true,
   momentumTimer: null,
+  triggerLoadEarlier: null,
 
   isIOS() {
     return window.cordova && window.cordova.platformId === 'ios';
@@ -31,7 +32,7 @@ export default Service.extend({
     $container.css({
       'overflow-y': 'scroll'
     });
-    $container.on('scroll', this.onScroll.bind(this));
+    $container.on('scroll', this.onScroll.bind(this, $container));
   },
 
   disable($container) {
@@ -41,7 +42,7 @@ export default Service.extend({
     });
   },
 
-  onScroll() {
+  onScroll($container) {
     if (this.get('ended') && !this.get('started')) {
       debounce(this, this.start, 251, true);
     }
@@ -49,10 +50,14 @@ export default Service.extend({
     if (this.get('started') && !this.get('ended')) {
       debounce(this, this.end, 250);
     }
+
+    // console.log($container.scrollTop());
+    if ($container.scrollTop() < 10) {
+      this.get('triggerLoadEarlier')();
+    }
   },
 
   start() {
-
     this.setProperties({
       started: true,
       active: true,
@@ -71,7 +76,6 @@ export default Service.extend({
   },
 
   end() {
-
     this.setProperties({
       started: false,
       ended: true

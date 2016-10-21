@@ -33,15 +33,15 @@ module.exports = function(environment) {
     },
 
     // Graeme's macbook
-    // host: 'http://10.99.220.230:8080',
-    // socket: 'ws://10.99.220.230:8080/cable'
+    host: 'http://10.99.220.230:8080',
+    socket: 'ws://10.99.220.230:8080/cable'
 
     // Mondes's macbook
     // host: 'http://10.99.220.237:8080',
     // socket: 'ws://10.99.220.237:8080/cable'
 
-    host: 'http://localhost:3000',
-    socket: 'ws://localhost:3000/cable'
+    // host: 'http://localhost:3000',
+    // socket: 'ws://localhost:3000/cable'
   };
 
   ENV['ember-simple-auth'] = {
